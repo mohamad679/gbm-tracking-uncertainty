@@ -9,9 +9,15 @@ import binascii
 import hashlib
 from pathlib import Path
 import struct
+import ssl
 from urllib.request import Request, urlopen
 import zlib
 from zipfile import ZipFile
+
+try:
+    import certifi
+except ImportError:  # The package dependency installs this for normal use.
+    certifi = None
 
 
 URL = "https://zenodo.org/api/records/21981544/files/Example_data.zip/content"
@@ -29,6 +35,13 @@ ROIS = {
         "sha256": "1c40f8519930e023530b4912c826e7e231f2270aa2c15023c21461783e86a265",
     },
 }
+
+
+def _ssl_context() -> ssl.SSLContext:
+    """Use certifi when a framework Python lacks macOS root certificates."""
+    if certifi is not None:
+        return ssl.create_default_context(cafile=certifi.where())
+    return ssl.create_default_context()
 
 
 def unpack_member(body: bytes, expected_crc: int, expected_sha256: str) -> bytes:
@@ -64,7 +77,7 @@ def fetch_one(record: dict, root: Path) -> Path:
     first, last = record["start"], record["end"]
     length = last - first + 1
     request = Request(URL, headers={"Range": f"bytes={first}-{last}"})
-    with urlopen(request, timeout=90) as response:
+    with urlopen(request, timeout=90, context=_ssl_context()) as response:
         if response.status != 206:
             raise ValueError(f"Server did not honor Range (status {response.status})")
         if not response.headers.get("Content-Range", "").startswith(f"bytes {first}-{last}/"):
