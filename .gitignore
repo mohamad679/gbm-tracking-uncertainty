@@ -1,0 +1,16 @@
+__pycache__/
+*.py[cod]
+.venv/
+.pytest_cache/
+.DS_Store
+*.egg-info/
+data/raw/*
+!data/raw/.gitkeep
+results/*
+!results/.gitkeep
+*.zip
+*.npz
+*.tif
+*.tiff
+*.npy
+*.part
