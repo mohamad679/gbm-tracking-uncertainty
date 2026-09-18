@@ -19,8 +19,14 @@ The crop fraction is a geometric diagnostic, not a tissue-coverage measurement. 
 
 - `python -m gbm_audit.pilot --output-dir results/stage1-viewer` generated all 40 frame pairs and a manifest.
 - Six unit tests pass: four Stage 0 checks and two Stage 1 preparation checks.
-- No automatic cell detector, tracker, or model-generated identity is included.
+- After the initial viewer preparation, the user requested a separate machine-first pilot. A deterministic bright-peak and nearest-neighbour script now creates clearly marked candidate tracks in ignored `results/`, without calling them reference identities.
+
+## Machine-only exploratory result
+
+Running `python -m gbm_audit.proposals` on the four prepared windows generated **203 candidate positions** across **22 uninterrupted machine tracklets of at least six frames**, distributed as 5, 3, 8, and 6 tracklets across the windows above. `python -m gbm_audit.overlay` rendered private contact sheets of the first, middle, and last frames of each window. The selected bright objects visibly recur in the sampled frames, but proximity and overlapping objects in Set 68 create plausible identity ambiguities. These are not true-positive counts or measured tracking accuracy: neither manual reference labels nor independent human review exists for the brain-slice images.
 
 ## Gate still open
 
 Two independent human reviewers must annotate the four windows without seeing each other’s CSVs. A third pass must adjudicate identity links and preserve disagreements. The operational pilot gate is at least three adjudicated tracklets of at least six consecutive observed frames per window, with blind inter-rater link F1 at least 0.80 on mutually visible opportunities; these are feasibility criteria, not powered biological validation thresholds. If the criteria fail, revise or stop before automatic tracking.
+
+With a single specialist, the specialist can annotate from images **before** seeing machine proposals and subsequently adjudicate the machine-generated links. This provides a human-reviewed exploratory pilot but **not** blind inter-rater agreement; the original independent-human gate remains **REVISE**. No inference about treatment or phenotype switching is authorized from this pilot.

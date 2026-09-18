@@ -43,4 +43,6 @@ The archive audit reads directory metadata without unzipping entire archives. `g
 
 The repository contains only the viewer and protocol. With the two ROI files present locally, run `python -m gbm_audit.pilot --output-dir results/stage1-viewer` and open the generated `index.html`. Four fixed ten-frame windows are prepared. Two independent human reviewers must export their CSVs; those private files stay outside Git. No HMM, SLDS, Koopman operator, or automatic reference track is allowed before the Stage 1 gate report passes.
 
+For a single-specialist assisted pilot, machine candidates can be produced after image preparation with `python -m gbm_audit.proposals`, then checked with `python -m gbm_audit.overlay`. The candidate CSV and contact sheets stay in ignored `results/`. This is **not** human ground truth or an independent human review. See [the Persian expert brief](docs/human-review-brief-fa.md). A specialist should first submit image-only annotations before viewing candidate overlays, then inspect disagreements.
+
 On Windows PowerShell, use `.venv\Scripts\Activate.ps1` instead of `source .venv/bin/activate`.
