@@ -14,3 +14,6 @@ gbm-audit = "gbm_audit.cli:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
+
+[tool.setuptools.package-data]
+gbm_audit = ["*.html"]

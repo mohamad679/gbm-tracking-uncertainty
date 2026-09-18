@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Private GBM track annotation pilot</title>
+<style>
+body{font:16px system-ui,sans-serif;margin:1.4rem auto;max-width:1100px;color:#17212a;background:#f5f7fa}
+h1{font-size:1.45rem}p{line-height:1.45}.bar{display:flex;flex-wrap:wrap;gap:.8rem;align-items:end;margin:1rem 0}
+label{display:grid;gap:.2rem;font-size:.9rem}select,input,button{font:inherit;padding:.45rem;border:1px solid #9aa9b8;border-radius:.25rem;background:white}
+button{cursor:pointer}button:disabled{opacity:.45;cursor:default}#canvas{display:block;max-width:100%;width:auto;border:2px solid #253344;background:black;image-rendering:pixelated;cursor:crosshair}
+#frame{font-weight:700}#rows{margin-top:1rem;width:100%;border-collapse:collapse}td,th{padding:.4rem;border-bottom:1px solid #c9d1d8;text-align:left}
+#help{background:#e6eef5;padding:1rem;border-left:4px solid #18598a}#status{font-weight:bold}
+</style></head><body>
+<h1>Cell track pilot — independent reviewer</h1>
+<p id="help">Private local viewer. Image points are in original pixel coordinates. Choose a local cell ID, then click its approximate center in each frame. Reuse the ID only when identity is supported by the images. For invisible or exiting cells use an explicit status. Save CSV before closing this page. Do not view another reviewer's labels before submitting yours.</p>
+<div class="bar">
+<label>Reviewer ID <input id="reviewer" placeholder="reviewer_a" pattern="[A-Za-z0-9_-]+"></label>
+<label>Window <select id="window"></select></label>
+<label>Channel <select id="channel"><option value="T">Tumor (Tstack)</option><option value="V">Vessel (Vstack)</option></select></label>
+<label>Frame <input type="range" id="slider" min="0" max="9" value="0"></label>
+<button id="previous">Previous</button><button id="next">Next</button><span id="frame"></span>
+</div>
+<div class="bar">
+<label>Local cell ID <input id="cell" placeholder="cell_1" pattern="[A-Za-z0-9_-]+"></label>
+<label>Difficulty <select id="difficulty"><option value="easy">Easy</option><option value="hard">Hard / crowded</option></select></label>
+<label>Identity decision <select id="uncertain"><option value="no">Certain from images</option><option value="yes">Uncertain link</option></select></label>
+<label>Reason <select id="reason"><option value="clear">Clear</option><option value="low_signal">Low signal</option><option value="overlap">Overlap</option><option value="edge">Crop / image edge</option><option value="other">Other</option></select></label>
+<button id="occluded">Mark occluded</button><button id="exit">Mark left view</button>
+</div>
+<canvas id="canvas" role="img" aria-label="Frame: click centers of observed cells"></canvas>
+<div class="bar"><button id="undo">Undo last row</button><button id="export">Download my CSV</button><strong id="status">0 records (not saved)</strong></div>
+<table id="rows"><thead><tr><th>Window</th><th>Frame</th><th>ID</th><th>x</th><th>y</th><th>Status</th><th>Uncertain</th></tr></thead><tbody></tbody></table>
+<script>
+const manifest = __MANIFEST_JSON__;
+const $ = id => document.getElementById(id);
+const windows = manifest.windows, records = [];
+for (const w of windows) { const opt=document.createElement('option'); opt.value=w.window_id; opt.textContent=w.mouse+' '+w.label+' ('+w.first_frame+'–'+w.last_frame_inclusive+')'; $('window').append(opt); }
+let currentImage=new Image(), drawToken=0, lastSaved=false;
+function windowNow(){return windows.find(w=>w.window_id===$('window').value);}
+function frameNow(){return windowNow().frames[Number($('slider').value)].frame;}
+function markDirty(){lastSaved=false;$('status').textContent=records.length+' records (not saved)';}
+function draw(){
+  const w=windowNow(), entry=w.frames[Number($('slider').value)], token=++drawToken;
+  $('frame').textContent='Original frame '+entry.frame+' | mouse '+w.mouse+' | window '+w.label;
+  currentImage=new Image(); currentImage.onload=()=>{
+    if(token!==drawToken)return;
+    const canvas=$('canvas'), context=canvas.getContext('2d');
+    canvas.width=currentImage.naturalWidth;canvas.height=currentImage.naturalHeight;
+    context.drawImage(currentImage,0,0);
+    for(const row of records.filter(r=>r.window_id===w.window_id && r.frame===entry.frame && r.visibility==='present')){
+      const x=row.x_px-w.crop_top_left_bottom_right[1],y=row.y_px-w.crop_top_left_bottom_right[0];
+      context.strokeStyle=row.uncertain==='yes'?'#ff8b38':'#00e1ec';context.lineWidth=2;
+      context.beginPath();context.arc(x,y,7,0,2*Math.PI);context.stroke();
+      context.fillStyle='#fff';context.font='bold 14px sans-serif';context.fillText(row.local_cell_id,x+9,y-8);
+    }
+  };currentImage.src=entry.images[$('channel').value];
+  showRows();
+}
+function showRows(){
+ const w=windowNow(),frame=frameNow(),tbody=$('rows').querySelector('tbody');tbody.replaceChildren();
+ for(const r of records.filter(r=>r.window_id===w.window_id&&r.frame===frame)){
+   const tr=document.createElement('tr');
+   for(const k of ['window_id','frame','local_cell_id','x_px','y_px','visibility','uncertain']){
+     const td=document.createElement('td');td.textContent=r[k];tr.append(td);
+   }tbody.append(tr);
+ }
+}
+function add(visibility,x='',y=''){
+ const reviewer=$('reviewer').value.trim(),cell=$('cell').value.trim();
+ if(!/^[A-Za-z0-9_-]{1,30}$/.test(reviewer)||!/^[A-Za-z0-9_-]{1,30}$/.test(cell)){
+   alert('Enter a reviewer ID and a local cell ID (letters, digits, _ or -).');return;
+ }
+ if(records.some(r=>r.window_id===windowNow().window_id&&r.frame===frameNow()&&r.local_cell_id===cell)){
+   alert('That cell ID already has a record in this window and frame. Undo it first.');return;
+ }
+ $('reviewer').disabled=true;
+ const w=windowNow();records.push({reviewer_id:reviewer,window_id:w.window_id,mouse:w.mouse,
+   experiment:w.experiment,roi:w.roi,source_sha256:w.source_sha256,frame:frameNow(),
+   local_cell_id:cell,x_px:x,y_px:y,visibility,uncertain:$('uncertain').value,
+   reason:$('reason').value,difficulty:$('difficulty').value});
+ markDirty();draw();
+}
+$('canvas').addEventListener('click',event=>{
+ const w=windowNow(),bounds=$('canvas').getBoundingClientRect();
+ const x=Math.floor((event.clientX-bounds.left)*$('canvas').width/bounds.width),
+       y=Math.floor((event.clientY-bounds.top)*$('canvas').height/bounds.height);
+ if(x<0||y<0||x>=$('canvas').width||y>=$('canvas').height)return;
+ add('present',x+w.crop_top_left_bottom_right[1],y+w.crop_top_left_bottom_right[0]);
+});
+$('occluded').onclick=()=>add('occluded');$('exit').onclick=()=>add('left_view');
+$('undo').onclick=()=>{if(records.length){records.pop();if(!records.length)$('reviewer').disabled=false;markDirty();draw();}};
+function csvEscape(value){const s=String(value);return '"'+s.replaceAll('"','""')+'"';}
+$('export').onclick=()=>{
+ if(!records.length){alert('No annotations to export.');return;}
+ const keys=['reviewer_id','window_id','mouse','experiment','roi','source_sha256','frame',
+ 'local_cell_id','x_px','y_px','visibility','uncertain','reason','difficulty'];
+ const csv=[keys.join(','),...records.map(r=>keys.map(k=>csvEscape(r[k])).join(','))].join('\r\n')+'\r\n';
+ const a=document.createElement('a'),url=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));
+ a.href=url;a.download='stage1_'+$('reviewer').value+'_independent.csv';a.click();
+ setTimeout(()=>URL.revokeObjectURL(url),5000);lastSaved=true;$('status').textContent=records.length+' records (download requested)';
+};
+$('window').onchange=()=>{$('slider').value=0;draw();};
+$('channel').onchange=draw;$('slider').oninput=draw;
+$('previous').onclick=()=>{$('slider').value=Math.max(0,Number($('slider').value)-1);draw();};
+$('next').onclick=()=>{$('slider').value=Math.min(9,Number($('slider').value)+1);draw();};
+document.addEventListener('keydown',e=>{if(e.target.tagName==='INPUT'||e.target.tagName==='SELECT')return;
+ if(e.key==='ArrowLeft')$('previous').click();if(e.key==='ArrowRight')$('next').click();});
+window.addEventListener('beforeunload',e=>{if(records.length&&!lastSaved){e.preventDefault();e.returnValue='';}});
+draw();
+</script></body></html>

@@ -39,4 +39,8 @@ python -m gbm_audit.ctc data/raw/PhC-C2DH-U373.zip --output results/ctc-referenc
 
 The archive audit reads directory metadata without unzipping entire archives. `gbm_audit.cli` reads NumPy array *headers*, not full image arrays. Visual inspection and a short manually reviewed set of tracks are still required before Stage 1.
 
+## Stage 1 manual pilot
+
+The repository contains only the viewer and protocol. With the two ROI files present locally, run `python -m gbm_audit.pilot --output-dir results/stage1-viewer` and open the generated `index.html`. Four fixed ten-frame windows are prepared. Two independent human reviewers must export their CSVs; those private files stay outside Git. No HMM, SLDS, Koopman operator, or automatic reference track is allowed before the Stage 1 gate report passes.
+
 On Windows PowerShell, use `.venv\Scripts\Activate.ps1` instead of `source .venv/bin/activate`.
