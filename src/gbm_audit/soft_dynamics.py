@@ -7,8 +7,8 @@ import sys
 
 import numpy as np
 
+from gbm_audit.calibration import temperature_transform
 from gbm_audit.numerics import gaussian_emission, stationary_distribution
-from gbm_audit.uncertainty import _temperature_transform
 from gbm_audit.validation import (
     scenario_map,
     validate_corruptions,
@@ -69,7 +69,7 @@ def soft_summary(observations: list[dict], posterior_links: list[dict], calibrat
         left, right = edge["from_observation_id"], edge["to_observation_id"]
         if left not in row_by_id or right not in row_by_id:
             continue
-        probability = _temperature_transform(edge["probability"], calibration_temperature)
+        probability = temperature_transform(edge["probability"], calibration_temperature)
         edges.append({"left": left, "right": right, "frame": row_by_id[right]["frame"],
                       "speed": float(edge["distance_px"]), "weight": probability})
     speeds = np.asarray([edge["speed"] for edge in edges], dtype=float)
