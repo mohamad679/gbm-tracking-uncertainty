@@ -7,6 +7,9 @@ import numpy as np
 from PIL import Image
 
 
+_DESCRIPTOR_LENGTH = 28
+
+
 def load_frames(archive: ZipFile, image_paths: list[str]) -> dict[int, np.ndarray]:
     """Decode the indexed image frames needed by one U373 sequence."""
     frames = {}
@@ -17,7 +20,14 @@ def load_frames(archive: ZipFile, image_paths: list[str]) -> dict[int, np.ndarra
 
 
 def patch_descriptor(image: np.ndarray, x_px: float, y_px: float, radius: int = 6) -> list[float]:
-    """Return a local standardized 5x5 intensity/texture descriptor."""
+    """Return a fixed-length local standardized 5x5 intensity/texture descriptor."""
+    if image.ndim != 2:
+        raise ValueError("patch_descriptor expects a 2D grayscale image")
+    if radius < 0:
+        raise ValueError("radius must be non-negative")
+    if not np.isfinite(x_px) or not np.isfinite(y_px):
+        raise ValueError("descriptor coordinates must be finite")
+
     height, width = image.shape
     x = int(round(x_px))
     y = int(round(y_px))
@@ -25,7 +35,7 @@ def patch_descriptor(image: np.ndarray, x_px: float, y_px: float, radius: int = 
     y0, y1 = max(0, y - radius), min(height, y + radius + 1)
     patch = image[y0:y1, x0:x1]
     if patch.size == 0:
-        return [0.0] * 27
+        return [0.0] * _DESCRIPTOR_LENGTH
     mean = float(patch.mean())
     std = max(float(patch.std()), 1e-4)
     normalized = (patch - mean) / std
@@ -34,7 +44,12 @@ def patch_descriptor(image: np.ndarray, x_px: float, y_px: float, radius: int = 
     coarse = normalized[np.ix_(ys, xs)].reshape(-1)
     gy, gx = np.gradient(normalized)
     gradient = float(np.hypot(gx, gy).mean())
-    return [round(float(value), 6) for value in coarse] + [round(mean, 6), round(std, 6), round(gradient, 6)]
+    descriptor = [round(float(value), 6) for value in coarse] + [
+        round(mean, 6), round(std, 6), round(gradient, 6)
+    ]
+    if len(descriptor) != _DESCRIPTOR_LENGTH:
+        raise RuntimeError(f"unexpected appearance descriptor length: {len(descriptor)}")
+    return descriptor
 
 
 def add_descriptors(observations: list[dict], frames: dict[int, np.ndarray], radius: int = 6) -> list[dict]:
