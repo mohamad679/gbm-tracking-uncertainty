@@ -13,8 +13,8 @@ The quantitative benchmark uses expert annotations from the Cell Tracking Challe
 **Version:** `0.1.0`  
 **Python:** 3.11-3.13  
 **License:** MIT  
-**Tests:** 60 tests; CI enforced on all supported Python versions
-**Coverage:** 70% package coverage, 65% enforced CI gate
+**Tests:** 63 tests; CI enforced on all supported Python versions
+**Coverage:** 71% package coverage, 65% enforced CI gate
 **Technical benchmark:** complete  
 **Operator learning:** HOLD  
 **Biological validation claim:** not supported
@@ -136,6 +136,7 @@ Raw data and generated `results/` outputs are not source-controlled.
 - [`docs/reproduced-results-2026-09-19.json`](docs/reproduced-results-2026-09-19.json) — frozen machine-readable result snapshot
 - [`docs/stage-a-protocol.md`](docs/stage-a-protocol.md) — frozen adaptive-candidate benchmark contract
 - [`docs/stage-a-step2-adaptive-generator.md`](docs/stage-a-step2-adaptive-generator.md) — adaptive v1 engineering design and scope
+- [`docs/stage-a-step3-integration.md`](docs/stage-a-step3-integration.md) — candidate/posterior/downstream graph invariant
 - [`CHANGELOG.md`](CHANGELOG.md) — release history
 
 ## Sources

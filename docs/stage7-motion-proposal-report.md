@@ -31,16 +31,16 @@ The comparison baseline is the distance-only posterior from Stage 5 using the sa
 
 | Metric | Distance-only | Motion proposal | Change |
 |---|---:|---:|---:|
-| Clean speed delta, sequence 01 | -2.316 | -2.332 | -0.016 |
+| Clean speed delta, sequence 01 | -2.316 | -2.348 | -0.032 |
 | Clean speed delta, sequence 02 | -1.443 | -1.457 | -0.014 |
-| σ=5 speed delta, sequence 01 | +0.220 | +0.094 | -0.126 |
-| σ=5 speed delta, sequence 02 | +1.100 | +0.980 | -0.120 |
-| HMM transition L1, σ=5 sequence 01 | 0.812 | 0.829 | +0.017 |
-| HMM transition L1, σ=5 sequence 02 | 0.818 | 1.057 | +0.239 |
-| Mean absolute speed delta, sequence 01 | 2.032 | 2.044 | +0.012 |
-| Mean absolute speed delta, sequence 02 | 1.309 | 1.313 | +0.004 |
+| σ=5 speed delta, sequence 01 | +0.220 | +0.085 | -0.135 |
+| σ=5 speed delta, sequence 02 | +1.100 | +0.969 | -0.131 |
+| HMM transition L1, σ=5 sequence 01 | 0.812 | 0.835 | +0.023 |
+| HMM transition L1, σ=5 sequence 02 | 0.818 | 1.072 | +0.254 |
+| Mean absolute speed delta, sequence 01 | 2.032 | 2.052 | +0.020 |
+| Mean absolute speed delta, sequence 02 | 1.309 | 1.312 | +0.003 |
 
-Clean candidate coverage is unchanged at 79.1% for sequence 01 and 89.1% for sequence 02, because the 8-pixel proposal gate still excludes the same true links. The motion score slightly improves noisy speed estimates but does not improve the full downstream sensitivity profile; its held-out transition error is worse in sequence 02.
+Clean candidate coverage is unchanged at 79.1% for sequence 01 and 89.1% for sequence 02, because the 8-pixel proposal gate still excludes the same true links. The motion score slightly improves noisy speed estimates but does not improve the full downstream sensitivity profile; its held-out transition error is worse in sequence 02. Values above were reproduced after Stage A Step 3 restricted motion scoring to the declared fixed-distance candidate graph.
 
 ## Gate decision
 

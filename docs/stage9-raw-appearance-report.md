@@ -35,7 +35,7 @@ Calibration is still fit only on development sequence 01 and evaluated unchanged
 |---|---:|---:|---|
 | Clean speed delta, sequence 01 | -2.316 | -2.212 | slightly better |
 | Clean speed delta, sequence 02 | -1.443 | -1.372 | slightly better |
-| Mean absolute speed delta, sequence 01 | 2.032 | 1.922 | better, but insufficient |
+| Mean absolute speed delta, sequence 01 | 2.032 | 1.923 | better, but insufficient |
 | Mean absolute speed delta, sequence 02 | 1.309 | 1.266 | better, but insufficient |
 | Clean calibrated Brier, sequence 01 | 0.016 | 0.275 | much worse |
 | Clean calibrated ECE, sequence 01 | 0.048 | 0.523 | much worse |

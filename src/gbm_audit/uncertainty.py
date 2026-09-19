@@ -10,6 +10,10 @@ from zipfile import ZipFile
 
 import numpy as np
 
+from gbm_audit.adaptive_candidates import (
+    AdaptiveCandidateConfig,
+    generate_adaptive_candidate_graph,
+)
 from gbm_audit.appearance import add_descriptors, load_frames
 from gbm_audit.archive import validate_zip_archive
 from gbm_audit.calibration import temperature_transform
@@ -112,12 +116,85 @@ def sample_link_hypotheses(observations: list[dict], count: int = DEFAULT_HYPOTH
     return hypotheses
 
 
+def sample_candidate_graph_hypotheses(
+        observations: list[dict], candidate_edges: list[dict],
+        count: int = DEFAULT_HYPOTHESIS_COUNT,
+        temperature_px: float = DEFAULT_TEMPERATURE_PX,
+        new_track_score_px: float = DEFAULT_MAX_DISTANCE_PX,
+        seed: int = DEFAULT_RANDOM_SEED) -> list[set[tuple[str, str]]]:
+    """Sample one-to-one links using only an explicit candidate graph."""
+    _validate_sampling_parameters(count, new_track_score_px, temperature_px)
+    by_frame: dict[int, list[dict]] = {}
+    observation_by_id = {}
+    for row in observations:
+        observation_id = row["observation_id"]
+        if observation_id in observation_by_id:
+            raise ValueError(f"duplicate observation_id {observation_id!r}")
+        observation_by_id[observation_id] = row
+        by_frame.setdefault(int(row["frame"]), []).append(row)
+    edge_by_pair = {}
+    for edge in candidate_edges:
+        pair = (edge["from_observation_id"], edge["to_observation_id"])
+        if pair in edge_by_pair:
+            raise ValueError(f"duplicate candidate edge {pair!r}")
+        if pair[0] not in observation_by_id or pair[1] not in observation_by_id:
+            raise ValueError(f"candidate edge {pair!r} references an unknown observation")
+        left_frame = int(observation_by_id[pair[0]]["frame"])
+        right_frame = int(observation_by_id[pair[1]]["frame"])
+        if right_frame != left_frame + 1:
+            raise ValueError(f"candidate edge {pair!r} is not consecutive")
+        score = float(edge["proposal_score_px"])
+        if not math.isfinite(score) or score < 0:
+            raise ValueError(f"candidate edge {pair!r} has an invalid proposal score")
+        edge_by_pair[pair] = score
+    hypotheses = []
+    for repeat in range(count):
+        rng = random.Random(seed + repeat)
+        active: dict[int, tuple[int, str]] = {}
+        next_track = 1
+        links: set[tuple[str, str]] = set()
+        for frame in sorted(by_frame):
+            active = {
+                track_id: state for track_id, state in active.items()
+                if state[0] == frame - 1
+            }
+            rows = sorted(by_frame[frame], key=lambda row: row["observation_id"])
+            rng.shuffle(rows)
+            used_tracks: set[int] = set()
+            current_active = {}
+            for row in rows:
+                target_id = row["observation_id"]
+                choices: list[tuple[object, float]] = []
+                for track_id, (_, previous_id) in active.items():
+                    if track_id in used_tracks:
+                        continue
+                    score = edge_by_pair.get((previous_id, target_id))
+                    if score is not None:
+                        choices.append(
+                            ((track_id, previous_id), math.exp(-score / temperature_px))
+                        )
+                choices.append(((None, None), math.exp(-new_track_score_px / temperature_px)))
+                track_choice, previous_id = _weighted_choice(rng, choices)
+                if track_choice is None:
+                    track_choice = next_track
+                    next_track += 1
+                else:
+                    used_tracks.add(track_choice)
+                    links.add((previous_id, target_id))
+                current_active[track_choice] = (frame, target_id)
+            active = current_active
+        hypotheses.append(links)
+    return hypotheses
+
+
 def _sample_motion_link_hypotheses(observations: list[dict], count: int = DEFAULT_HYPOTHESIS_COUNT,
                                    max_distance_px: float = DEFAULT_MAX_DISTANCE_PX,
                                    temperature_px: float = DEFAULT_TEMPERATURE_PX,
                                    seed: int = DEFAULT_RANDOM_SEED,
                                    area_temperature: float | None = None,
-                                   appearance_temperature: float | None = None) -> list[set[tuple[str, str]]]:
+                                   appearance_temperature: float | None = None,
+                                   allowed_edges: set[tuple[str, str]] | None = None
+                                   ) -> list[set[tuple[str, str]]]:
     """Sample links using a constant-velocity prediction for each active path."""
     _validate_sampling_parameters(
         count, max_distance_px, temperature_px,
@@ -145,6 +222,8 @@ def _sample_motion_link_hypotheses(observations: list[dict], count: int = DEFAUL
                     if track_id in used_tracks:
                         continue
                     _, previous_id, last_x, last_y, prior_x, prior_y, last_area, last_appearance = state
+                    if allowed_edges is not None and (previous_id, row["observation_id"]) not in allowed_edges:
+                        continue
                     if prior_x is None or prior_y is None:
                         predicted_x, predicted_y = last_x, last_y
                     else:
@@ -193,7 +272,11 @@ def sample_motion_link_hypotheses(observations: list[dict], count: int = DEFAULT
                                   max_distance_px: float = DEFAULT_MAX_DISTANCE_PX,
                                   temperature_px: float = DEFAULT_TEMPERATURE_PX,
                                   seed: int = DEFAULT_RANDOM_SEED) -> list[set[tuple[str, str]]]:
-    return _sample_motion_link_hypotheses(observations, count, max_distance_px, temperature_px, seed, None)
+    allowed_edges = {edge[:2] for edge in _candidate_edges(observations, max_distance_px)}
+    return _sample_motion_link_hypotheses(
+        observations, count, max_distance_px, temperature_px, seed, None,
+        allowed_edges=allowed_edges,
+    )
 
 
 def sample_motion_area_link_hypotheses(observations: list[dict], count: int = DEFAULT_HYPOTHESIS_COUNT,
@@ -201,8 +284,11 @@ def sample_motion_area_link_hypotheses(observations: list[dict], count: int = DE
                                        temperature_px: float = DEFAULT_TEMPERATURE_PX,
                                        seed: int = DEFAULT_RANDOM_SEED,
                                        area_temperature: float = DEFAULT_AREA_TEMPERATURE) -> list[set[tuple[str, str]]]:
-    return _sample_motion_link_hypotheses(observations, count, max_distance_px,
-                                          temperature_px, seed, area_temperature)
+    allowed_edges = {edge[:2] for edge in _candidate_edges(observations, max_distance_px)}
+    return _sample_motion_link_hypotheses(
+        observations, count, max_distance_px, temperature_px, seed, area_temperature,
+        allowed_edges=allowed_edges,
+    )
 
 
 def sample_motion_appearance_link_hypotheses(observations: list[dict], count: int = DEFAULT_HYPOTHESIS_COUNT,
@@ -210,8 +296,11 @@ def sample_motion_appearance_link_hypotheses(observations: list[dict], count: in
                                              temperature_px: float = DEFAULT_TEMPERATURE_PX,
                                              seed: int = DEFAULT_RANDOM_SEED,
                                              appearance_temperature: float = DEFAULT_APPEARANCE_TEMPERATURE) -> list[set[tuple[str, str]]]:
-    return _sample_motion_link_hypotheses(observations, count, max_distance_px,
-                                          temperature_px, seed, None, appearance_temperature)
+    allowed_edges = {edge[:2] for edge in _candidate_edges(observations, max_distance_px)}
+    return _sample_motion_link_hypotheses(
+        observations, count, max_distance_px, temperature_px, seed, None,
+        appearance_temperature, allowed_edges,
+    )
 
 
 def _calibration(probabilities: list[float], labels: list[int], bins: int = 10) -> dict:
@@ -263,15 +352,42 @@ def _fit_temperature(sequence_results: list[dict]) -> float:
 
 def evaluate_sequence(sequence: dict, scenario_sequence: dict, count: int,
                       max_distance_px: float, temperature_px: float, seed: int,
-                      proposal_model: str = "distance") -> dict:
+                      proposal_model: str = "distance",
+                      adaptive_config: AdaptiveCandidateConfig | None = None) -> dict:
     _validate_sampling_parameters(count, max_distance_px, temperature_px)
     observations = scenario_sequence["observations"]
     truth = {row["observation_id"]: row["true_track_id"] for row in scenario_sequence["evaluation_truth"]}
-    edges = _candidate_edges(observations, max_distance_px)
-    first_frame = min(sequence.get("frame_indices", [0]))
-    candidate_target_observations = sum(
-        int(row["frame"]) > first_frame for row in observations
-    )
+    adaptive_graph = None
+    edge_metadata = {}
+    baseline_new_track_score = max_distance_px
+    if proposal_model == "adaptive_v1":
+        adaptive_config = adaptive_config or AdaptiveCandidateConfig()
+        adaptive_graph = generate_adaptive_candidate_graph(observations, adaptive_config)
+        edges = [
+            (edge["from_observation_id"], edge["to_observation_id"], edge["distance_px"])
+            for edge in adaptive_graph["candidate_edges"]
+        ]
+        score_edges = [
+            (edge["from_observation_id"], edge["to_observation_id"], edge["proposal_score_px"])
+            for edge in adaptive_graph["candidate_edges"]
+        ]
+        edge_metadata = {
+            (edge["from_observation_id"], edge["to_observation_id"]): edge
+            for edge in adaptive_graph["candidate_edges"]
+        }
+        candidate_target_observations = adaptive_graph["candidate_target_observations"]
+        baseline_new_track_score = adaptive_config.max_radius_px
+        hypotheses = sample_candidate_graph_hypotheses(
+            observations, adaptive_graph["candidate_edges"], count,
+            temperature_px, adaptive_config.max_radius_px, seed,
+        )
+    else:
+        edges = _candidate_edges(observations, max_distance_px)
+        score_edges = edges
+        first_frame = min(sequence.get("frame_indices", [0]))
+        candidate_target_observations = sum(
+            int(row["frame"]) > first_frame for row in observations
+        )
     if proposal_model == "distance":
         hypotheses = sample_link_hypotheses(observations, count, max_distance_px, temperature_px, seed)
     elif proposal_model == "motion":
@@ -280,8 +396,15 @@ def evaluate_sequence(sequence: dict, scenario_sequence: dict, count: int,
         hypotheses = sample_motion_area_link_hypotheses(observations, count, max_distance_px, temperature_px, seed)
     elif proposal_model == "motion_appearance":
         hypotheses = sample_motion_appearance_link_hypotheses(observations, count, max_distance_px, temperature_px, seed)
-    else:
+    elif proposal_model != "adaptive_v1":
         raise ValueError(f"Unknown proposal model: {proposal_model}")
+    candidate_pairs = {edge[:2] for edge in edges}
+    sampled_pairs = set().union(*hypotheses) if hypotheses else set()
+    outside_candidate_graph = sampled_pairs - candidate_pairs
+    if outside_candidate_graph:
+        raise RuntimeError(
+            f"sampled links outside candidate graph: {sorted(outside_candidate_graph)[:5]}"
+        )
     edge_counts = {edge[:2]: sum(edge[:2] in hypothesis for hypothesis in hypotheses) for edge in edges}
     probabilities = [edge_counts[(left, right)] / count for left, right, _ in edges]
     labels = [int(truth.get(left, 0) > 0 and truth.get(left) == truth.get(right, 0)) for left, right, _ in edges]
@@ -291,7 +414,9 @@ def evaluate_sequence(sequence: dict, scenario_sequence: dict, count: int,
             truth_by_track_frame[(row["true_track_id"], row["frame"])] = row["observation_id"]
     total_reference_links = sum((track_id, frame + 1) in truth_by_track_frame
                                 for track_id, frame in truth_by_track_frame)
-    baseline_probabilities = _distance_baseline_probabilities(edges, max_distance_px, temperature_px)
+    baseline_probabilities = _distance_baseline_probabilities(
+        score_edges, baseline_new_track_score, temperature_px
+    )
     candidate_true_links = sum(labels)
     selective = {}
     for threshold in (0.5, 0.7, 0.9):
@@ -304,12 +429,24 @@ def evaluate_sequence(sequence: dict, scenario_sequence: dict, count: int,
             "recall_over_all_reference_links": tp / total_reference_links if total_reference_links else 1.0,
             "coverage": len(accepted) / len(edges) if edges else 0.0,
         }
-    posterior_links = [
-        {"from_observation_id": left, "to_observation_id": right,
-         "distance_px": round(distance, 6), "probability": round(probability, 6),
-         "true_link": bool(label)}
-        for (left, right, distance), probability, label in zip(edges, probabilities, labels)
-    ]
+    posterior_links = []
+    for (left, right, distance), probability, label in zip(edges, probabilities, labels):
+        row = {
+            "from_observation_id": left,
+            "to_observation_id": right,
+            "distance_px": round(distance, 6),
+            "probability": round(probability, 6),
+            "true_link": bool(label),
+        }
+        if adaptive_graph is not None:
+            metadata = edge_metadata[(left, right)]
+            row.update({
+                "predicted_residual_px": metadata["predicted_residual_px"],
+                "proposal_score_px": metadata["proposal_score_px"],
+                "adaptive_radius_px": metadata["adaptive_radius_px"],
+                "candidate_inclusion": metadata["inclusion"],
+            })
+        posterior_links.append(row)
     return {
         "scenario_id": scenario_sequence["sequence_id"],
         "observations": len(observations),
@@ -322,14 +459,24 @@ def evaluate_sequence(sequence: dict, scenario_sequence: dict, count: int,
         "reference_links_present": total_reference_links,
         "hypothesis_count": count,
         "unique_hypothesis_count": len({frozenset(hypothesis) for hypothesis in hypotheses}),
+        "sampled_links_outside_candidate_graph": 0,
         "posterior_links": posterior_links,
         "hypothesis_calibration": _calibration(probabilities, labels),
         "deterministic_baseline_calibration": _calibration(baseline_probabilities, labels),
         "candidate_true_link_count": candidate_true_links,
         "candidate_true_link_coverage": candidate_true_links / total_reference_links if total_reference_links else 1.0,
+        "candidate_graph_method": (
+            adaptive_graph["method"] if adaptive_graph is not None
+            else f"fixed_distance_{max_distance_px:g}px"
+        ),
+        "candidate_source_gates": (
+            adaptive_graph["source_gates"] if adaptive_graph is not None else []
+        ),
         "selective": selective,
         "temperature_px": temperature_px,
-        "max_distance_px": max_distance_px,
+        "max_distance_px": (
+            adaptive_config.max_radius_px if adaptive_graph is not None else max_distance_px
+        ),
     }
 
 
@@ -337,8 +484,12 @@ def evaluate_benchmark(manifest: dict, corruption_benchmark: dict,
                        count: int = DEFAULT_HYPOTHESIS_COUNT,
                        max_distance_px: float = DEFAULT_MAX_DISTANCE_PX,
                        temperature_px: float = DEFAULT_TEMPERATURE_PX,
-                       proposal_model: str = "distance", archive_path: Path | None = None) -> dict:
+                       proposal_model: str = "distance", archive_path: Path | None = None,
+                       adaptive_config: AdaptiveCandidateConfig | None = None) -> dict:
     _validate_sampling_parameters(count, max_distance_px, temperature_px)
+    if proposal_model == "adaptive_v1":
+        adaptive_config = adaptive_config or AdaptiveCandidateConfig()
+        adaptive_config.validate()
     appearance_frames = {}
     if proposal_model == "motion_appearance":
         if archive_path is None:
@@ -359,7 +510,7 @@ def evaluate_benchmark(manifest: dict, corruption_benchmark: dict,
                 manifest["sequences"][sequence_id], scenario_sequence, count,
                 max_distance_px, temperature_px,
                 corruption_benchmark["seed"] + scenario_index * 1000 + int(sequence_id),
-                proposal_model)
+                proposal_model, adaptive_config)
         results.append({"scenario_id": scenario["scenario_id"], "corruption": scenario["corruption"],
                         "severity": scenario["severity"], "sequence_results": sequence_results})
     calibration_temperature = _fit_temperature([result["sequence_results"]["01"] for result in results])
@@ -381,7 +532,16 @@ def evaluate_benchmark(manifest: dict, corruption_benchmark: dict,
         "temperature_px": temperature_px,
         "calibration": {"method": "development_sequence_temperature_scaling",
                          "fit_sequence": "01", "temperature": calibration_temperature},
-        "max_distance_px": max_distance_px,
+        "max_distance_px": (
+            adaptive_config.max_radius_px
+            if proposal_model == "adaptive_v1" and adaptive_config is not None
+            else max_distance_px
+        ),
+        "adaptive_candidate_config": (
+            adaptive_config.__dict__
+            if proposal_model == "adaptive_v1" and adaptive_config is not None
+            else None
+        ),
         "reference_manifest_sha256": corruption_benchmark["reference_manifest_sha256"],
         "corruption_seed": corruption_benchmark["seed"],
         "scenarios": results,
@@ -397,16 +557,40 @@ def main(argv=None) -> int:
     parser.add_argument("--hypotheses", type=int, default=DEFAULT_HYPOTHESIS_COUNT)
     parser.add_argument("--max-distance-px", type=float, default=DEFAULT_MAX_DISTANCE_PX)
     parser.add_argument("--temperature-px", type=float, default=DEFAULT_TEMPERATURE_PX)
-    parser.add_argument("--proposal-model", choices=("distance", "motion", "motion_area", "motion_appearance"), default="distance")
+    parser.add_argument(
+        "--proposal-model",
+        choices=("distance", "motion", "motion_area", "motion_appearance", "adaptive_v1"),
+        default="distance",
+    )
     parser.add_argument("--archive", type=Path, default=None,
                         help="U373 ZIP required by motion_appearance")
+    parser.add_argument("--adaptive-min-radius-px", type=float, default=8.0)
+    parser.add_argument("--adaptive-max-radius-px", type=float, default=16.0)
+    parser.add_argument("--adaptive-motion-weight", type=float, default=1.0)
+    parser.add_argument("--adaptive-density-weight-px", type=float, default=4.0)
+    parser.add_argument("--adaptive-density-radius-px", type=float, default=16.0)
+    parser.add_argument("--adaptive-density-saturation-count", type=int, default=6)
+    parser.add_argument("--adaptive-cold-start-uncertainty-px", type=float, default=4.0)
+    parser.add_argument("--adaptive-history-length", type=int, default=4)
     args = parser.parse_args(argv)
     try:
         manifest = json.loads(args.manifest.read_text(encoding="utf-8"))
         corruptions = json.loads(args.corruptions.read_text(encoding="utf-8"))
+        adaptive_config = None
+        if args.proposal_model == "adaptive_v1":
+            adaptive_config = AdaptiveCandidateConfig(
+                min_radius_px=args.adaptive_min_radius_px,
+                max_radius_px=args.adaptive_max_radius_px,
+                motion_uncertainty_weight=args.adaptive_motion_weight,
+                density_weight_px=args.adaptive_density_weight_px,
+                density_radius_px=args.adaptive_density_radius_px,
+                density_saturation_count=args.adaptive_density_saturation_count,
+                cold_start_uncertainty_px=args.adaptive_cold_start_uncertainty_px,
+                history_length=args.adaptive_history_length,
+            )
         result = evaluate_benchmark(manifest, corruptions, args.hypotheses,
                                     args.max_distance_px, args.temperature_px,
-                                    args.proposal_model, args.archive)
+                                    args.proposal_model, args.archive, adaptive_config)
     except (OSError, ValueError, json.JSONDecodeError) as exc:
         print(f"Uncertainty evaluation failed: {exc}", file=sys.stderr)
         return 2

@@ -47,6 +47,7 @@ class TestAdaptiveCandidates(unittest.TestCase):
             if row["from_observation_id"] == "a1" and row["to_observation_id"] == "a2"
         )
         self.assertEqual(edge["distance_px"], 10.0)
+        self.assertEqual(edge["proposal_score_px"], 6.0)
         self.assertEqual(edge["inclusion"], "adaptive")
 
     def test_base_gate_is_retained_during_abrupt_turn(self):
