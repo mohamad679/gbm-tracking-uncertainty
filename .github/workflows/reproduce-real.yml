@@ -1,0 +1,82 @@
+name: reproduce-real-u373
+
+on:
+  push:
+    paths:
+      - '.github/workflows/reproduce-real.yml'
+  workflow_dispatch:
+
+jobs:
+  reproduce:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install package
+        run: python -m pip install -e .
+      - name: Download official U373 training archive
+        run: |
+          mkdir -p data/raw results
+          curl --fail --location --retry 4 --retry-delay 3 \
+            --output data/raw/PhC-C2DH-U373.zip \
+            https://data.celltrackingchallenge.net/training-datasets/PhC-C2DH-U373.zip
+          python - <<'PY'
+          from pathlib import Path
+          import hashlib
+          p = Path('data/raw/PhC-C2DH-U373.zip')
+          print('archive_bytes', p.stat().st_size)
+          print('archive_sha256', hashlib.sha256(p.read_bytes()).hexdigest())
+          PY
+      - name: Run unit tests
+        run: python -m unittest discover -s tests -q
+      - name: Run corrected pipeline
+        run: |
+          python -m gbm_audit.benchmark data/raw/PhC-C2DH-U373.zip --output results/u373-reference-manifest.json
+          python -m gbm_audit.corruptions results/u373-reference-manifest.json --output results/u373-corruption-benchmark.json
+          python -m gbm_audit.baseline results/u373-reference-manifest.json results/u373-corruption-benchmark.json --output results/u373-baseline-evaluation.json
+          python -m gbm_audit.uncertainty results/u373-reference-manifest.json results/u373-corruption-benchmark.json --proposal-model distance --output results/u373-uncertainty-evaluation.json
+          python -m gbm_audit.dynamics results/u373-reference-manifest.json results/u373-corruption-benchmark.json results/u373-uncertainty-evaluation.json --output results/u373-dynamics-evaluation.json --max-distance-px 8
+          python -m gbm_audit.soft_dynamics results/u373-reference-manifest.json results/u373-corruption-benchmark.json results/u373-uncertainty-evaluation.json results/u373-dynamics-evaluation.json --output results/u373-soft-dynamics-evaluation.json
+          python -m gbm_audit.gate_sensitivity results/u373-reference-manifest.json results/u373-corruption-benchmark.json results/u373-dynamics-evaluation.json --gates 8 12 16 --output results/u373-gate-sensitivity.json
+          python -m gbm_audit.uncertainty results/u373-reference-manifest.json results/u373-corruption-benchmark.json --proposal-model motion_appearance --archive data/raw/PhC-C2DH-U373.zip --output results/u373-uncertainty-motion-appearance-evaluation.json
+          python -m gbm_audit.soft_dynamics results/u373-reference-manifest.json results/u373-corruption-benchmark.json results/u373-uncertainty-motion-appearance-evaluation.json results/u373-dynamics-evaluation.json --output results/u373-soft-dynamics-motion-appearance-evaluation.json
+          python -m gbm_audit.final_audit results/u373-reference-manifest.json results/u373-corruption-benchmark.json results/u373-uncertainty-evaluation.json results/u373-dynamics-evaluation.json results/u373-soft-dynamics-evaluation.json results/u373-gate-sensitivity.json results/u373-uncertainty-motion-appearance-evaluation.json --output results/final-audit.json
+      - name: Print machine-readable summaries
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          def load(name):
+              return json.loads((Path('results') / name).read_text())
+
+          baseline = load('u373-baseline-evaluation.json')
+          uncertainty = load('u373-uncertainty-evaluation.json')
+          dynamics = load('u373-dynamics-evaluation.json')
+          soft = load('u373-soft-dynamics-evaluation.json')
+          gates = load('u373-gate-sensitivity.json')
+          appearance = load('u373-uncertainty-motion-appearance-evaluation.json')
+          final = load('final-audit.json')
+
+          wanted = {'clean_0','wrong_link_1','wrong_link_2','localization_noise_5p0'}
+          summary = {
+              'baseline': [s for s in baseline['scenarios'] if s['scenario_id'] in wanted],
+              'uncertainty': [s for s in uncertainty['scenarios'] if s['scenario_id'] in wanted],
+              'dynamics': [s for s in dynamics['scenarios'] if s['scenario_id'] in wanted],
+              'soft': [s for s in soft['scenarios'] if s['scenario_id'] in wanted],
+              'gates': gates,
+              'appearance': [s for s in appearance['scenarios'] if s['scenario_id'] in wanted],
+              'final_audit': final,
+          }
+          print('REAL_PIPELINE_SUMMARY_BEGIN')
+          print(json.dumps(summary, sort_keys=True))
+          print('REAL_PIPELINE_SUMMARY_END')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: corrected-u373-results
+          path: results/*.json
+          if-no-files-found: error
