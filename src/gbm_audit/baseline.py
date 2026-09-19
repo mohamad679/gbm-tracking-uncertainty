@@ -7,8 +7,10 @@ import sys
 
 import numpy as np
 
+from gbm_audit.config import DEFAULT_MAX_DISTANCE_PX
 
-def nearest_neighbor(observations: list[dict], max_distance_px: float = 8.0) -> dict[str, int]:
+
+def nearest_neighbor(observations: list[dict], max_distance_px: float = DEFAULT_MAX_DISTANCE_PX) -> dict[str, int]:
     """Assign observations to tracks using greedy frame-to-frame nearest-neighbour matching."""
     by_frame: dict[int, list[dict]] = {}
     for row in observations:
@@ -128,7 +130,8 @@ def _metrics(sequence: dict, observations: list[dict], truth_rows: list[dict], a
     }
 
 
-def evaluate_benchmark(manifest: dict, corruption_benchmark: dict, max_distance_px: float = 8.0) -> dict:
+def evaluate_benchmark(manifest: dict, corruption_benchmark: dict,
+                       max_distance_px: float = DEFAULT_MAX_DISTANCE_PX) -> dict:
     """Evaluate every scenario without using the supplied observed IDs or truth."""
     results = []
     for scenario in corruption_benchmark["scenarios"]:
@@ -147,8 +150,8 @@ def evaluate_benchmark(manifest: dict, corruption_benchmark: dict, max_distance_
     return {
         "schema_version": 1,
         "tracker": {"name": "greedy_nearest_neighbor", "max_distance_px": max_distance_px, "gap_bridging": False,
-                    "uses": ["frame", "x_px", "y_px", "area_px"],
-                    "ignores": ["observed_track_id", "evaluation_truth"]},
+                    "uses": ["frame", "x_px", "y_px"],
+                    "ignores": ["area_px", "observed_track_id", "evaluation_truth"]},
         "reference_manifest_sha256": corruption_benchmark["reference_manifest_sha256"],
         "corruption_seed": corruption_benchmark["seed"],
         "scenarios": results,
@@ -161,7 +164,7 @@ def main(argv=None) -> int:
     parser.add_argument("manifest", type=Path)
     parser.add_argument("corruptions", type=Path)
     parser.add_argument("--output", type=Path, required=True)
-    parser.add_argument("--max-distance-px", type=float, default=8.0)
+    parser.add_argument("--max-distance-px", type=float, default=DEFAULT_MAX_DISTANCE_PX)
     args = parser.parse_args(argv)
     try:
         manifest = json.loads(args.manifest.read_text(encoding="utf-8"))
