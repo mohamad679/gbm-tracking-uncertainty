@@ -51,4 +51,6 @@ Stage 1 now freezes U373 sequence-level splits, verifies reference identities, c
 
 The controlled-error benchmark is implemented in `gbm_audit.corruptions`; see the [Stage 2 report](docs/stage2-corruption-report.md). It produces 17 deterministic scenarios with evaluation truth isolated from tracker input.
 
+The frozen nearest-neighbour comparator is implemented in `gbm_audit.baseline`; see the [Stage 3 report](docs/stage3-baseline-report.md). It uses an 8-pixel gate and no gap bridging.
+
 On Windows PowerShell, use `.venv\Scripts\Activate.ps1` instead of `source .venv/bin/activate`.
