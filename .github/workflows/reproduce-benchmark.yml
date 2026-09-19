@@ -4,6 +4,9 @@ on:
   push:
     paths:
       - '.github/workflows/reproduce-benchmark.yml'
+      - 'src/gbm_audit/**'
+      - 'tests/**'
+      - 'pyproject.toml'
   workflow_dispatch:
 
 permissions:
