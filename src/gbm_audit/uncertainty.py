@@ -11,6 +11,16 @@ from zipfile import ZipFile
 import numpy as np
 
 from gbm_audit.appearance import add_descriptors, load_frames
+from gbm_audit.archive import validate_zip_archive
+from gbm_audit.calibration import temperature_transform
+from gbm_audit.config import (
+    DEFAULT_APPEARANCE_TEMPERATURE,
+    DEFAULT_AREA_TEMPERATURE,
+    DEFAULT_HYPOTHESIS_COUNT,
+    DEFAULT_MAX_DISTANCE_PX,
+    DEFAULT_RANDOM_SEED,
+    DEFAULT_TEMPERATURE_PX,
+)
 
 
 def _validate_sampling_parameters(count: int, max_distance_px: float,
@@ -58,9 +68,10 @@ def _weighted_choice(rng: random.Random, choices: list[tuple[object, float]]) ->
     return choices[-1][0]
 
 
-def sample_link_hypotheses(observations: list[dict], count: int = 64,
-                           max_distance_px: float = 8.0, temperature_px: float = 4.0,
-                           seed: int = 20260919) -> list[set[tuple[str, str]]]:
+def sample_link_hypotheses(observations: list[dict], count: int = DEFAULT_HYPOTHESIS_COUNT,
+                           max_distance_px: float = DEFAULT_MAX_DISTANCE_PX,
+                           temperature_px: float = DEFAULT_TEMPERATURE_PX,
+                           seed: int = DEFAULT_RANDOM_SEED) -> list[set[tuple[str, str]]]:
     """Sample one-to-one frame-to-frame link sets; no truth fields are read."""
     _validate_sampling_parameters(count, max_distance_px, temperature_px)
     by_frame: dict[int, list[dict]] = {}
@@ -101,9 +112,10 @@ def sample_link_hypotheses(observations: list[dict], count: int = 64,
     return hypotheses
 
 
-def _sample_motion_link_hypotheses(observations: list[dict], count: int = 64,
-                                   max_distance_px: float = 8.0, temperature_px: float = 4.0,
-                                   seed: int = 20260919,
+def _sample_motion_link_hypotheses(observations: list[dict], count: int = DEFAULT_HYPOTHESIS_COUNT,
+                                   max_distance_px: float = DEFAULT_MAX_DISTANCE_PX,
+                                   temperature_px: float = DEFAULT_TEMPERATURE_PX,
+                                   seed: int = DEFAULT_RANDOM_SEED,
                                    area_temperature: float | None = None,
                                    appearance_temperature: float | None = None) -> list[set[tuple[str, str]]]:
     """Sample links using a constant-velocity prediction for each active path."""
@@ -177,24 +189,27 @@ def _sample_motion_link_hypotheses(observations: list[dict], count: int = 64,
     return hypotheses
 
 
-def sample_motion_link_hypotheses(observations: list[dict], count: int = 64,
-                                  max_distance_px: float = 8.0, temperature_px: float = 4.0,
-                                  seed: int = 20260919) -> list[set[tuple[str, str]]]:
+def sample_motion_link_hypotheses(observations: list[dict], count: int = DEFAULT_HYPOTHESIS_COUNT,
+                                  max_distance_px: float = DEFAULT_MAX_DISTANCE_PX,
+                                  temperature_px: float = DEFAULT_TEMPERATURE_PX,
+                                  seed: int = DEFAULT_RANDOM_SEED) -> list[set[tuple[str, str]]]:
     return _sample_motion_link_hypotheses(observations, count, max_distance_px, temperature_px, seed, None)
 
 
-def sample_motion_area_link_hypotheses(observations: list[dict], count: int = 64,
-                                       max_distance_px: float = 8.0, temperature_px: float = 4.0,
-                                       seed: int = 20260919,
-                                       area_temperature: float = 0.5) -> list[set[tuple[str, str]]]:
+def sample_motion_area_link_hypotheses(observations: list[dict], count: int = DEFAULT_HYPOTHESIS_COUNT,
+                                       max_distance_px: float = DEFAULT_MAX_DISTANCE_PX,
+                                       temperature_px: float = DEFAULT_TEMPERATURE_PX,
+                                       seed: int = DEFAULT_RANDOM_SEED,
+                                       area_temperature: float = DEFAULT_AREA_TEMPERATURE) -> list[set[tuple[str, str]]]:
     return _sample_motion_link_hypotheses(observations, count, max_distance_px,
                                           temperature_px, seed, area_temperature)
 
 
-def sample_motion_appearance_link_hypotheses(observations: list[dict], count: int = 64,
-                                             max_distance_px: float = 8.0, temperature_px: float = 4.0,
-                                             seed: int = 20260919,
-                                             appearance_temperature: float = 0.35) -> list[set[tuple[str, str]]]:
+def sample_motion_appearance_link_hypotheses(observations: list[dict], count: int = DEFAULT_HYPOTHESIS_COUNT,
+                                             max_distance_px: float = DEFAULT_MAX_DISTANCE_PX,
+                                             temperature_px: float = DEFAULT_TEMPERATURE_PX,
+                                             seed: int = DEFAULT_RANDOM_SEED,
+                                             appearance_temperature: float = DEFAULT_APPEARANCE_TEMPERATURE) -> list[set[tuple[str, str]]]:
     return _sample_motion_link_hypotheses(observations, count, max_distance_px,
                                           temperature_px, seed, None, appearance_temperature)
 
@@ -232,13 +247,6 @@ def _distance_baseline_probabilities(edges: list[tuple[str, str, float]],
     return probabilities
 
 
-def _temperature_transform(probability: float, temperature: float) -> float:
-    epsilon = 1e-6
-    clipped = min(max(probability, epsilon), 1 - epsilon)
-    logit = math.log(clipped / (1 - clipped))
-    return 1 / (1 + math.exp(-logit / max(temperature, epsilon)))
-
-
 def _fit_temperature(sequence_results: list[dict]) -> float:
     pairs = [(link["probability"], int(link["true_link"]))
              for result in sequence_results for link in result["posterior_links"]]
@@ -247,7 +255,7 @@ def _fit_temperature(sequence_results: list[dict]) -> float:
     candidates = [0.25 + index * 0.05 for index in range(316)]
 
     def loss(temperature):
-        return float(np.mean([(_temperature_transform(probability, temperature) - label) ** 2
+        return float(np.mean([(temperature_transform(probability, temperature) - label) ** 2
                               for probability, label in pairs]))
 
     return min(candidates, key=loss)
@@ -316,8 +324,10 @@ def evaluate_sequence(sequence: dict, scenario_sequence: dict, count: int,
     }
 
 
-def evaluate_benchmark(manifest: dict, corruption_benchmark: dict, count: int = 64,
-                       max_distance_px: float = 8.0, temperature_px: float = 4.0,
+def evaluate_benchmark(manifest: dict, corruption_benchmark: dict,
+                       count: int = DEFAULT_HYPOTHESIS_COUNT,
+                       max_distance_px: float = DEFAULT_MAX_DISTANCE_PX,
+                       temperature_px: float = DEFAULT_TEMPERATURE_PX,
                        proposal_model: str = "distance", archive_path: Path | None = None) -> dict:
     _validate_sampling_parameters(count, max_distance_px, temperature_px)
     appearance_frames = {}
@@ -325,6 +335,7 @@ def evaluate_benchmark(manifest: dict, corruption_benchmark: dict, count: int = 
         if archive_path is None:
             raise ValueError("motion_appearance requires --archive")
         with ZipFile(archive_path) as archive:
+            validate_zip_archive(archive)
             for sequence_id, sequence in manifest["sequences"].items():
                 appearance_frames[sequence_id] = load_frames(archive, sequence["image_paths"])
     results = []
@@ -346,7 +357,7 @@ def evaluate_benchmark(manifest: dict, corruption_benchmark: dict, count: int = 
     for result in results:
         for sequence_result in result["sequence_results"].values():
             calibrated_probabilities = [
-                _temperature_transform(link["probability"], calibration_temperature)
+                temperature_transform(link["probability"], calibration_temperature)
                 for link in sequence_result["posterior_links"]
             ]
             labels = [int(link["true_link"]) for link in sequence_result["posterior_links"]]
@@ -374,9 +385,9 @@ def main(argv=None) -> int:
     parser.add_argument("manifest", type=Path)
     parser.add_argument("corruptions", type=Path)
     parser.add_argument("--output", type=Path, required=True)
-    parser.add_argument("--hypotheses", type=int, default=64)
-    parser.add_argument("--max-distance-px", type=float, default=8.0)
-    parser.add_argument("--temperature-px", type=float, default=4.0)
+    parser.add_argument("--hypotheses", type=int, default=DEFAULT_HYPOTHESIS_COUNT)
+    parser.add_argument("--max-distance-px", type=float, default=DEFAULT_MAX_DISTANCE_PX)
+    parser.add_argument("--temperature-px", type=float, default=DEFAULT_TEMPERATURE_PX)
     parser.add_argument("--proposal-model", choices=("distance", "motion", "motion_area", "motion_appearance"), default="distance")
     parser.add_argument("--archive", type=Path, default=None,
                         help="U373 ZIP required by motion_appearance")
