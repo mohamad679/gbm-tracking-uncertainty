@@ -1,0 +1,4778 @@
+{
+  "schema_version": 1,
+  "method": "stage_c_development_trajectory_summary_v1",
+  "status": "DEVELOPMENT_COMPLETE",
+  "development_sequence": "01",
+  "locked_test_sequence_evaluated": false,
+  "ensemble": {
+    "count": 256,
+    "seed_policy": "scenario_seed_plus_sequence_id"
+  },
+  "locked_config": {
+    "min_radius_px": 8.0,
+    "max_radius_px": 16.0,
+    "motion_uncertainty_weight": 2.75,
+    "density_weight_px": 0.0,
+    "density_radius_px": 16.0,
+    "density_saturation_count": 6,
+    "cold_start_uncertainty_px": 4.0,
+    "history_length": 4,
+    "new_track_score_px": 10.0,
+    "posterior_probability_floor": 0.7
+  },
+  "stage_b_calibration_temperature": 0.55,
+  "frozen_hmm": {
+    "fit_sequence": "01",
+    "fit_input": "uncorrupted_reference_trajectories",
+    "model": {
+      "status": "ok",
+      "speed_observations": 757,
+      "sequences": 8,
+      "state_means_px_per_frame": [
+        0.199786,
+        6.541016
+      ],
+      "state_stds_px_per_frame": [
+        0.404617,
+        5.092416
+      ],
+      "transition_matrix": [
+        [
+          0.626064,
+          0.373936
+        ],
+        [
+          0.165722,
+          0.834278
+        ]
+      ],
+      "initial_state_probability": [
+        0.0,
+        1.0
+      ],
+      "stationary_state_probability": [
+        0.307088,
+        0.692912
+      ],
+      "expected_state_switch_probability": 0.229662
+    }
+  },
+  "reference_summary": {
+    "track_count": 8,
+    "observation_count": 765,
+    "mean_track_length": 95.625,
+    "median_track_length": 115.0,
+    "consecutive_steps": 757,
+    "mean_speed_px_per_frame": 4.624282732640314,
+    "median_speed_px_per_frame": 3.1622776601683795,
+    "mean_net_displacement_px": 88.76516389857805,
+    "directional_persistence": 0.46733850740738553,
+    "mean_squared_displacement_px2": {
+      "1": 48.00820502378316,
+      "2": 123.0791772801391,
+      "3": 213.4701491531005
+    },
+    "hmm_2state": {
+      "status": "ok",
+      "state_occupancy": [
+        0.3157199471598415,
+        0.6842800528401585
+      ],
+      "transition_matrix": [
+        [
+          0.6134453781512605,
+          0.3865546218487395
+        ],
+        [
+          0.18199608610567514,
+          0.8180039138943248
+        ]
+      ],
+      "expected_state_switch_probability": 0.24747635438058604,
+      "mean_dwell_length_steps": [
+        2.5698924731182795,
+        5.18
+      ]
+    }
+  },
+  "reference_manifest_sha256": "e33964c74a62fec65ffce5d992afc77b4c1527f80dbbdebbb24123ac8a13770c",
+  "corruption_seed": 20260919,
+  "scenarios": [
+    {
+      "scenario_id": "clean_0",
+      "corruption": "clean",
+      "severity": 0,
+      "sequence_id": "01",
+      "candidate_edges": 721,
+      "exact_context": {
+        "invariants_pass": true,
+        "violation_sample_indices": [],
+        "posterior_summary": {
+          "sample_count": 256,
+          "migration": {
+            "mean_speed_px_per_frame": {
+              "defined_samples": 256,
+              "median": 3.1716153785156713,
+              "p05": 3.0358276340975765,
+              "p95": 3.3087190826678023
+            },
+            "median_speed_px_per_frame": {
+              "defined_samples": 256,
+              "median": 2.23606797749979,
+              "p05": 2.0570828352698243,
+              "p95": 2.499543891908189
+            },
+            "mean_net_displacement_px": {
+              "defined_samples": 256,
+              "median": 10.258507695677189,
+              "p05": 9.245138386350355,
+              "p95": 11.478393243474017
+            },
+            "mean_track_length": {
+              "defined_samples": 256,
+              "median": 4.157608695652174,
+              "p05": 3.820242537313433,
+              "p95": 4.580838323353293
+            },
+            "median_track_length": {
+              "defined_samples": 256,
+              "median": 3.0,
+              "p05": 2.0,
+              "p95": 3.0
+            },
+            "directional_persistence": {
+              "defined_samples": 256,
+              "median": 0.48536404268992167,
+              "p05": 0.44319494331818543,
+              "p95": 0.5304191532418181
+            }
+          },
+          "mean_squared_displacement_px2": {
+            "1": {
+              "defined_samples": 256,
+              "median": 21.62050902724055,
+              "p05": 19.77602164995666,
+              "p95": 23.596098174795998
+            },
+            "2": {
+              "defined_samples": 256,
+              "median": 53.90372984723102,
+              "p05": 48.25099400788015,
+              "p95": 60.47448964631167
+            },
+            "3": {
+              "defined_samples": 256,
+              "median": 89.47334024309251,
+              "p05": 77.24416506821696,
+              "p95": 105.90807627575587
+            }
+          },
+          "hmm_2state": {
+            "defined_samples": 256,
+            "status": "ok",
+            "state_occupancy": [
+              {
+                "defined_samples": 256,
+                "median": 0.3197587610592883,
+                "p05": 0.3023874470181771,
+                "p95": 0.34039615846338533
+              },
+              {
+                "defined_samples": 256,
+                "median": 0.6802412389407118,
+                "p05": 0.6596038415366146,
+                "p95": 0.697612552981823
+              }
+            ],
+            "transition_matrix": [
+              [
+                {
+                  "defined_samples": 256,
+                  "median": 0.7224014336917562,
+                  "p05": 0.6850386455649613,
+                  "p95": 0.7649087221095334
+                },
+                {
+                  "defined_samples": 256,
+                  "median": 0.27759856630824375,
+                  "p05": 0.23509127789046652,
+                  "p95": 0.31496135443503864
+                }
+              ],
+              [
+                {
+                  "defined_samples": 256,
+                  "median": 0.2620689655172414,
+                  "p05": 0.23867278094033312,
+                  "p95": 0.2876712328767123
+                },
+                {
+                  "defined_samples": 256,
+                  "median": 0.7379310344827587,
+                  "p05": 0.7123287671232876,
+                  "p95": 0.7613272190596668
+                }
+              ]
+            ],
+            "expected_state_switch_probability": {
+              "defined_samples": 256,
+              "median": 0.26920008365412296,
+              "p05": 0.2429241435129693,
+              "p95": 0.29673948043960346
+            },
+            "mean_dwell_length_steps": [
+              {
+                "defined_samples": 256,
+                "median": 2.3607228915662652,
+                "p05": 2.1610316265060243,
+                "p95": 2.566703216374269
+              },
+              {
+                "defined_samples": 256,
+                "median": 2.287795807978364,
+                "p05": 2.1260531135531133,
+                "p95": 2.4938650306748467
+              }
+            ]
+          }
+        },
+        "component_count": 796,
+        "maximum_component_targets": 1
+      },
+      "sampled_stage_a": {
+        "invariants_pass": true,
+        "violation_sample_indices": [],
+        "posterior_summary": {
+          "sample_count": 256,
+          "migration": {
+            "mean_speed_px_per_frame": {
+              "defined_samples": 256,
+              "median": 3.1618531312882476,
+              "p05": 3.04597651422978,
+              "p95": 3.292526256374649
+            },
+            "median_speed_px_per_frame": {
+              "defined_samples": 256,
+              "median": 2.23606797749979,
+              "p05": 2.0204003182799077,
+              "p95": 2.485407870383648
+            },
+            "mean_net_displacement_px": {
+              "defined_samples": 256,
+              "median": 10.243635235013834,
+              "p05": 9.204586218958728,
+              "p95": 11.359173800381377
+            },
+            "mean_track_length": {
+              "defined_samples": 256,
+              "median": 4.135135135135135,
+              "p05": 3.787128712871287,
+              "p95": 4.580838323353293
+            },
+            "median_track_length": {
+              "defined_samples": 256,
+              "median": 3.0,
+              "p05": 2.0,
+              "p95": 3.0
+            },
+            "directional_persistence": {
+              "defined_samples": 256,
+              "median": 0.484648488258309,
+              "p05": 0.4405775944425998,
+              "p95": 0.524637235369861
+            }
+          },
+          "mean_squared_displacement_px2": {
+            "1": {
+              "defined_samples": 256,
+              "median": 21.482516583070726,
+              "p05": 19.917911654064255,
+              "p95": 23.40833494159345
+            },
+            "2": {
+              "defined_samples": 256,
+              "median": 53.64085854807456,
+              "p05": 47.9932178727057,
+              "p95": 59.6205714989685
+            },
+            "3": {
+              "defined_samples": 256,
+              "median": 90.43571759048922,
+              "p05": 76.7759976740753,
+              "p95": 104.71728629677344
+            }
+          },
+          "hmm_2state": {
+            "defined_samples": 256,
+            "status": "ok",
+            "state_occupancy": [
+              {
+                "defined_samples": 256,
+                "median": 0.32006920415224915,
+                "p05": 0.3025477379553466,
+                "p95": 0.33698472580051525
+              },
+              {
+                "defined_samples": 256,
+                "median": 0.6799307958477508,
+                "p05": 0.6630152741994847,
+                "p95": 0.6974522620446533
+              }
+            ],
+            "transition_matrix": [
+              [
+                {
+                  "defined_samples": 256,
+                  "median": 0.7202797202797203,
+                  "p05": 0.6842105263157895,
+                  "p95": 0.7633406432748538
+                },
+                {
+                  "defined_samples": 256,
+                  "median": 0.27972027972027974,
+                  "p05": 0.23665935672514618,
+                  "p95": 0.3157894736842105
+                }
+              ],
+              [
+                {
+                  "defined_samples": 256,
+                  "median": 0.2599342105263158,
+                  "p05": 0.2415420405450316,
+                  "p95": 0.2839988865269764
+                },
+                {
+                  "defined_samples": 256,
+                  "median": 0.7400657894736842,
+                  "p05": 0.7160011134730235,
+                  "p95": 0.7584579594549684
+                }
+              ]
+            ],
+            "expected_state_switch_probability": {
+              "defined_samples": 256,
+              "median": 0.26851794117048183,
+              "p05": 0.2426879954165274,
+              "p95": 0.2945268647024636
+            },
+            "mean_dwell_length_steps": [
+              {
+                "defined_samples": 256,
+                "median": 2.371794871794872,
+                "p05": 2.1600045167118336,
+                "p95": 2.5742307692307693
+              },
+              {
+                "defined_samples": 256,
+                "median": 2.290719696969697,
+                "p05": 2.126724632430637,
+                "p95": 2.4347805233673547
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "missed_detection_0p1",
+      "corruption": "missed_detection",
+      "severity": 0.1,
+      "sequence_id": "01",
+      "candidate_edges": 581,
+      "exact_context": {
+        "invariants_pass": true,
+        "violation_sample_indices": [],
+        "posterior_summary": {
+          "sample_count": 256,
+          "migration": {
+            "mean_speed_px_per_frame": {
+              "defined_samples": 256,
+              "median": 3.105399615009374,
+              "p05": 2.957670101593252,
+              "p95": 3.232542130467225
+            },
+            "median_speed_px_per_frame": {
+              "defined_samples": 256,
+              "median": 2.23606797749979,
+              "p05": 2.0,
+              "p95": 2.407822379821928
+            },
+            "mean_net_displacement_px": {
+              "defined_samples": 256,
+              "median": 7.691491207871334,
+              "p05": 6.938349702100751,
+              "p95": 8.536968736437126
+            },
+            "mean_track_length": {
+              "defined_samples": 256,
+              "median": 3.146788990825688,
+              "p05": 2.941060489343751,
+              "p95": 3.346341463414634
+            },
+            "median_track_length": {
+              "defined_samples": 256,
+              "median": 2.0,
+              "p05": 2.0,
+              "p95": 2.0
+            },
+            "directional_persistence": {
+              "defined_samples": 256,
+              "median": 0.4584744227795583,
+              "p05": 0.40753408871260965,
+              "p95": 0.5074401473453491
+            }
+          },
+          "mean_squared_displacement_px2": {
+            "1": {
+              "defined_samples": 256,
+              "median": 20.72605108963031,
+              "p05": 18.699652845144804,
+              "p95": 22.720180419957337
+            },
+            "2": {
+              "defined_samples": 256,
+              "median": 48.956810321074244,
+              "p05": 43.01688343551561,
+              "p95": 55.26641318169938
+            },
+            "3": {
+              "defined_samples": 256,
+              "median": 77.96274893298948,
+              "p05": 64.51395400463916,
+              "p95": 91.69173345432804
+            }
+          },
+          "hmm_2state": {
+            "defined_samples": 256,
+            "status": "ok",
+            "state_occupancy": [
+              {
+                "defined_samples": 256,
+                "median": 0.28645896630149825,
+                "p05": 0.2679175456463228,
+                "p95": 0.3059883694097014
+              },
+              {
+                "defined_samples": 256,
+                "median": 0.7135410336985017,
+                "p05": 0.6940116305902986,
+                "p95": 0.7320824543536772
+              }
+            ],
+            "transition_matrix": [
+              [
+                {
+                  "defined_samples": 256,
+                  "median": 0.69,
+                  "p05": 0.6474789915966387,
+                  "p95": 0.7393478260869565
+                },
+                {
+                  "defined_samples": 256,
+                  "median": 0.31,
+                  "p05": 0.26065217391304346,
+                  "p95": 0.35252100840336137
+                }
+              ],
+              [
+                {
+                  "defined_samples": 256,
+                  "median": 0.2882882882882883,
+                  "p05": 0.26264891963889303,
+                  "p95": 0.3207013574660634
+                },
+                {
+                  "defined_samples": 256,
+                  "median": 0.7117117117117117,
+                  "p05": 0.6792986425339367,
+                  "p95": 0.737351080361107
+                }
+              ]
+            ],
+            "expected_state_switch_probability": {
+              "defined_samples": 256,
+              "median": 0.2985950854770151,
+              "p05": 0.26819673739320105,
+              "p95": 0.3267846921030946
+            },
+            "mean_dwell_length_steps": [
+              {
+                "defined_samples": 256,
+                "median": 2.0606060606060606,
+                "p05": 1.9050396126760563,
+                "p95": 2.2042665108123902
+              },
+              {
+                "defined_samples": 256,
+                "median": 1.9142857142857144,
+                "p05": 1.8048387096774192,
+                "p95": 2.033392830581586
+              }
+            ]
+          }
+        },
+        "component_count": 779,
+        "maximum_component_targets": 1
+      },
+      "sampled_stage_a": {
+        "invariants_pass": true,
+        "violation_sample_indices": [],
+        "posterior_summary": {
+          "sample_count": 256,
+          "migration": {
+            "mean_speed_px_per_frame": {
+              "defined_samples": 256,
+              "median": 3.1008003347219257,
+              "p05": 2.961414143724886,
+              "p95": 3.2585876716140616
+            },
+            "median_speed_px_per_frame": {
+              "defined_samples": 256,
+              "median": 2.23606797749979,
+              "p05": 2.0,
+              "p95": 2.4987837117551717
+            },
+            "mean_net_displacement_px": {
+              "defined_samples": 256,
+              "median": 7.65325301928312,
+              "p05": 6.9952900295099285,
+              "p95": 8.467998404744268
+            },
+            "mean_track_length": {
+              "defined_samples": 256,
+              "median": 3.132420091324201,
+              "p05": 2.944206008583691,
+              "p95": 3.346341463414634
+            },
+            "median_track_length": {
+              "defined_samples": 256,
+              "median": 2.0,
+              "p05": 2.0,
+              "p95": 2.0
+            },
+            "directional_persistence": {
+              "defined_samples": 256,
+              "median": 0.46113116757916184,
+              "p05": 0.4046124881810276,
+              "p95": 0.5138727879844451
+            }
+          },
+          "mean_squared_displacement_px2": {
+            "1": {
+              "defined_samples": 256,
+              "median": 20.718600015388915,
+              "p05": 18.737396451827678,
+              "p95": 22.958541980979987
+            },
+            "2": {
+              "defined_samples": 256,
+              "median": 49.0863719090692,
+              "p05": 43.1627148060421,
+              "p95": 56.302314561495756
+            },
+            "3": {
+              "defined_samples": 256,
+              "median": 77.52508919644063,
+              "p05": 64.65784352030205,
+              "p95": 93.39773662937704
+            }
+          },
+          "hmm_2state": {
+            "defined_samples": 256,
+            "status": "ok",
+            "state_occupancy": [
+              {
+                "defined_samples": 256,
+                "median": 0.2851017876016727,
+                "p05": 0.2670210163922322,
+                "p95": 0.30346643802057816
+              },
+              {
+                "defined_samples": 256,
+                "median": 0.7148982123983273,
+                "p05": 0.6965335619794218,
+                "p95": 0.7329789836077678
+              }
+            ],
+            "transition_matrix": [
+              [
+                {
+                  "defined_samples": 256,
+                  "median": 0.6915390733744283,
+                  "p05": 0.6467524509803921,
+                  "p95": 0.7369750132908027
+                },
+                {
+                  "defined_samples": 256,
+                  "median": 0.3084609266255717,
+                  "p05": 0.2630249867091972,
+                  "p95": 0.35324754901960786
+                }
+              ],
+              [
+                {
+                  "defined_samples": 256,
+                  "median": 0.28874801615928436,
+                  "p05": 0.2664556962025316,
+                  "p95": 0.3200492610837439
+                },
+                {
+                  "defined_samples": 256,
+                  "median": 0.7112519838407156,
+                  "p05": 0.6799507389162562,
+                  "p95": 0.7335443037974683
+                }
+              ]
+            ],
+            "expected_state_switch_probability": {
+              "defined_samples": 256,
+              "median": 0.29851686591030224,
+              "p05": 0.2708240736515791,
+              "p95": 0.32550582505612874
+            },
+            "mean_dwell_length_steps": [
+              {
+                "defined_samples": 256,
+                "median": 2.0476190476190474,
+                "p05": 1.8695652173913044,
+                "p95": 2.2102883675464318
+              },
+              {
+                "defined_samples": 256,
+                "median": 1.9080459770114941,
+                "p05": 1.8030084669428932,
+                "p95": 2.0417519181585675
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "missed_detection_0p25",
+      "corruption": "missed_detection",
+      "severity": 0.25,
+      "sequence_id": "01",
+      "candidate_edges": 412,
+      "exact_context": {
+        "invariants_pass": true,
+        "violation_sample_indices": [],
+        "posterior_summary": {
+          "sample_count": 256,
+          "migration": {
+            "mean_speed_px_per_frame": {
+              "defined_samples": 256,
+              "median": 3.2002857721154214,
+              "p05": 3.024738434109203,
+              "p95": 3.38993331364314
+            },
+            "median_speed_px_per_frame": {
+              "defined_samples": 256,
+              "median": 2.23606797749979,
+              "p05": 2.0,
+              "p95": 2.5
+            },
+            "mean_net_displacement_px": {
+              "defined_samples": 256,
+              "median": 6.408764760999036,
+              "p05": 5.773129183550188,
+              "p95": 7.062210545263811
+            },
+            "mean_track_length": {
+              "defined_samples": 256,
+              "median": 2.3442622950819674,
+              "p05": 2.2170542635658914,
+              "p95": 2.4681855500821017
+            },
+            "median_track_length": {
+              "defined_samples": 256,
+              "median": 2.0,
+              "p05": 2.0,
+              "p95": 2.0
+            },
+            "directional_persistence": {
+              "defined_samples": 256,
+              "median": 0.5104789815959709,
+              "p05": 0.4382090238410105,
+              "p95": 0.5686473693342121
+            }
+          },
+          "mean_squared_displacement_px2": {
+            "1": {
+              "defined_samples": 256,
+              "median": 22.016092952670434,
+              "p05": 19.76388535524416,
+              "p95": 24.601028489575143
+            },
+            "2": {
+              "defined_samples": 256,
+              "median": 53.70592983912784,
+              "p05": 45.237688027370176,
+              "p95": 62.35462810948206
+            },
+            "3": {
+              "defined_samples": 256,
+              "median": 81.2828375836075,
+              "p05": 61.77351228761169,
+              "p95": 99.92436841199998
+            }
+          },
+          "hmm_2state": {
+            "defined_samples": 256,
+            "status": "ok",
+            "state_occupancy": [
+              {
+                "defined_samples": 256,
+                "median": 0.229607250755287,
+                "p05": 0.20689655172413793,
+                "p95": 0.24793745993956598
+              },
+              {
+                "defined_samples": 256,
+                "median": 0.770392749244713,
+                "p05": 0.752062540060434,
+                "p95": 0.7931034482758621
+              }
+            ],
+            "transition_matrix": [
+              [
+                {
+                  "defined_samples": 256,
+                  "median": 0.7142857142857143,
+                  "p05": 0.6407692307692308,
+                  "p95": 0.773938679245283
+                },
+                {
+                  "defined_samples": 256,
+                  "median": 0.2857142857142857,
+                  "p05": 0.226061320754717,
+                  "p95": 0.35923076923076924
+                }
+              ],
+              [
+                {
+                  "defined_samples": 256,
+                  "median": 0.2907801418439716,
+                  "p05": 0.25688331902103906,
+                  "p95": 0.3262411347517731
+                },
+                {
+                  "defined_samples": 256,
+                  "median": 0.7092198581560284,
+                  "p05": 0.6737588652482269,
+                  "p95": 0.7431166809789609
+                }
+              ]
+            ],
+            "expected_state_switch_probability": {
+              "defined_samples": 256,
+              "median": 0.2895424292312324,
+              "p05": 0.24445227367254999,
+              "p95": 0.32591371079513376
+            },
+            "mean_dwell_length_steps": [
+              {
+                "defined_samples": 256,
+                "median": 1.8,
+                "p05": 1.6264857881136952,
+                "p95": 1.974165596919127
+              },
+              {
+                "defined_samples": 256,
+                "median": 1.6720851781572845,
+                "p05": 1.573312101910828,
+                "p95": 1.776460239268121
+              }
+            ]
+          }
+        },
+        "component_count": 724,
+        "maximum_component_targets": 1
+      },
+      "sampled_stage_a": {
+        "invariants_pass": true,
+        "violation_sample_indices": [],
+        "posterior_summary": {
+          "sample_count": 256,
+          "migration": {
+            "mean_speed_px_per_frame": {
+              "defined_samples": 256,
+              "median": 3.2077515139570147,
+              "p05": 3.013320763408391,
+              "p95": 3.389360576339392
+            },
+            "median_speed_px_per_frame": {
+              "defined_samples": 256,
+              "median": 2.23606797749979,
+              "p05": 2.0,
+              "p95": 2.498935747785775
+            },
+            "mean_net_displacement_px": {
+              "defined_samples": 256,
+              "median": 6.437902773836109,
+              "p05": 5.843349740717114,
+              "p95": 7.022955516438344
+            },
+            "mean_track_length": {
+              "defined_samples": 256,
+              "median": 2.3442622950819674,
+              "p05": 2.234375,
+              "p95": 2.4549356223175964
+            },
+            "median_track_length": {
+              "defined_samples": 256,
+              "median": 2.0,
+              "p05": 2.0,
+              "p95": 2.0
+            },
+            "directional_persistence": {
+              "defined_samples": 256,
+              "median": 0.5082028436699847,
+              "p05": 0.4384632608771082,
+              "p95": 0.5694448242763706
+            }
+          },
+          "mean_squared_displacement_px2": {
+            "1": {
+              "defined_samples": 256,
+              "median": 22.29686246530575,
+              "p05": 19.439091418618816,
+              "p95": 24.85523802569771
+            },
+            "2": {
+              "defined_samples": 256,
+              "median": 53.647740786647965,
+              "p05": 44.51666022511655,
+              "p95": 63.656037162450026
+            },
+            "3": {
+              "defined_samples": 256,
+              "median": 80.77527273883484,
+              "p05": 61.01563268572078,
+              "p95": 105.40073019587551
+            }
+          },
+          "hmm_2state": {
+            "defined_samples": 256,
+            "status": "ok",
+            "state_occupancy": [
+              {
+                "defined_samples": 256,
+                "median": 0.22938478143551,
+                "p05": 0.2085889570552147,
+                "p95": 0.24922591824560408
+              },
+              {
+                "defined_samples": 256,
+                "median": 0.7706152185644901,
+                "p05": 0.750774081754396,
+                "p95": 0.7914110429447853
+              }
+            ],
+            "transition_matrix": [
+              [
+                {
+                  "defined_samples": 256,
+                  "median": 0.7073170731707317,
+                  "p05": 0.6413884857281084,
+                  "p95": 0.7777777777777778
+                },
+                {
+                  "defined_samples": 256,
+                  "median": 0.2926829268292683,
+                  "p05": 0.2222222222222222,
+                  "p95": 0.35861151427189164
+                }
+              ],
+              [
+                {
+                  "defined_samples": 256,
+                  "median": 0.2937062937062937,
+                  "p05": 0.259189789588398,
+                  "p95": 0.3242011042328927
+                },
+                {
+                  "defined_samples": 256,
+                  "median": 0.7062937062937062,
+                  "p05": 0.6757988957671073,
+                  "p95": 0.7408102104116019
+                }
+              ]
+            ],
+            "expected_state_switch_probability": {
+              "defined_samples": 256,
+              "median": 0.2910055173003721,
+              "p05": 0.24725274725274726,
+              "p95": 0.3316744789069513
+            },
+            "mean_dwell_length_steps": [
+              {
+                "defined_samples": 256,
+                "median": 1.8,
+                "p05": 1.6176948051948052,
+                "p95": 1.9719924812030076
+              },
+              {
+                "defined_samples": 256,
+                "median": 1.6709677419354838,
+                "p05": 1.5673158855751672,
+                "p95": 1.7766326530612244
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "missed_detection_0p5",
+      "corruption": "missed_detection",
+      "severity": 0.5,
+      "sequence_id": "01",
+      "candidate_edges": 178,
+      "exact_context": {
+        "invariants_pass": true,
+        "violation_sample_indices": [],
+        "posterior_summary": {
+          "sample_count": 256,
+          "migration": {
+            "mean_speed_px_per_frame": {
+              "defined_samples": 256,
+              "median": 3.0899486750588334,
+              "p05": 2.8321908198051173,
+              "p95": 3.3548873768003125
+            },
+            "median_speed_px_per_frame": {
+              "defined_samples": 256,
+              "median": 2.0,
+              "p05": 1.8027756377319946,
+              "p95": 2.3265092722090186
+            },
+            "mean_net_displacement_px": {
+              "defined_samples": 256,
+              "median": 4.583801239540554,
+              "p05": 4.097450077609891,
+              "p95": 5.127274999381145
+            },
+            "mean_track_length": {
+              "defined_samples": 256,
+              "median": 1.5899581589958158,
+              "p05": 1.532258064516129,
+              "p95": 1.6379310344827587
+            },
+            "median_track_length": {
+              "defined_samples": 256,
+              "median": 1.0,
+              "p05": 1.0,
+              "p95": 1.0
+            },
+            "directional_persistence": {
+              "defined_samples": 256,
+              "median": 0.5438462496526042,
+              "p05": 0.45093382680000826,
+              "p95": 0.6552188708569674
+            }
+          },
+          "mean_squared_displacement_px2": {
+            "1": {
+              "defined_samples": 256,
+              "median": 20.81923451240354,
+              "p05": 17.581909391695373,
+              "p95": 24.43718717768767
+            },
+            "2": {
+              "defined_samples": 256,
+              "median": 52.33041751615458,
+              "p05": 38.44107227953301,
+              "p95": 67.67679367818306
+            },
+            "3": {
+              "defined_samples": 256,
+              "median": 68.78148730635564,
+              "p05": 39.763103915664395,
+              "p95": 103.0364281099964
+            }
+          },
+          "hmm_2state": {
+            "defined_samples": 256,
+            "status": "ok",
+            "state_occupancy": [
+              {
+                "defined_samples": 256,
+                "median": 0.14186793176154877,
+                "p05": 0.11412337662337663,
+                "p95": 0.16666666666666666
+              },
+              {
+                "defined_samples": 256,
+                "median": 0.8581320682384512,
+                "p05": 0.8333333333333334,
+                "p95": 0.8858766233766233
+              }
+            ],
+            "transition_matrix": [
+              [
+                {
+                  "defined_samples": 256,
+                  "median": 0.6153846153846154,
+                  "p05": 0.452020202020202,
+                  "p95": 0.7833333333333333
+                },
+                {
+                  "defined_samples": 256,
+                  "median": 0.38461538461538464,
+                  "p05": 0.21666666666666667,
+                  "p95": 0.547979797979798
+                }
+              ],
+              [
+                {
+                  "defined_samples": 256,
+                  "median": 0.3058390022675737,
+                  "p05": 0.23978260869565216,
+                  "p95": 0.3672473867595819
+                },
+                {
+                  "defined_samples": 256,
+                  "median": 0.6941609977324263,
+                  "p05": 0.6327526132404181,
+                  "p95": 0.7602173913043478
+                }
+              ]
+            ],
+            "expected_state_switch_probability": {
+              "defined_samples": 256,
+              "median": 0.3416718782572441,
+              "p05": 0.24455535390199637,
+              "p95": 0.41116035455278005
+            },
+            "mean_dwell_length_steps": [
+              {
+                "defined_samples": 256,
+                "median": 1.4615384615384615,
+                "p05": 1.2666666666666666,
+                "p95": 1.6153846153846154
+              },
+              {
+                "defined_samples": 256,
+                "median": 1.354248366013072,
+                "p05": 1.2672480620155038,
+                "p95": 1.4485664471135218
+              }
+            ]
+          }
+        },
+        "component_count": 560,
+        "maximum_component_targets": 1
+      },
+      "sampled_stage_a": {
+        "invariants_pass": true,
+        "violation_sample_indices": [],
+        "posterior_summary": {
+          "sample_count": 256,
+          "migration": {
+            "mean_speed_px_per_frame": {
+              "defined_samples": 256,
+              "median": 3.0951336473682574,
+              "p05": 2.803123883201942,
+              "p95": 3.361176744004432
+            },
+            "median_speed_px_per_frame": {
+              "defined_samples": 256,
+              "median": 2.0,
+              "p05": 1.8027756377319946,
+              "p95": 2.292209622855566
+            },
+            "mean_net_displacement_px": {
+              "defined_samples": 256,
+              "median": 4.5884475707726615,
+              "p05": 4.099707440176807,
+              "p95": 5.156825005972192
+            },
+            "mean_track_length": {
+              "defined_samples": 256,
+              "median": 1.5899581589958158,
+              "p05": 1.5384615384615385,
+              "p95": 1.645021645021645
+            },
+            "median_track_length": {
+              "defined_samples": 256,
+              "median": 1.0,
+              "p05": 1.0,
+              "p95": 1.0
+            },
+            "directional_persistence": {
+              "defined_samples": 256,
+              "median": 0.5550489133269492,
+              "p05": 0.4324905263979903,
+              "p95": 0.6511314185766183
+            }
+          },
+          "mean_squared_displacement_px2": {
+            "1": {
+              "defined_samples": 256,
+              "median": 20.893628971766006,
+              "p05": 17.09640128531389,
+              "p95": 24.57273434531804
+            },
+            "2": {
+              "defined_samples": 256,
+              "median": 53.537401662924594,
+              "p05": 40.260993966644165,
+              "p95": 68.07801591084022
+            },
+            "3": {
+              "defined_samples": 256,
+              "median": 71.01151652975426,
+              "p05": 43.594776609852644,
+              "p95": 108.41369226103426
+            }
+          },
+          "hmm_2state": {
+            "defined_samples": 256,
+            "status": "ok",
+            "state_occupancy": [
+              {
+                "defined_samples": 256,
+                "median": 0.14074074074074075,
+                "p05": 0.11764705882352941,
+                "p95": 0.16580459770114941
+              },
+              {
+                "defined_samples": 256,
+                "median": 0.8592592592592593,
+                "p05": 0.8341954022988506,
+                "p95": 0.8823529411764706
+              }
+            ],
+            "transition_matrix": [
+              [
+                {
+                  "defined_samples": 256,
+                  "median": 0.6,
+                  "p05": 0.4444444444444444,
+                  "p95": 0.7777777777777778
+                },
+                {
+                  "defined_samples": 256,
+                  "median": 0.4,
+                  "p05": 0.2222222222222222,
+                  "p95": 0.5555555555555556
+                }
+              ],
+              [
+                {
+                  "defined_samples": 256,
+                  "median": 0.2978723404255319,
+                  "p05": 0.23498122653316644,
+                  "p95": 0.36363636363636365
+                },
+                {
+                  "defined_samples": 256,
+                  "median": 0.7021276595744681,
+                  "p05": 0.6363636363636364,
+                  "p95": 0.7650187734668334
+                }
+              ]
+            ],
+            "expected_state_switch_probability": {
+              "defined_samples": 256,
+              "median": 0.3364972306592817,
+              "p05": 0.24135944700460826,
+              "p95": 0.40540540540540543
+            },
+            "mean_dwell_length_steps": [
+              {
+                "defined_samples": 256,
+                "median": 1.4615384615384615,
+                "p05": 1.25,
+                "p95": 1.6153846153846154
+              },
+              {
+                "defined_samples": 256,
+                "median": 1.3695652173913044,
+                "p05": 1.2838100686498857,
+                "p95": 1.4646915584415583
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "localization_noise_1p0",
+      "corruption": "localization_noise",
+      "severity": 1.0,
+      "sequence_id": "01",
+      "candidate_edges": 729,
+      "exact_context": {
+        "invariants_pass": true,
+        "violation_sample_indices": [],
+        "posterior_summary": {
+          "sample_count": 256,
+          "migration": {
+            "mean_speed_px_per_frame": {
+              "defined_samples": 256,
+              "median": 3.946787161024658,
+              "p05": 3.82763944287271,
+              "p95": 4.084333009259431
+            },
+            "median_speed_px_per_frame": {
+              "defined_samples": 256,
+              "median": 2.814160620635763,
+              "p05": 2.728272577316348,
+              "p95": 2.9422103346917665
+            },
+            "mean_net_displacement_px": {
+              "defined_samples": 256,
+              "median": 10.279416016520866,
+              "p05": 9.152284015871546,
+              "p95": 11.267464305009106
+            },
+            "mean_track_length": {
+              "defined_samples": 256,
+              "median": 3.9637305699481864,
+              "p05": 3.604255248471964,
+              "p95": 4.303823081317844
+            },
+            "median_track_length": {
+              "defined_samples": 256,
+              "median": 3.0,
+              "p05": 2.0,
+              "p95": 3.0
+            },
+            "directional_persistence": {
+              "defined_samples": 256,
+              "median": 0.029372620069890998,
+              "p05": -0.00328733474583611,
+              "p95": 0.06419122293720791
+            }
+          },
+          "mean_squared_displacement_px2": {
+            "1": {
+              "defined_samples": 256,
+              "median": 25.044188059019866,
+              "p05": 23.14683932694612,
+              "p95": 27.264874628514
+            },
+            "2": {
+              "defined_samples": 256,
+              "median": 58.98980291366031,
+              "p05": 52.86225330371836,
+              "p95": 65.87060149727674
+            },
+            "3": {
+              "defined_samples": 256,
+              "median": 96.9771081643772,
+              "p05": 82.92090254672773,
+              "p95": 112.76254564269446
+            }
+          },
+          "hmm_2state": {
+            "defined_samples": 256,
+            "status": "ok",
+            "state_occupancy": [
+              {
+                "defined_samples": 256,
+                "median": 0.06689838861643273,
+                "p05": 0.05555555555555555,
+                "p95": 0.07622386038814502
+              },
+              {
+                "defined_samples": 256,
+                "median": 0.9331016113835673,
+                "p05": 0.923776139611855,
+                "p95": 0.9444444444444444
+              }
+            ],
+            "transition_matrix": [
+              [
+                {
+                  "defined_samples": 256,
+                  "median": 0.39433811802232854,
+                  "p05": 0.2631578947368421,
+                  "p95": 0.48484848484848486
+                },
+                {
+                  "defined_samples": 256,
+                  "median": 0.6056618819776715,
+                  "p05": 0.5151515151515151,
+                  "p95": 0.7368421052631579
+                }
+              ],
+              [
+                {
+                  "defined_samples": 256,
+                  "median": 0.06747093023255815,
+                  "p05": 0.05627545933627688,
+                  "p95": 0.07659205968558487
+                },
+                {
+                  "defined_samples": 256,
+                  "median": 0.9325290697674419,
+                  "p05": 0.9234079403144152,
+                  "p95": 0.9437245406637231
+                }
+              ]
+            ],
+            "expected_state_switch_probability": {
+              "defined_samples": 256,
+              "median": 0.12114828365474174,
+              "p05": 0.10195149576920523,
+              "p95": 0.1373232460885111
+            },
+            "mean_dwell_length_steps": [
+              {
+                "defined_samples": 256,
+                "median": 1.4074074074074074,
+                "p05": 1.2348039215686275,
+                "p95": 1.578525641025641
+              },
+              {
+                "defined_samples": 256,
+                "median": 3.4516129032258065,
+                "p05": 3.130226480836237,
+                "p95": 3.8074415467625897
+              }
+            ]
+          }
+        },
+        "component_count": 788,
+        "maximum_component_targets": 1
+      },
+      "sampled_stage_a": {
+        "invariants_pass": true,
+        "violation_sample_indices": [],
+        "posterior_summary": {
+          "sample_count": 256,
+          "migration": {
+            "mean_speed_px_per_frame": {
+              "defined_samples": 256,
+              "median": 3.9399136441266176,
+              "p05": 3.8151488518020447,
+              "p95": 4.05262948544524
+            },
+            "median_speed_px_per_frame": {
+              "defined_samples": 256,
+              "median": 2.811440358152488,
+              "p05": 2.72915766930827,
+              "p95": 2.936316711465669
+            },
+            "mean_net_displacement_px": {
+              "defined_samples": 256,
+              "median": 10.155311049865148,
+              "p05": 9.11298172802746,
+              "p95": 11.294089900190388
+            },
+            "mean_track_length": {
+              "defined_samples": 256,
+              "median": 3.943298969072165,
+              "p05": 3.608490566037736,
+              "p95": 4.328173151001541
+            },
+            "median_track_length": {
+              "defined_samples": 256,
+              "median": 3.0,
+              "p05": 2.0,
+              "p95": 3.0
+            },
+            "directional_persistence": {
+              "defined_samples": 256,
+              "median": 0.028098655201023025,
+              "p05": -0.0067502982325613765,
+              "p95": 0.0647019975201222
+            }
+          },
+          "mean_squared_displacement_px2": {
+            "1": {
+              "defined_samples": 256,
+              "median": 24.87492005468383,
+              "p05": 22.937858070308067,
+              "p95": 26.667309758331648
+            },
+            "2": {
+              "defined_samples": 256,
+              "median": 58.397362162614094,
+              "p05": 51.94928674015588,
+              "p95": 64.50041327207708
+            },
+            "3": {
+              "defined_samples": 256,
+              "median": 96.64726339269853,
+              "p05": 80.63784280519947,
+              "p95": 110.06069430098546
+            }
+          },
+          "hmm_2state": {
+            "defined_samples": 256,
+            "status": "ok",
+            "state_occupancy": [
+              {
+                "defined_samples": 256,
+                "median": 0.06747425041082605,
+                "p05": 0.05582285998230539,
+                "p95": 0.0774938329905491
+              },
+              {
+                "defined_samples": 256,
+                "median": 0.9325257495891739,
+                "p05": 0.9225061670094509,
+                "p95": 0.9441771400176946
+              }
+            ],
+            "transition_matrix": [
+              [
+                {
+                  "defined_samples": 256,
+                  "median": 0.4,
+                  "p05": 0.2727272727272727,
+                  "p95": 0.4715625
+                },
+                {
+                  "defined_samples": 256,
+                  "median": 0.6,
+                  "p05": 0.5284375,
+                  "p95": 0.7272727272727273
+                }
+              ],
+              [
+                {
+                  "defined_samples": 256,
+                  "median": 0.0670852058299741,
+                  "p05": 0.05640082956259427,
+                  "p95": 0.07730994678252821
+                },
+                {
+                  "defined_samples": 256,
+                  "median": 0.9329147941700259,
+                  "p05": 0.9226900532174718,
+                  "p95": 0.9435991704374057
+                }
+              ]
+            ],
+            "expected_state_switch_probability": {
+              "defined_samples": 256,
+              "median": 0.12122383206675585,
+              "p05": 0.10409582538369877,
+              "p95": 0.13831096439792095
+            },
+            "mean_dwell_length_steps": [
+              {
+                "defined_samples": 256,
+                "median": 1.4137931034482758,
+                "p05": 1.2393678160919541,
+                "p95": 1.562857142857143
+              },
+              {
+                "defined_samples": 256,
+                "median": 3.4455105814670226,
+                "p05": 3.1114279603621586,
+                "p95": 3.785093390804598
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "localization_noise_3p0",
+      "corruption": "localization_noise",
+      "severity": 3.0,
+      "sequence_id": "01",
+      "candidate_edges": 688,
+      "exact_context": {
+        "invariants_pass": true,
+        "violation_sample_indices": [],
+        "posterior_summary": {
+          "sample_count": 256,
+          "migration": {
+            "mean_speed_px_per_frame": {
+              "defined_samples": 256,
+              "median": 5.661892269217808,
+              "p05": 5.533765871072459,
+              "p95": 5.802900641591257
+            },
+            "median_speed_px_per_frame": {
+              "defined_samples": 256,
+              "median": 5.345640522676104,
+              "p05": 5.256606098589176,
+              "p95": 5.48070687372227
+            },
+            "mean_net_displacement_px": {
+              "defined_samples": 256,
+              "median": 8.841199368354545,
+              "p05": 8.179027363910713,
+              "p95": 9.609696155030738
+            },
+            "mean_track_length": {
+              "defined_samples": 256,
+              "median": 2.7517985611510793,
+              "p05": 2.5822839885339888,
+              "p95": 2.9338527851458887
+            },
+            "median_track_length": {
+              "defined_samples": 256,
+              "median": 2.0,
+              "p05": 2.0,
+              "p95": 2.0
+            },
+            "directional_persistence": {
+              "defined_samples": 256,
+              "median": -0.08470657029956241,
+              "p05": -0.12925351934656729,
+              "p95": -0.046898340582825715
+            }
+          },
+          "mean_squared_displacement_px2": {
+            "1": {
+              "defined_samples": 256,
+              "median": 41.727043727616504,
+              "p05": 39.41989377483408,
+              "p95": 43.81842772455136
+            },
+            "2": {
+              "defined_samples": 256,
+              "median": 75.73184985248685,
+              "p05": 68.25501538433979,
+              "p95": 83.89268673279251
+            },
+            "3": {
+              "defined_samples": 256,
+              "median": 107.60438669701361,
+              "p05": 87.89325926501289,
+              "p95": 124.00657805352239
+            }
+          },
+          "hmm_2state": {
+            "defined_samples": 256,
+            "status": "ok",
+            "state_occupancy": [
+              {
+                "defined_samples": 256,
+                "median": 0.01639344262295082,
+                "p05": 0.010454791624811104,
+                "p95": 0.021141933746296793
+              },
+              {
+                "defined_samples": 256,
+                "median": 0.9836065573770492,
+                "p05": 0.9788580662537032,
+                "p95": 0.9895452083751889
+              }
+            ],
+            "transition_matrix": [
+              [
+                {
+                  "defined_samples": 256,
+                  "median": 0.0,
+                  "p05": 0.0,
+                  "p95": 0.0
+                },
+                {
+                  "defined_samples": 256,
+                  "median": 1.0,
+                  "p05": 1.0,
+                  "p95": 1.0
+                }
+              ],
+              [
+                {
+                  "defined_samples": 256,
+                  "median": 0.025718879191548,
+                  "p05": 0.01687767312767313,
+                  "p95": 0.03366494062025102
+                },
+                {
+                  "defined_samples": 256,
+                  "median": 0.9742811208084521,
+                  "p05": 0.966335059379749,
+                  "p95": 0.9831223268723268
+                }
+              ]
+            ],
+            "expected_state_switch_probability": {
+              "defined_samples": 256,
+              "median": 0.05014800778896443,
+              "p05": 0.03319508921695893,
+              "p95": 0.06513704282478533
+            },
+            "mean_dwell_length_steps": [
+              {
+                "defined_samples": 256,
+                "median": 1.0,
+                "p05": 1.0,
+                "p95": 1.0
+              },
+              {
+                "defined_samples": 256,
+                "median": 2.6795482295482294,
+                "p05": 2.4613217799130633,
+                "p95": 2.963410602108666
+              }
+            ]
+          }
+        },
+        "component_count": 829,
+        "maximum_component_targets": 1
+      },
+      "sampled_stage_a": {
+        "invariants_pass": true,
+        "violation_sample_indices": [],
+        "posterior_summary": {
+          "sample_count": 256,
+          "migration": {
+            "mean_speed_px_per_frame": {
+              "defined_samples": 256,
+              "median": 5.658349755816975,
+              "p05": 5.51822500733821,
+              "p95": 5.792694801275587
+            },
+            "median_speed_px_per_frame": {
+              "defined_samples": 256,
+              "median": 5.345640522676104,
+              "p05": 5.251203244601065,
+              "p95": 5.476601795730842
+            },
+            "mean_net_displacement_px": {
+              "defined_samples": 256,
+              "median": 8.803221821680225,
+              "p05": 8.199346194782112,
+              "p95": 9.546869905956088
+            },
+            "mean_track_length": {
+              "defined_samples": 256,
+              "median": 2.7517985611510793,
+              "p05": 2.573596705308115,
+              "p95": 2.9310344827586206
+            },
+            "median_track_length": {
+              "defined_samples": 256,
+              "median": 2.0,
+              "p05": 2.0,
+              "p95": 2.0
+            },
+            "directional_persistence": {
+              "defined_samples": 256,
+              "median": -0.0872753666240211,
+              "p05": -0.12686947004081456,
+              "p95": -0.040448534363982706
+            }
+          },
+          "mean_squared_displacement_px2": {
+            "1": {
+              "defined_samples": 256,
+              "median": 41.59865298986701,
+              "p05": 39.420877355880165,
+              "p95": 43.7998813300498
+            },
+            "2": {
+              "defined_samples": 256,
+              "median": 76.03407097946172,
+              "p05": 67.75850371042287,
+              "p95": 83.65103638037701
+            },
+            "3": {
+              "defined_samples": 256,
+              "median": 108.06894832366545,
+              "p05": 89.13878562938208,
+              "p95": 125.68624149664124
+            }
+          },
+          "hmm_2state": {
+            "defined_samples": 256,
+            "status": "ok",
+            "state_occupancy": [
+              {
+                "defined_samples": 256,
+                "median": 0.01639344262295082,
+                "p05": 0.010416666666666666,
+                "p95": 0.021254637375427366
+              },
+              {
+                "defined_samples": 256,
+                "median": 0.9836065573770492,
+                "p05": 0.9787453626245726,
+                "p95": 0.9895833333333334
+              }
+            ],
+            "transition_matrix": [
+              [
+                {
+                  "defined_samples": 256,
+                  "median": 0.0,
+                  "p05": 0.0,
+                  "p95": 0.0
+                },
+                {
+                  "defined_samples": 256,
+                  "median": 1.0,
+                  "p05": 1.0,
+                  "p95": 1.0
+                }
+              ],
+              [
+                {
+                  "defined_samples": 256,
+                  "median": 0.025770872865275143,
+                  "p05": 0.016571661237785015,
+                  "p95": 0.034401939655172416
+                },
+                {
+                  "defined_samples": 256,
+                  "median": 0.9742291271347249,
+                  "p05": 0.9655980603448275,
+                  "p95": 0.9834283387622149
+                }
+              ]
+            ],
+            "expected_state_switch_probability": {
+              "defined_samples": 256,
+              "median": 0.05024683843916953,
+              "p05": 0.03260298444724678,
+              "p95": 0.066515609264854
+            },
+            "mean_dwell_length_steps": [
+              {
+                "defined_samples": 256,
+                "median": 1.0,
+                "p05": 1.0,
+                "p95": 1.0
+              },
+              {
+                "defined_samples": 256,
+                "median": 2.6758266646534805,
+                "p05": 2.4773936170212765,
+                "p95": 2.9119595600246853
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "localization_noise_5p0",
+      "corruption": "localization_noise",
+      "severity": 5.0,
+      "sequence_id": "01",
+      "candidate_edges": 610,
+      "exact_context": {
+        "invariants_pass": true,
+        "violation_sample_indices": [],
+        "posterior_summary": {
+          "sample_count": 256,
+          "migration": {
+            "mean_speed_px_per_frame": {
+              "defined_samples": 256,
+              "median": 7.230006759582333,
+              "p05": 7.041607063704376,
+              "p95": 7.441133134096887
+            },
+            "median_speed_px_per_frame": {
+              "defined_samples": 256,
+              "median": 6.8757912896069415,
+              "p05": 6.588118874502182,
+              "p95": 7.096684907795125
+            },
+            "mean_net_displacement_px": {
+              "defined_samples": 256,
+              "median": 9.083732517555955,
+              "p05": 8.616082542474675,
+              "p95": 9.610086531184935
+            },
+            "mean_track_length": {
+              "defined_samples": 256,
+              "median": 1.9029850746268657,
+              "p05": 1.8257756563245824,
+              "p95": 1.9818652849740932
+            },
+            "median_track_length": {
+              "defined_samples": 256,
+              "median": 1.0,
+              "p05": 1.0,
+              "p95": 1.125
+            },
+            "directional_persistence": {
+              "defined_samples": 256,
+              "median": -0.10710268790816793,
+              "p05": -0.1755186478829132,
+              "p95": -0.041438727445734194
+            }
+          },
+          "mean_squared_displacement_px2": {
+            "1": {
+              "defined_samples": 256,
+              "median": 64.59196677238106,
+              "p05": 61.22808640644689,
+              "p95": 68.47290542728058
+            },
+            "2": {
+              "defined_samples": 256,
+              "median": 112.69252454111826,
+              "p05": 101.40131840343878,
+              "p95": 123.85133497036367
+            },
+            "3": {
+              "defined_samples": 256,
+              "median": 148.13744216791554,
+              "p05": 120.74252013297055,
+              "p95": 181.88429643699163
+            }
+          },
+          "hmm_2state": {
+            "defined_samples": 256,
+            "status": "ok",
+            "state_occupancy": [
+              {
+                "defined_samples": 256,
+                "median": 0.005319148936170213,
+                "p05": 0.0,
+                "p95": 0.008450704225352112
+              },
+              {
+                "defined_samples": 256,
+                "median": 0.9946808510638298,
+                "p05": 0.9915492957746479,
+                "p95": 1.0
+              }
+            ],
+            "transition_matrix": [
+              [
+                {
+                  "defined_samples": 256,
+                  "median": 0.626064,
+                  "p05": 0.0,
+                  "p95": 0.626064
+                },
+                {
+                  "defined_samples": 256,
+                  "median": 0.373936,
+                  "p05": 0.373936,
+                  "p95": 1.0
+                }
+              ],
+              [
+                {
+                  "defined_samples": 256,
+                  "median": 0.010443935427574172,
+                  "p05": 0.0,
+                  "p95": 0.018072289156626505
+                },
+                {
+                  "defined_samples": 256,
+                  "median": 0.9895560645724258,
+                  "p05": 0.9819277108433735,
+                  "p95": 1.0
+                }
+              ]
+            ],
+            "expected_state_switch_probability": {
+              "defined_samples": 256,
+              "median": 0.02051282051282055,
+              "p05": 0.0,
+              "p95": 0.03550295857988166
+            },
+            "mean_dwell_length_steps": [
+              {
+                "defined_samples": 233,
+                "median": 1.0,
+                "p05": 1.0,
+                "p95": 1.0
+              },
+              {
+                "defined_samples": 256,
+                "median": 1.9342460817870655,
+                "p05": 1.7815244068721023,
+                "p95": 2.0721428571428575
+              }
+            ]
+          }
+        },
+        "component_count": 907,
+        "maximum_component_targets": 1
+      },
+      "sampled_stage_a": {
+        "invariants_pass": true,
+        "violation_sample_indices": [],
+        "posterior_summary": {
+          "sample_count": 256,
+          "migration": {
+            "mean_speed_px_per_frame": {
+              "defined_samples": 256,
+              "median": 7.227604653223567,
+              "p05": 7.020676055377833,
+              "p95": 7.412696420994524
+            },
+            "median_speed_px_per_frame": {
+              "defined_samples": 256,
+              "median": 6.8757912896069415,
+              "p05": 6.578388836152838,
+              "p95": 7.106531198221059
+            },
+            "mean_net_displacement_px": {
+              "defined_samples": 256,
+              "median": 9.111317471829341,
+              "p05": 8.54348032218851,
+              "p95": 9.667557783918875
+            },
+            "mean_track_length": {
+              "defined_samples": 256,
+              "median": 1.8982630272952854,
+              "p05": 1.8085106382978724,
+              "p95": 1.9934878834856398
+            },
+            "median_track_length": {
+              "defined_samples": 256,
+              "median": 1.0,
+              "p05": 1.0,
+              "p95": 1.0
+            },
+            "directional_persistence": {
+              "defined_samples": 256,
+              "median": -0.1103369729649249,
+              "p05": -0.16317976097482761,
+              "p95": -0.03769762724029634
+            }
+          },
+          "mean_squared_displacement_px2": {
+            "1": {
+              "defined_samples": 256,
+              "median": 64.57733247700799,
+              "p05": 60.81437217013361,
+              "p95": 68.09609665291461
+            },
+            "2": {
+              "defined_samples": 256,
+              "median": 111.86541519105376,
+              "p05": 99.6557805343891,
+              "p95": 126.07420496540325
+            },
+            "3": {
+              "defined_samples": 256,
+              "median": 147.72447930376796,
+              "p05": 117.08461466055138,
+              "p95": 180.5719246319747
+            }
+          },
+          "hmm_2state": {
+            "defined_samples": 256,
+            "status": "ok",
+            "state_occupancy": [
+              {
+                "defined_samples": 256,
+                "median": 0.0054127298029737056,
+                "p05": 0.0,
+                "p95": 0.008293031940129474
+              },
+              {
+                "defined_samples": 256,
+                "median": 0.9945872701970263,
+                "p05": 0.9917069680598705,
+                "p95": 1.0
+              }
+            ],
+            "transition_matrix": [
+              [
+                {
+                  "defined_samples": 256,
+                  "median": 0.626064,
+                  "p05": 0.0,
+                  "p95": 0.626064
+                },
+                {
+                  "defined_samples": 256,
+                  "median": 0.373936,
+                  "p05": 0.373936,
+                  "p95": 1.0
+                }
+              ],
+              [
+                {
+                  "defined_samples": 256,
+                  "median": 0.01092896174863388,
+                  "p05": 0.0,
+                  "p95": 0.017366245463099877
+                },
+                {
+                  "defined_samples": 256,
+                  "median": 0.9890710382513661,
+                  "p05": 0.9826337545369,
+                  "p95": 1.0
+                }
+              ]
+            ],
+            "expected_state_switch_probability": {
+              "defined_samples": 256,
+              "median": 0.021390374331550804,
+              "p05": 0.0,
+              "p95": 0.034139610389610435
+            },
+            "mean_dwell_length_steps": [
+              {
+                "defined_samples": 242,
+                "median": 1.0,
+                "p05": 1.0,
+                "p95": 1.0
+              },
+              {
+                "defined_samples": 256,
+                "median": 1.9301055065760948,
+                "p05": 1.794838056680162,
+                "p95": 2.078184110970996
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "fragmentation_1",
+      "corruption": "fragmentation",
+      "severity": 1,
+      "sequence_id": "01",
+      "candidate_edges": 705,
+      "exact_context": {
+        "invariants_pass": true,
+        "violation_sample_indices": [],
+        "posterior_summary": {
+          "sample_count": 256,
+          "migration": {
+            "mean_speed_px_per_frame": {
+              "defined_samples": 256,
+              "median": 3.1635300797582007,
+              "p05": 3.0383767410641322,
+              "p95": 3.2949740513216277
+            },
+            "median_speed_px_per_frame": {
+              "defined_samples": 256,
+              "median": 2.23606797749979,
+              "p05": 2.0,
+              "p95": 2.498935747785775
+            },
+            "mean_net_displacement_px": {
+              "defined_samples": 256,
+              "median": 9.806069619248639,
+              "p05": 8.733350009067735,
+              "p95": 10.992145430425913
+            },
+            "mean_track_length": {
+              "defined_samples": 256,
+              "median": 3.9842105263157896,
+              "p05": 3.674757281553398,
+              "p95": 4.401162790697675
+            },
+            "median_track_length": {
+              "defined_samples": 256,
+              "median": 3.0,
+              "p05": 2.0,
+              "p95": 3.0
+            },
+            "directional_persistence": {
+              "defined_samples": 256,
+              "median": 0.47831540401664135,
+              "p05": 0.4408242328315892,
+              "p95": 0.5241970472428245
+            }
+          },
+          "mean_squared_displacement_px2": {
+            "1": {
+              "defined_samples": 256,
+              "median": 21.682698075923057,
+              "p05": 19.710985797730046,
+              "p95": 23.425271495699274
+            },
+            "2": {
+              "defined_samples": 256,
+              "median": 53.62113905535937,
+              "p05": 48.19870044955277,
+              "p95": 59.59948430887205
+            },
+            "3": {
+              "defined_samples": 256,
+              "median": 89.43669544745006,
+              "p05": 76.59931263888386,
+              "p95": 104.62437624765309
+            }
+          },
+          "hmm_2state": {
+            "defined_samples": 256,
+            "status": "ok",
+            "state_occupancy": [
+              {
+                "defined_samples": 256,
+                "median": 0.3161174194366912,
+                "p05": 0.29764065335753176,
+                "p95": 0.33391154693057806
+              },
+              {
+                "defined_samples": 256,
+                "median": 0.6838825805633089,
+                "p05": 0.6660884530694219,
+                "p95": 0.7023593466424682
+              }
+            ],
+            "transition_matrix": [
+              [
+                {
+                  "defined_samples": 256,
+                  "median": 0.7209302325581395,
+                  "p05": 0.6804166666666667,
+                  "p95": 0.7610700172256561
+                },
+                {
+                  "defined_samples": 256,
+                  "median": 0.27906976744186046,
+                  "p05": 0.2389299827743439,
+                  "p95": 0.31958333333333333
+                }
+              ],
+              [
+                {
+                  "defined_samples": 256,
+                  "median": 0.26833414818436374,
+                  "p05": 0.24306645735217164,
+                  "p95": 0.29333422952834537
+                },
+                {
+                  "defined_samples": 256,
+                  "median": 0.7316658518156363,
+                  "p05": 0.7066657704716547,
+                  "p95": 0.7569335426478283
+                }
+              ]
+            ],
+            "expected_state_switch_probability": {
+              "defined_samples": 256,
+              "median": 0.27412924998000265,
+              "p05": 0.2441657105284215,
+              "p95": 0.2976981699023525
+            },
+            "mean_dwell_length_steps": [
+              {
+                "defined_samples": 256,
+                "median": 2.2974581724581724,
+                "p05": 2.0954155374887082,
+                "p95": 2.4823811152925077
+              },
+              {
+                "defined_samples": 256,
+                "median": 2.2237881219903692,
+                "p05": 2.063321712411735,
+                "p95": 2.416018619934283
+              }
+            ]
+          }
+        },
+        "component_count": 796,
+        "maximum_component_targets": 1
+      },
+      "sampled_stage_a": {
+        "invariants_pass": true,
+        "violation_sample_indices": [],
+        "posterior_summary": {
+          "sample_count": 256,
+          "migration": {
+            "mean_speed_px_per_frame": {
+              "defined_samples": 256,
+              "median": 3.1624658680956097,
+              "p05": 3.0380824003337397,
+              "p95": 3.269558670643204
+            },
+            "median_speed_px_per_frame": {
+              "defined_samples": 256,
+              "median": 2.23606797749979,
+              "p05": 2.0,
+              "p95": 2.4870798505550886
+            },
+            "mean_net_displacement_px": {
+              "defined_samples": 256,
+              "median": 9.712259723801047,
+              "p05": 8.774682656126652,
+              "p95": 10.717635628144253
+            },
+            "mean_track_length": {
+              "defined_samples": 256,
+              "median": 3.9842105263157896,
+              "p05": 3.688201515510301,
+              "p95": 4.307280844155844
+            },
+            "median_track_length": {
+              "defined_samples": 256,
+              "median": 3.0,
+              "p05": 2.0,
+              "p95": 3.0
+            },
+            "directional_persistence": {
+              "defined_samples": 256,
+              "median": 0.474930058485901,
+              "p05": 0.43032690235407944,
+              "p95": 0.5284194807776526
+            }
+          },
+          "mean_squared_displacement_px2": {
+            "1": {
+              "defined_samples": 256,
+              "median": 21.529937987602032,
+              "p05": 19.75615527756208,
+              "p95": 22.94595956523049
+            },
+            "2": {
+              "defined_samples": 256,
+              "median": 53.54839925785835,
+              "p05": 47.92854827043158,
+              "p95": 59.72063042416176
+            },
+            "3": {
+              "defined_samples": 256,
+              "median": 88.79033075692931,
+              "p05": 75.02182954466403,
+              "p95": 103.23245937402456
+            }
+          },
+          "hmm_2state": {
+            "defined_samples": 256,
+            "status": "ok",
+            "state_occupancy": [
+              {
+                "defined_samples": 256,
+                "median": 0.31643356643356646,
+                "p05": 0.2966985021958844,
+                "p95": 0.33503414779551655
+              },
+              {
+                "defined_samples": 256,
+                "median": 0.6835664335664335,
+                "p05": 0.6649658522044835,
+                "p95": 0.7033014978041157
+              }
+            ],
+            "transition_matrix": [
+              [
+                {
+                  "defined_samples": 256,
+                  "median": 0.7242484526967286,
+                  "p05": 0.6882901634289238,
+                  "p95": 0.7604761904761905
+                },
+                {
+                  "defined_samples": 256,
+                  "median": 0.27575154730327145,
+                  "p05": 0.23952380952380953,
+                  "p95": 0.31170983657107615
+                }
+              ],
+              [
+                {
+                  "defined_samples": 256,
+                  "median": 0.26610243504441455,
+                  "p05": 0.2433296783625731,
+                  "p95": 0.2957225486837598
+                },
+                {
+                  "defined_samples": 256,
+                  "median": 0.7338975649555854,
+                  "p05": 0.7042774513162402,
+                  "p95": 0.7566703216374269
+                }
+              ]
+            ],
+            "expected_state_switch_probability": {
+              "defined_samples": 256,
+              "median": 0.2703416437850754,
+              "p05": 0.24550746268656715,
+              "p95": 0.29722141850086925
+            },
+            "mean_dwell_length_steps": [
+              {
+                "defined_samples": 256,
+                "median": 2.3076923076923075,
+                "p05": 2.1258009063916234,
+                "p95": 2.501865671641791
+              },
+              {
+                "defined_samples": 256,
+                "median": 2.222857142857143,
+                "p05": 2.0637502252658138,
+                "p95": 2.384495298266236
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "fragmentation_3",
+      "corruption": "fragmentation",
+      "severity": 3,
+      "sequence_id": "01",
+      "candidate_edges": 690,
+      "exact_context": {
+        "invariants_pass": true,
+        "violation_sample_indices": [],
+        "posterior_summary": {
+          "sample_count": 256,
+          "migration": {
+            "mean_speed_px_per_frame": {
+              "defined_samples": 256,
+              "median": 3.171580032204706,
+              "p05": 3.0385614282901616,
+              "p95": 3.297833539299799
+            },
+            "median_speed_px_per_frame": {
+              "defined_samples": 256,
+              "median": 2.2817783975657346,
+              "p05": 2.0615528128088303,
+              "p95": 2.5
+            },
+            "mean_net_displacement_px": {
+              "defined_samples": 256,
+              "median": 9.773979079613252,
+              "p05": 8.646711299352237,
+              "p95": 10.928589996034782
+            },
+            "mean_track_length": {
+              "defined_samples": 256,
+              "median": 3.9838709677419355,
+              "p05": 3.6637992001170563,
+              "p95": 4.39114010989011
+            },
+            "median_track_length": {
+              "defined_samples": 256,
+              "median": 3.0,
+              "p05": 2.0,
+              "p95": 3.0
+            },
+            "directional_persistence": {
+              "defined_samples": 256,
+              "median": 0.4775626253757366,
+              "p05": 0.42723672835327475,
+              "p95": 0.5170032563628724
+            }
+          },
+          "mean_squared_displacement_px2": {
+            "1": {
+              "defined_samples": 256,
+              "median": 21.511715746422464,
+              "p05": 19.912786126040498,
+              "p95": 23.610821371029125
+            },
+            "2": {
+              "defined_samples": 256,
+              "median": 53.29757897834087,
+              "p05": 47.20323979278597,
+              "p95": 60.174964894266395
+            },
+            "3": {
+              "defined_samples": 256,
+              "median": 89.91852297338457,
+              "p05": 76.67372455603505,
+              "p95": 105.45379563511139
+            }
+          },
+          "hmm_2state": {
+            "defined_samples": 256,
+            "status": "ok",
+            "state_occupancy": [
+              {
+                "defined_samples": 256,
+                "median": 0.31418125258157786,
+                "p05": 0.29477313095430324,
+                "p95": 0.3310987917691064
+              },
+              {
+                "defined_samples": 256,
+                "median": 0.6858187474184221,
+                "p05": 0.6689012082308936,
+                "p95": 0.7052268690456968
+              }
+            ],
+            "transition_matrix": [
+              [
+                {
+                  "defined_samples": 256,
+                  "median": 0.71535654126895,
+                  "p05": 0.6784491193737769,
+                  "p95": 0.7573102678571428
+                },
+                {
+                  "defined_samples": 256,
+                  "median": 0.28464345873104996,
+                  "p05": 0.24268973214285713,
+                  "p95": 0.3215508806262231
+                }
+              ],
+              [
+                {
+                  "defined_samples": 256,
+                  "median": 0.26890898812888636,
+                  "p05": 0.2465634512937595,
+                  "p95": 0.2946408954422284
+                },
+                {
+                  "defined_samples": 256,
+                  "median": 0.7310910118711136,
+                  "p05": 0.7053591045577716,
+                  "p95": 0.7534365487062404
+                }
+              ]
+            ],
+            "expected_state_switch_probability": {
+              "defined_samples": 256,
+              "median": 0.2765117501344432,
+              "p05": 0.25279791830661263,
+              "p95": 0.2989552861391769
+            },
+            "mean_dwell_length_steps": [
+              {
+                "defined_samples": 256,
+                "median": 2.2564102564102564,
+                "p05": 2.06959706959707,
+                "p95": 2.4324324324324325
+              },
+              {
+                "defined_samples": 256,
+                "median": 2.2157452740378076,
+                "p05": 2.0777849009372042,
+                "p95": 2.3990506329113925
+              }
+            ]
+          }
+        },
+        "component_count": 779,
+        "maximum_component_targets": 1
+      },
+      "sampled_stage_a": {
+        "invariants_pass": true,
+        "violation_sample_indices": [],
+        "posterior_summary": {
+          "sample_count": 256,
+          "migration": {
+            "mean_speed_px_per_frame": {
+              "defined_samples": 256,
+              "median": 3.1676815965064486,
+              "p05": 3.0611644233938264,
+              "p95": 3.3283911126675814
+            },
+            "median_speed_px_per_frame": {
+              "defined_samples": 256,
+              "median": 2.2852199655291496,
+              "p05": 2.0615528128088303,
+              "p95": 2.5
+            },
+            "mean_net_displacement_px": {
+              "defined_samples": 256,
+              "median": 9.807770250450577,
+              "p05": 8.909093691917713,
+              "p95": 10.869420552520822
+            },
+            "mean_track_length": {
+              "defined_samples": 256,
+              "median": 3.9838709677419355,
+              "p05": 3.6865671641791047,
+              "p95": 4.308139534883721
+            },
+            "median_track_length": {
+              "defined_samples": 256,
+              "median": 3.0,
+              "p05": 2.0,
+              "p95": 3.0
+            },
+            "directional_persistence": {
+              "defined_samples": 256,
+              "median": 0.47850857091456034,
+              "p05": 0.4281522542227305,
+              "p95": 0.5277952566369404
+            }
+          },
+          "mean_squared_displacement_px2": {
+            "1": {
+              "defined_samples": 256,
+              "median": 21.572909361715375,
+              "p05": 20.080206525846936,
+              "p95": 23.59875518003542
+            },
+            "2": {
+              "defined_samples": 256,
+              "median": 53.45174645414675,
+              "p05": 48.671468026463344,
+              "p95": 60.17581677604339
+            },
+            "3": {
+              "defined_samples": 256,
+              "median": 89.17724837995982,
+              "p05": 74.21303559400191,
+              "p95": 104.20605014891967
+            }
+          },
+          "hmm_2state": {
+            "defined_samples": 256,
+            "status": "ok",
+            "state_occupancy": [
+              {
+                "defined_samples": 256,
+                "median": 0.3135129343930185,
+                "p05": 0.2937956204379562,
+                "p95": 0.3321396341093973
+              },
+              {
+                "defined_samples": 256,
+                "median": 0.6864870656069815,
+                "p05": 0.6678603658906027,
+                "p95": 0.7062043795620438
+              }
+            ],
+            "transition_matrix": [
+              [
+                {
+                  "defined_samples": 256,
+                  "median": 0.7153031224655313,
+                  "p05": 0.6772374484598593,
+                  "p95": 0.7524150268336315
+                },
+                {
+                  "defined_samples": 256,
+                  "median": 0.28469687753446876,
+                  "p05": 0.24758497316636852,
+                  "p95": 0.32276255154014066
+                }
+              ],
+              [
+                {
+                  "defined_samples": 256,
+                  "median": 0.268629359871157,
+                  "p05": 0.24519619287061148,
+                  "p95": 0.2919562411171815
+                },
+                {
+                  "defined_samples": 256,
+                  "median": 0.7313706401288431,
+                  "p05": 0.7080437588828185,
+                  "p95": 0.7548038071293885
+                }
+              ]
+            ],
+            "expected_state_switch_probability": {
+              "defined_samples": 256,
+              "median": 0.27719380160097107,
+              "p05": 0.25085059250380676,
+              "p95": 0.3029752038755892
+            },
+            "mean_dwell_length_steps": [
+              {
+                "defined_samples": 256,
+                "median": 2.266244725738397,
+                "p05": 2.086804533411834,
+                "p95": 2.4583333333333335
+              },
+              {
+                "defined_samples": 256,
+                "median": 2.2267441860465116,
+                "p05": 2.0729418886198547,
+                "p95": 2.3966536879224214
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "fragmentation_5",
+      "corruption": "fragmentation",
+      "severity": 5,
+      "sequence_id": "01",
+      "candidate_edges": 674,
+      "exact_context": {
+        "invariants_pass": true,
+        "violation_sample_indices": [],
+        "posterior_summary": {
+          "sample_count": 256,
+          "migration": {
+            "mean_speed_px_per_frame": {
+              "defined_samples": 256,
+              "median": 3.1720351334046937,
+              "p05": 3.0439576847523457,
+              "p95": 3.318469833302184
+            },
+            "median_speed_px_per_frame": {
+              "defined_samples": 256,
+              "median": 2.3095790604610107,
+              "p05": 2.167162264844291,
+              "p95": 2.5
+            },
+            "mean_net_displacement_px": {
+              "defined_samples": 256,
+              "median": 9.778328363996398,
+              "p05": 8.807781298476602,
+              "p95": 10.75404752215186
+            },
+            "mean_track_length": {
+              "defined_samples": 256,
+              "median": 3.9835164835164836,
+              "p05": 3.6616161616161618,
+              "p95": 4.296324668920823
+            },
+            "median_track_length": {
+              "defined_samples": 256,
+              "median": 3.0,
+              "p05": 2.0,
+              "p95": 3.0
+            },
+            "directional_persistence": {
+              "defined_samples": 256,
+              "median": 0.4849328758576885,
+              "p05": 0.43985006666119414,
+              "p95": 0.5357963110219826
+            }
+          },
+          "mean_squared_displacement_px2": {
+            "1": {
+              "defined_samples": 256,
+              "median": 21.49902232104816,
+              "p05": 19.730512129338273,
+              "p95": 23.623899763404523
+            },
+            "2": {
+              "defined_samples": 256,
+              "median": 53.645580151840896,
+              "p05": 48.14093925842302,
+              "p95": 61.409549473838894
+            },
+            "3": {
+              "defined_samples": 256,
+              "median": 90.23575726977204,
+              "p05": 77.55860549974793,
+              "p95": 106.67455143362169
+            }
+          },
+          "hmm_2state": {
+            "defined_samples": 256,
+            "status": "ok",
+            "state_occupancy": [
+              {
+                "defined_samples": 256,
+                "median": 0.30811309464445996,
+                "p05": 0.2881750465549348,
+                "p95": 0.32724779790593317
+              },
+              {
+                "defined_samples": 256,
+                "median": 0.6918869053555401,
+                "p05": 0.6727522020940668,
+                "p95": 0.7118249534450651
+              }
+            ],
+            "transition_matrix": [
+              [
+                {
+                  "defined_samples": 256,
+                  "median": 0.7165354330708661,
+                  "p05": 0.6775785229202038,
+                  "p95": 0.76
+                },
+                {
+                  "defined_samples": 256,
+                  "median": 0.28346456692913385,
+                  "p05": 0.24,
+                  "p95": 0.3224214770797963
+                }
+              ],
+              [
+                {
+                  "defined_samples": 256,
+                  "median": 0.2625006377876422,
+                  "p05": 0.23875432525951557,
+                  "p95": 0.2889024289491077
+                },
+                {
+                  "defined_samples": 256,
+                  "median": 0.7374993622123578,
+                  "p05": 0.7110975710508922,
+                  "p95": 0.7612456747404844
+                }
+              ]
+            ],
+            "expected_state_switch_probability": {
+              "defined_samples": 256,
+              "median": 0.2724832614177775,
+              "p05": 0.2453177261059092,
+              "p95": 0.30058287925971533
+            },
+            "mean_dwell_length_steps": [
+              {
+                "defined_samples": 256,
+                "median": 2.2533333333333334,
+                "p05": 2.075033311125916,
+                "p95": 2.445273631840796
+              },
+              {
+                "defined_samples": 256,
+                "median": 2.243252994660124,
+                "p05": 2.09011803874092,
+                "p95": 2.4196990558615266
+              }
+            ]
+          }
+        },
+        "component_count": 763,
+        "maximum_component_targets": 1
+      },
+      "sampled_stage_a": {
+        "invariants_pass": true,
+        "violation_sample_indices": [],
+        "posterior_summary": {
+          "sample_count": 256,
+          "migration": {
+            "mean_speed_px_per_frame": {
+              "defined_samples": 256,
+              "median": 3.1736651918140106,
+              "p05": 3.0471650347493915,
+              "p95": 3.3069323753773183
+            },
+            "median_speed_px_per_frame": {
+              "defined_samples": 256,
+              "median": 2.302225895852593,
+              "p05": 2.1415853279668857,
+              "p95": 2.5
+            },
+            "mean_net_displacement_px": {
+              "defined_samples": 256,
+              "median": 9.657900285440371,
+              "p05": 8.854838747070945,
+              "p95": 10.774391174077884
+            },
+            "mean_track_length": {
+              "defined_samples": 256,
+              "median": 3.9509830125920646,
+              "p05": 3.64321608040201,
+              "p95": 4.315476190476191
+            },
+            "median_track_length": {
+              "defined_samples": 256,
+              "median": 3.0,
+              "p05": 2.0,
+              "p95": 3.0
+            },
+            "directional_persistence": {
+              "defined_samples": 256,
+              "median": 0.48094153390726224,
+              "p05": 0.443020485092692,
+              "p95": 0.5255080233286709
+            }
+          },
+          "mean_squared_displacement_px2": {
+            "1": {
+              "defined_samples": 256,
+              "median": 21.544660301919947,
+              "p05": 19.760202699158103,
+              "p95": 23.299019201331713
+            },
+            "2": {
+              "defined_samples": 256,
+              "median": 53.62904572059395,
+              "p05": 48.1415061218315,
+              "p95": 60.08262244605131
+            },
+            "3": {
+              "defined_samples": 256,
+              "median": 89.05365101467368,
+              "p05": 76.63375611014682,
+              "p95": 104.59655959884381
+            }
+          },
+          "hmm_2state": {
+            "defined_samples": 256,
+            "status": "ok",
+            "state_occupancy": [
+              {
+                "defined_samples": 256,
+                "median": 0.3083860285985661,
+                "p05": 0.2878662570888469,
+                "p95": 0.3235831809872029
+              },
+              {
+                "defined_samples": 256,
+                "median": 0.6916139714014338,
+                "p05": 0.676416819012797,
+                "p95": 0.7121337429111532
+              }
+            ],
+            "transition_matrix": [
+              [
+                {
+                  "defined_samples": 256,
+                  "median": 0.7196969696969697,
+                  "p05": 0.6781871775976418,
+                  "p95": 0.7566800157563025
+                },
+                {
+                  "defined_samples": 256,
+                  "median": 0.2803030303030303,
+                  "p05": 0.24331998424369747,
+                  "p95": 0.3218128224023581
+                }
+              ],
+              [
+                {
+                  "defined_samples": 256,
+                  "median": 0.2620712620712621,
+                  "p05": 0.2403135888501742,
+                  "p95": 0.2855835047811291
+                },
+                {
+                  "defined_samples": 256,
+                  "median": 0.737928737928738,
+                  "p05": 0.714416495218871,
+                  "p95": 0.7596864111498258
+                }
+              ]
+            ],
+            "expected_state_switch_probability": {
+              "defined_samples": 256,
+              "median": 0.27113655066484144,
+              "p05": 0.24358774286319407,
+              "p95": 0.2954886481979404
+            },
+            "mean_dwell_length_steps": [
+              {
+                "defined_samples": 256,
+                "median": 2.2533333333333334,
+                "p05": 2.06472693972694,
+                "p95": 2.4347826086956523
+              },
+              {
+                "defined_samples": 256,
+                "median": 2.257397485730294,
+                "p05": 2.0923526675968374,
+                "p95": 2.416278467908903
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "id_switch_1",
+      "corruption": "id_switch",
+      "severity": 1,
+      "sequence_id": "01",
+      "candidate_edges": 721,
+      "exact_context": {
+        "invariants_pass": true,
+        "violation_sample_indices": [],
+        "posterior_summary": {
+          "sample_count": 256,
+          "migration": {
+            "mean_speed_px_per_frame": {
+              "defined_samples": 256,
+              "median": 3.170635106023897,
+              "p05": 3.0361103299097465,
+              "p95": 3.3169578720430435
+            },
+            "median_speed_px_per_frame": {
+              "defined_samples": 256,
+              "median": 2.23606797749979,
+              "p05": 2.02720042437321,
+              "p95": 2.5
+            },
+            "mean_net_displacement_px": {
+              "defined_samples": 256,
+              "median": 10.147971779900168,
+              "p05": 9.186325136640944,
+              "p95": 11.423259879222996
+            },
+            "mean_track_length": {
+              "defined_samples": 256,
+              "median": 4.112903225806452,
+              "p05": 3.820242537313433,
+              "p95": 4.506656804733728
+            },
+            "median_track_length": {
+              "defined_samples": 256,
+              "median": 3.0,
+              "p05": 2.0,
+              "p95": 3.0
+            },
+            "directional_persistence": {
+              "defined_samples": 256,
+              "median": 0.48358617240367663,
+              "p05": 0.4395514387288077,
+              "p95": 0.5248347379337033
+            }
+          },
+          "mean_squared_displacement_px2": {
+            "1": {
+              "defined_samples": 256,
+              "median": 21.60427946058472,
+              "p05": 19.940097559039376,
+              "p95": 23.54557895922629
+            },
+            "2": {
+              "defined_samples": 256,
+              "median": 53.61127242881928,
+              "p05": 47.927971678918865,
+              "p95": 60.7837337462144
+            },
+            "3": {
+              "defined_samples": 256,
+              "median": 90.12159031534517,
+              "p05": 75.59198208739116,
+              "p95": 107.93669776193427
+            }
+          },
+          "hmm_2state": {
+            "defined_samples": 256,
+            "status": "ok",
+            "state_occupancy": [
+              {
+                "defined_samples": 256,
+                "median": 0.32010273972602743,
+                "p05": 0.29844952538324065,
+                "p95": 0.33919920909540285
+              },
+              {
+                "defined_samples": 256,
+                "median": 0.6798972602739726,
+                "p05": 0.6608007909045972,
+                "p95": 0.7015504746167593
+              }
+            ],
+            "transition_matrix": [
+              [
+                {
+                  "defined_samples": 256,
+                  "median": 0.723805295447207,
+                  "p05": 0.6884057971014492,
+                  "p95": 0.7560049019607843
+                },
+                {
+                  "defined_samples": 256,
+                  "median": 0.27619470455279305,
+                  "p05": 0.24399509803921568,
+                  "p95": 0.3115942028985507
+                }
+              ],
+              [
+                {
+                  "defined_samples": 256,
+                  "median": 0.26132624190982723,
+                  "p05": 0.2394881449068892,
+                  "p95": 0.28699620948402566
+                },
+                {
+                  "defined_samples": 256,
+                  "median": 0.7386737580901728,
+                  "p05": 0.7130037905159743,
+                  "p95": 0.7605118550931108
+                }
+              ]
+            ],
+            "expected_state_switch_probability": {
+              "defined_samples": 256,
+              "median": 0.2677098818045297,
+              "p05": 0.24557407504064427,
+              "p95": 0.2926008583721158
+            },
+            "mean_dwell_length_steps": [
+              {
+                "defined_samples": 256,
+                "median": 2.3607228915662652,
+                "p05": 2.1591566265060242,
+                "p95": 2.5631247686042204
+              },
+              {
+                "defined_samples": 256,
+                "median": 2.272201786652654,
+                "p05": 2.1274656679151063,
+                "p95": 2.4646580333309283
+              }
+            ]
+          }
+        },
+        "component_count": 796,
+        "maximum_component_targets": 1
+      },
+      "sampled_stage_a": {
+        "invariants_pass": true,
+        "violation_sample_indices": [],
+        "posterior_summary": {
+          "sample_count": 256,
+          "migration": {
+            "mean_speed_px_per_frame": {
+              "defined_samples": 256,
+              "median": 3.180945372291659,
+              "p05": 3.05763333906984,
+              "p95": 3.306680935247394
+            },
+            "median_speed_px_per_frame": {
+              "defined_samples": 256,
+              "median": 2.2449144065437148,
+              "p05": 2.02720042437321,
+              "p95": 2.5
+            },
+            "mean_net_displacement_px": {
+              "defined_samples": 256,
+              "median": 10.32625694175037,
+              "p05": 9.223387663560075,
+              "p95": 11.58371791265709
+            },
+            "mean_track_length": {
+              "defined_samples": 256,
+              "median": 4.157608695652174,
+              "p05": 3.8394158291457288,
+              "p95": 4.615416210295728
+            },
+            "median_track_length": {
+              "defined_samples": 256,
+              "median": 3.0,
+              "p05": 2.0,
+              "p95": 3.0
+            },
+            "directional_persistence": {
+              "defined_samples": 256,
+              "median": 0.48577665874264525,
+              "p05": 0.441090412897465,
+              "p95": 0.5325289028791866
+            }
+          },
+          "mean_squared_displacement_px2": {
+            "1": {
+              "defined_samples": 256,
+              "median": 21.766843783316844,
+              "p05": 20.045878826226392,
+              "p95": 23.42355149378252
+            },
+            "2": {
+              "defined_samples": 256,
+              "median": 53.95548730416087,
+              "p05": 48.03324894693947,
+              "p95": 60.807897432787485
+            },
+            "3": {
+              "defined_samples": 256,
+              "median": 90.5124056241847,
+              "p05": 76.1029726693548,
+              "p95": 106.99088400257332
+            }
+          },
+          "hmm_2state": {
+            "defined_samples": 256,
+            "status": "ok",
+            "state_occupancy": [
+              {
+                "defined_samples": 256,
+                "median": 0.321931220922535,
+                "p05": 0.3012134740382493,
+                "p95": 0.33850821323833685
+              },
+              {
+                "defined_samples": 256,
+                "median": 0.678068779077465,
+                "p05": 0.6614917867616632,
+                "p95": 0.6987865259617507
+              }
+            ],
+            "transition_matrix": [
+              [
+                {
+                  "defined_samples": 256,
+                  "median": 0.722972972972973,
+                  "p05": 0.6859387590652699,
+                  "p95": 0.7605039869147414
+                },
+                {
+                  "defined_samples": 256,
+                  "median": 0.27702702702702703,
+                  "p05": 0.23949601308525864,
+                  "p95": 0.31406124093473003
+                }
+              ],
+              [
+                {
+                  "defined_samples": 256,
+                  "median": 0.2616671852082315,
+                  "p05": 0.23798260081209072,
+                  "p95": 0.28532748839608046
+                },
+                {
+                  "defined_samples": 256,
+                  "median": 0.7383328147917685,
+                  "p05": 0.7146725116039196,
+                  "p95": 0.7620173991879093
+                }
+              ]
+            ],
+            "expected_state_switch_probability": {
+              "defined_samples": 256,
+              "median": 0.26957366076285805,
+              "p05": 0.2436354642259508,
+              "p95": 0.2901345430659444
+            },
+            "mean_dwell_length_steps": [
+              {
+                "defined_samples": 256,
+                "median": 2.3846153846153846,
+                "p05": 2.189915966386555,
+                "p95": 2.5610256410256413
+              },
+              {
+                "defined_samples": 256,
+                "median": 2.2861319966583125,
+                "p05": 2.1155880031570637,
+                "p95": 2.486335750139431
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "id_switch_2",
+      "corruption": "id_switch",
+      "severity": 2,
+      "sequence_id": "01",
+      "candidate_edges": 721,
+      "exact_context": {
+        "invariants_pass": true,
+        "violation_sample_indices": [],
+        "posterior_summary": {
+          "sample_count": 256,
+          "migration": {
+            "mean_speed_px_per_frame": {
+              "defined_samples": 256,
+              "median": 3.173300685380088,
+              "p05": 3.0373629049675825,
+              "p95": 3.3111940606729338
+            },
+            "median_speed_px_per_frame": {
+              "defined_samples": 256,
+              "median": 2.23606797749979,
+              "p05": 2.0544008487464205,
+              "p95": 2.49209579106941
+            },
+            "mean_net_displacement_px": {
+              "defined_samples": 256,
+              "median": 10.23623479926723,
+              "p05": 9.139945974792537,
+              "p95": 11.443522888907022
+            },
+            "mean_track_length": {
+              "defined_samples": 256,
+              "median": 4.157608695652174,
+              "p05": 3.820242537313433,
+              "p95": 4.580838323353293
+            },
+            "median_track_length": {
+              "defined_samples": 256,
+              "median": 3.0,
+              "p05": 2.0,
+              "p95": 3.0
+            },
+            "directional_persistence": {
+              "defined_samples": 256,
+              "median": 0.48270664460087753,
+              "p05": 0.43579290902309314,
+              "p95": 0.5272247593293861
+            }
+          },
+          "mean_squared_displacement_px2": {
+            "1": {
+              "defined_samples": 256,
+              "median": 21.64165868246867,
+              "p05": 19.894764206221232,
+              "p95": 23.482411674426444
+            },
+            "2": {
+              "defined_samples": 256,
+              "median": 53.382745511456875,
+              "p05": 47.091490222941545,
+              "p95": 59.689096643519186
+            },
+            "3": {
+              "defined_samples": 256,
+              "median": 89.28582026396866,
+              "p05": 75.33560821376503,
+              "p95": 105.52664135438731
+            }
+          },
+          "hmm_2state": {
+            "defined_samples": 256,
+            "status": "ok",
+            "state_occupancy": [
+              {
+                "defined_samples": 256,
+                "median": 0.32108275456583246,
+                "p05": 0.30187883801584525,
+                "p95": 0.33954385913810936
+              },
+              {
+                "defined_samples": 256,
+                "median": 0.6789172454341674,
+                "p05": 0.6604561408618906,
+                "p95": 0.6981211619841547
+              }
+            ],
+            "transition_matrix": [
+              [
+                {
+                  "defined_samples": 256,
+                  "median": 0.7228915662650602,
+                  "p05": 0.6915329848594087,
+                  "p95": 0.7587144269288799
+                },
+                {
+                  "defined_samples": 256,
+                  "median": 0.27710843373493976,
+                  "p05": 0.24128557307112014,
+                  "p95": 0.3084670151405912
+                }
+              ],
+              [
+                {
+                  "defined_samples": 256,
+                  "median": 0.26289282389964985,
+                  "p05": 0.23675320056899002,
+                  "p95": 0.2862099427318143
+                },
+                {
+                  "defined_samples": 256,
+                  "median": 0.7371071761003501,
+                  "p05": 0.7137900572681857,
+                  "p95": 0.7632467994310099
+                }
+              ]
+            ],
+            "expected_state_switch_probability": {
+              "defined_samples": 256,
+              "median": 0.2683553179693986,
+              "p05": 0.24516095797833223,
+              "p95": 0.2916484127001826
+            },
+            "mean_dwell_length_steps": [
+              {
+                "defined_samples": 256,
+                "median": 2.3815789473684212,
+                "p05": 2.1619984567901236,
+                "p95": 2.575873046498167
+              },
+              {
+                "defined_samples": 256,
+                "median": 2.2890173410404624,
+                "p05": 2.092896174863388,
+                "p95": 2.4351533082302312
+              }
+            ]
+          }
+        },
+        "component_count": 796,
+        "maximum_component_targets": 1
+      },
+      "sampled_stage_a": {
+        "invariants_pass": true,
+        "violation_sample_indices": [],
+        "posterior_summary": {
+          "sample_count": 256,
+          "migration": {
+            "mean_speed_px_per_frame": {
+              "defined_samples": 256,
+              "median": 3.1669171757603145,
+              "p05": 3.041453569100321,
+              "p95": 3.3090097495896704
+            },
+            "median_speed_px_per_frame": {
+              "defined_samples": 256,
+              "median": 2.23606797749979,
+              "p05": 2.0570828352698243,
+              "p95": 2.4922478271000132
+            },
+            "mean_net_displacement_px": {
+              "defined_samples": 256,
+              "median": 10.237183940891327,
+              "p05": 9.160003735222924,
+              "p95": 11.518608314267983
+            },
+            "mean_track_length": {
+              "defined_samples": 256,
+              "median": 4.180327868852459,
+              "p05": 3.8059701492537314,
+              "p95": 4.5877371762499095
+            },
+            "median_track_length": {
+              "defined_samples": 256,
+              "median": 3.0,
+              "p05": 2.0,
+              "p95": 3.0
+            },
+            "directional_persistence": {
+              "defined_samples": 256,
+              "median": 0.4804063831357629,
+              "p05": 0.44138558119628823,
+              "p95": 0.5268424293853355
+            }
+          },
+          "mean_squared_displacement_px2": {
+            "1": {
+              "defined_samples": 256,
+              "median": 21.67872177629472,
+              "p05": 19.868402542659695,
+              "p95": 23.69026457308348
+            },
+            "2": {
+              "defined_samples": 256,
+              "median": 53.50677845260953,
+              "p05": 48.03466492252891,
+              "p95": 60.120832321619545
+            },
+            "3": {
+              "defined_samples": 256,
+              "median": 89.45810436322594,
+              "p05": 77.66417585688653,
+              "p95": 106.32113487175009
+            }
+          },
+          "hmm_2state": {
+            "defined_samples": 256,
+            "status": "ok",
+            "state_occupancy": [
+              {
+                "defined_samples": 256,
+                "median": 0.32078691480455923,
+                "p05": 0.30352476730947026,
+                "p95": 0.3393145720522438
+              },
+              {
+                "defined_samples": 256,
+                "median": 0.6792130851954408,
+                "p05": 0.6606854279477563,
+                "p95": 0.6964752326905298
+              }
+            ],
+            "transition_matrix": [
+              [
+                {
+                  "defined_samples": 256,
+                  "median": 0.7228287841191067,
+                  "p05": 0.6912457912457912,
+                  "p95": 0.7590714167903678
+                },
+                {
+                  "defined_samples": 256,
+                  "median": 0.27717121588089333,
+                  "p05": 0.24092858320963217,
+                  "p95": 0.3087542087542087
+                }
+              ],
+              [
+                {
+                  "defined_samples": 256,
+                  "median": 0.26158940397350994,
+                  "p05": 0.23999533876496693,
+                  "p95": 0.2839239187076602
+                },
+                {
+                  "defined_samples": 256,
+                  "median": 0.7384105960264901,
+                  "p05": 0.7160760812923398,
+                  "p95": 0.7600046612350331
+                }
+              ]
+            ],
+            "expected_state_switch_probability": {
+              "defined_samples": 256,
+              "median": 0.2673345729222891,
+              "p05": 0.24482764622895484,
+              "p95": 0.2907707911793024
+            },
+            "mean_dwell_length_steps": [
+              {
+                "defined_samples": 256,
+                "median": 2.36536248561565,
+                "p05": 2.1809451219512197,
+                "p95": 2.6077232295586725
+              },
+              {
+                "defined_samples": 256,
+                "median": 2.2844756399669697,
+                "p05": 2.121214865803218,
+                "p95": 2.454391380093925
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "wrong_link_1",
+      "corruption": "wrong_link",
+      "severity": 1,
+      "sequence_id": "01",
+      "candidate_edges": 721,
+      "exact_context": {
+        "invariants_pass": true,
+        "violation_sample_indices": [],
+        "posterior_summary": {
+          "sample_count": 256,
+          "migration": {
+            "mean_speed_px_per_frame": {
+              "defined_samples": 256,
+              "median": 3.163061240034998,
+              "p05": 3.032112565749176,
+              "p95": 3.3105465113189463
+            },
+            "median_speed_px_per_frame": {
+              "defined_samples": 256,
+              "median": 2.23606797749979,
+              "p05": 2.0544008487464205,
+              "p95": 2.4924122218757514
+            },
+            "mean_net_displacement_px": {
+              "defined_samples": 256,
+              "median": 10.193986113987487,
+              "p05": 9.134599831152638,
+              "p95": 11.268121236705717
+            },
+            "mean_track_length": {
+              "defined_samples": 256,
+              "median": 4.112903225806452,
+              "p05": 3.787128712871287,
+              "p95": 4.506656804733728
+            },
+            "median_track_length": {
+              "defined_samples": 256,
+              "median": 3.0,
+              "p05": 2.0,
+              "p95": 3.0
+            },
+            "directional_persistence": {
+              "defined_samples": 256,
+              "median": 0.48787881570886626,
+              "p05": 0.4389012158180199,
+              "p95": 0.5382889189205002
+            }
+          },
+          "mean_squared_displacement_px2": {
+            "1": {
+              "defined_samples": 256,
+              "median": 21.53200680698848,
+              "p05": 19.66049703887902,
+              "p95": 23.5812818613662
+            },
+            "2": {
+              "defined_samples": 256,
+              "median": 53.5913332967905,
+              "p05": 47.50361451732516,
+              "p95": 59.29637883086548
+            },
+            "3": {
+              "defined_samples": 256,
+              "median": 90.46332053000629,
+              "p05": 76.99965207905913,
+              "p95": 103.34277371578831
+            }
+          },
+          "hmm_2state": {
+            "defined_samples": 256,
+            "status": "ok",
+            "state_occupancy": [
+              {
+                "defined_samples": 256,
+                "median": 0.32065678599175285,
+                "p05": 0.3018437403066164,
+                "p95": 0.3413897687204924
+              },
+              {
+                "defined_samples": 256,
+                "median": 0.6793432140082472,
+                "p05": 0.6586102312795076,
+                "p95": 0.6981562596933836
+              }
+            ],
+            "transition_matrix": [
+              [
+                {
+                  "defined_samples": 256,
+                  "median": 0.7218543046357616,
+                  "p05": 0.6912751677852349,
+                  "p95": 0.7635800170248989
+                },
+                {
+                  "defined_samples": 256,
+                  "median": 0.2781456953642384,
+                  "p05": 0.23641998297510108,
+                  "p95": 0.3087248322147651
+                }
+              ],
+              [
+                {
+                  "defined_samples": 256,
+                  "median": 0.26298139576686286,
+                  "p05": 0.24163313533882608,
+                  "p95": 0.28668941979522183
+                },
+                {
+                  "defined_samples": 256,
+                  "median": 0.737018604233137,
+                  "p05": 0.7133105802047781,
+                  "p95": 0.7583668646611739
+                }
+              ]
+            ],
+            "expected_state_switch_probability": {
+              "defined_samples": 256,
+              "median": 0.2692529616594586,
+              "p05": 0.2439180033038047,
+              "p95": 0.2920673822034954
+            },
+            "mean_dwell_length_steps": [
+              {
+                "defined_samples": 256,
+                "median": 2.3636029411764703,
+                "p05": 2.1676824946846205,
+                "p95": 2.5733333333333333
+              },
+              {
+                "defined_samples": 256,
+                "median": 2.28,
+                "p05": 2.10602912113462,
+                "p95": 2.4393873403019746
+              }
+            ]
+          }
+        },
+        "component_count": 796,
+        "maximum_component_targets": 1
+      },
+      "sampled_stage_a": {
+        "invariants_pass": true,
+        "violation_sample_indices": [],
+        "posterior_summary": {
+          "sample_count": 256,
+          "migration": {
+            "mean_speed_px_per_frame": {
+              "defined_samples": 256,
+              "median": 3.180372613530169,
+              "p05": 3.0512039048562998,
+              "p95": 3.3046988400544466
+            },
+            "median_speed_px_per_frame": {
+              "defined_samples": 256,
+              "median": 2.2449144065437148,
+              "p05": 2.0484947381609193,
+              "p95": 2.498935747785775
+            },
+            "mean_net_displacement_px": {
+              "defined_samples": 256,
+              "median": 10.264681920042989,
+              "p05": 9.094969062484733,
+              "p95": 11.415972004170696
+            },
+            "mean_track_length": {
+              "defined_samples": 256,
+              "median": 4.157608695652174,
+              "p05": 3.80125979015812,
+              "p95": 4.506656804733728
+            },
+            "median_track_length": {
+              "defined_samples": 256,
+              "median": 3.0,
+              "p05": 2.0,
+              "p95": 3.0
+            },
+            "directional_persistence": {
+              "defined_samples": 256,
+              "median": 0.4832432025183183,
+              "p05": 0.4449265889997643,
+              "p95": 0.5250667173970502
+            }
+          },
+          "mean_squared_displacement_px2": {
+            "1": {
+              "defined_samples": 256,
+              "median": 21.641212746642253,
+              "p05": 20.03016886025947,
+              "p95": 23.46984855973956
+            },
+            "2": {
+              "defined_samples": 256,
+              "median": 54.086312959887834,
+              "p05": 47.761630210488335,
+              "p95": 60.92093693338245
+            },
+            "3": {
+              "defined_samples": 256,
+              "median": 90.64356813921933,
+              "p05": 75.23584183036192,
+              "p95": 106.09820246815035
+            }
+          },
+          "hmm_2state": {
+            "defined_samples": 256,
+            "status": "ok",
+            "state_occupancy": [
+              {
+                "defined_samples": 256,
+                "median": 0.3196161078849121,
+                "p05": 0.29908558832471877,
+                "p95": 0.3375036175959869
+              },
+              {
+                "defined_samples": 256,
+                "median": 0.6803838921150879,
+                "p05": 0.6624963824040131,
+                "p95": 0.7009144116752812
+              }
+            ],
+            "transition_matrix": [
+              [
+                {
+                  "defined_samples": 256,
+                  "median": 0.7222222222222222,
+                  "p05": 0.6899029311001141,
+                  "p95": 0.76
+                },
+                {
+                  "defined_samples": 256,
+                  "median": 0.2777777777777778,
+                  "p05": 0.24,
+                  "p95": 0.31009706889988575
+                }
+              ],
+              [
+                {
+                  "defined_samples": 256,
+                  "median": 0.2635953468145249,
+                  "p05": 0.2378813063204332,
+                  "p95": 0.28618697944355836
+                },
+                {
+                  "defined_samples": 256,
+                  "median": 0.7364046531854751,
+                  "p05": 0.7138130205564416,
+                  "p95": 0.7621186936795667
+                }
+              ]
+            ],
+            "expected_state_switch_probability": {
+              "defined_samples": 256,
+              "median": 0.26937971894452856,
+              "p05": 0.2404438456087652,
+              "p95": 0.2924166970983663
+            },
+            "mean_dwell_length_steps": [
+              {
+                "defined_samples": 256,
+                "median": 2.36139197842939,
+                "p05": 2.1697154471544717,
+                "p95": 2.56
+              },
+              {
+                "defined_samples": 256,
+                "median": 2.2934443795051624,
+                "p05": 2.10622074588555,
+                "p95": 2.4644248809351996
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "wrong_link_2",
+      "corruption": "wrong_link",
+      "severity": 2,
+      "sequence_id": "01",
+      "candidate_edges": 721,
+      "exact_context": {
+        "invariants_pass": true,
+        "violation_sample_indices": [],
+        "posterior_summary": {
+          "sample_count": 256,
+          "migration": {
+            "mean_speed_px_per_frame": {
+              "defined_samples": 256,
+              "median": 3.1742972899434103,
+              "p05": 3.0457103048000596,
+              "p95": 3.309983781599573
+            },
+            "median_speed_px_per_frame": {
+              "defined_samples": 256,
+              "median": 2.26604883259498,
+              "p05": 2.0484947381609193,
+              "p95": 2.49209579106941
+            },
+            "mean_net_displacement_px": {
+              "defined_samples": 256,
+              "median": 10.28217314439139,
+              "p05": 9.16932280869063,
+              "p95": 11.484103609509091
+            },
+            "mean_track_length": {
+              "defined_samples": 256,
+              "median": 4.157608695652174,
+              "p05": 3.8394158291457288,
+              "p95": 4.553571428571429
+            },
+            "median_track_length": {
+              "defined_samples": 256,
+              "median": 3.0,
+              "p05": 2.0,
+              "p95": 3.0
+            },
+            "directional_persistence": {
+              "defined_samples": 256,
+              "median": 0.4858628659770104,
+              "p05": 0.4415342153928495,
+              "p95": 0.529167016463738
+            }
+          },
+          "mean_squared_displacement_px2": {
+            "1": {
+              "defined_samples": 256,
+              "median": 21.63591460799177,
+              "p05": 20.084571440945044,
+              "p95": 23.64727986565249
+            },
+            "2": {
+              "defined_samples": 256,
+              "median": 53.782284118045325,
+              "p05": 48.12264894270964,
+              "p95": 59.74676621238098
+            },
+            "3": {
+              "defined_samples": 256,
+              "median": 91.02264268666167,
+              "p05": 76.47365651325981,
+              "p95": 106.18548736853145
+            }
+          },
+          "hmm_2state": {
+            "defined_samples": 256,
+            "status": "ok",
+            "state_occupancy": [
+              {
+                "defined_samples": 256,
+                "median": 0.31924037132370464,
+                "p05": 0.297558445172394,
+                "p95": 0.3390780124948633
+              },
+              {
+                "defined_samples": 256,
+                "median": 0.6807596286762954,
+                "p05": 0.6609219875051368,
+                "p95": 0.702441554827606
+              }
+            ],
+            "transition_matrix": [
+              [
+                {
+                  "defined_samples": 256,
+                  "median": 0.7256390193009912,
+                  "p05": 0.6916445623342176,
+                  "p95": 0.7644894534995206
+                },
+                {
+                  "defined_samples": 256,
+                  "median": 0.2743609806990089,
+                  "p05": 0.23551054650047937,
+                  "p95": 0.3083554376657825
+                }
+              ],
+              [
+                {
+                  "defined_samples": 256,
+                  "median": 0.25880325348410455,
+                  "p05": 0.23976919881046094,
+                  "p95": 0.28520173386891745
+                },
+                {
+                  "defined_samples": 256,
+                  "median": 0.7411967465158955,
+                  "p05": 0.7147982661310825,
+                  "p95": 0.760230801189539
+                }
+              ]
+            ],
+            "expected_state_switch_probability": {
+              "defined_samples": 256,
+              "median": 0.26631823311047703,
+              "p05": 0.24414492086274547,
+              "p95": 0.28986934674133585
+            },
+            "mean_dwell_length_steps": [
+              {
+                "defined_samples": 256,
+                "median": 2.3741666666666665,
+                "p05": 2.1649675625579237,
+                "p95": 2.5614473684210526
+              },
+              {
+                "defined_samples": 256,
+                "median": 2.2988505747126435,
+                "p05": 2.119848745584639,
+                "p95": 2.457512892639475
+              }
+            ]
+          }
+        },
+        "component_count": 796,
+        "maximum_component_targets": 1
+      },
+      "sampled_stage_a": {
+        "invariants_pass": true,
+        "violation_sample_indices": [],
+        "posterior_summary": {
+          "sample_count": 256,
+          "migration": {
+            "mean_speed_px_per_frame": {
+              "defined_samples": 256,
+              "median": 3.1740335025662527,
+              "p05": 3.042232878737026,
+              "p95": 3.2977909807209693
+            },
+            "median_speed_px_per_frame": {
+              "defined_samples": 256,
+              "median": 2.23606797749979,
+              "p05": 2.0,
+              "p95": 2.4870798505550886
+            },
+            "mean_net_displacement_px": {
+              "defined_samples": 256,
+              "median": 10.226692718827811,
+              "p05": 9.314028822912809,
+              "p95": 11.514133998994787
+            },
+            "mean_track_length": {
+              "defined_samples": 256,
+              "median": 4.135135135135135,
+              "p05": 3.8059701492537314,
+              "p95": 4.608433734939759
+            },
+            "median_track_length": {
+              "defined_samples": 256,
+              "median": 3.0,
+              "p05": 2.0,
+              "p95": 3.0
+            },
+            "directional_persistence": {
+              "defined_samples": 256,
+              "median": 0.4829241626744076,
+              "p05": 0.4444346677468406,
+              "p95": 0.5259284419224346
+            }
+          },
+          "mean_squared_displacement_px2": {
+            "1": {
+              "defined_samples": 256,
+              "median": 21.5628065470844,
+              "p05": 19.90180735531749,
+              "p95": 23.438715241847945
+            },
+            "2": {
+              "defined_samples": 256,
+              "median": 53.72389472378188,
+              "p05": 48.09950876294795,
+              "p95": 60.427725563874894
+            },
+            "3": {
+              "defined_samples": 256,
+              "median": 90.19580059368636,
+              "p05": 77.7433685275705,
+              "p95": 105.28436513056032
+            }
+          },
+          "hmm_2state": {
+            "defined_samples": 256,
+            "status": "ok",
+            "state_occupancy": [
+              {
+                "defined_samples": 256,
+                "median": 0.3207729513133474,
+                "p05": 0.30248438953102164,
+                "p95": 0.3381448608271212
+              },
+              {
+                "defined_samples": 256,
+                "median": 0.6792270486866527,
+                "p05": 0.6618551391728789,
+                "p95": 0.6975156104689784
+              }
+            ],
+            "transition_matrix": [
+              [
+                {
+                  "defined_samples": 256,
+                  "median": 0.7249142604270384,
+                  "p05": 0.689266175805191,
+                  "p95": 0.7576719576719577
+                },
+                {
+                  "defined_samples": 256,
+                  "median": 0.2750857395729616,
+                  "p05": 0.24232804232804234,
+                  "p95": 0.3107338241948089
+                }
+              ],
+              [
+                {
+                  "defined_samples": 256,
+                  "median": 0.26198686371100166,
+                  "p05": 0.24055555555555555,
+                  "p95": 0.28548094481466546
+                },
+                {
+                  "defined_samples": 256,
+                  "median": 0.7380131362889983,
+                  "p05": 0.7145190551853345,
+                  "p95": 0.7594444444444445
+                }
+              ]
+            ],
+            "expected_state_switch_probability": {
+              "defined_samples": 256,
+              "median": 0.2675361182560816,
+              "p05": 0.24289413911939925,
+              "p95": 0.294273950218929
+            },
+            "mean_dwell_length_steps": [
+              {
+                "defined_samples": 256,
+                "median": 2.363544303797468,
+                "p05": 2.1627906976744184,
+                "p95": 2.5773401826484017
+              },
+              {
+                "defined_samples": 256,
+                "median": 2.2882059800664454,
+                "p05": 2.1159217877094973,
+                "p95": 2.4736175796555036
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "false_positive_5",
+      "corruption": "false_positive",
+      "severity": 5,
+      "sequence_id": "01",
+      "candidate_edges": 721,
+      "exact_context": {
+        "invariants_pass": true,
+        "violation_sample_indices": [],
+        "posterior_summary": {
+          "sample_count": 256,
+          "migration": {
+            "mean_speed_px_per_frame": {
+              "defined_samples": 256,
+              "median": 3.171376174274937,
+              "p05": 3.045094605397776,
+              "p95": 3.3222321924020526
+            },
+            "median_speed_px_per_frame": {
+              "defined_samples": 256,
+              "median": 2.23606797749979,
+              "p05": 2.0476007426531178,
+              "p95": 2.49209579106941
+            },
+            "mean_net_displacement_px": {
+              "defined_samples": 256,
+              "median": 10.314510152137652,
+              "p05": 9.205890127110216,
+              "p95": 11.34692136911687
+            },
+            "mean_track_length": {
+              "defined_samples": 256,
+              "median": 4.042022595756407,
+              "p05": 3.737864077669903,
+              "p95": 4.4
+            },
+            "median_track_length": {
+              "defined_samples": 256,
+              "median": 3.0,
+              "p05": 2.0,
+              "p95": 3.0
+            },
+            "directional_persistence": {
+              "defined_samples": 256,
+              "median": 0.48667201850830677,
+              "p05": 0.44237067594555446,
+              "p95": 0.5346500120314539
+            }
+          },
+          "mean_squared_displacement_px2": {
+            "1": {
+              "defined_samples": 256,
+              "median": 21.730637531590666,
+              "p05": 19.85318132523145,
+              "p95": 23.735639888294827
+            },
+            "2": {
+              "defined_samples": 256,
+              "median": 54.432859499444426,
+              "p05": 48.35449694748785,
+              "p95": 60.682510135545385
+            },
+            "3": {
+              "defined_samples": 256,
+              "median": 91.94441196725934,
+              "p05": 77.27715176264066,
+              "p95": 104.97879096204174
+            }
+          },
+          "hmm_2state": {
+            "defined_samples": 256,
+            "status": "ok",
+            "state_occupancy": [
+              {
+                "defined_samples": 256,
+                "median": 0.32090367428003974,
+                "p05": 0.3007728358343472,
+                "p95": 0.33680191851811014
+              },
+              {
+                "defined_samples": 256,
+                "median": 0.6790963257199603,
+                "p05": 0.6631980814818899,
+                "p95": 0.6992271641656527
+              }
+            ],
+            "transition_matrix": [
+              [
+                {
+                  "defined_samples": 256,
+                  "median": 0.7241197856869499,
+                  "p05": 0.6923076923076923,
+                  "p95": 0.7638069627573445
+                },
+                {
+                  "defined_samples": 256,
+                  "median": 0.27588021431305015,
+                  "p05": 0.23619303724265556,
+                  "p95": 0.3076923076923077
+                }
+              ],
+              [
+                {
+                  "defined_samples": 256,
+                  "median": 0.26242283950617284,
+                  "p05": 0.23782114013485467,
+                  "p95": 0.2853460972017673
+                },
+                {
+                  "defined_samples": 256,
+                  "median": 0.7375771604938272,
+                  "p05": 0.7146539027982327,
+                  "p95": 0.7621788598651453
+                }
+              ]
+            ],
+            "expected_state_switch_probability": {
+              "defined_samples": 256,
+              "median": 0.268384126053715,
+              "p05": 0.24114902427162424,
+              "p95": 0.29262193601141867
+            },
+            "mean_dwell_length_steps": [
+              {
+                "defined_samples": 256,
+                "median": 2.361972891566265,
+                "p05": 2.176516043567854,
+                "p95": 2.570548523206751
+              },
+              {
+                "defined_samples": 256,
+                "median": 2.290235200845666,
+                "p05": 2.130969351389879,
+                "p95": 2.4647787028922
+              }
+            ]
+          }
+        },
+        "component_count": 806,
+        "maximum_component_targets": 1
+      },
+      "sampled_stage_a": {
+        "invariants_pass": true,
+        "violation_sample_indices": [],
+        "posterior_summary": {
+          "sample_count": 256,
+          "migration": {
+            "mean_speed_px_per_frame": {
+              "defined_samples": 256,
+              "median": 3.1787199270869797,
+              "p05": 3.0466594865456145,
+              "p95": 3.3189677163495563
+            },
+            "median_speed_px_per_frame": {
+              "defined_samples": 256,
+              "median": 2.2537608355876397,
+              "p05": 2.0204003182799077,
+              "p95": 2.4870798505550886
+            },
+            "mean_net_displacement_px": {
+              "defined_samples": 256,
+              "median": 10.19141523536932,
+              "p05": 9.281197749756723,
+              "p95": 11.41634206106469
+            },
+            "mean_track_length": {
+              "defined_samples": 256,
+              "median": 4.063352826510721,
+              "p05": 3.7333497490736836,
+              "p95": 4.425287356321839
+            },
+            "median_track_length": {
+              "defined_samples": 256,
+              "median": 3.0,
+              "p05": 2.0,
+              "p95": 3.0
+            },
+            "directional_persistence": {
+              "defined_samples": 256,
+              "median": 0.4878332911762389,
+              "p05": 0.44534444702999987,
+              "p95": 0.5310601644986214
+            }
+          },
+          "mean_squared_displacement_px2": {
+            "1": {
+              "defined_samples": 256,
+              "median": 21.740070467004838,
+              "p05": 19.91513795154022,
+              "p95": 23.64361414123298
+            },
+            "2": {
+              "defined_samples": 256,
+              "median": 54.12532276097188,
+              "p05": 48.15369377110821,
+              "p95": 60.3845522468264
+            },
+            "3": {
+              "defined_samples": 256,
+              "median": 91.07304673916877,
+              "p05": 77.77362763392036,
+              "p95": 109.52654820618525
+            }
+          },
+          "hmm_2state": {
+            "defined_samples": 256,
+            "status": "ok",
+            "state_occupancy": [
+              {
+                "defined_samples": 256,
+                "median": 0.32,
+                "p05": 0.30183882315318195,
+                "p95": 0.3408507185973396
+              },
+              {
+                "defined_samples": 256,
+                "median": 0.68,
+                "p05": 0.6591492814026603,
+                "p95": 0.698161176846818
+              }
+            ],
+            "transition_matrix": [
+              [
+                {
+                  "defined_samples": 256,
+                  "median": 0.723404255319149,
+                  "p05": 0.6885421069935653,
+                  "p95": 0.7602173913043478
+                },
+                {
+                  "defined_samples": 256,
+                  "median": 0.2765957446808511,
+                  "p05": 0.23978260869565216,
+                  "p95": 0.3114578930064346
+                }
+              ],
+              [
+                {
+                  "defined_samples": 256,
+                  "median": 0.26218161683277963,
+                  "p05": 0.23715459409815118,
+                  "p95": 0.2857142857142857
+                },
+                {
+                  "defined_samples": 256,
+                  "median": 0.7378183831672204,
+                  "p05": 0.7142857142857143,
+                  "p95": 0.7628454059018488
+                }
+              ]
+            ],
+            "expected_state_switch_probability": {
+              "defined_samples": 256,
+              "median": 0.26990074974390743,
+              "p05": 0.2425913547237077,
+              "p95": 0.2922234907014954
+            },
+            "mean_dwell_length_steps": [
+              {
+                "defined_samples": 256,
+                "median": 2.3594871794871795,
+                "p05": 2.1625,
+                "p95": 2.584760273972603
+              },
+              {
+                "defined_samples": 256,
+                "median": 2.282794967698062,
+                "p05": 2.1144714224323162,
+                "p95": 2.4486390854654325
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "false_positive_10",
+      "corruption": "false_positive",
+      "severity": 10,
+      "sequence_id": "01",
+      "candidate_edges": 721,
+      "exact_context": {
+        "invariants_pass": true,
+        "violation_sample_indices": [],
+        "posterior_summary": {
+          "sample_count": 256,
+          "migration": {
+            "mean_speed_px_per_frame": {
+              "defined_samples": 256,
+              "median": 3.1711215276969384,
+              "p05": 3.0414150743264017,
+              "p95": 3.2996925911878963
+            },
+            "median_speed_px_per_frame": {
+              "defined_samples": 256,
+              "median": 2.23606797749979,
+              "p05": 2.0204003182799077,
+              "p95": 2.5
+            },
+            "mean_net_displacement_px": {
+              "defined_samples": 256,
+              "median": 10.226037980019644,
+              "p05": 9.275029023827596,
+              "p95": 11.30053895927767
+            },
+            "mean_track_length": {
+              "defined_samples": 256,
+              "median": 3.954081632653061,
+              "p05": 3.708133971291866,
+              "p95": 4.305555555555555
+            },
+            "median_track_length": {
+              "defined_samples": 256,
+              "median": 3.0,
+              "p05": 2.0,
+              "p95": 3.0
+            },
+            "directional_persistence": {
+              "defined_samples": 256,
+              "median": 0.4851087469731211,
+              "p05": 0.44572785092099104,
+              "p95": 0.5307319414572336
+            }
+          },
+          "mean_squared_displacement_px2": {
+            "1": {
+              "defined_samples": 256,
+              "median": 21.68410527227257,
+              "p05": 19.98715458323476,
+              "p95": 23.483711979056565
+            },
+            "2": {
+              "defined_samples": 256,
+              "median": 54.19958483743524,
+              "p05": 48.4878655064829,
+              "p95": 60.61742803698307
+            },
+            "3": {
+              "defined_samples": 256,
+              "median": 90.66625669085502,
+              "p05": 77.2254126404179,
+              "p95": 105.41542242920913
+            }
+          },
+          "hmm_2state": {
+            "defined_samples": 256,
+            "status": "ok",
+            "state_occupancy": [
+              {
+                "defined_samples": 256,
+                "median": 0.31881493442438846,
+                "p05": 0.30199781380096286,
+                "p95": 0.3409693238894074
+              },
+              {
+                "defined_samples": 256,
+                "median": 0.6811850655756115,
+                "p05": 0.6590306761105926,
+                "p95": 0.6980021861990372
+              }
+            ],
+            "transition_matrix": [
+              [
+                {
+                  "defined_samples": 256,
+                  "median": 0.7282563025210084,
+                  "p05": 0.6869338422391857,
+                  "p95": 0.7635800170248989
+                },
+                {
+                  "defined_samples": 256,
+                  "median": 0.2717436974789916,
+                  "p05": 0.23641998297510108,
+                  "p95": 0.31306615776081426
+                }
+              ],
+              [
+                {
+                  "defined_samples": 256,
+                  "median": 0.2602045538689374,
+                  "p05": 0.2366755247678481,
+                  "p95": 0.2821990940465919
+                },
+                {
+                  "defined_samples": 256,
+                  "median": 0.7397954461310625,
+                  "p05": 0.7178009059534081,
+                  "p95": 0.763324475232152
+                }
+              ]
+            ],
+            "expected_state_switch_probability": {
+              "defined_samples": 256,
+              "median": 0.26510692805084457,
+              "p05": 0.244898049045876,
+              "p95": 0.29009311644247865
+            },
+            "mean_dwell_length_steps": [
+              {
+                "defined_samples": 256,
+                "median": 2.373397435897436,
+                "p05": 2.1930791347207013,
+                "p95": 2.5704125177809387
+              },
+              {
+                "defined_samples": 256,
+                "median": 2.2882212453705306,
+                "p05": 2.1268972739967213,
+                "p95": 2.4459444922547333
+              }
+            ]
+          }
+        },
+        "component_count": 816,
+        "maximum_component_targets": 1
+      },
+      "sampled_stage_a": {
+        "invariants_pass": true,
+        "violation_sample_indices": [],
+        "posterior_summary": {
+          "sample_count": 256,
+          "migration": {
+            "mean_speed_px_per_frame": {
+              "defined_samples": 256,
+              "median": 3.1707398306870145,
+              "p05": 3.043211744008951,
+              "p95": 3.3114171420869365
+            },
+            "median_speed_px_per_frame": {
+              "defined_samples": 256,
+              "median": 2.23606797749979,
+              "p05": 2.0,
+              "p95": 2.4987837117551717
+            },
+            "mean_net_displacement_px": {
+              "defined_samples": 256,
+              "median": 10.25509904721207,
+              "p05": 9.205094050813154,
+              "p95": 11.365892856273618
+            },
+            "mean_track_length": {
+              "defined_samples": 256,
+              "median": 3.9948453608247423,
+              "p05": 3.6556603773584904,
+              "p95": 4.329608938547486
+            },
+            "median_track_length": {
+              "defined_samples": 256,
+              "median": 3.0,
+              "p05": 2.0,
+              "p95": 3.0
+            },
+            "directional_persistence": {
+              "defined_samples": 256,
+              "median": 0.4879583365109886,
+              "p05": 0.4388003549858964,
+              "p95": 0.5314098172396564
+            }
+          },
+          "mean_squared_displacement_px2": {
+            "1": {
+              "defined_samples": 256,
+              "median": 21.682137919793224,
+              "p05": 19.867692423272857,
+              "p95": 23.529047220581006
+            },
+            "2": {
+              "defined_samples": 256,
+              "median": 54.03810362492396,
+              "p05": 48.174541524422736,
+              "p95": 59.68407258195031
+            },
+            "3": {
+              "defined_samples": 256,
+              "median": 90.6563483581871,
+              "p05": 77.58486522955415,
+              "p95": 104.5123854562455
+            }
+          },
+          "hmm_2state": {
+            "defined_samples": 256,
+            "status": "ok",
+            "state_occupancy": [
+              {
+                "defined_samples": 256,
+                "median": 0.3202054794520548,
+                "p05": 0.30217618138087154,
+                "p95": 0.33694382042827636
+              },
+              {
+                "defined_samples": 256,
+                "median": 0.6797945205479452,
+                "p05": 0.6630561795717236,
+                "p95": 0.6978238186191285
+              }
+            ],
+            "transition_matrix": [
+              [
+                {
+                  "defined_samples": 256,
+                  "median": 0.7244983277591973,
+                  "p05": 0.6877985668789809,
+                  "p95": 0.764390756302521
+                },
+                {
+                  "defined_samples": 256,
+                  "median": 0.2755016722408027,
+                  "p05": 0.235609243697479,
+                  "p95": 0.3122014331210191
+                }
+              ],
+              [
+                {
+                  "defined_samples": 256,
+                  "median": 0.2617873097198992,
+                  "p05": 0.23573382841508694,
+                  "p95": 0.2867993079584775
+                },
+                {
+                  "defined_samples": 256,
+                  "median": 0.7382126902801007,
+                  "p05": 0.7132006920415226,
+                  "p95": 0.7642661715849131
+                }
+              ]
+            ],
+            "expected_state_switch_probability": {
+              "defined_samples": 256,
+              "median": 0.26807901789468425,
+              "p05": 0.24132156310161612,
+              "p95": 0.2947270776679686
+            },
+            "mean_dwell_length_steps": [
+              {
+                "defined_samples": 256,
+                "median": 2.365359261700725,
+                "p05": 2.1717983043284246,
+                "p95": 2.569009009009009
+              },
+              {
+                "defined_samples": 256,
+                "median": 2.2885645245559036,
+                "p05": 2.11731843575419,
+                "p95": 2.4507678410117433
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "false_positive_20",
+      "corruption": "false_positive",
+      "severity": 20,
+      "sequence_id": "01",
+      "candidate_edges": 723,
+      "exact_context": {
+        "invariants_pass": true,
+        "violation_sample_indices": [],
+        "posterior_summary": {
+          "sample_count": 256,
+          "migration": {
+            "mean_speed_px_per_frame": {
+              "defined_samples": 256,
+              "median": 3.1914622020190047,
+              "p05": 3.0648971428036123,
+              "p95": 3.3182213113926364
+            },
+            "median_speed_px_per_frame": {
+              "defined_samples": 256,
+              "median": 2.23606797749979,
+              "p05": 2.0579768307776254,
+              "p95": 2.499543891908189
+            },
+            "mean_net_displacement_px": {
+              "defined_samples": 256,
+              "median": 10.368102683542094,
+              "p05": 9.296558423956188,
+              "p95": 11.360028723066346
+            },
+            "mean_track_length": {
+              "defined_samples": 256,
+              "median": 3.8669950738916254,
+              "p05": 3.584474885844749,
+              "p95": 4.175531914893617
+            },
+            "median_track_length": {
+              "defined_samples": 256,
+              "median": 2.0,
+              "p05": 2.0,
+              "p95": 3.0
+            },
+            "directional_persistence": {
+              "defined_samples": 256,
+              "median": 0.4806337100552305,
+              "p05": 0.44485918571730965,
+              "p95": 0.5256912695540785
+            }
+          },
+          "mean_squared_displacement_px2": {
+            "1": {
+              "defined_samples": 256,
+              "median": 21.818248426120675,
+              "p05": 20.054771824723915,
+              "p95": 23.538397356246495
+            },
+            "2": {
+              "defined_samples": 256,
+              "median": 54.06459940134061,
+              "p05": 48.36496168362102,
+              "p95": 60.87938369212503
+            },
+            "3": {
+              "defined_samples": 256,
+              "median": 90.73806423171888,
+              "p05": 77.83297011261207,
+              "p95": 108.14280941903075
+            }
+          },
+          "hmm_2state": {
+            "defined_samples": 256,
+            "status": "ok",
+            "state_occupancy": [
+              {
+                "defined_samples": 256,
+                "median": 0.32033898305084746,
+                "p05": 0.301553148961172,
+                "p95": 0.34014477585906155
+              },
+              {
+                "defined_samples": 256,
+                "median": 0.6796610169491526,
+                "p05": 0.6598552241409383,
+                "p95": 0.698446851038828
+              }
+            ],
+            "transition_matrix": [
+              [
+                {
+                  "defined_samples": 256,
+                  "median": 0.7228003550996251,
+                  "p05": 0.688530813683722,
+                  "p95": 0.7613650929288613
+                },
+                {
+                  "defined_samples": 256,
+                  "median": 0.27719964490037485,
+                  "p05": 0.23863490707113866,
+                  "p95": 0.31146918631627785
+                }
+              ],
+              [
+                {
+                  "defined_samples": 256,
+                  "median": 0.2608695652173913,
+                  "p05": 0.23944771605920737,
+                  "p95": 0.28323170004057374
+                },
+                {
+                  "defined_samples": 256,
+                  "median": 0.7391304347826086,
+                  "p05": 0.7167682999594263,
+                  "p95": 0.7605522839407926
+                }
+              ]
+            ],
+            "expected_state_switch_probability": {
+              "defined_samples": 256,
+              "median": 0.2677219945920108,
+              "p05": 0.24181543155763144,
+              "p95": 0.29061286203224623
+            },
+            "mean_dwell_length_steps": [
+              {
+                "defined_samples": 256,
+                "median": 2.371794871794872,
+                "p05": 2.1755067567567568,
+                "p95": 2.5861486486486487
+              },
+              {
+                "defined_samples": 256,
+                "median": 2.298823405819939,
+                "p05": 2.1345108695652173,
+                "p95": 2.4650781910397295
+              }
+            ]
+          }
+        },
+        "component_count": 834,
+        "maximum_component_targets": 2
+      },
+      "sampled_stage_a": {
+        "invariants_pass": true,
+        "violation_sample_indices": [],
+        "posterior_summary": {
+          "sample_count": 256,
+          "migration": {
+            "mean_speed_px_per_frame": {
+              "defined_samples": 256,
+              "median": 3.1790895401787838,
+              "p05": 3.048571192724507,
+              "p95": 3.318945503610138
+            },
+            "median_speed_px_per_frame": {
+              "defined_samples": 256,
+              "median": 2.23606797749979,
+              "p05": 2.0544008487464205,
+              "p95": 2.5
+            },
+            "mean_net_displacement_px": {
+              "defined_samples": 256,
+              "median": 10.18785185998956,
+              "p05": 9.15522664098727,
+              "p95": 11.399635632424303
+            },
+            "mean_track_length": {
+              "defined_samples": 256,
+              "median": 3.8480392156862746,
+              "p05": 3.5520361990950224,
+              "p95": 4.175531914893617
+            },
+            "median_track_length": {
+              "defined_samples": 256,
+              "median": 2.0,
+              "p05": 2.0,
+              "p95": 3.0
+            },
+            "directional_persistence": {
+              "defined_samples": 256,
+              "median": 0.4885968876353088,
+              "p05": 0.441928814041007,
+              "p95": 0.5334633793346346
+            }
+          },
+          "mean_squared_displacement_px2": {
+            "1": {
+              "defined_samples": 256,
+              "median": 21.697505542530003,
+              "p05": 20.046001284451176,
+              "p95": 23.336254565800076
+            },
+            "2": {
+              "defined_samples": 256,
+              "median": 54.14340366041296,
+              "p05": 48.693078613089845,
+              "p95": 59.782470289328074
+            },
+            "3": {
+              "defined_samples": 256,
+              "median": 91.50464421585336,
+              "p05": 76.27100526183762,
+              "p95": 105.54388929390485
+            }
+          },
+          "hmm_2state": {
+            "defined_samples": 256,
+            "status": "ok",
+            "state_occupancy": [
+              {
+                "defined_samples": 256,
+                "median": 0.3198635121223954,
+                "p05": 0.2978628788664669,
+                "p95": 0.3369776944263245
+              },
+              {
+                "defined_samples": 256,
+                "median": 0.6801364878776046,
+                "p05": 0.6630223055736755,
+                "p95": 0.7021371211335331
+              }
+            ],
+            "transition_matrix": [
+              [
+                {
+                  "defined_samples": 256,
+                  "median": 0.7245955945620375,
+                  "p05": 0.6848395697343017,
+                  "p95": 0.7622328021764477
+                },
+                {
+                  "defined_samples": 256,
+                  "median": 0.2754044054379625,
+                  "p05": 0.23776719782355227,
+                  "p95": 0.31516043026569823
+                }
+              ],
+              [
+                {
+                  "defined_samples": 256,
+                  "median": 0.26178157413056746,
+                  "p05": 0.23831637918325224,
+                  "p95": 0.2872403888643394
+                },
+                {
+                  "defined_samples": 256,
+                  "median": 0.7382184258694326,
+                  "p05": 0.7127596111356607,
+                  "p95": 0.7616836208167478
+                }
+              ]
+            ],
+            "expected_state_switch_probability": {
+              "defined_samples": 256,
+              "median": 0.2685881916723507,
+              "p05": 0.24010787045385784,
+              "p95": 0.294901137642826
+            },
+            "mean_dwell_length_steps": [
+              {
+                "defined_samples": 256,
+                "median": 2.363068181818182,
+                "p05": 2.165625,
+                "p95": 2.581914706914707
+              },
+              {
+                "defined_samples": 256,
+                "median": 2.2836303314293533,
+                "p05": 2.098094816127603,
+                "p95": 2.4468373493975903
+              }
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "warning": "Development-only technical summary. Sequence 02 is excluded; image-derived speed states are not validated biological phenotypes."
+}

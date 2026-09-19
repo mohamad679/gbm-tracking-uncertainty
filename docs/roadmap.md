@@ -34,6 +34,9 @@ association posterior into migration and latent-state summaries using compatible
 trajectory ensembles rather than hard edge cutoffs. Its frozen protocol is
 [`stage-c-protocol.md`](stage-c-protocol.md), and its exact sampler is complete
 with a development-only structural audit
-([`stage-c-step2-exact-sampler.md`](stage-c-step2-exact-sampler.md)). No Stage B
-or Stage C result may be presented as biological validation or as permission to
+([`stage-c-step2-exact-sampler.md`](stage-c-step2-exact-sampler.md)). The
+development-only migration/state summaries and frozen HMM are also complete
+([`stage-c-step3-development-summaries.md`](stage-c-step3-development-summaries.md));
+sequence `02` remains locked for the final Stage C evaluation. No Stage B or
+Stage C result may be presented as biological validation or as permission to
 start operator learning.

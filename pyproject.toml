@@ -45,6 +45,7 @@ gbm-adaptive-tuning-v3 = "gbm_audit.adaptive_tuning_v3:main"
 gbm-stage-a-locked = "gbm_audit.locked_evaluation:main"
 gbm-stage-b-development = "gbm_audit.context_evaluation:main"
 gbm-stage-b-locked = "gbm_audit.context_locked_evaluation:main"
+gbm-stage-c-development = "gbm_audit.stage_c_dynamics:main"
 gbm-soft-dynamics = "gbm_audit.soft_dynamics:main"
 gbm-final-audit = "gbm_audit.final_audit:main"
 
