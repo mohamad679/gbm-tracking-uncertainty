@@ -1,8 +1,11 @@
-# Tested reproducibility environment captured from GitHub Actions on 2026-09-19.
-# Install the package with: python -m pip install -c constraints.txt -e .
-certifi==2026.7.22
-numpy==2.5.3
+# Exact tested dependency set for the supported Python matrix.
+# Install with: python -m pip install -c constraints.txt -e .
+# NumPy 2.5.x no longer ships CPython 3.11 wheels, so 3.11 is pinned to
+# the latest tested 2.4.x line while 3.12-3.13 use the validated 2.5.3 build.
+numpy==2.4.2 ; python_version == "3.11"
+numpy==2.5.3 ; python_version >= "3.12" and python_version < "3.14"
 Pillow==12.3.0
+certifi==2026.7.22
 
-# Development/CI tooling used by the repository.
+# Development/CI tooling.
 coverage==7.16.1
