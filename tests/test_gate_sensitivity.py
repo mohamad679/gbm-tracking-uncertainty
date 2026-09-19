@@ -6,7 +6,10 @@ from gbm_audit.gate_sensitivity import summarize_gate
 class TestGateSensitivity(unittest.TestCase):
     def test_summary_reports_coverage_and_speed_deltas(self):
         uncertainty = {"scenarios": [{"scenario_id": "clean_0", "sequence_results": {
-            "01": {"candidate_true_link_coverage": 0.8}, "02": {"candidate_true_link_coverage": 0.9}
+            "01": {"candidate_true_link_coverage": 0.8,
+                   "candidate_burden_edges_per_target": 2.0},
+            "02": {"candidate_true_link_coverage": 0.9,
+                   "candidate_burden_edges_per_target": 3.0}
         }}]}
         def soft_scenario(scenario_id, d1, d2):
             return {"scenario_id": scenario_id, "sequence_results": {
@@ -18,6 +21,7 @@ class TestGateSensitivity(unittest.TestCase):
         result = summarize_gate(uncertainty, soft, 12.0)
         self.assertEqual(result["max_distance_px"], 12.0)
         self.assertEqual(result["clean_candidate_true_link_coverage"]["01"], 0.8)
+        self.assertEqual(result["clean_candidate_burden_edges_per_target"]["02"], 3.0)
         self.assertEqual(result["clean_soft_speed_delta_px_per_frame"]["02"], -2.0)
         self.assertEqual(result["mean_absolute_soft_speed_delta_px_per_frame"]["01"], 0.75)
 

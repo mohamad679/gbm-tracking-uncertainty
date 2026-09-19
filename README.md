@@ -13,7 +13,7 @@ The quantitative benchmark uses expert annotations from the Cell Tracking Challe
 **Version:** `0.1.0`  
 **Python:** 3.11-3.13  
 **License:** MIT  
-**Tests:** 50/50 passing on all supported Python versions  
+**Tests:** 54/54 passing locally; CI validation pending for the current Stage A step
 **Coverage:** 69% package coverage, 65% enforced CI gate  
 **Technical benchmark:** complete  
 **Operator learning:** HOLD  
@@ -133,6 +133,7 @@ Raw data and generated `results/` outputs are not source-controlled.
 - [`docs/reproducibility-packaging-report.md`](docs/reproducibility-packaging-report.md) — packaging/reproducibility evidence
 - [`docs/engineering-hardening-report.md`](docs/engineering-hardening-report.md) — correctness/testing evidence
 - [`docs/reproduced-results-2026-09-19.json`](docs/reproduced-results-2026-09-19.json) — frozen machine-readable result snapshot
+- [`docs/stage-a-protocol.md`](docs/stage-a-protocol.md) — frozen adaptive-candidate benchmark contract
 - [`CHANGELOG.md`](CHANGELOG.md) — release history
 
 ## Sources

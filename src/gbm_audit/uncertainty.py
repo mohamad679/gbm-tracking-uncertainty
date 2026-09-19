@@ -268,6 +268,10 @@ def evaluate_sequence(sequence: dict, scenario_sequence: dict, count: int,
     observations = scenario_sequence["observations"]
     truth = {row["observation_id"]: row["true_track_id"] for row in scenario_sequence["evaluation_truth"]}
     edges = _candidate_edges(observations, max_distance_px)
+    first_frame = min(sequence.get("frame_indices", [0]))
+    candidate_target_observations = sum(
+        int(row["frame"]) > first_frame for row in observations
+    )
     if proposal_model == "distance":
         hypotheses = sample_link_hypotheses(observations, count, max_distance_px, temperature_px, seed)
     elif proposal_model == "motion":
@@ -310,6 +314,11 @@ def evaluate_sequence(sequence: dict, scenario_sequence: dict, count: int,
         "scenario_id": scenario_sequence["sequence_id"],
         "observations": len(observations),
         "candidate_edges": len(edges),
+        "candidate_target_observations": candidate_target_observations,
+        "candidate_burden_edges_per_target": (
+            len(edges) / candidate_target_observations
+            if candidate_target_observations else 0.0
+        ),
         "reference_links_present": total_reference_links,
         "hypothesis_count": count,
         "unique_hypothesis_count": len({frozenset(hypothesis) for hypothesis in hypotheses}),

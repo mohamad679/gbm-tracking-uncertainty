@@ -68,6 +68,10 @@ class TestUncertainty(unittest.TestCase):
         self.assertGreater(output["unique_hypothesis_count"], 0)
         self.assertIn("hypothesis_calibration", output)
         self.assertEqual(output["candidate_true_link_coverage"], 1.0)
+        self.assertEqual(output["candidate_target_observations"], 8)
+        self.assertAlmostEqual(
+            output["candidate_burden_edges_per_target"], output["candidate_edges"] / 8
+        )
         self.assertNotIn("true_track_id", observations[0])
 
     def test_candidate_coverage_counts_true_links_outside_gate(self):
