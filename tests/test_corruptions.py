@@ -19,8 +19,9 @@ def _manifest():
             })
         return {"sequence_id": sequence_id, "split": split, "frames": 6,
                 "shape_pixels": [20, 20], "tracks": tracks}
-    return {"dataset": "synthetic", "sequences": {"01": sequence("01", "development"),
-                                                        "02": sequence("02", "test")}}
+    return {"schema_version": 1, "dataset": "synthetic", "split_policy": "01 development, 02 test",
+            "sequences": {"01": sequence("01", "development"),
+                          "02": sequence("02", "test")}}
 
 
 class TestControlledCorruptions(unittest.TestCase):
@@ -50,6 +51,26 @@ class TestControlledCorruptions(unittest.TestCase):
         switched_ids = {row["observation_id"]: row["observed_track_id"] for row in switched["sequences"]["01"]["observations"]}
         self.assertNotEqual(clean_ids, switched_ids)
         self.assertEqual(sum(row["true_track_id"] > 0 for row in switched["sequences"]["01"]["evaluation_truth"]), 12)
+
+    def test_wrong_link_is_local_while_id_switch_is_persistent(self):
+        result = build_corruption_benchmark(_manifest(), seed=7)
+        clean = next(s for s in result["scenarios"] if s["scenario_id"] == "clean_0")["sequences"]["01"]
+        wrong = next(s for s in result["scenarios"] if s["scenario_id"] == "wrong_link_1")["sequences"]["01"]
+        switched = next(s for s in result["scenarios"] if s["scenario_id"] == "id_switch_1")["sequences"]["01"]
+
+        clean_ids = {row["observation_id"]: row["observed_track_id"] for row in clean["observations"]}
+        wrong_ids = {row["observation_id"]: row["observed_track_id"] for row in wrong["observations"]}
+        switched_ids = {row["observation_id"]: row["observed_track_id"] for row in switched["observations"]}
+
+        wrong_changes = [observation_id for observation_id in clean_ids if clean_ids[observation_id] != wrong_ids[observation_id]]
+        switched_changes = [observation_id for observation_id in clean_ids if clean_ids[observation_id] != switched_ids[observation_id]]
+
+        self.assertEqual(set(wrong_changes), {"ref_0001_0003", "ref_0002_0003"})
+        self.assertEqual(set(switched_changes), {
+            "ref_0001_0004", "ref_0001_0005", "ref_0002_0004", "ref_0002_0005"
+        })
+        self.assertEqual(wrong_ids["ref_0001_0004"], clean_ids["ref_0001_0004"])
+        self.assertEqual(wrong_ids["ref_0002_0004"], clean_ids["ref_0002_0004"])
 
 
 if __name__ == "__main__":
