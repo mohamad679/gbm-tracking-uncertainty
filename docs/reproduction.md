@@ -11,6 +11,8 @@ python -m pip install -e .
 PYTHONPATH=src python3 -m unittest discover -s tests -q
 ```
 
+Test success is established by the test command and GitHub Actions. It is not copied manually into the scientific audit artifact, so the audit cannot become stale when the test suite changes.
+
 ## Pipeline
 
 Run from the repository root. The reference and corruption JSON files are generated locally under ignored `results/` paths.
@@ -24,9 +26,13 @@ PYTHONPATH=src python3 -m gbm_audit.soft_dynamics results/u373-reference-manifes
 PYTHONPATH=src python3 -m gbm_audit.gate_sensitivity results/u373-reference-manifest.json results/u373-corruption-benchmark.json results/u373-dynamics-evaluation.json --gates 8 12 16 --output results/u373-gate-sensitivity.json
 PYTHONPATH=src python3 -m gbm_audit.uncertainty results/u373-reference-manifest.json results/u373-corruption-benchmark.json --proposal-model motion_appearance --archive data/raw/PhC-C2DH-U373.zip --output results/u373-uncertainty-motion-appearance-evaluation.json
 PYTHONPATH=src python3 -m gbm_audit.soft_dynamics results/u373-reference-manifest.json results/u373-corruption-benchmark.json results/u373-uncertainty-motion-appearance-evaluation.json results/u373-dynamics-evaluation.json --output results/u373-soft-dynamics-motion-appearance-evaluation.json
-PYTHONPATH=src python3 -m gbm_audit.final_audit results/u373-reference-manifest.json results/u373-corruption-benchmark.json results/u373-uncertainty-evaluation.json results/u373-dynamics-evaluation.json results/u373-soft-dynamics-evaluation.json results/u373-gate-sensitivity.json results/u373-uncertainty-motion-appearance-evaluation.json --tests-passed 28 --output results/final-audit.json
+PYTHONPATH=src python3 -m gbm_audit.final_audit results/u373-reference-manifest.json results/u373-corruption-benchmark.json results/u373-uncertainty-evaluation.json results/u373-dynamics-evaluation.json results/u373-soft-dynamics-evaluation.json results/u373-gate-sensitivity.json results/u373-uncertainty-motion-appearance-evaluation.json --output results/final-audit.json
 ```
+
+Every downstream stage validates schema version, reference-manifest identity, corruption seed, scenario IDs, scenario metadata, and sequence IDs before combining artifacts. Reordered scenarios therefore remain safe, while stale or mismatched artifacts fail explicitly.
 
 ## Interpretation
 
-The final audit should report `technical_benchmark_complete: true`, `operator_learning_ready: false`, and `biological_validation_claim_supported: false`. A future operator extension requires a new proposal model with held-out calibration and a stable gate/sensitivity trade-off.
+The final audit derives its gates from the validated artifacts. The current operator-readiness rule requires at least one candidate radius to achieve at least 95% clean true-link coverage on every sequence without worsening the absolute held-out `localization_noise_5p0` soft-speed error by more than 1.0 px/frame relative to the smallest tested gate. The existing benchmark is expected to keep operator learning on HOLD because no tested radius satisfies both conditions.
+
+Biological validation remains false unless the reference manifest explicitly declares a biological validation reference. A future operator extension therefore still requires a proposal model with held-out calibration and a stable candidate-recall/robustness trade-off.
