@@ -22,3 +22,17 @@ jobs:
         run: |
           coverage run --source=gbm_audit -m unittest discover -s tests -q
           coverage report --show-missing --fail-under=65
+
+  package-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Build wheel
+        run: python -m pip wheel . --no-deps --wheel-dir dist
+      - name: Install wheel and verify version
+        run: |
+          python -m pip install --no-deps --force-reinstall dist/gbm_tracking_uncertainty-0.1.0-py3-none-any.whl
+          python -c "import gbm_audit; assert gbm_audit.__version__ == '0.1.0'; print(gbm_audit.__version__)"
