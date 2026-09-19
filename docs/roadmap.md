@@ -29,6 +29,9 @@ frequencies with exact graph-context marginalized posterior probabilities while
 preserving the frozen Stage A candidate graph. Its final evidence is
 [`stage-b-final-report.md`](stage-b-final-report.md).
 
-Stage C is now the next research stage: uncertainty propagation into migration
-and latent-state summaries. No Stage B result may be presented as biological
-validation or as permission to start operator learning.
+Research Stage C is now active. It will propagate the passed Stage B exact
+association posterior into migration and latent-state summaries using compatible
+trajectory ensembles rather than hard edge cutoffs. Its frozen protocol is
+[`stage-c-protocol.md`](stage-c-protocol.md). No Stage B or Stage C result may
+be presented as biological validation or as permission to start operator
+learning.
