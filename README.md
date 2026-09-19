@@ -15,6 +15,17 @@ Goal: measure how known segmentation/tracking errors change migration and image-
 
 Raw data do not belong in this Git repository. The GlioTrace dataset page does not display a clear reusable license; confirm rights before redistribution.
 
+## Source code map
+
+The complete executable implementation is versioned in this repository:
+
+- `src/gbm_audit/`: Python package for the benchmark, corruption scenarios, tracking baselines, uncertainty propagation, dynamics, proposal sensitivity, and final audit.
+- `scripts/`: data-preparation and pilot-download utilities.
+- `tests/`: unit and integration tests covering the Python package and reproducibility gates.
+- `docs/`: English technical reports and reproduction notes.
+
+Generated outputs under `results/` and downloaded raw data under `data/raw/` are intentionally ignored by Git; they can be regenerated with the commands below and are not source code.
+
 ## To reproduce the small pilot without downloading 5.6 GB
 
 Install Python 3.11–3.13 and NumPy, then from the project directory:
