@@ -1,0 +1,61 @@
+name: reproduce-benchmark
+
+on:
+  push:
+    paths:
+      - '.github/workflows/reproduce-benchmark.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  reproduce:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install package
+        run: python -m pip install -e .
+      - name: Run tests
+        run: python -m unittest discover -s tests -q
+      - name: Download official U373 training archive
+        run: |
+          mkdir -p data/raw results
+          curl --fail --location --retry 3 --retry-delay 2 \
+            https://data.celltrackingchallenge.net/training-datasets/PhC-C2DH-U373.zip \
+            --output data/raw/PhC-C2DH-U373.zip
+          sha256sum data/raw/PhC-C2DH-U373.zip | tee results/u373-archive.sha256.txt
+      - name: Reproduce benchmark and all proposal stages
+        env:
+          PYTHONPATH: src
+        run: |
+          python -m gbm_audit.benchmark data/raw/PhC-C2DH-U373.zip --output results/u373-reference-manifest.json
+          python -m gbm_audit.corruptions results/u373-reference-manifest.json --output results/u373-corruption-benchmark.json --seed 20260919
+          python -m gbm_audit.baseline results/u373-reference-manifest.json results/u373-corruption-benchmark.json --max-distance-px 8 --output results/u373-baseline-evaluation.json
+
+          python -m gbm_audit.uncertainty results/u373-reference-manifest.json results/u373-corruption-benchmark.json --proposal-model distance --max-distance-px 8 --output results/u373-uncertainty-evaluation.json
+          python -m gbm_audit.dynamics results/u373-reference-manifest.json results/u373-corruption-benchmark.json results/u373-uncertainty-evaluation.json --output results/u373-dynamics-evaluation.json --max-distance-px 8
+          python -m gbm_audit.soft_dynamics results/u373-reference-manifest.json results/u373-corruption-benchmark.json results/u373-uncertainty-evaluation.json results/u373-dynamics-evaluation.json --output results/u373-soft-dynamics-evaluation.json
+          python -m gbm_audit.gate_sensitivity results/u373-reference-manifest.json results/u373-corruption-benchmark.json results/u373-dynamics-evaluation.json --gates 8 12 16 --output results/u373-gate-sensitivity.json
+
+          python -m gbm_audit.uncertainty results/u373-reference-manifest.json results/u373-corruption-benchmark.json --proposal-model motion --max-distance-px 8 --output results/u373-uncertainty-motion-evaluation.json
+          python -m gbm_audit.soft_dynamics results/u373-reference-manifest.json results/u373-corruption-benchmark.json results/u373-uncertainty-motion-evaluation.json results/u373-dynamics-evaluation.json --output results/u373-soft-dynamics-motion-evaluation.json
+
+          python -m gbm_audit.uncertainty results/u373-reference-manifest.json results/u373-corruption-benchmark.json --proposal-model motion_area --max-distance-px 8 --output results/u373-uncertainty-motion-area-evaluation.json
+          python -m gbm_audit.soft_dynamics results/u373-reference-manifest.json results/u373-corruption-benchmark.json results/u373-uncertainty-motion-area-evaluation.json results/u373-dynamics-evaluation.json --output results/u373-soft-dynamics-motion-area-evaluation.json
+
+          python -m gbm_audit.uncertainty results/u373-reference-manifest.json results/u373-corruption-benchmark.json --proposal-model motion_appearance --archive data/raw/PhC-C2DH-U373.zip --max-distance-px 8 --output results/u373-uncertainty-motion-appearance-evaluation.json
+          python -m gbm_audit.soft_dynamics results/u373-reference-manifest.json results/u373-corruption-benchmark.json results/u373-uncertainty-motion-appearance-evaluation.json results/u373-dynamics-evaluation.json --output results/u373-soft-dynamics-motion-appearance-evaluation.json
+
+          python -m gbm_audit.final_audit results/u373-reference-manifest.json results/u373-corruption-benchmark.json results/u373-uncertainty-evaluation.json results/u373-dynamics-evaluation.json results/u373-soft-dynamics-evaluation.json results/u373-gate-sensitivity.json results/u373-uncertainty-motion-appearance-evaluation.json --output results/final-audit.json
+      - name: Upload reproducible numeric outputs
+        uses: actions/upload-artifact@v4
+        with:
+          name: u373-reproduced-results
+          path: results/
+          if-no-files-found: error
+          retention-days: 14
