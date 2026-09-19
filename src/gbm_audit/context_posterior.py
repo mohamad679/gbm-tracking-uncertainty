@@ -182,7 +182,7 @@ def _weighted_state_choice(rng: random.Random, states: list[dict], partition: fl
     return states[-1]
 
 
-def _trajectories_from_links(observation_ids: list[str], links: list[tuple[str, str]]) -> tuple[list[dict], dict]:
+def trajectories_from_links(observation_ids: list[str], links: list[tuple[str, str]]) -> tuple[list[dict], dict]:
     """Build a partition of observations into frame-monotone trajectories."""
     successor, predecessor = {}, {}
     duplicate_sources, duplicate_targets = [], []
@@ -283,7 +283,7 @@ def sample_exact_context_matchings(
             )
             links.extend(chosen["links"])
         links = sorted(links)
-        trajectories, trajectory_invariants = _trajectories_from_links(observation_ids, links)
+        trajectories, trajectory_invariants = trajectories_from_links(observation_ids, links)
         if not trajectory_invariants["one_to_one_pass"]:
             one_to_one_violations.append(sample_index)
         if not trajectory_invariants["trajectory_partition_pass"]:

@@ -61,6 +61,7 @@ jobs:
           python -m gbm_audit.locked_evaluation results/u373-reference-manifest.json results/u373-corruption-benchmark.json --output results/stage-a-locked-evaluation-v3.json
           python -m gbm_audit.context_evaluation results/u373-reference-manifest.json results/u373-corruption-benchmark.json --output results/stage-b-development-context-evaluation.json
           python -m gbm_audit.context_locked_evaluation results/u373-reference-manifest.json results/u373-corruption-benchmark.json --output results/stage-b-locked-evaluation.json
+          python -m gbm_audit.stage_c_dynamics results/u373-reference-manifest.json results/u373-corruption-benchmark.json --output results/stage-c-development-summaries.json
       - name: Upload reproducible numeric outputs
         uses: actions/upload-artifact@v4
         with:
