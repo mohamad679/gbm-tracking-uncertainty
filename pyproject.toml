@@ -15,6 +15,7 @@ gbm-benchmark = "gbm_audit.benchmark:main"
 gbm-corrupt = "gbm_audit.corruptions:main"
 gbm-baseline = "gbm_audit.baseline:main"
 gbm-uncertainty = "gbm_audit.uncertainty:main"
+gbm-dynamics = "gbm_audit.dynamics:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]

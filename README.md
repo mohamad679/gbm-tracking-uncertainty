@@ -55,4 +55,6 @@ The frozen nearest-neighbour comparator is implemented in `gbm_audit.baseline`; 
 
 The sampled multi-hypothesis uncertainty evaluator is implemented in `gbm_audit.uncertainty`; see the [Stage 4 report](docs/stage4-uncertainty-report.md). Calibration is fit on development sequence 01 and evaluated unchanged on sequence 02.
 
+Stage 5 migration and HMM sensitivity is implemented in `gbm_audit.dynamics`; see the [Stage 5 report](docs/stage5-dynamics-report.md). Hard posterior thresholds are documented as a limitation; soft-weighted dynamics must pass before SLDS or Koopman extension.
+
 On Windows PowerShell, use `.venv\Scripts\Activate.ps1` instead of `source .venv/bin/activate`.
