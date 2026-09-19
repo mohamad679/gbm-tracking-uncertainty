@@ -1,12 +1,20 @@
 {
   "schema_version": 1,
-  "reproduced_at_utc": "2026-09-19T11:10:27Z",
+  "reproduced_at_utc": "2026-09-19T11:30:26Z",
   "github_actions": {
     "workflow": "reproduce-benchmark",
-    "run_id": 35439231472,
-    "source_commit": "982c1c23619ce0955e1267dc8da36ab3280e5c3c",
+    "run_id": 35440157588,
+    "source_commit": "8f2c0b38d67231a04e53e9cbdd3466ad9b75966e",
     "artifact_name": "u373-reproduced-results",
-    "artifact_sha256": "c30c04ebd4ac6e1414682ed4851845536126d59b9675514ef9ff61cd0be3e579"
+    "artifact_sha256": "aec4244e9ceca4f83b1a26fdaffca6cd3e5de829c39c0979aff2a771b82154f3"
+  },
+  "hardening_validation": {
+    "test_workflow_run_id": 35440157553,
+    "python_versions": ["3.11", "3.12", "3.13"],
+    "tests": 39,
+    "tests_passed": 39,
+    "coverage_percent": 68,
+    "coverage_gate_percent": 65
   },
   "dataset": {
     "name": "CTC PhC-C2DH-U373 training",
