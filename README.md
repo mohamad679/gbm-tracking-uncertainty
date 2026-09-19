@@ -53,4 +53,6 @@ The controlled-error benchmark is implemented in `gbm_audit.corruptions`; see th
 
 The frozen nearest-neighbour comparator is implemented in `gbm_audit.baseline`; see the [Stage 3 report](docs/stage3-baseline-report.md). It uses an 8-pixel gate and no gap bridging.
 
+The sampled multi-hypothesis uncertainty evaluator is implemented in `gbm_audit.uncertainty`; see the [Stage 4 report](docs/stage4-uncertainty-report.md). Calibration is fit on development sequence 01 and evaluated unchanged on sequence 02.
+
 On Windows PowerShell, use `.venv\Scripts\Activate.ps1` instead of `source .venv/bin/activate`.
