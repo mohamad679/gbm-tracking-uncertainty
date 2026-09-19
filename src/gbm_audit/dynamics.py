@@ -10,6 +10,12 @@ import numpy as np
 
 from gbm_audit.baseline import nearest_neighbor
 from gbm_audit.uncertainty import _temperature_transform
+from gbm_audit.validation import (
+    align_scenarios,
+    validate_corruptions,
+    validate_manifest,
+    validate_stage_artifact,
+)
 
 
 def _reference_rows(sequence: dict) -> list[dict]:
@@ -40,15 +46,18 @@ def posterior_labels(rows: list[dict], posterior_links: list[dict], threshold: f
                     calibration_temperature: float) -> dict[str, int]:
     """Turn posterior edges into deterministic components without reading truth labels."""
     parent = {row["observation_id"]: row["observation_id"] for row in rows}
+
     def find(item):
         while parent[item] != item:
             parent[item] = parent[parent[item]]
             item = parent[item]
         return item
+
     def union(left, right):
         left_root, right_root = find(left), find(right)
         if left_root != right_root:
             parent[max(left_root, right_root)] = min(left_root, right_root)
+
     row_by_id = {row["observation_id"]: row for row in rows}
     used_left: set[str] = set()
     used_right: set[str] = set()
@@ -164,7 +173,9 @@ def fit_hmm(speed_sequences: list[list[float]], iterations: int = 30) -> dict:
         stds = stds[::-1]
         transition = transition[::-1, ::-1]
         initial = initial[::-1]
-    stationary = np.linalg.eig(transpose := transition.T)[1][:, np.argmin(abs(np.linalg.eig(transpose)[0] - 1))].real
+    transpose = transition.T
+    eigenvalues, eigenvectors = np.linalg.eig(transpose)
+    stationary = eigenvectors[:, np.argmin(abs(eigenvalues - 1))].real
     stationary = np.abs(stationary) / max(np.abs(stationary).sum(), 1e-300)
     return {
         "status": "ok", "speed_observations": int(len(values)), "sequences": len(speed_sequences),
@@ -206,9 +217,13 @@ def _delta(summary: dict, reference: dict) -> dict:
 
 def evaluate_dynamics(manifest: dict, corruption_benchmark: dict, uncertainty: dict,
                       max_distance_px: float = 8.0, thresholds: tuple[float, ...] = (0.5, 0.9)) -> dict:
+    validate_manifest(manifest)
+    validate_corruptions(corruption_benchmark, manifest)
+    validate_stage_artifact(uncertainty, "uncertainty artifact", corruption_benchmark)
     calibration_temperature = uncertainty["calibration"]["temperature"]
     scenarios = []
-    for scenario, uncertainty_scenario in zip(corruption_benchmark["scenarios"], uncertainty["scenarios"]):
+    for scenario, uncertainty_scenario in align_scenarios(
+            corruption_benchmark, uncertainty, "corruption benchmark", "uncertainty artifact"):
         sequence_results = {}
         for sequence_id, scenario_sequence in scenario["sequences"].items():
             reference_sequence = manifest["sequences"][sequence_id]
