@@ -501,6 +501,9 @@ def evaluate_benchmark(manifest: dict, corruption_benchmark: dict,
     results = []
     for scenario_index, scenario in enumerate(corruption_benchmark["scenarios"]):
         sequence_results = {}
+        scenario_seed = scenario.get(
+            "seed", corruption_benchmark["seed"] + scenario_index * 1000
+        )
         for sequence_id, scenario_sequence in scenario["sequences"].items():
             if proposal_model == "motion_appearance":
                 scenario_sequence = {**scenario_sequence,
@@ -509,7 +512,7 @@ def evaluate_benchmark(manifest: dict, corruption_benchmark: dict,
             sequence_results[sequence_id] = evaluate_sequence(
                 manifest["sequences"][sequence_id], scenario_sequence, count,
                 max_distance_px, temperature_px,
-                corruption_benchmark["seed"] + scenario_index * 1000 + int(sequence_id),
+                scenario_seed + int(sequence_id),
                 proposal_model, adaptive_config)
         results.append({"scenario_id": scenario["scenario_id"], "corruption": scenario["corruption"],
                         "severity": scenario["severity"], "sequence_results": sequence_results})
