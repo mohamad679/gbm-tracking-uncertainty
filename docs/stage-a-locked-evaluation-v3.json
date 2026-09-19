@@ -1,0 +1,129 @@
+{
+  "schema_version": 1,
+  "method": "stage_a_locked_evaluation_v3",
+  "status": "PASS",
+  "locked_config": {
+    "min_radius_px": 8.0,
+    "max_radius_px": 16.0,
+    "motion_uncertainty_weight": 2.75,
+    "density_weight_px": 0.0,
+    "density_radius_px": 16.0,
+    "density_saturation_count": 6,
+    "cold_start_uncertainty_px": 4.0,
+    "history_length": 4,
+    "new_track_score_px": 10.0,
+    "posterior_probability_floor": 0.7
+  },
+  "locked_config_id": "m2.75-d0-c4-n10-p0.7",
+  "one_time_locked_test_evaluation": true,
+  "sequence_ids": [
+    "01",
+    "02"
+  ],
+  "reference_manifest_sha256": "ce4d1dfc805eba0ab15b12de7e3ebef3eab2b23cf2f35ebed59d18a6cd1e0d47",
+  "corruption_seed": 20260919,
+  "thresholds": {
+    "minimum_clean_true_link_recall": 0.95,
+    "minimum_spatial_search_area_reduction_vs_fixed_16_fraction": 0.15,
+    "maximum_noise_deterioration_vs_fixed_8_px_per_frame": 1.0
+  },
+  "baselines": {
+    "fixed_8": {
+      "run_id": "fixed_8",
+      "proposal_model": "distance",
+      "max_distance_px": 8.0,
+      "reference_manifest_sha256": "ce4d1dfc805eba0ab15b12de7e3ebef3eab2b23cf2f35ebed59d18a6cd1e0d47",
+      "corruption_seed": 20260919,
+      "sequence_results": {
+        "01": {
+          "clean_true_link_recall": 0.7912813738441216,
+          "clean_candidate_edges": 599,
+          "clean_target_observations": 759,
+          "clean_candidate_burden_edges_per_target": 0.7891963109354414,
+          "clean_soft_speed_error_px_per_frame": 2.3163651870300352,
+          "noise_sigma_5_soft_speed_error_px_per_frame": 0.22037412785078114
+        },
+        "02": {
+          "clean_true_link_recall": 0.8911764705882353,
+          "clean_candidate_edges": 606,
+          "clean_target_observations": 686,
+          "clean_candidate_burden_edges_per_target": 0.8833819241982507,
+          "clean_soft_speed_error_px_per_frame": 1.44290395485989,
+          "noise_sigma_5_soft_speed_error_px_per_frame": 1.0995422713766825
+        }
+      }
+    },
+    "fixed_16": {
+      "run_id": "fixed_16",
+      "proposal_model": "distance",
+      "max_distance_px": 16.0,
+      "reference_manifest_sha256": "ce4d1dfc805eba0ab15b12de7e3ebef3eab2b23cf2f35ebed59d18a6cd1e0d47",
+      "corruption_seed": 20260919,
+      "sequence_results": {
+        "01": {
+          "clean_true_link_recall": 0.9590488771466315,
+          "clean_candidate_edges": 726,
+          "clean_target_observations": 759,
+          "clean_candidate_burden_edges_per_target": 0.9565217391304348,
+          "clean_soft_speed_error_px_per_frame": 0.7833742986429661,
+          "noise_sigma_5_soft_speed_error_px_per_frame": 3.8277735829609885
+        },
+        "02": {
+          "clean_true_link_recall": 0.9705882352941176,
+          "clean_candidate_edges": 682,
+          "clean_target_observations": 686,
+          "clean_candidate_burden_edges_per_target": 0.9941690962099126,
+          "clean_soft_speed_error_px_per_frame": 0.6510529189567129,
+          "noise_sigma_5_soft_speed_error_px_per_frame": 4.353369290427546
+        }
+      }
+    }
+  },
+  "sequence_results": {
+    "01": {
+      "sequence_id": "01",
+      "split": "development",
+      "clean_true_link_recall": 0.952443857331572,
+      "clean_candidate_edges": 721,
+      "clean_candidate_burden_edges_per_target": 0.9499341238471674,
+      "clean_soft_speed_error_px_per_frame": 1.96585080351531,
+      "noise_sigma_5_soft_speed_error_px_per_frame": 0.6742339288979116,
+      "fixed_8_noise_sigma_5_soft_speed_error_px_per_frame": 0.22037412785078114,
+      "fixed_16_clean_candidate_burden_edges_per_target": 0.9565217391304348,
+      "source_gate_count": 758,
+      "search_area_burden_px2_per_source": 682.9239965226182,
+      "fixed_16_search_area_px2_per_source": 804.247719318987,
+      "search_area_reduction_vs_fixed_16_fraction": 0.1508536734168201,
+      "noise_deterioration_vs_fixed_8_px_per_frame": 0.4538598010471304,
+      "gates": {
+        "clean_recall": true,
+        "spatial_search_area": true,
+        "noise_robustness": true
+      },
+      "sequence_pass": true
+    },
+    "02": {
+      "sequence_id": "02",
+      "split": "test",
+      "clean_true_link_recall": 0.9647058823529412,
+      "clean_candidate_edges": 675,
+      "clean_candidate_burden_edges_per_target": 0.9839650145772595,
+      "clean_soft_speed_error_px_per_frame": 1.313198978726009,
+      "noise_sigma_5_soft_speed_error_px_per_frame": 1.5012124843338723,
+      "fixed_8_noise_sigma_5_soft_speed_error_px_per_frame": 1.0995422713766825,
+      "fixed_16_clean_candidate_burden_edges_per_target": 0.9941690962099126,
+      "source_gate_count": 687,
+      "search_area_burden_px2_per_source": 664.4805091067169,
+      "fixed_16_search_area_px2_per_source": 804.247719318987,
+      "search_area_reduction_vs_fixed_16_fraction": 0.17378626865192837,
+      "noise_deterioration_vs_fixed_8_px_per_frame": 0.40167021295718985,
+      "gates": {
+        "clean_recall": true,
+        "spatial_search_area": true,
+        "noise_robustness": true
+      },
+      "sequence_pass": true
+    }
+  },
+  "warning": "Technical U373 Stage A decision; not biological validation or a claim of universal tracking performance."
+}
