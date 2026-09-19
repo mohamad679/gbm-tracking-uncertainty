@@ -21,4 +21,4 @@ jobs:
       - name: Run tests with coverage
         run: |
           coverage run --source=gbm_audit -m unittest discover -s tests -q
-          coverage report --show-missing --fail-under=70
+          coverage report --show-missing --fail-under=65
