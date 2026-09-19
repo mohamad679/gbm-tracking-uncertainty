@@ -19,3 +19,15 @@ No gate passes on generated code alone. Every stage ends in a dated evidence rep
 The original GlioTrace group already uses morphological classification and HMM. Those are reproduction/baseline components. Novelty must come from measured uncertainty propagation and its effect on conclusions.
 
 The main claim is technical: how known tracking errors propagate into migration and latent-state inference, and whether calibrated uncertainty reduces that damage. U373/T98G do not validate brain-slice biology. Use different mice as independent biological units in any future biological comparison; many cells inside two mice do not create a large biological sample size.
+
+## Current research-stage progression
+
+Research Stage A, the adaptive candidate-recall breakthrough, is complete and
+passed its locked U373 evaluation. Research Stage B is now active: it replaces
+independent or sampled link frequencies with exact graph-context marginalized
+posterior probabilities while preserving the frozen Stage A candidate graph.
+Its pre-implementation protocol is [`stage-b-protocol.md`](stage-b-protocol.md).
+
+Stage C remains the later uncertainty-propagation stage for migration and
+latent-state summaries. No Stage B result may be presented as biological
+validation or as permission to start operator learning.
