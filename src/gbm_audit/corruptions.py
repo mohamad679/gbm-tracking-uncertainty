@@ -51,6 +51,20 @@ def _truth(reference: list[dict], observed: list[dict]) -> list[dict]:
     return sorted(result, key=lambda row: (row["frame"], row["observation_id"]))
 
 
+def _association_pairs(reference: list[dict]) -> list[tuple[int, int, list[int]]]:
+    """Return track pairs with their overlapping frames, in deterministic order."""
+    track_ids = sorted({row["observed_track_id"] for row in reference})
+    result = []
+    for index in range(0, len(track_ids) - 1, 2):
+        left, right = track_ids[index], track_ids[index + 1]
+        left_frames = {row["frame"] for row in reference if row["observed_track_id"] == left}
+        right_frames = {row["frame"] for row in reference if row["observed_track_id"] == right}
+        overlap = sorted(left_frames & right_frames)
+        if overlap:
+            result.append((left, right, overlap))
+    return result
+
+
 def _scenario(sequence: dict, corruption: str, severity, seed: int) -> dict:
     reference = _reference_records(sequence)
     observed = copy.deepcopy(reference)
@@ -90,29 +104,30 @@ def _scenario(sequence: dict, corruption: str, severity, seed: int) -> dict:
                     observed.remove(row)
                 elif row["frame"] >= start + gap:
                     row["observed_track_id"] = track_id * 100 + 1
-    elif corruption in {"id_switch", "wrong_link"}:
+    elif corruption == "id_switch":
         events = int(severity)
         parameters["events"] = events
-        track_ids = sorted({row["observed_track_id"] for row in reference})
-        pairs = [(track_ids[index], track_ids[index + 1]) for index in range(0, len(track_ids) - 1, 2)]
-        for event_index, (left, right) in enumerate(pairs[:events]):
-            left_frames = {row["frame"] for row in reference if row["observed_track_id"] == left}
-            right_frames = {row["frame"] for row in reference if row["observed_track_id"] == right}
-            overlap = sorted(left_frames & right_frames)
-            if not overlap:
-                continue
+        for left, right, overlap in _association_pairs(reference)[:events]:
             boundary = overlap[len(overlap) // 2]
             for row in observed:
                 if row["frame"] > boundary and row["observed_track_id"] == left:
                     row["observed_track_id"] = right
                 elif row["frame"] > boundary and row["observed_track_id"] == right:
                     row["observed_track_id"] = left
-            if corruption == "wrong_link":
-                # A one-frame local association error rather than a persistent switch.
-                for row in observed:
-                    if row["frame"] == boundary and row["observed_track_id"] == left:
-                        row["observed_track_id"] = right
-                        break
+    elif corruption == "wrong_link":
+        events = int(severity)
+        parameters["events"] = events
+        # A local one-frame association error: swap the paired identities only
+        # at the selected boundary frame, without a persistent downstream switch.
+        for left, right, overlap in _association_pairs(reference)[:events]:
+            boundary = overlap[len(overlap) // 2]
+            for row in observed:
+                if row["frame"] != boundary:
+                    continue
+                if row["observed_track_id"] == left:
+                    row["observed_track_id"] = right
+                elif row["observed_track_id"] == right:
+                    row["observed_track_id"] = left
     elif corruption == "false_positive":
         count = int(severity)
         parameters["count"] = count
