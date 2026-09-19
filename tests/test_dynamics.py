@@ -1,5 +1,7 @@
 import unittest
 
+import numpy as np
+
 from gbm_audit.dynamics import fit_hmm, posterior_labels, summarize_tracks
 
 
@@ -8,6 +10,22 @@ class TestDynamics(unittest.TestCase):
         result = fit_hmm([[1.0, 1.1, 0.9, 1.0], [5.0, 5.1, 4.9, 5.0]])
         self.assertEqual(result["status"], "ok")
         self.assertLess(result["state_means_px_per_frame"][0], result["state_means_px_per_frame"][1])
+        transition = np.asarray(result["transition_matrix"], dtype=float)
+        self.assertTrue(np.all(np.isfinite(transition)))
+        self.assertTrue(np.allclose(transition.sum(axis=1), 1.0, atol=1e-6))
+
+    def test_hmm_preserves_stochastic_transition_without_transition_evidence(self):
+        result = fit_hmm([[1.0], [1.1], [4.9], [5.0]])
+        self.assertEqual(result["status"], "ok")
+        transition = np.asarray(result["transition_matrix"], dtype=float)
+        self.assertTrue(np.all(np.isfinite(transition)))
+        self.assertTrue(np.allclose(transition.sum(axis=1), 1.0, atol=1e-6))
+
+    def test_hmm_rejects_nonfinite_values_and_invalid_iterations(self):
+        with self.assertRaises(ValueError):
+            fit_hmm([[1.0, 2.0, float("nan"), 4.0]])
+        with self.assertRaises(ValueError):
+            fit_hmm([[1.0, 2.0, 3.0, 4.0]], iterations=0)
 
     def test_posterior_labels_ignore_truth_fields(self):
         rows = [
