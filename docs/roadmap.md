@@ -27,6 +27,9 @@ passed its locked U373 evaluation. Research Stage B is now active: it replaces
 independent or sampled link frequencies with exact graph-context marginalized
 posterior probabilities while preserving the frozen Stage A candidate graph.
 Its pre-implementation protocol is [`stage-b-protocol.md`](stage-b-protocol.md).
+The exact marginal engine and development-only comparator are complete; the
+recorded development result is [`stage-b-step3-development-evaluation.md`](stage-b-step3-development-evaluation.md).
+Sequence `02` remains locked for the single final Stage B evaluation.
 
 Stage C remains the later uncertainty-propagation stage for migration and
 latent-state summaries. No Stage B result may be presented as biological
