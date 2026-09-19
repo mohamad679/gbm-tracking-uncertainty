@@ -80,6 +80,16 @@ class TestAdaptiveCandidates(unittest.TestCase):
                 _row("duplicate", 0, 0), _row("duplicate", 1, 1)
             ])
 
+    def test_optional_new_track_score_is_validated_without_changing_graph(self):
+        rows = [_row("a0", 0, 0), _row("a1", 1, 1)]
+        base = generate_adaptive_candidate_graph(rows)
+        tuned = generate_adaptive_candidate_graph(
+            rows, AdaptiveCandidateConfig(new_track_score_px=9.0)
+        )
+        self.assertEqual(base["candidate_edges"], tuned["candidate_edges"])
+        with self.assertRaises(ValueError):
+            AdaptiveCandidateConfig(new_track_score_px=0).validate()
+
 
 if __name__ == "__main__":
     unittest.main()

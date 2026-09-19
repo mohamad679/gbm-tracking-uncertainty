@@ -376,10 +376,14 @@ def evaluate_sequence(sequence: dict, scenario_sequence: dict, count: int,
             for edge in adaptive_graph["candidate_edges"]
         }
         candidate_target_observations = adaptive_graph["candidate_target_observations"]
-        baseline_new_track_score = adaptive_config.max_radius_px
+        baseline_new_track_score = (
+            adaptive_config.new_track_score_px
+            if adaptive_config.new_track_score_px is not None
+            else adaptive_config.max_radius_px
+        )
         hypotheses = sample_candidate_graph_hypotheses(
             observations, adaptive_graph["candidate_edges"], count,
-            temperature_px, adaptive_config.max_radius_px, seed,
+            temperature_px, baseline_new_track_score, seed,
         )
     else:
         edges = _candidate_edges(observations, max_distance_px)
@@ -575,6 +579,7 @@ def main(argv=None) -> int:
     parser.add_argument("--adaptive-density-saturation-count", type=int, default=6)
     parser.add_argument("--adaptive-cold-start-uncertainty-px", type=float, default=4.0)
     parser.add_argument("--adaptive-history-length", type=int, default=4)
+    parser.add_argument("--adaptive-new-track-score-px", type=float, default=None)
     args = parser.parse_args(argv)
     try:
         manifest = json.loads(args.manifest.read_text(encoding="utf-8"))
@@ -590,6 +595,7 @@ def main(argv=None) -> int:
                 density_saturation_count=args.adaptive_density_saturation_count,
                 cold_start_uncertainty_px=args.adaptive_cold_start_uncertainty_px,
                 history_length=args.adaptive_history_length,
+                new_track_score_px=args.adaptive_new_track_score_px,
             )
         result = evaluate_benchmark(manifest, corruptions, args.hypotheses,
                                     args.max_distance_px, args.temperature_px,
