@@ -1,0 +1,8 @@
+# Tested reproducibility environment captured from GitHub Actions on 2026-09-19.
+# Install the package with: python -m pip install -c constraints.txt -e .
+certifi==2026.7.22
+numpy==2.5.3
+Pillow==12.3.0
+
+# Development/CI tooling used by the repository.
+coverage==7.16.1
