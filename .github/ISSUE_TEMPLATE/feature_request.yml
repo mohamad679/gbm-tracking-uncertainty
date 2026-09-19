@@ -1,0 +1,38 @@
+name: Feature request
+description: Propose an engineering, reproducibility, or scientific-workflow improvement
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem or use case
+      description: What limitation or workflow need does this address?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed change
+      description: Describe the smallest useful implementation.
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Tracking / uncertainty
+        - Dynamics / statistics
+        - Reproducibility / packaging
+        - Performance
+        - Documentation / portfolio
+        - Data / benchmark
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: validation
+    attributes:
+      label: Validation plan
+      description: How should the change be tested, especially if numerical outputs may change?
