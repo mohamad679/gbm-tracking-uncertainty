@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "reproduced_at_utc": "2026-09-19T11:40:32Z",
+  "reproduced_at_utc": "2026-09-19T11:56:36Z",
   "release": {
     "package_version": "0.1.0",
     "python_support": ["3.11", "3.12", "3.13"],
@@ -9,20 +9,23 @@
   },
   "github_actions": {
     "workflow": "reproduce-benchmark",
-    "run_id": 35440643025,
-    "source_commit": "483209d634f68876732d8bd595994ebf6a826d14",
+    "run_id": 35441341918,
+    "source_commit": "bc9cda1628423f45e9926d0b0a02b1b0160b0f3c",
     "artifact_name": "u373-reproduced-results",
-    "artifact_sha256": "69fb61591fd6433cf0b78dc780659af91205f722c3f5f7316579ac55d3a727cf"
+    "artifact_sha256": "c60428859456eeef6eb27228c6b18720e79d9ed2368c7d874b14eda24bc0c4c0"
   },
-  "packaging_validation": {
-    "test_workflow_run_id": 35440719250,
+  "architecture_validation": {
+    "test_workflow_run_id": 35441341915,
     "python_versions": ["3.11", "3.12", "3.13"],
-    "tests": 42,
-    "tests_passed": 42,
-    "coverage_percent": 68,
+    "tests": 50,
+    "tests_passed": 50,
+    "coverage_percent": 69,
     "coverage_gate_percent": 65,
     "wheel_build": "success",
-    "wheel_install_smoke_test": "success"
+    "wheel_install_smoke_test": "success",
+    "full_u373_reproduction": "success",
+    "soft_transition_algorithm": "indexed adjacency accumulation instead of quadratic all-edge scan",
+    "archive_safety": "member count, member size, total uncompressed size, compression ratio and bounded member reads"
   },
   "runtime_provenance": {
     "package": "gbm-tracking-uncertainty",
@@ -34,7 +37,7 @@
       "Pillow": "12.3.0",
       "certifi": "2026.7.22"
     },
-    "git_sha": "483209d634f68876732d8bd595994ebf6a826d14"
+    "git_sha": "bc9cda1628423f45e9926d0b0a02b1b0160b0f3c"
   },
   "dataset": {
     "name": "CTC PhC-C2DH-U373 training",
@@ -67,7 +70,7 @@
       "clean_candidate_true_link_coverage": {"01": 0.7912813738441216, "02": 0.8911764705882353},
       "clean_soft_speed_delta_px_per_frame": {"01": -2.3163651870300352, "02": -1.44290395485989},
       "noise_sigma_5_soft_speed_delta_px_per_frame": {"01": 0.22037412785078114, "02": 1.0995422713766825},
-      "mean_absolute_soft_speed_delta_px_per_frame": {"01": 2.0317063152421238, "02": 1.309090241080941}
+      "mean_absolute_soft_speed_delta_px_per_frame": {"01": 2.0317063152421238, "02": 1.3090902410809413}
     },
     {
       "max_distance_px": 12.0,
@@ -79,9 +82,9 @@
     {
       "max_distance_px": 16.0,
       "clean_candidate_true_link_coverage": {"01": 0.9590488771466315, "02": 0.9705882352941176},
-      "clean_soft_speed_delta_px_per_frame": {"01": -0.7833742986429661, "02": -0.6510529189567129},
+      "clean_soft_speed_delta_px_per_frame": {"01": -0.7833742986429661, "02": -0.6510529189567125},
       "noise_sigma_5_soft_speed_delta_px_per_frame": {"01": 3.8277735829609885, "02": 4.353369290427546},
-      "mean_absolute_soft_speed_delta_px_per_frame": {"01": 0.9781183661607082, "02": 0.9174701987932311}
+      "mean_absolute_soft_speed_delta_px_per_frame": {"01": 0.9781183661607082, "02": 0.9174701987932312}
     }
   ],
   "wrong_link_raw_track_table": {
@@ -99,10 +102,10 @@
     "u373-corruption-benchmark.json": "dc39b52d7f7ced4ba8368af3b8366f66cba7b34bd039c408fde8a1e71ba53e1a",
     "u373-uncertainty-evaluation.json": "d11e487656ee219f1075c5c027efe42b4cf387f2afbc0340c8a9d9da746fdcac",
     "u373-dynamics-evaluation.json": "cbb360a680960d40778629a0ff2bb44d3cd739a19f205bdb69881a23c791d5c5",
-    "u373-soft-dynamics-evaluation.json": "9b88337789df9f4e2463201f2157645269a563feb07ca7559e7f2554d9bda493",
-    "u373-gate-sensitivity.json": "43f4d499449d88ac9bb23cdd16bc0de113291f74708ba66f43d5090d7f27fab6",
+    "u373-soft-dynamics-evaluation.json": "aac212694272aed5b27c8ad485ea9d1a4cd873d0d8c5c452522af31578ed8915",
+    "u373-gate-sensitivity.json": "cb7809492cf8af19a88161f8e0af19f1a96ee098a74e2370cee65689feff7efc",
     "u373-uncertainty-motion-appearance-evaluation.json": "cc1bc9619eb2342693129aa45a928069b9d6495d5eb834d8d8967ed12b971ac3",
-    "final-audit.json": "9de47c9ed1f54bb923414ff12e69e61959c349e55eff0b363cfe766f6b8d6957"
+    "final-audit.json": "150124eddf336ea13ec76345f63c302979bd0553e5c94c6ba8ee2228a6282656"
   },
-  "numerical_equivalence_note": "Pinned Python 3.11 uses NumPy 2.4.2. Soft-dynamics and gate-sensitivity JSON hashes differ from the earlier unpinned run because of tiny floating-point serialization differences; benchmark conclusions and declared gates are unchanged."
+  "numerical_equivalence_note": "The architecture/performance refactor preserves all declared scientific gates and benchmark interpretations. A few floating-point values differ only at the final serialized decimal compared with the previous pinned snapshot; these differences do not change any threshold decision."
 }
