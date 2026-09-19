@@ -49,4 +49,6 @@ Machine candidates can be produced with `python -m gbm_audit.proposals` and visu
 
 Stage 1 now freezes U373 sequence-level splits, verifies reference identities, centroids and lineages, and emits a machine-readable benchmark manifest. See the [Stage 1 reference report](docs/stage1-reference-report.md). Stage 2 will inject seeded, fully known tracking errors into those reference tracks. T98G is an independent confirmation dataset after its archive schema passes a separate audit.
 
+The controlled-error benchmark is implemented in `gbm_audit.corruptions`; see the [Stage 2 report](docs/stage2-corruption-report.md). It produces 17 deterministic scenarios with evaluation truth isolated from tracker input.
+
 On Windows PowerShell, use `.venv\Scripts\Activate.ps1` instead of `source .venv/bin/activate`.

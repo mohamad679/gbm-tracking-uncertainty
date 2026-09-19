@@ -12,6 +12,7 @@ dependencies = ["numpy>=2.0", "Pillow>=10", "certifi>=2024.2.2"]
 [project.scripts]
 gbm-audit = "gbm_audit.cli:main"
 gbm-benchmark = "gbm_audit.benchmark:main"
+gbm-corrupt = "gbm_audit.corruptions:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
