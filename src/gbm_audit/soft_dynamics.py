@@ -2,12 +2,12 @@
 
 import argparse
 import json
-import math
 from pathlib import Path
 import sys
 
 import numpy as np
 
+from gbm_audit.numerics import gaussian_emission, stationary_distribution
 from gbm_audit.uncertainty import _temperature_transform
 from gbm_audit.validation import (
     scenario_map,
@@ -15,14 +15,6 @@ from gbm_audit.validation import (
     validate_manifest,
     validate_stage_artifact,
 )
-
-
-def _emission(values: np.ndarray, means: np.ndarray, stds: np.ndarray) -> np.ndarray:
-    output = np.empty((len(values), 2), dtype=float)
-    for state in range(2):
-        variance = max(stds[state] ** 2, 1e-6)
-        output[:, state] = np.exp(-0.5 * (values - means[state]) ** 2 / variance) / math.sqrt(2 * math.pi * variance)
-    return np.maximum(output, 1e-300)
 
 
 def _weighted_mixture(speeds: np.ndarray, weights: np.ndarray, iterations: int = 30) -> tuple[np.ndarray, np.ndarray, np.ndarray] | None:
@@ -36,8 +28,9 @@ def _weighted_mixture(speeds: np.ndarray, weights: np.ndarray, iterations: int =
     weighted_std = max(float(np.sqrt(np.average((speeds - weighted_mean) ** 2, weights=weights))), 0.1)
     stds = np.asarray([weighted_std, weighted_std])
     prior = np.asarray([0.5, 0.5])
+    responsibilities = np.zeros((len(speeds), 2), dtype=float)
     for _ in range(iterations):
-        likelihood = _emission(speeds, means, stds) * prior
+        likelihood = gaussian_emission(speeds, means, stds) * prior
         responsibilities = likelihood / np.maximum(likelihood.sum(axis=1, keepdims=True), 1e-300)
         effective = (weights[:, None] * responsibilities).sum(axis=0)
         prior = effective / max(effective.sum(), 1e-300)
@@ -50,11 +43,22 @@ def _weighted_mixture(speeds: np.ndarray, weights: np.ndarray, iterations: int =
     return means, stds, responsibilities
 
 
-def _stationary(transition: np.ndarray) -> np.ndarray:
-    values, vectors = np.linalg.eig(transition.T)
-    vector = vectors[:, np.argmin(abs(values - 1))].real
-    vector = np.abs(vector)
-    return vector / max(vector.sum(), 1e-300)
+def _transition_counts_indexed(edges: list[dict], responsibilities: np.ndarray) -> np.ndarray:
+    """Accumulate compatible consecutive-edge transitions without an O(E^2) scan."""
+    by_left: dict[str, list[tuple[int, dict]]] = {}
+    for index, edge in enumerate(edges):
+        by_left.setdefault(edge["left"], []).append((index, edge))
+
+    transition_counts = np.zeros((2, 2), dtype=float)
+    for index, first in enumerate(edges):
+        for second_index, second in by_left.get(first["right"], []):
+            if second_index < index or second["frame"] != first["frame"] + 1:
+                continue
+            transition_counts += (
+                first["weight"] * second["weight"]
+                * np.outer(responsibilities[index], responsibilities[second_index])
+            )
+    return transition_counts
 
 
 def soft_summary(observations: list[dict], posterior_links: list[dict], calibration_temperature: float) -> dict:
@@ -82,18 +86,12 @@ def soft_summary(observations: list[dict], posterior_links: list[dict], calibrat
         summary["hmm_2state_soft"] = {"status": "insufficient_weighted_edges", "speed_observations": len(edges)}
         return summary
     means, stds, responsibilities = mixture
-    transition_counts = np.zeros((2, 2), dtype=float)
-    for index, first in enumerate(edges):
-        for second_index in range(index, len(edges)):
-            second = edges[second_index]
-            if first["right"] != second["left"] or second["frame"] != first["frame"] + 1:
-                continue
-            transition_counts += first["weight"] * second["weight"] * np.outer(responsibilities[index], responsibilities[second_index])
+    transition_counts = _transition_counts_indexed(edges, responsibilities)
     if transition_counts.sum() <= 0:
         transition = np.eye(2)
     else:
         transition = transition_counts / np.maximum(transition_counts.sum(axis=1, keepdims=True), 1e-300)
-    stationary = _stationary(transition)
+    stationary = stationary_distribution(transition)
     summary["hmm_2state_soft"] = {
         "status": "ok", "speed_observations": len(edges),
         "state_means_px_per_frame": [round(float(value), 6) for value in means],
