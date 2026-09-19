@@ -1,6 +1,10 @@
 import unittest
 
-from gbm_audit.uncertainty import evaluate_benchmark, sample_link_hypotheses, sample_motion_link_hypotheses
+from gbm_audit.uncertainty import (
+    evaluate_benchmark,
+    sample_link_hypotheses,
+    sample_motion_link_hypotheses,
+)
 
 
 def _observations():
@@ -13,13 +17,37 @@ def _observations():
     return rows
 
 
+def _assert_one_to_one(testcase: unittest.TestCase, links: set[tuple[str, str]]) -> None:
+    left = [edge[0] for edge in links]
+    right = [edge[1] for edge in links]
+    testcase.assertEqual(len(left), len(set(left)))
+    testcase.assertEqual(len(right), len(set(right)))
+
+
 class TestUncertainty(unittest.TestCase):
     def test_hypotheses_are_seeded_and_one_to_one(self):
         first = sample_link_hypotheses(_observations(), count=8, seed=3)
         second = sample_link_hypotheses(_observations(), count=8, seed=3)
         self.assertEqual(first, second)
         for links in first:
+            _assert_one_to_one(self, links)
             self.assertLessEqual(len(links), 8)
+
+    def test_sampling_parameters_reject_invalid_values(self):
+        rows = _observations()
+        invalid = [
+            {"count": 0},
+            {"count": -1},
+            {"max_distance_px": 0.0},
+            {"max_distance_px": -1.0},
+            {"temperature_px": 0.0},
+            {"temperature_px": -1.0},
+            {"temperature_px": float("nan")},
+        ]
+        for kwargs in invalid:
+            with self.subTest(kwargs=kwargs):
+                with self.assertRaises(ValueError):
+                    sample_link_hypotheses(rows, **kwargs)
 
     def test_calibration_output_keeps_truth_out_of_observations(self):
         sequence = {"sequence_id": "01", "split": "development", "frames": 5,
@@ -58,7 +86,7 @@ class TestUncertainty(unittest.TestCase):
         self.assertEqual(output["reference_links_present"], 1)
         self.assertEqual(output["candidate_true_link_coverage"], 0.0)
 
-    def test_motion_hypotheses_are_seeded_and_use_constant_velocity(self):
+    def test_motion_hypotheses_are_seeded_and_one_to_one(self):
         rows = []
         for frame, x in enumerate((0.0, 2.0, 4.0, 6.0)):
             rows.append({"observation_id": f"track{frame}", "frame": frame,
@@ -68,6 +96,8 @@ class TestUncertainty(unittest.TestCase):
         first = sample_motion_link_hypotheses(rows, count=8, seed=3)
         second = sample_motion_link_hypotheses(rows, count=8, seed=3)
         self.assertEqual(first, second)
+        for links in first:
+            _assert_one_to_one(self, links)
         self.assertTrue(any(("track1", "track2") in links and ("track2", "track3") in links
                             for links in first))
 
