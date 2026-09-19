@@ -7,6 +7,7 @@ All notable project changes are documented here. The project follows semantic ve
 ### Added
 - Frozen Stage A adaptive-candidate protocol with leakage controls and quantitative pass/revise thresholds.
 - Candidate-burden instrumentation and a provenance-checked comparison CLI for fixed 8/12/16-pixel baselines and `adaptive_v1`.
+- Deterministic, truth-blind adaptive candidate generator v1 with motion-uncertainty and local-density gates.
 
 ## [0.1.0] - 2026-09-19
 

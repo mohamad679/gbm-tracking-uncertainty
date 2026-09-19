@@ -13,8 +13,8 @@ The quantitative benchmark uses expert annotations from the Cell Tracking Challe
 **Version:** `0.1.0`  
 **Python:** 3.11-3.13  
 **License:** MIT  
-**Tests:** 54/54 passing locally; CI validation pending for the current Stage A step
-**Coverage:** 69% package coverage, 65% enforced CI gate  
+**Tests:** 60 tests; CI enforced on all supported Python versions
+**Coverage:** 70% package coverage, 65% enforced CI gate
 **Technical benchmark:** complete  
 **Operator learning:** HOLD  
 **Biological validation claim:** not supported
@@ -104,6 +104,7 @@ The latest frozen result summary is in [`docs/reproduced-results-2026-09-19.json
 | `corruptions.py` | Generate 17 seeded known-truth scenarios |
 | `baseline.py` | Frozen greedy nearest-neighbour comparator |
 | `uncertainty.py` | Sample one-to-one association hypotheses and calibrate probabilities |
+| `adaptive_candidates.py` | Build deterministic, truth-blind adaptive candidate graphs |
 | `dynamics.py` | Hard migration and two-state HMM sensitivity |
 | `soft_dynamics.py` | Probability-weighted migration and transition summaries |
 | `gate_sensitivity.py` | Proposal-radius robustness sweep |
@@ -134,6 +135,7 @@ Raw data and generated `results/` outputs are not source-controlled.
 - [`docs/engineering-hardening-report.md`](docs/engineering-hardening-report.md) — correctness/testing evidence
 - [`docs/reproduced-results-2026-09-19.json`](docs/reproduced-results-2026-09-19.json) — frozen machine-readable result snapshot
 - [`docs/stage-a-protocol.md`](docs/stage-a-protocol.md) — frozen adaptive-candidate benchmark contract
+- [`docs/stage-a-step2-adaptive-generator.md`](docs/stage-a-step2-adaptive-generator.md) — adaptive v1 engineering design and scope
 - [`CHANGELOG.md`](CHANGELOG.md) — release history
 
 ## Sources
