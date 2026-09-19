@@ -9,6 +9,12 @@ import sys
 import numpy as np
 
 from gbm_audit.uncertainty import _temperature_transform
+from gbm_audit.validation import (
+    scenario_map,
+    validate_corruptions,
+    validate_manifest,
+    validate_stage_artifact,
+)
 
 
 def _emission(values: np.ndarray, means: np.ndarray, stds: np.ndarray) -> np.ndarray:
@@ -108,9 +114,18 @@ def _transition_l1(left: dict, right: dict) -> float | None:
 
 def evaluate_soft_dynamics(manifest: dict, corruptions: dict, uncertainty: dict,
                            hard_dynamics: dict) -> dict:
+    validate_manifest(manifest)
+    validate_corruptions(corruptions, manifest)
+    validate_stage_artifact(uncertainty, "uncertainty artifact", corruptions)
+    validate_stage_artifact(hard_dynamics, "hard dynamics artifact", corruptions)
+    uncertainty_by_id = scenario_map(uncertainty, "uncertainty artifact")
+    hard_by_id = scenario_map(hard_dynamics, "hard dynamics artifact")
+
     results = []
-    for scenario, uncertainty_scenario, hard_scenario in zip(
-            corruptions["scenarios"], uncertainty["scenarios"], hard_dynamics["scenarios"]):
+    for scenario in corruptions["scenarios"]:
+        scenario_id = scenario["scenario_id"]
+        uncertainty_scenario = uncertainty_by_id[scenario_id]
+        hard_scenario = hard_by_id[scenario_id]
         sequence_results = {}
         for sequence_id, scenario_sequence in scenario["sequences"].items():
             posterior = uncertainty_scenario["sequence_results"][sequence_id]["posterior_links"]
@@ -128,7 +143,7 @@ def evaluate_soft_dynamics(manifest: dict, corruptions: dict, uncertainty: dict,
             soft["hard_uncertainty_p50_hmm_l1"] = hard["deltas_vs_reference"]["uncertainty_p50"]["hmm_transition_l1"]
             soft["hard_uncertainty_p90_hmm_l1"] = hard["deltas_vs_reference"]["uncertainty_p90"]["hmm_transition_l1"]
             sequence_results[sequence_id] = soft
-        results.append({"scenario_id": scenario["scenario_id"], "corruption": scenario["corruption"],
+        results.append({"scenario_id": scenario_id, "corruption": scenario["corruption"],
                         "severity": scenario["severity"], "sequence_results": sequence_results})
     return {
         "schema_version": 1,
