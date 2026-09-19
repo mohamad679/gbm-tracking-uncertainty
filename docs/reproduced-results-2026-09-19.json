@@ -1,0 +1,78 @@
+{
+  "schema_version": 1,
+  "reproduced_at_utc": "2026-09-19T11:10:27Z",
+  "github_actions": {
+    "workflow": "reproduce-benchmark",
+    "run_id": 35439231472,
+    "source_commit": "982c1c23619ce0955e1267dc8da36ab3280e5c3c",
+    "artifact_name": "u373-reproduced-results",
+    "artifact_sha256": "c30c04ebd4ac6e1414682ed4851845536126d59b9675514ef9ff61cd0be3e579"
+  },
+  "dataset": {
+    "name": "CTC PhC-C2DH-U373 training",
+    "archive_sha256": "b18185c18fce54e8eeb93e4bbb9b201d757add9409bbf2283b8114185a11bc9e",
+    "reference_manifest_sha256": "ce4d1dfc805eba0ab15b12de7e3ebef3eab2b23cf2f35ebed59d18a6cd1e0d47",
+    "corruption_scenarios": 17
+  },
+  "final_gates": {
+    "technical_benchmark_complete": true,
+    "operator_learning_ready": false,
+    "biological_validation_claim_supported": false
+  },
+  "clean_candidate_true_link_coverage": {
+    "01": 0.7912813738441216,
+    "02": 0.8911764705882353
+  },
+  "distance_soft_dynamics": {
+    "clean_speed_delta_px_per_frame": {
+      "01": -2.3163651870300352,
+      "02": -1.44290395485989
+    },
+    "noise_sigma_5_speed_delta_px_per_frame": {
+      "01": 0.22037412785078114,
+      "02": 1.0995422713766825
+    }
+  },
+  "gate_sensitivity": [
+    {
+      "max_distance_px": 8.0,
+      "clean_candidate_true_link_coverage": {"01": 0.7912813738441216, "02": 0.8911764705882353},
+      "clean_soft_speed_delta_px_per_frame": {"01": -2.3163651870300352, "02": -1.44290395485989},
+      "noise_sigma_5_soft_speed_delta_px_per_frame": {"01": 0.22037412785078114, "02": 1.0995422713766825},
+      "mean_absolute_soft_speed_delta_px_per_frame": {"01": 2.0317063152421238, "02": 1.3090902410809413}
+    },
+    {
+      "max_distance_px": 12.0,
+      "clean_candidate_true_link_coverage": {"01": 0.916776750330251, "02": 0.95},
+      "clean_soft_speed_delta_px_per_frame": {"01": -1.3142761547133333, "02": -0.9093681340890214},
+      "noise_sigma_5_soft_speed_delta_px_per_frame": {"01": 2.1367988080072386, "02": 3.073303334652005},
+      "mean_absolute_soft_speed_delta_px_per_frame": {"01": 1.299629465205724, "02": 1.03186711336753}
+    },
+    {
+      "max_distance_px": 16.0,
+      "clean_candidate_true_link_coverage": {"01": 0.9590488771466315, "02": 0.9705882352941176},
+      "clean_soft_speed_delta_px_per_frame": {"01": -0.7833742986429661, "02": -0.6510529189567125},
+      "noise_sigma_5_soft_speed_delta_px_per_frame": {"01": 3.8277735829609885, "02": 4.353369290427546},
+      "mean_absolute_soft_speed_delta_px_per_frame": {"01": 0.9781183661607082, "02": 0.9174701987932312}
+    }
+  ],
+  "wrong_link_raw_track_table": {
+    "wrong_link_1": {
+      "01": {"mean_speed_delta_px_per_frame": 0.5478026369069813, "hmm_transition_l1": 1.8462459999999998, "hmm_switch_probability_delta": -0.124144},
+      "02": {"mean_speed_delta_px_per_frame": 2.1756299858196924, "hmm_transition_l1": 0.7565, "hmm_switch_probability_delta": -0.10480300000000001}
+    },
+    "wrong_link_2": {
+      "01": {"mean_speed_delta_px_per_frame": 2.0251216055776, "hmm_transition_l1": 1.8367619999999998, "hmm_switch_probability_delta": -0.192783},
+      "02": {"mean_speed_delta_px_per_frame": 2.2108674826480117, "hmm_transition_l1": 0.6994120000000001, "hmm_switch_probability_delta": -0.101768}
+    }
+  },
+  "input_sha256": {
+    "u373-reference-manifest.json": "61d91978cba21b9f1aba8fde048cea72ad9ba740c875e490650862114b19b395",
+    "u373-corruption-benchmark.json": "dc39b52d7f7ced4ba8368af3b8366f66cba7b34bd039c408fde8a1e71ba53e1a",
+    "u373-uncertainty-evaluation.json": "d11e487656ee219f1075c5c027efe42b4cf387f2afbc0340c8a9d9da746fdcac",
+    "u373-dynamics-evaluation.json": "cbb360a680960d40778629a0ff2bb44d3cd739a19f205bdb69881a23c791d5c5",
+    "u373-soft-dynamics-evaluation.json": "aac212694272aed5b27c8ad485ea9d1a4cd873d0d8c5c452522af31578ed8915",
+    "u373-gate-sensitivity.json": "cb7809492cf8af19a88161f8e0af19f1a96ee098a74e2370cee65689feff7efc",
+    "u373-uncertainty-motion-appearance-evaluation.json": "cc1bc9619eb2342693129aa45a928069b9d6495d5eb834d8d8967ed12b971ac3"
+  }
+}
