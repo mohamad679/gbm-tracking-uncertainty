@@ -1,0 +1,36 @@
+# Changelog
+
+All notable project changes are documented here. The project follows semantic versioning from `0.1.0` onward.
+
+## [0.1.0] - 2026-09-19
+
+### Added
+- Deterministic U373 reference manifest and 17 known-truth corruption scenarios.
+- Greedy nearest-neighbour baseline and sampled one-to-one uncertainty evaluation.
+- Hard and soft two-state dynamics sensitivity analyses.
+- Gate-sensitivity evaluation and final evidence-derived audit gates.
+- Motion, area, and raw-image appearance proposal variants.
+- Cross-stage schema/provenance validation and scenario-ID alignment.
+- Runtime provenance with package, Python, dependency, and Git revision metadata.
+- Exact reproducibility constraints for Python 3.11-3.13.
+- ZIP archive safety limits and bounded member reads.
+- Centralized benchmark configuration, calibration utilities, and numerical utilities.
+- GitHub Actions matrix tests, coverage gate, wheel build/install smoke test, and full U373 reproduction workflow.
+
+### Fixed
+- `wrong_link` corruption is now local to one frame rather than behaving like a persistent ID switch.
+- Empty/out-of-bounds appearance descriptors now retain the fixed 28-value contract.
+- Cross-stage artifacts are joined by scenario ID rather than positional order.
+- HMM transition rows remain finite and stochastic when transition evidence is absent.
+- Baseline metadata now reports only the features actually used for matching.
+
+### Performance
+- Soft-dynamics transition accumulation now uses indexed adjacency instead of an all-pairs O(E^2) scan while retaining equivalent benchmark outputs.
+
+### Validation status
+- 50/50 tests pass on Python 3.11, 3.12, and 3.13.
+- Package coverage: 69% with a 65% enforced CI gate.
+- Full pinned U373 reproduction succeeds after the architecture/performance refactor.
+- Technical benchmark gate: complete.
+- Operator-learning gate: HOLD.
+- No biological validation claim is made.
