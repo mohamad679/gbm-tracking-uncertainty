@@ -6,6 +6,7 @@ import json
 from pathlib import Path
 import sys
 
+from gbm_audit.provenance import runtime_provenance
 from gbm_audit.validation import (
     ArtifactValidationError,
     scenario_map,
@@ -139,6 +140,7 @@ def build_final_audit(manifest: dict, corruptions: dict, uncertainty: dict,
         "schema_version": 1,
         "project": "uncertainty-aware glioblastoma tracking feasibility pilot",
         "date": "2026-09-19",
+        "provenance": runtime_provenance(),
         "technical_benchmark_complete": technical_benchmark_complete,
         "operator_learning_ready": operator_learning_ready,
         "biological_validation_claim_supported": biological_validation_claim_supported,
