@@ -9,7 +9,9 @@ import sys
 import numpy as np
 
 from gbm_audit.baseline import nearest_neighbor
-from gbm_audit.uncertainty import _temperature_transform
+from gbm_audit.calibration import temperature_transform
+from gbm_audit.config import DEFAULT_HMM_ITERATIONS, DEFAULT_MAX_DISTANCE_PX
+from gbm_audit.numerics import gaussian_emission, normalize_transition_rows, stationary_distribution
 from gbm_audit.validation import (
     align_scenarios,
     validate_corruptions,
@@ -63,7 +65,7 @@ def posterior_labels(rows: list[dict], posterior_links: list[dict], threshold: f
     used_right: set[str] = set()
     candidates = []
     for edge in posterior_links:
-        probability = _temperature_transform(edge["probability"], calibration_temperature)
+        probability = temperature_transform(edge["probability"], calibration_temperature)
         if probability >= threshold:
             candidates.append((probability, edge["from_observation_id"], edge["to_observation_id"]))
     for probability, left, right in sorted(candidates, key=lambda item: (-item[0], item[1], item[2])):
@@ -110,31 +112,7 @@ def _migration_summary(track_sequences: list[list[dict]]) -> tuple[dict, list[li
     return summary, speed_sequences
 
 
-def _emission(values: np.ndarray, means: np.ndarray, stds: np.ndarray) -> np.ndarray:
-    output = np.empty((len(values), 2), dtype=float)
-    for state in range(2):
-        variance = max(stds[state] ** 2, 1e-6)
-        output[:, state] = np.exp(-0.5 * (values - means[state]) ** 2 / variance) / math.sqrt(2 * math.pi * variance)
-    return np.maximum(output, 1e-300)
-
-
-def _normalize_transition_rows(candidate: np.ndarray, fallback: np.ndarray) -> np.ndarray:
-    """Normalize transition rows, preserving the previous row when no evidence exists."""
-    normalized = np.empty_like(candidate, dtype=float)
-    for row_index in range(candidate.shape[0]):
-        total = float(candidate[row_index].sum())
-        if math.isfinite(total) and total > 0:
-            normalized[row_index] = candidate[row_index] / total
-        else:
-            fallback_total = float(fallback[row_index].sum())
-            if not math.isfinite(fallback_total) or fallback_total <= 0:
-                normalized[row_index] = np.full(candidate.shape[1], 1.0 / candidate.shape[1])
-            else:
-                normalized[row_index] = fallback[row_index] / fallback_total
-    return normalized
-
-
-def fit_hmm(speed_sequences: list[list[float]], iterations: int = 30) -> dict:
+def fit_hmm(speed_sequences: list[list[float]], iterations: int = DEFAULT_HMM_ITERATIONS) -> dict:
     """Fit a small two-state Gaussian HMM with normalized forward-backward EM."""
     if iterations <= 0:
         raise ValueError("iterations must be positive")
@@ -160,7 +138,7 @@ def fit_hmm(speed_sequences: list[list[float]], iterations: int = 30) -> dict:
             values_seq = np.asarray(sequence, dtype=float)
             if len(values_seq) == 0:
                 continue
-            emission = _emission(values_seq, means, stds)
+            emission = gaussian_emission(values_seq, means, stds)
             alpha = np.zeros_like(emission)
             scales = np.zeros(len(values_seq))
             alpha[0] = initial * emission[0]
@@ -185,7 +163,7 @@ def fit_hmm(speed_sequences: list[list[float]], iterations: int = 30) -> dict:
                 transition_sum += xi
         previous_transition = transition.copy()
         initial = initial_sum / max(initial_sum.sum(), 1e-300)
-        transition = _normalize_transition_rows(transition_sum, previous_transition)
+        transition = normalize_transition_rows(transition_sum, previous_transition)
         means = value_sum / np.maximum(gamma_sum, 1e-300)
         variances = value_sq_sum / np.maximum(gamma_sum, 1e-300) - means ** 2
         stds = np.sqrt(np.maximum(variances, 0.01))
@@ -194,12 +172,7 @@ def fit_hmm(speed_sequences: list[list[float]], iterations: int = 30) -> dict:
         stds = stds[::-1]
         transition = transition[::-1, ::-1]
         initial = initial[::-1]
-    transpose = transition.T
-    eigenvalues, eigenvectors = np.linalg.eig(transpose)
-    stationary = eigenvectors[:, np.argmin(abs(eigenvalues - 1))].real
-    stationary = np.abs(stationary) / max(np.abs(stationary).sum(), 1e-300)
-    if not np.all(np.isfinite(transition)) or not np.allclose(transition.sum(axis=1), 1.0, atol=1e-9):
-        raise RuntimeError("HMM transition matrix is not finite and row-stochastic")
+    stationary = stationary_distribution(transition)
     return {
         "status": "ok", "speed_observations": int(len(values)), "sequences": len(speed_sequences),
         "state_means_px_per_frame": [round(float(value), 6) for value in means],
@@ -239,7 +212,8 @@ def _delta(summary: dict, reference: dict) -> dict:
 
 
 def evaluate_dynamics(manifest: dict, corruption_benchmark: dict, uncertainty: dict,
-                      max_distance_px: float = 8.0, thresholds: tuple[float, ...] = (0.5, 0.9)) -> dict:
+                      max_distance_px: float = DEFAULT_MAX_DISTANCE_PX,
+                      thresholds: tuple[float, ...] = (0.5, 0.9)) -> dict:
     if not math.isfinite(max_distance_px) or max_distance_px <= 0:
         raise ValueError("max_distance_px must be finite and > 0")
     if not thresholds or any(not math.isfinite(value) or value < 0 or value > 1 for value in thresholds):
@@ -291,7 +265,7 @@ def main(argv=None) -> int:
     parser.add_argument("corruptions", type=Path)
     parser.add_argument("uncertainty", type=Path)
     parser.add_argument("--output", type=Path, required=True)
-    parser.add_argument("--max-distance-px", type=float, default=8.0)
+    parser.add_argument("--max-distance-px", type=float, default=DEFAULT_MAX_DISTANCE_PX)
     args = parser.parse_args(argv)
     try:
         manifest = json.loads(args.manifest.read_text(encoding="utf-8"))
