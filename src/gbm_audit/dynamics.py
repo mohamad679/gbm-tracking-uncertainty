@@ -118,11 +118,31 @@ def _emission(values: np.ndarray, means: np.ndarray, stds: np.ndarray) -> np.nda
     return np.maximum(output, 1e-300)
 
 
+def _normalize_transition_rows(candidate: np.ndarray, fallback: np.ndarray) -> np.ndarray:
+    """Normalize transition rows, preserving the previous row when no evidence exists."""
+    normalized = np.empty_like(candidate, dtype=float)
+    for row_index in range(candidate.shape[0]):
+        total = float(candidate[row_index].sum())
+        if math.isfinite(total) and total > 0:
+            normalized[row_index] = candidate[row_index] / total
+        else:
+            fallback_total = float(fallback[row_index].sum())
+            if not math.isfinite(fallback_total) or fallback_total <= 0:
+                normalized[row_index] = np.full(candidate.shape[1], 1.0 / candidate.shape[1])
+            else:
+                normalized[row_index] = fallback[row_index] / fallback_total
+    return normalized
+
+
 def fit_hmm(speed_sequences: list[list[float]], iterations: int = 30) -> dict:
     """Fit a small two-state Gaussian HMM with normalized forward-backward EM."""
+    if iterations <= 0:
+        raise ValueError("iterations must be positive")
     values = np.asarray([value for sequence in speed_sequences for value in sequence], dtype=float)
     if len(values) < 4:
         return {"status": "insufficient_speed_observations", "speed_observations": int(len(values))}
+    if not np.all(np.isfinite(values)):
+        raise ValueError("speed observations must be finite")
     quantiles = np.quantile(values, [0.25, 0.75])
     means = np.asarray(quantiles, dtype=float)
     if abs(means[1] - means[0]) < 1e-6:
@@ -163,8 +183,9 @@ def fit_hmm(speed_sequences: list[list[float]], iterations: int = 30) -> dict:
                 xi = alpha[time][:, None] * transition * (emission[time + 1] * beta[time + 1])[None, :]
                 xi /= max(xi.sum(), 1e-300)
                 transition_sum += xi
+        previous_transition = transition.copy()
         initial = initial_sum / max(initial_sum.sum(), 1e-300)
-        transition = transition_sum / np.maximum(transition_sum.sum(axis=1, keepdims=True), 1e-300)
+        transition = _normalize_transition_rows(transition_sum, previous_transition)
         means = value_sum / np.maximum(gamma_sum, 1e-300)
         variances = value_sq_sum / np.maximum(gamma_sum, 1e-300) - means ** 2
         stds = np.sqrt(np.maximum(variances, 0.01))
@@ -177,6 +198,8 @@ def fit_hmm(speed_sequences: list[list[float]], iterations: int = 30) -> dict:
     eigenvalues, eigenvectors = np.linalg.eig(transpose)
     stationary = eigenvectors[:, np.argmin(abs(eigenvalues - 1))].real
     stationary = np.abs(stationary) / max(np.abs(stationary).sum(), 1e-300)
+    if not np.all(np.isfinite(transition)) or not np.allclose(transition.sum(axis=1), 1.0, atol=1e-9):
+        raise RuntimeError("HMM transition matrix is not finite and row-stochastic")
     return {
         "status": "ok", "speed_observations": int(len(values)), "sequences": len(speed_sequences),
         "state_means_px_per_frame": [round(float(value), 6) for value in means],
@@ -217,6 +240,10 @@ def _delta(summary: dict, reference: dict) -> dict:
 
 def evaluate_dynamics(manifest: dict, corruption_benchmark: dict, uncertainty: dict,
                       max_distance_px: float = 8.0, thresholds: tuple[float, ...] = (0.5, 0.9)) -> dict:
+    if not math.isfinite(max_distance_px) or max_distance_px <= 0:
+        raise ValueError("max_distance_px must be finite and > 0")
+    if not thresholds or any(not math.isfinite(value) or value < 0 or value > 1 for value in thresholds):
+        raise ValueError("uncertainty thresholds must be finite probabilities in [0, 1]")
     validate_manifest(manifest)
     validate_corruptions(corruption_benchmark, manifest)
     validate_stage_artifact(uncertainty, "uncertainty artifact", corruption_benchmark)
