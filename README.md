@@ -4,7 +4,7 @@ Goal: measure how known segmentation/tracking errors change migration and image-
 
 ## Current gate
 
-**GO to Stage 1: freeze and verify the U373 reference benchmark.** The earlier human-annotation gate was not executed because independent reviewers became unavailable. Existing work is retained, while quantitative validation moves to public expert annotations and seeded controlled corruptions. See the [pivot decision](docs/pivot-2026-09-19.md), [evidence report](docs/stage0-report.md), and [revised gates](docs/roadmap.md).
+**Technical benchmark package complete; HOLD before SLDS/Koopman.** The reference benchmark, controlled corruptions, uncertainty, downstream HMM sensitivity, proposal sweeps, and raw-image negative control are reproducible. See the [final project report](docs/final-project-report.md), [final reproduction guide](docs/reproduction.md), and [final audit JSON](results/final-audit.json after reproduction). No validated biological claim is made.
 
 ## Sources
 

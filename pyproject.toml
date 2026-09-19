@@ -18,6 +18,7 @@ gbm-uncertainty = "gbm_audit.uncertainty:main"
 gbm-dynamics = "gbm_audit.dynamics:main"
 gbm-gate-sensitivity = "gbm_audit.gate_sensitivity:main"
 gbm-soft-dynamics = "gbm_audit.soft_dynamics:main"
+gbm-final-audit = "gbm_audit.final_audit:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
