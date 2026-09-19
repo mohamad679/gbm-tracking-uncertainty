@@ -127,6 +127,16 @@ def evaluate_soft_dynamics(manifest: dict, corruptions: dict, uncertainty: dict,
         sequence_results = {}
         for sequence_id, scenario_sequence in scenario["sequences"].items():
             posterior = uncertainty_scenario["sequence_results"][sequence_id]["posterior_links"]
+            adaptive_config = uncertainty.get("adaptive_candidate_config") or {}
+            probability_floor = float(adaptive_config.get("posterior_probability_floor", 0.0))
+            if probability_floor > 0:
+                posterior = [
+                    link for link in posterior
+                    if temperature_transform(
+                        link["probability"], uncertainty["calibration"]["temperature"]
+                    )
+                    >= probability_floor
+                ]
             soft = soft_summary(scenario_sequence["observations"], posterior, uncertainty["calibration"]["temperature"])
             reference_hmm = hard_scenario["sequence_results"][sequence_id]["representations"]["reference"]["hmm_2state"]
             hard = hard_scenario["sequence_results"][sequence_id]
@@ -140,6 +150,7 @@ def evaluate_soft_dynamics(manifest: dict, corruptions: dict, uncertainty: dict,
             soft["hard_uncertainty_p90_speed_delta"] = hard["deltas_vs_reference"]["uncertainty_p90"]["mean_speed_delta_px_per_frame"]
             soft["hard_uncertainty_p50_hmm_l1"] = hard["deltas_vs_reference"]["uncertainty_p50"]["hmm_transition_l1"]
             soft["hard_uncertainty_p90_hmm_l1"] = hard["deltas_vs_reference"]["uncertainty_p90"]["hmm_transition_l1"]
+            soft["posterior_probability_floor"] = probability_floor
             sequence_results[sequence_id] = soft
         results.append({"scenario_id": scenario_id, "corruption": scenario["corruption"],
                         "severity": scenario["severity"], "sequence_results": sequence_results})

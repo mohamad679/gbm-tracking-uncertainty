@@ -580,6 +580,7 @@ def main(argv=None) -> int:
     parser.add_argument("--adaptive-cold-start-uncertainty-px", type=float, default=4.0)
     parser.add_argument("--adaptive-history-length", type=int, default=4)
     parser.add_argument("--adaptive-new-track-score-px", type=float, default=None)
+    parser.add_argument("--adaptive-posterior-probability-floor", type=float, default=0.0)
     args = parser.parse_args(argv)
     try:
         manifest = json.loads(args.manifest.read_text(encoding="utf-8"))
@@ -596,6 +597,7 @@ def main(argv=None) -> int:
                 cold_start_uncertainty_px=args.adaptive_cold_start_uncertainty_px,
                 history_length=args.adaptive_history_length,
                 new_track_score_px=args.adaptive_new_track_score_px,
+                posterior_probability_floor=args.adaptive_posterior_probability_floor,
             )
         result = evaluate_benchmark(manifest, corruptions, args.hypotheses,
                                     args.max_distance_px, args.temperature_px,

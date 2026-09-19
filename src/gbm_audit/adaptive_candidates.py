@@ -24,6 +24,7 @@ class AdaptiveCandidateConfig:
     history_length: int = 4
     # Posterior-only control; candidate generation does not read this value.
     new_track_score_px: float | None = None
+    posterior_probability_floor: float = 0.0
 
     def validate(self) -> None:
         finite_nonnegative = {
@@ -41,6 +42,9 @@ class AdaptiveCandidateConfig:
                 not math.isfinite(self.new_track_score_px) or self.new_track_score_px <= 0
         ):
             raise ValueError("new_track_score_px must be finite and > 0 when provided")
+        if (not math.isfinite(self.posterior_probability_floor)
+                or not 0 <= self.posterior_probability_floor <= 1):
+            raise ValueError("posterior_probability_floor must be finite in [0, 1]")
         if self.min_radius_px <= 0:
             raise ValueError("min_radius_px must be > 0")
         if self.max_radius_px < self.min_radius_px:
