@@ -16,6 +16,7 @@ from zipfile import BadZipFile, ZipFile
 import numpy as np
 from PIL import Image
 
+from gbm_audit.archive import read_member_bytes, validate_zip_archive
 from gbm_audit.cli import sha256_file
 
 
@@ -26,7 +27,7 @@ _SEG_RE = re.compile(r"^(?P<root>.+)/(?P<sequence>[0-9]+)_GT/SEG/man_seg(?P<fram
 
 def _lineage(archive: ZipFile, path: str) -> list[dict]:
     rows = []
-    for line_number, line in enumerate(archive.read(path).decode("utf-8").splitlines(), 1):
+    for line_number, line in enumerate(read_member_bytes(archive, path).decode("utf-8").splitlines(), 1):
         if not line.strip():
             continue
         fields = line.split()
@@ -53,7 +54,7 @@ def _lineage(archive: ZipFile, path: str) -> list[dict]:
 def _observations(archive: ZipFile, mask_paths: dict[int, str]) -> dict[int, list[dict]]:
     tracks: dict[int, list[dict]] = {}
     for frame, path in sorted(mask_paths.items()):
-        with Image.open(BytesIO(archive.read(path))) as image:
+        with Image.open(BytesIO(read_member_bytes(archive, path))) as image:
             mask = np.asarray(image)
         if mask.ndim != 2:
             raise ValueError(f"Tracking mask is not 2D: {path}")
@@ -76,10 +77,12 @@ def build_manifest(path: Path) -> dict:
     if not path.is_file():
         raise FileNotFoundError(path)
     with ZipFile(path) as archive:
+        validate_zip_archive(archive)
+        names = set(archive.namelist())
         image_paths: dict[str, dict[int, str]] = {}
         track_paths: dict[str, dict[int, str]] = {}
         seg_paths: dict[str, dict[int, str]] = {}
-        for name in archive.namelist():
+        for name in names:
             if (match := _IMAGE_RE.fullmatch(name)):
                 image_paths.setdefault(match["sequence"], {})[int(match["frame"])] = name
             elif (match := _TRACK_RE.fullmatch(name)):
@@ -97,15 +100,15 @@ def build_manifest(path: Path) -> dict:
                 raise ValueError(f"Sequence {sequence} does not have a contiguous 0-based frame index")
             root = next(iter(images.values())).rsplit(f"/{sequence}/", 1)[0]
             lineage_path = f"{root}/{sequence}_GT/TRA/man_track.txt"
-            if lineage_path not in archive.namelist():
+            if lineage_path not in names:
                 raise ValueError(f"Missing lineage table: {lineage_path}")
             lineage = _lineage(archive, lineage_path)
             observations = _observations(archive, tracks)
             image_shape = None
             for frame in sorted(images):
-                with Image.open(BytesIO(archive.read(images[frame]))) as image:
+                with Image.open(BytesIO(read_member_bytes(archive, images[frame]))) as image:
                     current_image_shape = tuple(np.asarray(image).shape)
-                with Image.open(BytesIO(archive.read(tracks[frame]))) as mask_image:
+                with Image.open(BytesIO(read_member_bytes(archive, tracks[frame]))) as mask_image:
                     current_mask_shape = tuple(np.asarray(mask_image).shape)
                 if len(current_image_shape) != 2 or current_image_shape != current_mask_shape:
                     raise ValueError(f"Image/tracking mask shape mismatch for {sequence}:{frame}")
@@ -114,7 +117,7 @@ def build_manifest(path: Path) -> dict:
                 elif list(current_image_shape) != image_shape:
                     raise ValueError(f"Inconsistent image shape for sequence {sequence}:{frame}")
             for frame, seg_path in seg_paths.get(sequence, {}).items():
-                with Image.open(BytesIO(archive.read(seg_path))) as segmentation:
+                with Image.open(BytesIO(read_member_bytes(archive, seg_path))) as segmentation:
                     if tuple(np.asarray(segmentation).shape) != tuple(image_shape):
                         raise ValueError(f"Image/segmentation shape mismatch for {sequence}:{frame}")
             lineage_ids = {row["track_id"] for row in lineage}
