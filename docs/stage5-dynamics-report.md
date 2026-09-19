@@ -1,6 +1,6 @@
 # Stage 5 downstream dynamics sensitivity report
 
-Date: 2026-09-19. Status: **COMPLETED; REVISE before operator extension.**
+Date: 2026-09-19. Status: **COMPLETED; REVISE before operator extension. Reproduced after `wrong_link` correction.**
 
 ## Protocol
 
@@ -11,7 +11,7 @@ For every corruption scenario and sequence, the pipeline compared:
 3. `nearest_neighbor`: the Stage 3 deterministic tracker;
 4. `uncertainty_p50` and `uncertainty_p90`: connected tracks formed from calibrated posterior links above 0.5 and 0.9.
 
-For each representation, migration features were computed in pixels per frame: track count, track length, consecutive steps, mean/median speed and net displacement. A two-state Gaussian HMM on speed was fit as the first dynamics baseline. States are canonicalized by increasing speed mean; they are latent/morphological states, not validated biological phenotypes.
+For each representation, migration features were computed in pixels per frame: track count, track length, consecutive steps, mean/median speed and net displacement. A two-state Gaussian HMM on speed was fit as the first dynamics baseline. States are latent image-derived states, not validated biological phenotypes.
 
 ## Reproduction
 
@@ -23,6 +23,8 @@ PYTHONPATH=src python3 -m gbm_audit.dynamics \
   --output results/u373-dynamics-evaluation.json \
   --max-distance-px 8
 ```
+
+The corrected dynamics artifact SHA-256 is `cbb360a680960d40778629a0ff2bb44d3cd739a19f205bdb69881a23c791d5c5` from GitHub Actions run `35439231472`.
 
 ## Representative results
 
@@ -42,11 +44,22 @@ PYTHONPATH=src python3 -m gbm_audit.dynamics \
 | σ=5 px noise / 01 | uncertainty p50 | 493 | 4.975 | 0.421 |
 | σ=5 px noise / 01 | uncertainty p90 | 599 | 3.989 | 0.502 |
 
-The clean result shows that a calibrated association posterior does not automatically produce a faithful hard track table: thresholding increases fragmentation and lowers apparent speed. The high-noise result shows the same trade-off from a different direction: raw labels preserve track count but inflate speed, while hard association produces many short tracks. The `id_switch` scenario also changes the raw track-table HMM while leaving a position-only tracker unchanged, confirming that upstream identity errors need a separate downstream treatment.
+## Corrected `wrong_link` sensitivity
+
+The regenerated run now measures the intended one-frame local association error rather than the previous persistent-switch behavior. The position-only tracker is still insensitive to the observed label itself, but the `raw_track_table` dynamics correctly show the downstream effect of the local identity corruption:
+
+| Scenario | Sequence | Raw mean-speed delta (px/frame) | Raw HMM transition L1 | HMM switch-probability delta |
+|---|---|---:|---:|---:|
+| wrong_link_1 | 01 | +0.548 | 1.846 | -0.124 |
+| wrong_link_1 | 02 | +2.176 | 0.756 | -0.105 |
+| wrong_link_2 | 01 | +2.025 | 1.837 | -0.193 |
+| wrong_link_2 | 02 | +2.211 | 0.699 | -0.102 |
+
+This confirms why the corruption semantics mattered: a local upstream identity error can strongly alter track-table-derived speed and latent transition summaries even when the underlying detection coordinates are unchanged.
 
 ## Gate decision
 
-The HMM sensitivity analysis is complete and reproducible. **REVISE before SLDS/Koopman.** The next technical step is a soft-weighted dynamics analysis that integrates posterior link probabilities directly into migration summaries and HMM transition counts instead of converting them to hard p50/p90 tracks. Only if that representation is stable and improves held-out sensitivity should a learned linear operator be added.
+The HMM sensitivity analysis is complete and reproducible. **REVISE before SLDS/Koopman.** The soft-weighted analysis and proposal-gate sweep remain necessary because hard association produces fragmented tracks and the corrected identity-corruption results reinforce the need to keep label errors separate from coordinate errors.
 
 ## Limitations
 
