@@ -42,6 +42,22 @@ class TestUncertainty(unittest.TestCase):
         self.assertEqual(output["candidate_true_link_coverage"], 1.0)
         self.assertNotIn("true_track_id", observations[0])
 
+    def test_candidate_coverage_counts_true_links_outside_gate(self):
+        sequence = {"sequence_id": "01", "split": "development", "frames": 2,
+                    "shape_pixels": [100, 100], "tracks": []}
+        scenario = {"reference_manifest_sha256": "test", "seed": 3, "scenarios": [{
+            "scenario_id": "clean_0", "corruption": "clean", "severity": 0,
+            "sequences": {"01": {"sequence_id": "01", "observations": [
+                {"observation_id": "a0", "frame": 0, "x_px": 0.0, "y_px": 0.0},
+                {"observation_id": "a1", "frame": 1, "x_px": 20.0, "y_px": 0.0}],
+                "evaluation_truth": [
+                    {"observation_id": "a0", "frame": 0, "true_track_id": 1, "observed": True},
+                    {"observation_id": "a1", "frame": 1, "true_track_id": 1, "observed": True}]}}}]}
+        result = evaluate_benchmark({"sequences": {"01": sequence}}, scenario, count=4, max_distance_px=8)
+        output = result["scenarios"][0]["sequence_results"]["01"]
+        self.assertEqual(output["reference_links_present"], 1)
+        self.assertEqual(output["candidate_true_link_coverage"], 0.0)
+
 
 if __name__ == "__main__":
     unittest.main()

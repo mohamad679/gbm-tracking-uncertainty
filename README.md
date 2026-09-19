@@ -55,6 +55,6 @@ The frozen nearest-neighbour comparator is implemented in `gbm_audit.baseline`; 
 
 The sampled multi-hypothesis uncertainty evaluator is implemented in `gbm_audit.uncertainty`; see the [Stage 4 report](docs/stage4-uncertainty-report.md). Calibration is fit on development sequence 01 and evaluated unchanged on sequence 02.
 
-Stage 5 migration and HMM sensitivity is implemented in `gbm_audit.dynamics`; see the [Stage 5 report](docs/stage5-dynamics-report.md). Hard posterior thresholds are documented as a limitation; soft-weighted dynamics must pass before SLDS or Koopman extension.
+Stage 5 migration and HMM sensitivity is implemented in `gbm_audit.dynamics`; see the [Stage 5 report](docs/stage5-dynamics-report.md). The follow-up soft-weighted evaluator is implemented in `gbm_audit.soft_dynamics`; see the [soft dynamics report](docs/stage5-soft-dynamics-report.md). It propagates calibrated link probabilities without p50/p90 thresholding. The current gate-recall limitation means SLDS or Koopman extension is on hold until candidate proposals are improved.
 
 On Windows PowerShell, use `.venv\Scripts\Activate.ps1` instead of `source .venv/bin/activate`.

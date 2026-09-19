@@ -145,12 +145,19 @@ def evaluate_sequence(sequence: dict, scenario_sequence: dict, count: int,
     edge_counts = {edge[:2]: sum(edge[:2] in hypothesis for hypothesis in hypotheses) for edge in edges}
     probabilities = [edge_counts[(left, right)] / count for left, right, _ in edges]
     labels = [int(truth.get(left, 0) > 0 and truth.get(left) == truth.get(right, 0)) for left, right, _ in edges]
+    truth_by_track_frame: dict[tuple[int, int], str] = {}
+    for row in scenario_sequence["evaluation_truth"]:
+        if row["true_track_id"] > 0 and row["observed"]:
+            truth_by_track_frame[(row["true_track_id"], row["frame"])] = row["observation_id"]
+    total_reference_links = sum(
+        (track_id, frame + 1) in truth_by_track_frame
+        for track_id, frame in truth_by_track_frame
+    )
     # The frozen deterministic baseline is still run by Stage 3; here its
     # confidence comparator is the simpler local distance-only probability.
     nearest_neighbor(observations, max_distance_px)
     baseline_probabilities = _distance_baseline_probabilities(edges, max_distance_px, temperature_px)
-    true_links = sum(labels)
-    candidate_true_links = sum(1 for label in labels if label)
+    candidate_true_links = sum(labels)
     selective = {}
     for threshold in (0.5, 0.7, 0.9):
         accepted = [i for i, probability in enumerate(probabilities) if probability >= threshold]
@@ -158,7 +165,8 @@ def evaluate_sequence(sequence: dict, scenario_sequence: dict, count: int,
         selective[str(threshold)] = {
             "accepted_edges": len(accepted),
             "precision": tp / len(accepted) if accepted else 1.0,
-            "recall_over_candidate_edges": tp / true_links if true_links else 1.0,
+            "recall_over_candidate_edges": tp / candidate_true_links if candidate_true_links else 1.0,
+            "recall_over_all_reference_links": tp / total_reference_links if total_reference_links else 1.0,
             "coverage": len(accepted) / len(edges) if edges else 0.0,
         }
     posterior_links = [
@@ -171,13 +179,14 @@ def evaluate_sequence(sequence: dict, scenario_sequence: dict, count: int,
         "scenario_id": scenario_sequence["sequence_id"],
         "observations": len(observations),
         "candidate_edges": len(edges),
-        "reference_links_present": true_links,
+        "reference_links_present": total_reference_links,
         "hypothesis_count": count,
         "unique_hypothesis_count": len({frozenset(hypothesis) for hypothesis in hypotheses}),
         "posterior_links": posterior_links,
         "hypothesis_calibration": _calibration(probabilities, labels),
         "deterministic_baseline_calibration": _calibration(baseline_probabilities, labels),
-        "candidate_true_link_coverage": candidate_true_links / true_links if true_links else 1.0,
+        "candidate_true_link_count": candidate_true_links,
+        "candidate_true_link_coverage": candidate_true_links / total_reference_links if total_reference_links else 1.0,
         "selective": selective,
         "temperature_px": temperature_px,
         "max_distance_px": max_distance_px,
