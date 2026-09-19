@@ -89,6 +89,8 @@ class TestAdaptiveCandidates(unittest.TestCase):
         self.assertEqual(base["candidate_edges"], tuned["candidate_edges"])
         with self.assertRaises(ValueError):
             AdaptiveCandidateConfig(new_track_score_px=0).validate()
+        with self.assertRaises(ValueError):
+            AdaptiveCandidateConfig(posterior_probability_floor=1.1).validate()
 
 
 if __name__ == "__main__":
