@@ -23,14 +23,12 @@ The main claim is technical: how known tracking errors propagate into migration 
 ## Current research-stage progression
 
 Research Stage A, the adaptive candidate-recall breakthrough, is complete and
-passed its locked U373 evaluation. Research Stage B is now active: it replaces
-independent or sampled link frequencies with exact graph-context marginalized
-posterior probabilities while preserving the frozen Stage A candidate graph.
-Its pre-implementation protocol is [`stage-b-protocol.md`](stage-b-protocol.md).
-The exact marginal engine and development-only comparator are complete; the
-recorded development result is [`stage-b-step3-development-evaluation.md`](stage-b-step3-development-evaluation.md).
-Sequence `02` remains locked for the single final Stage B evaluation.
+passed its locked U373 evaluation. Research Stage B is also complete and passed
+its one-time locked U373 evaluation: it replaces independent or sampled link
+frequencies with exact graph-context marginalized posterior probabilities while
+preserving the frozen Stage A candidate graph. Its final evidence is
+[`stage-b-final-report.md`](stage-b-final-report.md).
 
-Stage C remains the later uncertainty-propagation stage for migration and
-latent-state summaries. No Stage B result may be presented as biological
+Stage C is now the next research stage: uncertainty propagation into migration
+and latent-state summaries. No Stage B result may be presented as biological
 validation or as permission to start operator learning.
