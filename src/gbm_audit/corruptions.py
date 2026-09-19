@@ -8,6 +8,8 @@ from pathlib import Path
 import random
 import sys
 
+from gbm_audit.config import DEFAULT_RANDOM_SEED
+
 
 def _manifest_digest(manifest: dict) -> str:
     payload = json.dumps(manifest, sort_keys=True, separators=(",", ":")).encode()
@@ -156,7 +158,7 @@ def _scenario(sequence: dict, corruption: str, severity, seed: int) -> dict:
     }
 
 
-def build_corruption_benchmark(manifest: dict, seed: int = 20260919) -> dict:
+def build_corruption_benchmark(manifest: dict, seed: int = DEFAULT_RANDOM_SEED) -> dict:
     """Create all fixed-seed corruption scenarios from a reference manifest."""
     levels = [
         ("clean", [0]),
@@ -201,7 +203,7 @@ def main(argv=None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("manifest", type=Path)
     parser.add_argument("--output", type=Path, required=True)
-    parser.add_argument("--seed", type=int, default=20260919)
+    parser.add_argument("--seed", type=int, default=DEFAULT_RANDOM_SEED)
     args = parser.parse_args(argv)
     try:
         manifest = json.loads(args.manifest.read_text(encoding="utf-8"))
