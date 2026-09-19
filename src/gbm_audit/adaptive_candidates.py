@@ -215,6 +215,7 @@ def generate_adaptive_candidate_graph(
                     "source_frame": frame,
                     "distance_px": round(direct_distance, 6),
                     "predicted_residual_px": round(predicted_residual, 6),
+                    "proposal_score_px": round(min(direct_distance, predicted_residual), 6),
                     "adaptive_radius_px": round(radius, 6),
                     "inclusion": inclusion,
                 })

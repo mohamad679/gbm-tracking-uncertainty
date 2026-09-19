@@ -64,8 +64,9 @@ The generator returns:
 - candidate edge and target-observation counts;
 - candidate burden in edges per target observation.
 
-Each edge records direct distance, prediction residual, adaptive radius and
-whether inclusion came from the base gate, adaptive gate or both.
+Each edge records direct distance, prediction residual, the smaller of those
+two values as its proposal score, adaptive radius, and whether inclusion came
+from the base gate, adaptive gate or both.
 
 ## Step decision
 

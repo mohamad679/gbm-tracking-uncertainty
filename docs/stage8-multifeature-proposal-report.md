@@ -31,16 +31,16 @@ The area temperature is fixed at 0.5 log-area units; it is not fit on the test s
 
 | Metric | Distance-only | Motion + area | Change |
 |---|---:|---:|---:|
-| Clean speed delta, sequence 01 | -2.316 | -2.511 | -0.195 |
-| Clean speed delta, sequence 02 | -1.443 | -1.554 | -0.111 |
-| σ=5 speed delta, sequence 01 | +0.220 | -0.009 | -0.229 |
-| σ=5 speed delta, sequence 02 | +1.100 | +0.891 | -0.209 |
-| Mean absolute speed delta, sequence 01 | 2.032 | 2.198 | +0.166 |
-| Mean absolute speed delta, sequence 02 | 1.309 | 1.389 | +0.080 |
-| Clean expected link mass, sequence 01 | 570.3 | 517.0 | -53.3 |
-| False-positive expected link mass, sequence 01 | 567.5 | 518.1 | lower overall mass |
+| Clean speed delta, sequence 01 | -2.316 | -2.522 | -0.206 |
+| Clean speed delta, sequence 02 | -1.443 | -1.556 | -0.113 |
+| σ=5 speed delta, sequence 01 | +0.220 | -0.019 | -0.239 |
+| σ=5 speed delta, sequence 02 | +1.100 | +0.883 | -0.217 |
+| Mean absolute speed delta, sequence 01 | 2.032 | 2.205 | +0.173 |
+| Mean absolute speed delta, sequence 02 | 1.309 | 1.388 | +0.079 |
+| Clean expected link mass, sequence 01 | 570.3 | 519.3 | -51.0 |
+| False-positive-5 expected link mass, sequence 01 | 568.1 | 517.1 | lower overall mass |
 
-The area term lowers total expected link mass and worsens clean and aggregate speed error. Its small improvement in the σ=5 scenario is not robust: false-positive separation does not improve, and the model discards uncertain links rather than resolving them.
+The area term lowers total expected link mass and worsens clean and aggregate speed error. Its small improvement in the σ=5 scenario is not robust: false-positive separation does not improve, and the model discards uncertain links rather than resolving them. Values above were reproduced after Stage A Step 3 restricted multi-feature scoring to the declared fixed-distance candidate graph.
 
 ## Gate decision
 
