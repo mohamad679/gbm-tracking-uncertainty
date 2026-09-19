@@ -1,6 +1,6 @@
 import unittest
 
-from gbm_audit.uncertainty import evaluate_benchmark, sample_link_hypotheses
+from gbm_audit.uncertainty import evaluate_benchmark, sample_link_hypotheses, sample_motion_link_hypotheses
 
 
 def _observations():
@@ -57,6 +57,19 @@ class TestUncertainty(unittest.TestCase):
         output = result["scenarios"][0]["sequence_results"]["01"]
         self.assertEqual(output["reference_links_present"], 1)
         self.assertEqual(output["candidate_true_link_coverage"], 0.0)
+
+    def test_motion_hypotheses_are_seeded_and_use_constant_velocity(self):
+        rows = []
+        for frame, x in enumerate((0.0, 2.0, 4.0, 6.0)):
+            rows.append({"observation_id": f"track{frame}", "frame": frame,
+                         "x_px": x, "y_px": 0.0, "area_px": 1})
+            rows.append({"observation_id": f"decoy{frame}", "frame": frame,
+                         "x_px": x + 5.0, "y_px": 0.0, "area_px": 1})
+        first = sample_motion_link_hypotheses(rows, count=8, seed=3)
+        second = sample_motion_link_hypotheses(rows, count=8, seed=3)
+        self.assertEqual(first, second)
+        self.assertTrue(any(("track1", "track2") in links and ("track2", "track3") in links
+                            for links in first))
 
 
 if __name__ == "__main__":

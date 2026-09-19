@@ -82,6 +82,66 @@ def sample_link_hypotheses(observations: list[dict], count: int = 64,
     return hypotheses
 
 
+def sample_motion_link_hypotheses(observations: list[dict], count: int = 64,
+                                  max_distance_px: float = 8.0, temperature_px: float = 4.0,
+                                  seed: int = 20260919) -> list[set[tuple[str, str]]]:
+    """Sample links using a constant-velocity prediction for each active path.
+
+    The proposal remains one-to-one and reads only frame/coordinate fields. A
+    second-order state (last position plus previous position) predicts the next
+    location; the distance temperature is applied to the prediction residual.
+    """
+    by_frame: dict[int, list[dict]] = {}
+    for row in observations:
+        by_frame.setdefault(int(row["frame"]), []).append(row)
+    hypotheses = []
+    for repeat in range(count):
+        rng = random.Random(seed + repeat)
+        # track -> (last_frame, last_id, last_x, last_y, previous_x, previous_y)
+        active: dict[int, tuple[int, str, float, float, float | None, float | None]] = {}
+        next_track = 1
+        links: set[tuple[str, str]] = set()
+        for frame in sorted(by_frame):
+            active = {track_id: state for track_id, state in active.items()
+                      if state[0] == frame - 1}
+            rows = list(by_frame[frame])
+            rng.shuffle(rows)
+            used_tracks: set[int] = set()
+            current_active = {}
+            for row in rows:
+                choices: list[tuple[object, float]] = []
+                for track_id, state in active.items():
+                    if track_id in used_tracks:
+                        continue
+                    _, previous_id, last_x, last_y, prior_x, prior_y = state
+                    if prior_x is None or prior_y is None:
+                        predicted_x, predicted_y = last_x, last_y
+                    else:
+                        predicted_x = last_x + (last_x - prior_x)
+                        predicted_y = last_y + (last_y - prior_y)
+                    residual = float(np.hypot(row["x_px"] - predicted_x,
+                                              row["y_px"] - predicted_y))
+                    if residual <= max_distance_px:
+                        weight = math.exp(-residual / max(temperature_px, 1e-9))
+                        choices.append(((track_id, previous_id), weight))
+                choices.append(((None, None), math.exp(-max_distance_px / max(temperature_px, 1e-9))))
+                track_choice, previous_id = _weighted_choice(rng, choices)
+                if track_choice is None:
+                    track_choice = next_track
+                    next_track += 1
+                    prior_x, prior_y = None, None
+                else:
+                    used_tracks.add(track_choice)
+                    links.add((previous_id, row["observation_id"]))
+                    prior_state = active[track_choice]
+                    prior_x, prior_y = prior_state[2], prior_state[3]
+                current_active[track_choice] = (frame, row["observation_id"],
+                                                row["x_px"], row["y_px"], prior_x, prior_y)
+            active = current_active
+        hypotheses.append(links)
+    return hypotheses
+
+
 def _calibration(probabilities: list[float], labels: list[int], bins: int = 10) -> dict:
     if not probabilities:
         return {"brier": 0.0, "ece": 0.0, "count": 0}
@@ -137,11 +197,17 @@ def _fit_temperature(sequence_results: list[dict]) -> float:
 
 
 def evaluate_sequence(sequence: dict, scenario_sequence: dict, count: int,
-                      max_distance_px: float, temperature_px: float, seed: int) -> dict:
+                      max_distance_px: float, temperature_px: float, seed: int,
+                      proposal_model: str = "distance") -> dict:
     observations = scenario_sequence["observations"]
     truth = {row["observation_id"]: row["true_track_id"] for row in scenario_sequence["evaluation_truth"]}
     edges = _candidate_edges(observations, max_distance_px)
-    hypotheses = sample_link_hypotheses(observations, count, max_distance_px, temperature_px, seed)
+    if proposal_model == "distance":
+        hypotheses = sample_link_hypotheses(observations, count, max_distance_px, temperature_px, seed)
+    elif proposal_model == "motion":
+        hypotheses = sample_motion_link_hypotheses(observations, count, max_distance_px, temperature_px, seed)
+    else:
+        raise ValueError(f"Unknown proposal model: {proposal_model}")
     edge_counts = {edge[:2]: sum(edge[:2] in hypothesis for hypothesis in hypotheses) for edge in edges}
     probabilities = [edge_counts[(left, right)] / count for left, right, _ in edges]
     labels = [int(truth.get(left, 0) > 0 and truth.get(left) == truth.get(right, 0)) for left, right, _ in edges]
@@ -194,7 +260,8 @@ def evaluate_sequence(sequence: dict, scenario_sequence: dict, count: int,
 
 
 def evaluate_benchmark(manifest: dict, corruption_benchmark: dict, count: int = 64,
-                       max_distance_px: float = 8.0, temperature_px: float = 4.0) -> dict:
+                       max_distance_px: float = 8.0, temperature_px: float = 4.0,
+                       proposal_model: str = "distance") -> dict:
     results = []
     for scenario_index, scenario in enumerate(corruption_benchmark["scenarios"]):
         sequence_results = {}
@@ -202,7 +269,8 @@ def evaluate_benchmark(manifest: dict, corruption_benchmark: dict, count: int = 
             sequence_results[sequence_id] = evaluate_sequence(
                 manifest["sequences"][sequence_id], scenario_sequence, count,
                 max_distance_px, temperature_px,
-                corruption_benchmark["seed"] + scenario_index * 1000 + int(sequence_id))
+                corruption_benchmark["seed"] + scenario_index * 1000 + int(sequence_id),
+                proposal_model)
         results.append({"scenario_id": scenario["scenario_id"], "corruption": scenario["corruption"],
                         "severity": scenario["severity"], "sequence_results": sequence_results})
     calibration_temperature = _fit_temperature([
@@ -220,7 +288,8 @@ def evaluate_benchmark(manifest: dict, corruption_benchmark: dict, count: int = 
             sequence_result["calibration_fit_sequence"] = "01"
     return {
         "schema_version": 1,
-        "method": "sampled_one_to_one_nearest_neighbour_hypotheses",
+        "method": f"sampled_one_to_one_{proposal_model}_hypotheses",
+        "proposal_model": proposal_model,
         "hypothesis_count": count,
         "temperature_px": temperature_px,
         "calibration": {"method": "development_sequence_temperature_scaling",
@@ -241,12 +310,14 @@ def main(argv=None) -> int:
     parser.add_argument("--hypotheses", type=int, default=64)
     parser.add_argument("--max-distance-px", type=float, default=8.0)
     parser.add_argument("--temperature-px", type=float, default=4.0)
+    parser.add_argument("--proposal-model", choices=("distance", "motion"), default="distance")
     args = parser.parse_args(argv)
     try:
         manifest = json.loads(args.manifest.read_text(encoding="utf-8"))
         corruptions = json.loads(args.corruptions.read_text(encoding="utf-8"))
         result = evaluate_benchmark(manifest, corruptions, args.hypotheses,
-                                    args.max_distance_px, args.temperature_px)
+                                    args.max_distance_px, args.temperature_px,
+                                    args.proposal_model)
     except (OSError, ValueError, json.JSONDecodeError) as exc:
         print(f"Uncertainty evaluation failed: {exc}", file=sys.stderr)
         return 2

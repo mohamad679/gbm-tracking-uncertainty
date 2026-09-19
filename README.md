@@ -59,4 +59,6 @@ Stage 5 migration and HMM sensitivity is implemented in `gbm_audit.dynamics`; se
 
 Stage 6 candidate-gate sensitivity is implemented in `gbm_audit.gate_sensitivity`; see the [Stage 6 report](docs/stage6-gate-sensitivity-report.md). It sweeps proposal radii before any learned operator is allowed to consume the tracks.
 
+Stage 7 adds a truth-blind constant-velocity proposal model through `gbm_audit.uncertainty --proposal-model motion`; see the [Stage 7 report](docs/stage7-motion-proposal-report.md). It is retained as a sensitivity comparator, not promoted to the operator-learning input.
+
 On Windows PowerShell, use `.venv\Scripts\Activate.ps1` instead of `source .venv/bin/activate`.
