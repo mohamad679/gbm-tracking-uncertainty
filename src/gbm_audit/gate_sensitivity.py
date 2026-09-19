@@ -16,6 +16,8 @@ def summarize_gate(uncertainty: dict, soft: dict, gate: float) -> dict:
     noise_soft = by_id["localization_noise_5p0"]
     coverage = {sequence_id: result["candidate_true_link_coverage"]
                 for sequence_id, result in clean_uncertainty["sequence_results"].items()}
+    burden = {sequence_id: result["candidate_burden_edges_per_target"]
+              for sequence_id, result in clean_uncertainty["sequence_results"].items()}
     clean_speed = {sequence_id: result["mean_speed_px_per_frame"]
                    for sequence_id, result in clean_soft["sequence_results"].items()}
     clean_delta = {sequence_id: result["mean_speed_delta_vs_reference"]
@@ -30,6 +32,7 @@ def summarize_gate(uncertainty: dict, soft: dict, gate: float) -> dict:
     return {
         "max_distance_px": gate,
         "clean_candidate_true_link_coverage": coverage,
+        "clean_candidate_burden_edges_per_target": burden,
         "clean_soft_mean_speed_px_per_frame": clean_speed,
         "clean_soft_speed_delta_px_per_frame": clean_delta,
         "noise_sigma_5_soft_speed_delta_px_per_frame": noise_delta,
