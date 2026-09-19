@@ -40,6 +40,7 @@ gbm-dynamics = "gbm_audit.dynamics:main"
 gbm-gate-sensitivity = "gbm_audit.gate_sensitivity:main"
 gbm-candidate-benchmark = "gbm_audit.candidate_benchmark:main"
 gbm-adaptive-tuning = "gbm_audit.adaptive_tuning:main"
+gbm-adaptive-tuning-v2 = "gbm_audit.adaptive_tuning_v2:main"
 gbm-soft-dynamics = "gbm_audit.soft_dynamics:main"
 gbm-final-audit = "gbm_audit.final_audit:main"
 

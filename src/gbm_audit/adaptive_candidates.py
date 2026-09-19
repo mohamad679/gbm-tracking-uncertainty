@@ -22,6 +22,8 @@ class AdaptiveCandidateConfig:
     density_saturation_count: int = 6
     cold_start_uncertainty_px: float = 4.0
     history_length: int = 4
+    # Posterior-only control; candidate generation does not read this value.
+    new_track_score_px: float | None = None
 
     def validate(self) -> None:
         finite_nonnegative = {
@@ -35,6 +37,10 @@ class AdaptiveCandidateConfig:
         for name, value in finite_nonnegative.items():
             if not math.isfinite(value) or value < 0:
                 raise ValueError(f"{name} must be finite and >= 0")
+        if self.new_track_score_px is not None and (
+                not math.isfinite(self.new_track_score_px) or self.new_track_score_px <= 0
+        ):
+            raise ValueError("new_track_score_px must be finite and > 0 when provided")
         if self.min_radius_px <= 0:
             raise ValueError("min_radius_px must be > 0")
         if self.max_radius_px < self.min_radius_px:
