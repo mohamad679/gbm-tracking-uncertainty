@@ -4,10 +4,10 @@ Objective: Determine whether uncertainty in segmentation and cell tracking chang
 
 ## Workflow
 
-- Work on exactly one research stage at a time. Stage 0 is data feasibility only.
+- Work on exactly one research stage at a time.
 - Delegate independent read-heavy tasks to at most three subagents. Assign one owner per file for write-heavy tasks; use separate Git branches or worktrees for overlapping changes.
 - Each task must specify inputs, outputs, file ownership, a reproducible check, and a time budget.
-- Do not launch Stage 1 until the Stage 0 gate includes actual image inspection and a documented GO decision. Stage 1 must produce the independently reviewed manual track subset before any uncertainty or dynamics model. Continue work within the user's existing project authorization when gates pass; ask only when required account or independent human input is unavailable.
+- Stage 0 and the GlioTrace image-feasibility pilot are complete. From the 2026-09-19 pivot onward, quantitative claims must use existing public reference annotations or controlled perturbations. No new human annotation is required. GlioTrace remains an unlabeled exploratory case study and its machine tracks must never be called ground truth.
 - At every gate, return the evidence, exact commands, unexpected failures, remaining unknowns, cost so far, and GO / REVISE / STOP recommendation.
 
 ## Scientific safeguards
@@ -19,4 +19,4 @@ Objective: Determine whether uncertainty in segmentation and cell tracking chang
 - Image-derived morphological states are not experimentally validated biological phenotype states.
 - A passed software check does not establish a biological result.
 - Differentiate tracking uncertainty conditional on fixed segmentation from full segmentation-plus-tracking uncertainty.
-- Start with manual pilot annotations, a simple tracker, and a frozen evaluation protocol. Add SLDS, Koopman, and GL261 only after a measured need arises.
+- Start with the U373 reference tracks, a simple tracker, and a frozen perturbation/evaluation protocol. Add T98G, SLDS, Koopman, and GL261 only after the preceding gate passes.

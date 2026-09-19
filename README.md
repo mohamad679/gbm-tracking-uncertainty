@@ -1,10 +1,10 @@
 # Glioblastoma tracking uncertainty: feasibility pilot
 
-Goal: measure whether uncertainty in identifying and linking cells changes estimates of migration and image-derived morphological states in brain-slice time-lapse images. This repository currently contains **Stage 0 only**: a reproducible source and dataset audit. It contains no biological result or validated tracking method.
+Goal: measure how known segmentation/tracking errors change migration and image-derived latent-state estimates, and whether calibrated uncertainty makes those conclusions more reliable. Existing expert annotations provide the quantitative reference; GlioTrace brain-slice images are an exploratory application. The repository contains no validated biological phenotype claim.
 
 ## Current gate
 
-**GO to a small annotation pilot.** Two genuine brain-slice ROIs, one from each mouse, and the technical tracking benchmark have been inspected. Image artifacts and a metadata mismatch require caution; the biological modeling gate remains open. See [the evidence report](docs/stage0-report.md) and [decision gates](docs/roadmap.md).
+**GO to Stage 1: freeze and verify the U373 reference benchmark.** The earlier human-annotation gate was not executed because independent reviewers became unavailable. Existing work is retained, while quantitative validation moves to public expert annotations and seeded controlled corruptions. See the [pivot decision](docs/pivot-2026-09-19.md), [evidence report](docs/stage0-report.md), and [revised gates](docs/roadmap.md).
 
 ## Sources
 
@@ -37,12 +37,16 @@ python -m gbm_audit.cli data/raw/PhC-C2DH-U373.zip --output results/ctc-audit.js
 python -m gbm_audit.ctc data/raw/PhC-C2DH-U373.zip --output results/ctc-reference-profile.json
 ```
 
-The archive audit reads directory metadata without unzipping entire archives. `gbm_audit.cli` reads NumPy array *headers*, not full image arrays. Visual inspection and a short manually reviewed set of tracks are still required before Stage 1.
+The archive audit reads directory metadata without unzipping entire archives. `gbm_audit.cli` reads NumPy array *headers*, not full image arrays. Visual inspection remains useful for the exploratory GlioTrace case study but is not a prerequisite for the reference benchmark.
 
-## Stage 1 manual pilot
+## Archived GlioTrace feasibility pilot
 
-The repository contains only the viewer and protocol. With the two ROI files present locally, run `python -m gbm_audit.pilot --output-dir results/stage1-viewer` and open the generated `index.html`. Four fixed ten-frame windows are prepared. Two independent human reviewers must export their CSVs; those private files stay outside Git. No HMM, SLDS, Koopman operator, or automatic reference track is allowed before the Stage 1 gate report passes.
+With the two ROI files present locally, `python -m gbm_audit.pilot --output-dir results/stage1-viewer` prepares four fixed ten-frame windows. This viewer is retained for qualitative inspection only. It is not required for the quantitative benchmark, and its machine candidates are not reference tracks.
 
-For a single-specialist assisted pilot, machine candidates can be produced after image preparation with `python -m gbm_audit.proposals`, then checked with `python -m gbm_audit.overlay`. The candidate CSV and contact sheets stay in ignored `results/`. This is **not** human ground truth or an independent human review. See [the Persian expert brief](docs/human-review-brief-fa.md). A specialist should first submit image-only annotations before viewing candidate overlays, then inspect disagreements.
+Machine candidates can be produced with `python -m gbm_audit.proposals` and visualized with `python -m gbm_audit.overlay`. Candidate CSVs and contact sheets stay in ignored `results/`. They are exploratory outputs, never human ground truth.
+
+## Next reproducible stage
+
+Stage 1 now freezes U373 sequence-level splits, verifies reference identities, centroids and lineages, and emits a machine-readable benchmark manifest. Stage 2 will inject seeded, fully known tracking errors into those reference tracks. T98G is an independent confirmation dataset after its archive schema passes a separate audit.
 
 On Windows PowerShell, use `.venv\Scripts\Activate.ps1` instead of `source .venv/bin/activate`.

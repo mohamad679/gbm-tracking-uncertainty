@@ -1,4 +1,6 @@
-# Stage 0 evidence and decision
+# Stage 0 evidence and original decision
+
+> Historical record: the manual-pilot recommendation below was superseded by the 2026-09-19 [human-independent pivot](pivot-2026-09-19.md). The evidence remains valid; the next gate is now the U373 reference benchmark.
 
 Date: 2026-09-18. Status: **GO for a small, manually annotated tracking pilot; no GO for downstream biological inference yet.** Two genuine ROIs, one from each mouse, were inspected. A full-project GO decision remains premature.
 

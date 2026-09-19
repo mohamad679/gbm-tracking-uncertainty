@@ -1,4 +1,6 @@
-# Next controlled experiment: manual track feasibility
+# Archived protocol: manual track feasibility
+
+Status: **NOT EXECUTED.** The required independent reviewers became unavailable. This protocol remains as provenance for the prepared viewer but is no longer a project gate. See the [2026-09-19 pivot](pivot-2026-09-19.md).
 
 This is the next gate, not a claim of completed gold-standard validation.
 
