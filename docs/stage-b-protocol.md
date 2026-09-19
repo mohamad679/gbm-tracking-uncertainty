@@ -39,9 +39,10 @@ marginals: competing links to the same source or target reduce one another's
 probability through the shared matching distribution.
 
 The implementation must be exact for every evaluated component. It may not
-silently fall back to independent probabilities or Monte Carlo sampling. A
-component that exceeds the declared exact-computation resource bound yields
-`REVISE` until a separately versioned inference method is approved.
+silently fall back to independent probabilities or Monte Carlo sampling. The
+initial exact-computation resource bound is 18 targets per connected component.
+A component that exceeds this bound yields `REVISE` until a separately versioned
+inference method is approved.
 
 ## Leakage control and evaluation roles
 
