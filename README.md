@@ -57,4 +57,6 @@ The sampled multi-hypothesis uncertainty evaluator is implemented in `gbm_audit.
 
 Stage 5 migration and HMM sensitivity is implemented in `gbm_audit.dynamics`; see the [Stage 5 report](docs/stage5-dynamics-report.md). The follow-up soft-weighted evaluator is implemented in `gbm_audit.soft_dynamics`; see the [soft dynamics report](docs/stage5-soft-dynamics-report.md). It propagates calibrated link probabilities without p50/p90 thresholding. The current gate-recall limitation means SLDS or Koopman extension is on hold until candidate proposals are improved.
 
+Stage 6 candidate-gate sensitivity is implemented in `gbm_audit.gate_sensitivity`; see the [Stage 6 report](docs/stage6-gate-sensitivity-report.md). It sweeps proposal radii before any learned operator is allowed to consume the tracks.
+
 On Windows PowerShell, use `.venv\Scripts\Activate.ps1` instead of `source .venv/bin/activate`.

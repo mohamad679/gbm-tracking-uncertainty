@@ -16,6 +16,7 @@ gbm-corrupt = "gbm_audit.corruptions:main"
 gbm-baseline = "gbm_audit.baseline:main"
 gbm-uncertainty = "gbm_audit.uncertainty:main"
 gbm-dynamics = "gbm_audit.dynamics:main"
+gbm-gate-sensitivity = "gbm_audit.gate_sensitivity:main"
 gbm-soft-dynamics = "gbm_audit.soft_dynamics:main"
 
 [tool.setuptools.packages.find]
