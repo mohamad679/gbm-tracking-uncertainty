@@ -1,6 +1,6 @@
 # Stage 4 uncertainty and hypothesis report
 
-Date: 2026-09-19. Status: **GO** to downstream dynamics sensitivity analysis.
+Date: 2026-09-19. Status: **GO** to downstream dynamics sensitivity analysis; reproduced after correctness hardening.
 
 ## Frozen uncertainty protocol
 
@@ -8,16 +8,16 @@ For each adjacent-frame candidate edge within 8 px, 64 one-to-one track hypothes
 
 The posterior link probability is the fraction of hypotheses containing the edge. A local distance-only probability is retained as the simple confidence baseline. A single scalar temperature is then fit on development sequence 01 only, using all controlled corruption scenarios, and applied unchanged to held-out sequence 02.
 
-## Held-out results
+## Reproduced results
 
 | Sequence | Raw hypothesis Brier | Calibrated hypothesis Brier | Distance baseline Brier | Raw hypothesis ECE | Calibrated hypothesis ECE | Baseline ECE |
 |---|---:|---:|---:|---:|---:|---:|
-| 01 development | 0.0696 | 0.0213 | 0.0670 | 0.2334 | 0.0622 | 0.2332 |
-| 02 test | 0.0636 | 0.0168 | 0.0612 | 0.2243 | 0.0498 | 0.2246 |
+| 01 development | 0.0696 | 0.0213 | 0.0670 | 0.2335 | 0.0621 | 0.2332 |
+| 02 test | 0.0636 | 0.0167 | 0.0612 | 0.2243 | 0.0498 | 0.2246 |
 
-The calibrated hypothesis posterior has lower Brier score than the distance baseline in all 17 held-out scenarios. It also lowers mean ECE on the held-out sequence. Every scenario produced 64 unique sampled hypotheses, so the posterior is not a duplicate deterministic track in this benchmark.
+The calibrated hypothesis posterior remains better calibrated than the local distance baseline across the reproduced benchmark. The correction to `wrong_link` changes upstream identity-label semantics, while this position-based proposal layer remains essentially stable.
 
-Representative held-out cases:
+Representative held-out cases remain:
 
 | Scenario | Calibrated Brier | Baseline Brier | Calibrated ECE | Baseline ECE |
 |---|---:|---:|---:|---:|
@@ -37,15 +37,15 @@ PYTHONPATH=src python3 -m gbm_audit.uncertainty \
   --hypotheses 64 --max-distance-px 8 --temperature-px 4
 ```
 
-The output stores posterior link probabilities, truth labels in the evaluation section, calibration bins, selective thresholds and the fitted development-only temperature. Its SHA-256 in this run is `05211644b18f1392920a1bf8b40a3ca754f3c43fe7525a723d876f3587584c9c`.
+The corrected reproduced uncertainty artifact SHA-256 is `d11e487656ee219f1075c5c027efe42b4cf387f2afbc0340c8a9d9da746fdcac`. The full run was produced by GitHub Actions run `35439231472`; a compact, versioned snapshot is stored in `docs/reproduced-results-2026-09-19.json`.
 
 ## Interpretation boundaries
 
 - This is a controlled U373 technical benchmark. The result does not establish calibrated probabilities for unlabelled GlioTrace brain-slice tracks.
 - The temperature fit uses sequence 01, so sequence 02 remains held out for the reported generalization check. The two sequences are still a small technical sample.
 - The current hypotheses condition on fixed detections and candidate edges. Full segmentation uncertainty and learned global operators remain future stages.
-- ID-switch and wrong-link perturbations do not change positions; a position-only tracker cannot observe an upstream label error. Those perturbations remain relevant for downstream track-table sensitivity.
+- ID-switch and wrong-link perturbations do not change positions; a position-only tracker cannot directly observe the upstream label error. Those perturbations remain relevant for downstream track-table sensitivity.
 
 ## Gate decision
 
-**GO** to Stage 5 downstream dynamics sensitivity. Use the calibrated posterior and the frozen deterministic baseline to estimate migration summaries and latent-state transitions under clean, corrupted and uncertainty-aware tracks. Keep HMM as the first dynamics model; defer SLDS/Koopman until sensitivity results justify them.
+**GO** to Stage 5 downstream dynamics sensitivity. Keep HMM as the first dynamics model; defer SLDS/Koopman until sensitivity results justify them.
