@@ -6,6 +6,8 @@ from zipfile import ZipFile
 import numpy as np
 from PIL import Image
 
+from gbm_audit.archive import read_member_bytes
+
 
 _DESCRIPTOR_LENGTH = 28
 
@@ -14,7 +16,7 @@ def load_frames(archive: ZipFile, image_paths: list[str]) -> dict[int, np.ndarra
     """Decode the indexed image frames needed by one U373 sequence."""
     frames = {}
     for frame, path in enumerate(image_paths):
-        with Image.open(BytesIO(archive.read(path))) as image:
+        with Image.open(BytesIO(read_member_bytes(archive, path))) as image:
             frames[frame] = np.asarray(image.convert("L"), dtype=np.float32) / 255.0
     return frames
 
