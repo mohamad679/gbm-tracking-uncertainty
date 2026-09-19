@@ -1,23 +1,44 @@
 # Reproduction guide
 
-This repository is a technical feasibility audit. It does not claim validated glioblastoma biology. Raw archives stay outside Git; only hashes, reproducible commands, and a compact result snapshot are tracked.
+This repository is a technical feasibility audit. It does not claim validated glioblastoma biology. Raw archives stay outside Git; only hashes, reproducible commands, environment constraints, and compact result snapshots are tracked.
 
-## Environment
+## Supported environment
+
+Release `0.1.0` supports CPython 3.11, 3.12, and 3.13. Runtime dependency ranges live in `pyproject.toml`; exact versions for the validated environment live in `constraints.txt`.
 
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
-python -m pip install -e .
-PYTHONPATH=src python3 -m unittest discover -s tests -q
+python -m pip install -c constraints.txt -e .
+coverage run --source=gbm_audit -m unittest discover -s tests -q
+coverage report --show-missing --fail-under=65
 ```
 
-Test success is established by the test command and GitHub Actions. It is not copied manually into the scientific audit artifact, so the audit cannot become stale when the test suite changes.
+The CI matrix executes the same pinned installation on Python 3.11, 3.12, and 3.13. It also builds the wheel and reinstalls it as a package smoke test. Test success is established by the commands and GitHub Actions; it is not manually copied into scientific output fields.
+
+### Exact dependency pins
+
+The validated constraints are interpreter-aware because the newest NumPy line does not provide the same CPython 3.11 wheel support as 3.12/3.13:
+
+- Python 3.11: `numpy==2.4.2`
+- Python 3.12–3.13: `numpy==2.5.3`
+- `Pillow==12.3.0`
+- `certifi==2026.7.22`
+- CI coverage tool: `coverage==7.16.1`
 
 ## Automated full reproduction
 
-`.github/workflows/reproduce-benchmark.yml` reproduces the full U373 technical benchmark on GitHub Actions. It downloads the official Cell Tracking Challenge training archive, records its SHA-256, runs the unit/integration tests, executes the benchmark/corruption/baseline/uncertainty/dynamics/gate/proposal stages, generates the final audit, and uploads the full `results/` directory as a workflow artifact.
+`.github/workflows/reproduce-benchmark.yml` reproduces the full U373 technical benchmark on GitHub Actions. It installs through `constraints.txt`, downloads the official Cell Tracking Challenge training archive, records its SHA-256, runs the unit/integration tests, executes the benchmark/corruption/baseline/uncertainty/dynamics/gate/proposal stages, generates the final audit, and uploads the full `results/` directory as a workflow artifact.
 
-The correctness-hardened reference run completed successfully as GitHub Actions run `35439231472` from source commit `982c1c23619ce0955e1267dc8da36ab3280e5c3c`. The uploaded artifact digest is `sha256:c30c04ebd4ac6e1414682ed4851845536126d59b9675514ef9ff61cd0be3e579`. A compact permanent numerical record is versioned at `docs/reproduced-results-2026-09-19.json`.
+The workflow supplies `GBM_AUDIT_GIT_SHA=${{ github.sha }}` to the numerical pipeline. `results/final-audit.json` therefore records:
+
+- package name and package version;
+- Python version and implementation;
+- NumPy, Pillow, and certifi versions;
+- source Git commit SHA;
+- SHA-256 hashes of every audit input artifact.
+
+A compact permanent numerical record is versioned at `docs/reproduced-results-2026-09-19.json`. Full generated JSON remains an Actions artifact rather than committed bulk output.
 
 ## Local pipeline
 
@@ -44,6 +65,10 @@ Every downstream stage validates schema version, reference-manifest identity, co
 
 ## Reproduced interpretation
 
-The final audit derives its gates from the validated artifacts. The current operator-readiness rule requires at least one candidate radius to achieve at least 95% clean true-link coverage on every sequence without worsening the absolute held-out `localization_noise_5p0` soft-speed error by more than 1.0 px/frame relative to the smallest tested gate.
+The final audit derives its gates from the validated artifacts. The operator-readiness rule requires at least one candidate radius to achieve at least 95% clean true-link coverage on every sequence without worsening the absolute held-out `localization_noise_5p0` soft-speed error by more than 1.0 px/frame relative to the smallest tested gate.
 
 The reproduced result remains `operator_learning_ready = false`: 8 px fails clean coverage, 12 px fails coverage and robustness, and 16 px passes coverage but fails the robustness criterion. Biological validation also remains false because the reference manifest does not declare brain-slice biological ground truth.
+
+## Licensing
+
+Repository source code is distributed under the MIT License in `LICENSE`. That license does not grant redistribution rights for external datasets. The U373/Cell Tracking Challenge and GlioTrace sources retain their own terms and should be cited and redistributed only according to those terms.
