@@ -22,6 +22,12 @@ from gbm_audit.validation import (
 )
 
 
+# Fitted once from the 17 development-only sequence-01 scenarios in Stage B
+# Step 3.  The locked evaluator imports these values and never refits them.
+FROZEN_EXACT_CONTEXT_TEMPERATURE = 0.55
+FROZEN_SAMPLED_STAGE_A_TEMPERATURE = 0.55
+
+
 def development_only_artifacts(manifest: dict, corruptions: dict) -> tuple[dict, dict]:
     """Retain sequence 01 and every predeclared scenario, failing closed on drift."""
     validate_manifest(manifest)
@@ -194,7 +200,7 @@ def evaluate_development(manifest: dict, corruptions: dict) -> dict:
             "sampled_stage_a_posterior_links": sampled_links,
         })
 
-    exact_temperature = _fit_temperature([
+    fitted_exact_temperature = _fit_temperature([
         {"posterior_links": row["exact_context_posterior_links"]}
         for row in exact_rows
     ])
@@ -214,7 +220,7 @@ def evaluate_development(manifest: dict, corruptions: dict) -> dict:
         scenario_results.append({
             **exact_row,
             "exact_context": _posterior_metrics(
-                exact_row["exact_context_posterior_links"], exact_temperature
+                exact_row["exact_context_posterior_links"], FROZEN_EXACT_CONTEXT_TEMPERATURE
             ),
             "sampled_stage_a": _posterior_metrics(
                 sampled_result["posterior_links"], sampled_temperature
@@ -237,13 +243,19 @@ def evaluate_development(manifest: dict, corruptions: dict) -> dict:
             "calibration": {
                 "method": "development_sequence_temperature_scaling",
                 "fit_sequence": DEVELOPMENT_SEQUENCE_ID,
-                "temperature": exact_temperature,
+                "temperature": FROZEN_EXACT_CONTEXT_TEMPERATURE,
+                "fitted_temperature": fitted_exact_temperature,
             },
-            "aggregate_metrics": _posterior_metrics(exact_links, exact_temperature),
+            "aggregate_metrics": _posterior_metrics(
+                exact_links, FROZEN_EXACT_CONTEXT_TEMPERATURE
+            ),
         },
         "sampled_stage_a": {
             "hypothesis_count": sampled["hypothesis_count"],
-            "calibration": sampled["calibration"],
+            "calibration": {
+                **sampled["calibration"],
+                "fitted_temperature": sampled_temperature,
+            },
             "aggregate_metrics": _posterior_metrics(sampled_links, sampled_temperature),
         },
         "scenario_results": scenario_results,

@@ -1,6 +1,6 @@
 # Stage B protocol: context-aware posterior
 
-Date: 2026-09-19. Status: **FROZEN BEFORE IMPLEMENTATION**
+Date: 2026-09-19. Status: **FROZEN — PASSED 2026-09-19**
 
 ## Research question
 
@@ -98,3 +98,11 @@ Stage B establishes graph-level association uncertainty. Propagating that
 uncertainty into speed, persistence and state transitions belongs to Stage C.
 It remains a controlled U373 technical benchmark and does not validate
 biological claims for GlioTrace brain-slice data.
+
+## Final decision
+
+The one-time locked sequence-`02` evaluation was run after the development
+calibration temperature of `0.55` was frozen. All registered invariants,
+resource-bound and calibrated Brier/ECE non-inferiority gates passed on both
+sequences. Stage B therefore passed. The complete result is in
+[`stage-b-final-report.md`](stage-b-final-report.md).
