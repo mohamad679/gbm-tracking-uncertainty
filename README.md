@@ -61,4 +61,6 @@ Stage 6 candidate-gate sensitivity is implemented in `gbm_audit.gate_sensitivity
 
 Stage 7 adds a truth-blind constant-velocity proposal model through `gbm_audit.uncertainty --proposal-model motion`; see the [Stage 7 report](docs/stage7-motion-proposal-report.md). It is retained as a sensitivity comparator, not promoted to the operator-learning input.
 
+Stage 8 tests a motion-plus-area proposal through `--proposal-model motion_area`; see the [Stage 8 report](docs/stage8-multifeature-proposal-report.md). The morphology proxy does not improve aggregate robustness, so raw-image appearance features remain an optional future extension rather than a hidden assumption.
+
 On Windows PowerShell, use `.venv\Scripts\Activate.ps1` instead of `source .venv/bin/activate`.

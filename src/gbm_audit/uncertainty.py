@@ -82,9 +82,10 @@ def sample_link_hypotheses(observations: list[dict], count: int = 64,
     return hypotheses
 
 
-def sample_motion_link_hypotheses(observations: list[dict], count: int = 64,
-                                  max_distance_px: float = 8.0, temperature_px: float = 4.0,
-                                  seed: int = 20260919) -> list[set[tuple[str, str]]]:
+def _sample_motion_link_hypotheses(observations: list[dict], count: int = 64,
+                                   max_distance_px: float = 8.0, temperature_px: float = 4.0,
+                                   seed: int = 20260919,
+                                   area_temperature: float | None = None) -> list[set[tuple[str, str]]]:
     """Sample links using a constant-velocity prediction for each active path.
 
     The proposal remains one-to-one and reads only frame/coordinate fields. A
@@ -97,8 +98,8 @@ def sample_motion_link_hypotheses(observations: list[dict], count: int = 64,
     hypotheses = []
     for repeat in range(count):
         rng = random.Random(seed + repeat)
-        # track -> (last_frame, last_id, last_x, last_y, previous_x, previous_y)
-        active: dict[int, tuple[int, str, float, float, float | None, float | None]] = {}
+        # track -> (last_frame, last_id, last_x, last_y, previous_x, previous_y, last_area)
+        active: dict[int, tuple[int, str, float, float, float | None, float | None, float]] = {}
         next_track = 1
         links: set[tuple[str, str]] = set()
         for frame in sorted(by_frame):
@@ -113,7 +114,7 @@ def sample_motion_link_hypotheses(observations: list[dict], count: int = 64,
                 for track_id, state in active.items():
                     if track_id in used_tracks:
                         continue
-                    _, previous_id, last_x, last_y, prior_x, prior_y = state
+                    _, previous_id, last_x, last_y, prior_x, prior_y, last_area = state
                     if prior_x is None or prior_y is None:
                         predicted_x, predicted_y = last_x, last_y
                     else:
@@ -122,7 +123,11 @@ def sample_motion_link_hypotheses(observations: list[dict], count: int = 64,
                     residual = float(np.hypot(row["x_px"] - predicted_x,
                                               row["y_px"] - predicted_y))
                     if residual <= max_distance_px:
-                        weight = math.exp(-residual / max(temperature_px, 1e-9))
+                        area_penalty = 0.0
+                        if area_temperature is not None:
+                            area_penalty = abs(math.log((float(row.get("area_px", 0.0)) + 1.0)
+                                                       / (last_area + 1.0))) / max(area_temperature, 1e-9)
+                        weight = math.exp(-residual / max(temperature_px, 1e-9) - area_penalty)
                         choices.append(((track_id, previous_id), weight))
                 choices.append(((None, None), math.exp(-max_distance_px / max(temperature_px, 1e-9))))
                 track_choice, previous_id = _weighted_choice(rng, choices)
@@ -136,10 +141,28 @@ def sample_motion_link_hypotheses(observations: list[dict], count: int = 64,
                     prior_state = active[track_choice]
                     prior_x, prior_y = prior_state[2], prior_state[3]
                 current_active[track_choice] = (frame, row["observation_id"],
-                                                row["x_px"], row["y_px"], prior_x, prior_y)
+                                                row["x_px"], row["y_px"], prior_x, prior_y,
+                                                float(row.get("area_px", 0.0)))
             active = current_active
         hypotheses.append(links)
     return hypotheses
+
+
+def sample_motion_link_hypotheses(observations: list[dict], count: int = 64,
+                                  max_distance_px: float = 8.0, temperature_px: float = 4.0,
+                                  seed: int = 20260919) -> list[set[tuple[str, str]]]:
+    """Sample one-to-one links with constant-velocity prediction only."""
+    return _sample_motion_link_hypotheses(observations, count, max_distance_px,
+                                          temperature_px, seed, None)
+
+
+def sample_motion_area_link_hypotheses(observations: list[dict], count: int = 64,
+                                       max_distance_px: float = 8.0, temperature_px: float = 4.0,
+                                       seed: int = 20260919,
+                                       area_temperature: float = 0.5) -> list[set[tuple[str, str]]]:
+    """Sample links using motion residual plus log-area consistency."""
+    return _sample_motion_link_hypotheses(observations, count, max_distance_px,
+                                          temperature_px, seed, area_temperature)
 
 
 def _calibration(probabilities: list[float], labels: list[int], bins: int = 10) -> dict:
@@ -206,6 +229,8 @@ def evaluate_sequence(sequence: dict, scenario_sequence: dict, count: int,
         hypotheses = sample_link_hypotheses(observations, count, max_distance_px, temperature_px, seed)
     elif proposal_model == "motion":
         hypotheses = sample_motion_link_hypotheses(observations, count, max_distance_px, temperature_px, seed)
+    elif proposal_model == "motion_area":
+        hypotheses = sample_motion_area_link_hypotheses(observations, count, max_distance_px, temperature_px, seed)
     else:
         raise ValueError(f"Unknown proposal model: {proposal_model}")
     edge_counts = {edge[:2]: sum(edge[:2] in hypothesis for hypothesis in hypotheses) for edge in edges}
@@ -310,7 +335,7 @@ def main(argv=None) -> int:
     parser.add_argument("--hypotheses", type=int, default=64)
     parser.add_argument("--max-distance-px", type=float, default=8.0)
     parser.add_argument("--temperature-px", type=float, default=4.0)
-    parser.add_argument("--proposal-model", choices=("distance", "motion"), default="distance")
+    parser.add_argument("--proposal-model", choices=("distance", "motion", "motion_area"), default="distance")
     args = parser.parse_args(argv)
     try:
         manifest = json.loads(args.manifest.read_text(encoding="utf-8"))
