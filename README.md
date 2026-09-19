@@ -6,6 +6,20 @@ Goal: measure how known segmentation/tracking errors change migration and image-
 
 **Technical benchmark package complete; HOLD before SLDS/Koopman.** The reference benchmark, controlled corruptions, uncertainty, downstream HMM sensitivity, proposal sweeps, and raw-image negative control are reproducible. See the [final project report](docs/final-project-report.md), [final reproduction guide](docs/reproduction.md), and [final audit JSON](results/final-audit.json after reproduction). No validated biological claim is made.
 
+## Release and reproducibility contract
+
+The current package version is **0.1.0**. Supported Python versions are **3.11, 3.12, and 3.13**. Runtime dependency ranges are declared in `pyproject.toml`; the exact dependency set used by the validated GitHub Actions reproduction is pinned in `constraints.txt`.
+
+For a byte-for-byte controlled software environment, install with:
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install -c constraints.txt -e .
+```
+
+The final audit records package version, Python version, dependency versions, and the Git commit SHA supplied by the reproduction workflow. Source code is licensed under the MIT License; dataset licenses and redistribution terms remain separate and must be respected independently.
+
 ## Sources
 
 - Primary images: [GlioTrace example data, Zenodo 21981544](https://zenodo.org/records/21981544), two mice, `Example_data.zip` (5.6 GB) and `metadata.csv`. Its published axis description conflicts with one real array header; verify with `--expected-frames`.
@@ -23,17 +37,19 @@ The complete executable implementation is versioned in this repository:
 - `scripts/`: data-preparation and pilot-download utilities.
 - `tests/`: unit and integration tests covering the Python package and reproducibility gates.
 - `docs/`: English technical reports and reproduction notes.
+- `constraints.txt`: exact dependency versions used by the validated reproducibility environment.
+- `LICENSE`: MIT license for this repository's source code.
 
 Generated outputs under `results/` and downloaded raw data under `data/raw/` are intentionally ignored by Git; they can be regenerated with the commands below and are not source code.
 
 ## To reproduce the small pilot without downloading 5.6 GB
 
-Install Python 3.11–3.13 and NumPy, then from the project directory:
+Install Python 3.11–3.13, then from the project directory:
 
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
-python -m pip install -e .
+python -m pip install -c constraints.txt -e .
 python scripts/fetch_pilot_rois.py
 python -m gbm_audit.roi data/raw/glio_trace/Set_67/exp_333_roi_84_stack.npz --output results/set67-roi.json
 python -m gbm_audit.roi data/raw/glio_trace/Set_68/exp_337_roi_63_stack.npz --expected-frames 68 --output results/set68-roi.json
@@ -58,7 +74,7 @@ Machine candidates can be produced with `python -m gbm_audit.proposals` and visu
 
 ## Next reproducible stage
 
-Stage 1 now freezes U373 sequence-level splits, verifies reference identities, centroids and lineages, and emits a machine-readable benchmark manifest. See the [Stage 1 reference report](docs/stage1-reference-report.md). Stage 2 will inject seeded, fully known tracking errors into those reference tracks. T98G is an independent confirmation dataset after its archive schema passes a separate audit.
+Stage 1 now freezes U373 sequence-level splits, verifies reference identities, centroids and lineages, and emits a machine-readable benchmark manifest. See the [Stage 1 reference report](docs/stage1-reference-report.md). Stage 2 injects seeded, fully known tracking errors into those reference tracks. T98G is an independent confirmation dataset after its archive schema passes a separate audit.
 
 The controlled-error benchmark is implemented in `gbm_audit.corruptions`; see the [Stage 2 report](docs/stage2-corruption-report.md). It produces 17 deterministic scenarios with evaluation truth isolated from tracker input.
 
