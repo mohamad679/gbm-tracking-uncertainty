@@ -10,8 +10,24 @@ from zipfile import ZipFile
 
 import numpy as np
 
-from gbm_audit.baseline import nearest_neighbor
 from gbm_audit.appearance import add_descriptors, load_frames
+
+
+def _validate_sampling_parameters(count: int, max_distance_px: float,
+                                  temperature_px: float,
+                                  *, area_temperature: float | None = None,
+                                  appearance_temperature: float | None = None) -> None:
+    if count <= 0:
+        raise ValueError("hypothesis count must be a positive integer")
+    if not math.isfinite(max_distance_px) or max_distance_px <= 0:
+        raise ValueError("max_distance_px must be finite and > 0")
+    if not math.isfinite(temperature_px) or temperature_px <= 0:
+        raise ValueError("temperature_px must be finite and > 0")
+    if area_temperature is not None and (not math.isfinite(area_temperature) or area_temperature <= 0):
+        raise ValueError("area_temperature must be finite and > 0")
+    if appearance_temperature is not None and (
+            not math.isfinite(appearance_temperature) or appearance_temperature <= 0):
+        raise ValueError("appearance_temperature must be finite and > 0")
 
 
 def _candidate_edges(observations: list[dict], max_distance_px: float) -> list[tuple[str, str, float]]:
@@ -46,6 +62,7 @@ def sample_link_hypotheses(observations: list[dict], count: int = 64,
                            max_distance_px: float = 8.0, temperature_px: float = 4.0,
                            seed: int = 20260919) -> list[set[tuple[str, str]]]:
     """Sample one-to-one frame-to-frame link sets; no truth fields are read."""
+    _validate_sampling_parameters(count, max_distance_px, temperature_px)
     by_frame: dict[int, list[dict]] = {}
     for row in observations:
         by_frame.setdefault(int(row["frame"]), []).append(row)
@@ -68,9 +85,9 @@ def sample_link_hypotheses(observations: list[dict], count: int = 64,
                         continue
                     distance = float(np.hypot(row["x_px"] - x, row["y_px"] - y))
                     if distance <= max_distance_px:
-                        weight = math.exp(-distance / max(temperature_px, 1e-9))
+                        weight = math.exp(-distance / temperature_px)
                         choices.append(((track_id, previous_id), weight))
-                choices.append(((None, None), math.exp(-max_distance_px / max(temperature_px, 1e-9))))
+                choices.append(((None, None), math.exp(-max_distance_px / temperature_px)))
                 track_choice, previous_id = _weighted_choice(rng, choices)
                 if track_choice is None:
                     track_choice = next_track
@@ -89,25 +106,23 @@ def _sample_motion_link_hypotheses(observations: list[dict], count: int = 64,
                                    seed: int = 20260919,
                                    area_temperature: float | None = None,
                                    appearance_temperature: float | None = None) -> list[set[tuple[str, str]]]:
-    """Sample links using a constant-velocity prediction for each active path.
-
-    The proposal remains one-to-one and reads only frame/coordinate fields. A
-    second-order state (last position plus previous position) predicts the next
-    location; the distance temperature is applied to the prediction residual.
-    """
+    """Sample links using a constant-velocity prediction for each active path."""
+    _validate_sampling_parameters(
+        count, max_distance_px, temperature_px,
+        area_temperature=area_temperature,
+        appearance_temperature=appearance_temperature,
+    )
     by_frame: dict[int, list[dict]] = {}
     for row in observations:
         by_frame.setdefault(int(row["frame"]), []).append(row)
     hypotheses = []
     for repeat in range(count):
         rng = random.Random(seed + repeat)
-        # track -> (..., last_area, last_appearance_descriptor)
         active: dict[int, tuple] = {}
         next_track = 1
         links: set[tuple[str, str]] = set()
         for frame in sorted(by_frame):
-            active = {track_id: state for track_id, state in active.items()
-                      if state[0] == frame - 1}
+            active = {track_id: state for track_id, state in active.items() if state[0] == frame - 1}
             rows = list(by_frame[frame])
             rng.shuffle(rows)
             used_tracks: set[int] = set()
@@ -123,24 +138,26 @@ def _sample_motion_link_hypotheses(observations: list[dict], count: int = 64,
                     else:
                         predicted_x = last_x + (last_x - prior_x)
                         predicted_y = last_y + (last_y - prior_y)
-                    residual = float(np.hypot(row["x_px"] - predicted_x,
-                                              row["y_px"] - predicted_y))
+                    residual = float(np.hypot(row["x_px"] - predicted_x, row["y_px"] - predicted_y))
                     if residual <= max_distance_px:
                         area_penalty = 0.0
                         if area_temperature is not None:
                             area_penalty = abs(math.log((float(row.get("area_px", 0.0)) + 1.0)
-                                                       / (last_area + 1.0))) / max(area_temperature, 1e-9)
+                                                       / (last_area + 1.0))) / area_temperature
                         appearance_penalty = 0.0
                         descriptor = row.get("appearance_descriptor")
                         if appearance_temperature is not None and descriptor is not None and last_appearance is not None:
                             vector = np.asarray(descriptor, dtype=float)
                             previous_vector = np.asarray(last_appearance, dtype=float)
-                            appearance_distance = float(np.linalg.norm(vector - previous_vector) / max(np.sqrt(len(vector)), 1.0))
-                            appearance_penalty = appearance_distance / max(appearance_temperature, 1e-9)
-                        weight = math.exp(-residual / max(temperature_px, 1e-9)
-                                          - area_penalty - appearance_penalty)
+                            if vector.shape != previous_vector.shape:
+                                raise ValueError("appearance descriptors must have matching dimensions")
+                            appearance_distance = float(
+                                np.linalg.norm(vector - previous_vector) / max(np.sqrt(len(vector)), 1.0)
+                            )
+                            appearance_penalty = appearance_distance / appearance_temperature
+                        weight = math.exp(-residual / temperature_px - area_penalty - appearance_penalty)
                         choices.append(((track_id, previous_id), weight))
-                choices.append(((None, None), math.exp(-max_distance_px / max(temperature_px, 1e-9))))
+                choices.append(((None, None), math.exp(-max_distance_px / temperature_px)))
                 track_choice, previous_id = _weighted_choice(rng, choices)
                 if track_choice is None:
                     track_choice = next_track
@@ -151,10 +168,10 @@ def _sample_motion_link_hypotheses(observations: list[dict], count: int = 64,
                     links.add((previous_id, row["observation_id"]))
                     prior_state = active[track_choice]
                     prior_x, prior_y = prior_state[2], prior_state[3]
-                current_active[track_choice] = (frame, row["observation_id"],
-                                                row["x_px"], row["y_px"], prior_x, prior_y,
-                                                float(row.get("area_px", 0.0)),
-                                                row.get("appearance_descriptor"))
+                current_active[track_choice] = (
+                    frame, row["observation_id"], row["x_px"], row["y_px"], prior_x, prior_y,
+                    float(row.get("area_px", 0.0)), row.get("appearance_descriptor")
+                )
             active = current_active
         hypotheses.append(links)
     return hypotheses
@@ -163,16 +180,13 @@ def _sample_motion_link_hypotheses(observations: list[dict], count: int = 64,
 def sample_motion_link_hypotheses(observations: list[dict], count: int = 64,
                                   max_distance_px: float = 8.0, temperature_px: float = 4.0,
                                   seed: int = 20260919) -> list[set[tuple[str, str]]]:
-    """Sample one-to-one links with constant-velocity prediction only."""
-    return _sample_motion_link_hypotheses(observations, count, max_distance_px,
-                                          temperature_px, seed, None)
+    return _sample_motion_link_hypotheses(observations, count, max_distance_px, temperature_px, seed, None)
 
 
 def sample_motion_area_link_hypotheses(observations: list[dict], count: int = 64,
                                        max_distance_px: float = 8.0, temperature_px: float = 4.0,
                                        seed: int = 20260919,
                                        area_temperature: float = 0.5) -> list[set[tuple[str, str]]]:
-    """Sample links using motion residual plus log-area consistency."""
     return _sample_motion_link_hypotheses(observations, count, max_distance_px,
                                           temperature_px, seed, area_temperature)
 
@@ -181,7 +195,6 @@ def sample_motion_appearance_link_hypotheses(observations: list[dict], count: in
                                              max_distance_px: float = 8.0, temperature_px: float = 4.0,
                                              seed: int = 20260919,
                                              appearance_temperature: float = 0.35) -> list[set[tuple[str, str]]]:
-    """Sample links using motion residual plus local image-patch similarity."""
     return _sample_motion_link_hypotheses(observations, count, max_distance_px,
                                           temperature_px, seed, None, appearance_temperature)
 
@@ -207,16 +220,15 @@ def _calibration(probabilities: list[float], labels: list[int], bins: int = 10) 
 
 def _distance_baseline_probabilities(edges: list[tuple[str, str, float]],
                                      max_distance_px: float, temperature_px: float) -> list[float]:
-    """A local distance-only confidence baseline, normalized against new-track mass."""
     by_target: dict[str, list[tuple[int, float]]] = {}
     for index, (_, target, distance) in enumerate(edges):
         by_target.setdefault(target, []).append((index, distance))
-    new_weight = math.exp(-max_distance_px / max(temperature_px, 1e-9))
+    new_weight = math.exp(-max_distance_px / temperature_px)
     probabilities = [0.0] * len(edges)
     for candidates in by_target.values():
-        denominator = new_weight + sum(math.exp(-distance / max(temperature_px, 1e-9)) for _, distance in candidates)
+        denominator = new_weight + sum(math.exp(-distance / temperature_px) for _, distance in candidates)
         for index, distance in candidates:
-            probabilities[index] = math.exp(-distance / max(temperature_px, 1e-9)) / denominator
+            probabilities[index] = math.exp(-distance / temperature_px) / denominator
     return probabilities
 
 
@@ -228,21 +240,23 @@ def _temperature_transform(probability: float, temperature: float) -> float:
 
 
 def _fit_temperature(sequence_results: list[dict]) -> float:
-    """Fit one scalar on development posterior labels; never inspect test labels."""
     pairs = [(link["probability"], int(link["true_link"]))
              for result in sequence_results for link in result["posterior_links"]]
     if not pairs:
         return 1.0
     candidates = [0.25 + index * 0.05 for index in range(316)]
+
     def loss(temperature):
         return float(np.mean([(_temperature_transform(probability, temperature) - label) ** 2
                               for probability, label in pairs]))
+
     return min(candidates, key=loss)
 
 
 def evaluate_sequence(sequence: dict, scenario_sequence: dict, count: int,
                       max_distance_px: float, temperature_px: float, seed: int,
                       proposal_model: str = "distance") -> dict:
+    _validate_sampling_parameters(count, max_distance_px, temperature_px)
     observations = scenario_sequence["observations"]
     truth = {row["observation_id"]: row["true_track_id"] for row in scenario_sequence["evaluation_truth"]}
     edges = _candidate_edges(observations, max_distance_px)
@@ -263,13 +277,8 @@ def evaluate_sequence(sequence: dict, scenario_sequence: dict, count: int,
     for row in scenario_sequence["evaluation_truth"]:
         if row["true_track_id"] > 0 and row["observed"]:
             truth_by_track_frame[(row["true_track_id"], row["frame"])] = row["observation_id"]
-    total_reference_links = sum(
-        (track_id, frame + 1) in truth_by_track_frame
-        for track_id, frame in truth_by_track_frame
-    )
-    # The frozen deterministic baseline is still run by Stage 3; here its
-    # confidence comparator is the simpler local distance-only probability.
-    nearest_neighbor(observations, max_distance_px)
+    total_reference_links = sum((track_id, frame + 1) in truth_by_track_frame
+                                for track_id, frame in truth_by_track_frame)
     baseline_probabilities = _distance_baseline_probabilities(edges, max_distance_px, temperature_px)
     candidate_true_links = sum(labels)
     selective = {}
@@ -310,6 +319,7 @@ def evaluate_sequence(sequence: dict, scenario_sequence: dict, count: int,
 def evaluate_benchmark(manifest: dict, corruption_benchmark: dict, count: int = 64,
                        max_distance_px: float = 8.0, temperature_px: float = 4.0,
                        proposal_model: str = "distance", archive_path: Path | None = None) -> dict:
+    _validate_sampling_parameters(count, max_distance_px, temperature_px)
     appearance_frames = {}
     if proposal_model == "motion_appearance":
         if archive_path is None:
@@ -332,9 +342,7 @@ def evaluate_benchmark(manifest: dict, corruption_benchmark: dict, count: int = 
                 proposal_model)
         results.append({"scenario_id": scenario["scenario_id"], "corruption": scenario["corruption"],
                         "severity": scenario["severity"], "sequence_results": sequence_results})
-    calibration_temperature = _fit_temperature([
-        result["sequence_results"]["01"] for result in results
-    ])
+    calibration_temperature = _fit_temperature([result["sequence_results"]["01"] for result in results])
     for result in results:
         for sequence_result in result["sequence_results"].values():
             calibrated_probabilities = [
