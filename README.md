@@ -63,4 +63,6 @@ Stage 7 adds a truth-blind constant-velocity proposal model through `gbm_audit.u
 
 Stage 8 tests a motion-plus-area proposal through `--proposal-model motion_area`; see the [Stage 8 report](docs/stage8-multifeature-proposal-report.md). The morphology proxy does not improve aggregate robustness, so raw-image appearance features remain an optional future extension rather than a hidden assumption.
 
+Stage 9 audits a raw-image patch descriptor with `--proposal-model motion_appearance` and `--archive`; see the [Stage 9 report](docs/stage9-raw-appearance-report.md). The handcrafted descriptor improves some speed summaries but fails posterior calibration and is rejected for operator learning.
+
 On Windows PowerShell, use `.venv\Scripts\Activate.ps1` instead of `source .venv/bin/activate`.

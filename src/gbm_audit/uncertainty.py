@@ -6,10 +6,12 @@ import math
 from pathlib import Path
 import random
 import sys
+from zipfile import ZipFile
 
 import numpy as np
 
 from gbm_audit.baseline import nearest_neighbor
+from gbm_audit.appearance import add_descriptors, load_frames
 
 
 def _candidate_edges(observations: list[dict], max_distance_px: float) -> list[tuple[str, str, float]]:
@@ -85,7 +87,8 @@ def sample_link_hypotheses(observations: list[dict], count: int = 64,
 def _sample_motion_link_hypotheses(observations: list[dict], count: int = 64,
                                    max_distance_px: float = 8.0, temperature_px: float = 4.0,
                                    seed: int = 20260919,
-                                   area_temperature: float | None = None) -> list[set[tuple[str, str]]]:
+                                   area_temperature: float | None = None,
+                                   appearance_temperature: float | None = None) -> list[set[tuple[str, str]]]:
     """Sample links using a constant-velocity prediction for each active path.
 
     The proposal remains one-to-one and reads only frame/coordinate fields. A
@@ -98,8 +101,8 @@ def _sample_motion_link_hypotheses(observations: list[dict], count: int = 64,
     hypotheses = []
     for repeat in range(count):
         rng = random.Random(seed + repeat)
-        # track -> (last_frame, last_id, last_x, last_y, previous_x, previous_y, last_area)
-        active: dict[int, tuple[int, str, float, float, float | None, float | None, float]] = {}
+        # track -> (..., last_area, last_appearance_descriptor)
+        active: dict[int, tuple] = {}
         next_track = 1
         links: set[tuple[str, str]] = set()
         for frame in sorted(by_frame):
@@ -114,7 +117,7 @@ def _sample_motion_link_hypotheses(observations: list[dict], count: int = 64,
                 for track_id, state in active.items():
                     if track_id in used_tracks:
                         continue
-                    _, previous_id, last_x, last_y, prior_x, prior_y, last_area = state
+                    _, previous_id, last_x, last_y, prior_x, prior_y, last_area, last_appearance = state
                     if prior_x is None or prior_y is None:
                         predicted_x, predicted_y = last_x, last_y
                     else:
@@ -127,7 +130,15 @@ def _sample_motion_link_hypotheses(observations: list[dict], count: int = 64,
                         if area_temperature is not None:
                             area_penalty = abs(math.log((float(row.get("area_px", 0.0)) + 1.0)
                                                        / (last_area + 1.0))) / max(area_temperature, 1e-9)
-                        weight = math.exp(-residual / max(temperature_px, 1e-9) - area_penalty)
+                        appearance_penalty = 0.0
+                        descriptor = row.get("appearance_descriptor")
+                        if appearance_temperature is not None and descriptor is not None and last_appearance is not None:
+                            vector = np.asarray(descriptor, dtype=float)
+                            previous_vector = np.asarray(last_appearance, dtype=float)
+                            appearance_distance = float(np.linalg.norm(vector - previous_vector) / max(np.sqrt(len(vector)), 1.0))
+                            appearance_penalty = appearance_distance / max(appearance_temperature, 1e-9)
+                        weight = math.exp(-residual / max(temperature_px, 1e-9)
+                                          - area_penalty - appearance_penalty)
                         choices.append(((track_id, previous_id), weight))
                 choices.append(((None, None), math.exp(-max_distance_px / max(temperature_px, 1e-9))))
                 track_choice, previous_id = _weighted_choice(rng, choices)
@@ -142,7 +153,8 @@ def _sample_motion_link_hypotheses(observations: list[dict], count: int = 64,
                     prior_x, prior_y = prior_state[2], prior_state[3]
                 current_active[track_choice] = (frame, row["observation_id"],
                                                 row["x_px"], row["y_px"], prior_x, prior_y,
-                                                float(row.get("area_px", 0.0)))
+                                                float(row.get("area_px", 0.0)),
+                                                row.get("appearance_descriptor"))
             active = current_active
         hypotheses.append(links)
     return hypotheses
@@ -163,6 +175,15 @@ def sample_motion_area_link_hypotheses(observations: list[dict], count: int = 64
     """Sample links using motion residual plus log-area consistency."""
     return _sample_motion_link_hypotheses(observations, count, max_distance_px,
                                           temperature_px, seed, area_temperature)
+
+
+def sample_motion_appearance_link_hypotheses(observations: list[dict], count: int = 64,
+                                             max_distance_px: float = 8.0, temperature_px: float = 4.0,
+                                             seed: int = 20260919,
+                                             appearance_temperature: float = 0.35) -> list[set[tuple[str, str]]]:
+    """Sample links using motion residual plus local image-patch similarity."""
+    return _sample_motion_link_hypotheses(observations, count, max_distance_px,
+                                          temperature_px, seed, None, appearance_temperature)
 
 
 def _calibration(probabilities: list[float], labels: list[int], bins: int = 10) -> dict:
@@ -231,6 +252,8 @@ def evaluate_sequence(sequence: dict, scenario_sequence: dict, count: int,
         hypotheses = sample_motion_link_hypotheses(observations, count, max_distance_px, temperature_px, seed)
     elif proposal_model == "motion_area":
         hypotheses = sample_motion_area_link_hypotheses(observations, count, max_distance_px, temperature_px, seed)
+    elif proposal_model == "motion_appearance":
+        hypotheses = sample_motion_appearance_link_hypotheses(observations, count, max_distance_px, temperature_px, seed)
     else:
         raise ValueError(f"Unknown proposal model: {proposal_model}")
     edge_counts = {edge[:2]: sum(edge[:2] in hypothesis for hypothesis in hypotheses) for edge in edges}
@@ -286,11 +309,22 @@ def evaluate_sequence(sequence: dict, scenario_sequence: dict, count: int,
 
 def evaluate_benchmark(manifest: dict, corruption_benchmark: dict, count: int = 64,
                        max_distance_px: float = 8.0, temperature_px: float = 4.0,
-                       proposal_model: str = "distance") -> dict:
+                       proposal_model: str = "distance", archive_path: Path | None = None) -> dict:
+    appearance_frames = {}
+    if proposal_model == "motion_appearance":
+        if archive_path is None:
+            raise ValueError("motion_appearance requires --archive")
+        with ZipFile(archive_path) as archive:
+            for sequence_id, sequence in manifest["sequences"].items():
+                appearance_frames[sequence_id] = load_frames(archive, sequence["image_paths"])
     results = []
     for scenario_index, scenario in enumerate(corruption_benchmark["scenarios"]):
         sequence_results = {}
         for sequence_id, scenario_sequence in scenario["sequences"].items():
+            if proposal_model == "motion_appearance":
+                scenario_sequence = {**scenario_sequence,
+                                     "observations": add_descriptors(
+                                         scenario_sequence["observations"], appearance_frames[sequence_id])}
             sequence_results[sequence_id] = evaluate_sequence(
                 manifest["sequences"][sequence_id], scenario_sequence, count,
                 max_distance_px, temperature_px,
@@ -335,14 +369,16 @@ def main(argv=None) -> int:
     parser.add_argument("--hypotheses", type=int, default=64)
     parser.add_argument("--max-distance-px", type=float, default=8.0)
     parser.add_argument("--temperature-px", type=float, default=4.0)
-    parser.add_argument("--proposal-model", choices=("distance", "motion", "motion_area"), default="distance")
+    parser.add_argument("--proposal-model", choices=("distance", "motion", "motion_area", "motion_appearance"), default="distance")
+    parser.add_argument("--archive", type=Path, default=None,
+                        help="U373 ZIP required by motion_appearance")
     args = parser.parse_args(argv)
     try:
         manifest = json.loads(args.manifest.read_text(encoding="utf-8"))
         corruptions = json.loads(args.corruptions.read_text(encoding="utf-8"))
         result = evaluate_benchmark(manifest, corruptions, args.hypotheses,
                                     args.max_distance_px, args.temperature_px,
-                                    args.proposal_model)
+                                    args.proposal_model, args.archive)
     except (OSError, ValueError, json.JSONDecodeError) as exc:
         print(f"Uncertainty evaluation failed: {exc}", file=sys.stderr)
         return 2
