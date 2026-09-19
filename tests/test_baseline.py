@@ -44,6 +44,8 @@ class TestBaseline(unittest.TestCase):
         self.assertEqual(metrics["id_switches"], 0)
         self.assertEqual(metrics["link_precision"], 1.0)
         self.assertEqual(metrics["link_recall"], 1.0)
+        self.assertEqual(result["tracker"]["uses"], ["frame", "x_px", "y_px"])
+        self.assertIn("area_px", result["tracker"]["ignores"])
 
 
 if __name__ == "__main__":
