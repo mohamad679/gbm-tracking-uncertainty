@@ -29,14 +29,13 @@ frequencies with exact graph-context marginalized posterior probabilities while
 preserving the frozen Stage A candidate graph. Its final evidence is
 [`stage-b-final-report.md`](stage-b-final-report.md).
 
-Research Stage C is now active. It will propagate the passed Stage B exact
-association posterior into migration and latent-state summaries using compatible
-trajectory ensembles rather than hard edge cutoffs. Its frozen protocol is
-[`stage-c-protocol.md`](stage-c-protocol.md), and its exact sampler is complete
-with a development-only structural audit
-([`stage-c-step2-exact-sampler.md`](stage-c-step2-exact-sampler.md)). The
-development-only migration/state summaries and frozen HMM are also complete
-([`stage-c-step3-development-summaries.md`](stage-c-step3-development-summaries.md));
-sequence `02` remains locked for the final Stage C evaluation. No Stage B or
-Stage C result may be presented as biological validation or as permission to
-start operator learning.
+Research Stage C completed its one-time locked evaluation with a `REVISE`
+decision. Exact trajectory ensembles passed invariant, accuracy
+non-inferiority and completeness gates, but their mean-speed intervals covered
+the sequence-`02` reference in 0/17 scenarios. The result and required revision
+boundary are documented in [`stage-c-final-report.md`](stage-c-final-report.md).
+
+Stage D operator learning remains blocked. A Stage C revision must model
+proposal/localization uncertainty using development data and must reserve a new
+independent locked test; sequence `02` may not be reused for selection. No Stage
+B or Stage C result is biological validation.
