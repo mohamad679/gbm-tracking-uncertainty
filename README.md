@@ -101,6 +101,7 @@ The latest frozen result summary is in [`docs/reproduced-results-2026-09-19.json
 | Module | Responsibility |
 |---|---|
 | `benchmark.py` | Build deterministic U373 reference manifest |
+| `t98g_audit.py` | Lock T98G provenance, archive identity and reference structure without performance evaluation |
 | `corruptions.py` | Generate 17 seeded known-truth scenarios |
 | `baseline.py` | Frozen greedy nearest-neighbour comparator |
 | `uncertainty.py` | Sample one-to-one association hypotheses and calibrate probabilities |
@@ -137,6 +138,7 @@ Raw data and generated `results/` outputs are not source-controlled.
 - [`docs/stage-a-protocol.md`](docs/stage-a-protocol.md) — frozen adaptive-candidate benchmark contract
 - [`docs/stage-a-step2-adaptive-generator.md`](docs/stage-a-step2-adaptive-generator.md) — adaptive v1 engineering design and scope
 - [`docs/stage-a-step3-integration.md`](docs/stage-a-step3-integration.md) — candidate/posterior/downstream graph invariant
+- [`docs/stage-c-v2-step2-t98g-audit.md`](docs/stage-c-v2-step2-t98g-audit.md) — independent T98G data-only audit and lock decision
 - [`CHANGELOG.md`](CHANGELOG.md) — release history
 
 ## Sources
@@ -144,7 +146,7 @@ Raw data and generated `results/` outputs are not source-controlled.
 - Technical benchmark: [Cell Tracking Challenge U373](https://celltrackingchallenge.net/2d-datasets/), phase-contrast cells on a substrate, not brain slices.
 - Exploratory images: [GlioTrace example data, Zenodo 21981544](https://zenodo.org/records/21981544).
 - Reference implementation: [Gliomethods/GlioTrace](https://github.com/Gliomethods/GlioTrace).
-- Secondary technical benchmark candidate: [T98G electrotaxis](https://zenodo.org/records/19026908).
+- Locked independent technical test: [T98G electrotaxis](https://zenodo.org/records/19026908), human-curated variant, `CC-BY-4.0`; performance remains unevaluated.
 
 Dataset licenses and redistribution terms are independent from this repository's MIT source-code license.
 

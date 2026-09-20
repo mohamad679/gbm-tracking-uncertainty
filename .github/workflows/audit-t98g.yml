@@ -1,0 +1,42 @@
+name: audit-t98g-data
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - ".github/workflows/audit-t98g.yml"
+      - "docs/stage-c-v2-t98g-locked-manifest.json"
+      - "pyproject.toml"
+      - "src/gbm_audit/archive.py"
+      - "src/gbm_audit/t98g_audit.py"
+      - "tests/test_t98g_audit.py"
+
+permissions:
+  contents: read
+
+jobs:
+  structural-audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install pinned environment
+        run: python -m pip install -c constraints.txt -e .
+      - name: Download frozen Zenodo archive
+        run: |
+          mkdir -p data/raw
+          curl --fail --location --retry 3 \
+            --output data/raw/T98G_electrotaxis.zip \
+            https://zenodo.org/api/records/19026908/files/T98G_electrotaxis.zip/content
+      - name: Reproduce structural-only audit
+        run: |
+          python -m gbm_audit.t98g_audit \
+            data/raw/T98G_electrotaxis.zip \
+            --output /tmp/stage-c-v2-t98g-locked-manifest.json
+          diff -u \
+            docs/stage-c-v2-t98g-locked-manifest.json \
+            /tmp/stage-c-v2-t98g-locked-manifest.json
+      - name: Run T98G audit contract tests
+        run: python -m unittest tests.test_t98g_audit -v

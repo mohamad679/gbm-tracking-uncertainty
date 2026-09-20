@@ -1,6 +1,6 @@
 # Stage C v2 protocol: calibrated predictive trajectory uncertainty
 
-Date: 2026-09-20. Status: **FROZEN BEFORE DEVELOPMENT**.
+Date: 2026-09-20. Status: **FROZEN — TEST MANIFEST LOCKED UNEVALUATED**.
 
 ## Reason for revision
 
@@ -144,3 +144,12 @@ GlioTrace biological phenotype.
    issue `PASS` or `REVISE`.
 
 Stage D remains blocked until Stage C v2 passes this gate.
+
+## Execution status
+
+Step 1 of the execution order passed the data-only audit. The human-curated
+`T98G_sample` variant is frozen by archive and member hashes in
+[`stage-c-v2-t98g-locked-manifest.json`](stage-c-v2-t98g-locked-manifest.json);
+the Detectron2 variant is excluded because it is not an independent sequence.
+No tracking or downstream performance was evaluated. Implementation may now
+proceed to Step 2 while T98G remains locked and unevaluated.

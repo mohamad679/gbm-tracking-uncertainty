@@ -1,0 +1,147 @@
+{
+  "schema_version": 1,
+  "audit": "stage_c_v2_t98g_data_only_audit_v1",
+  "status": "PASS",
+  "lock_state": "LOCKED_UNEVALUATED",
+  "audit_date": "2026-09-20",
+  "source": {
+    "record_id": 19026908,
+    "concept_record_id": 18924852,
+    "doi": "10.5281/zenodo.19026908",
+    "concept_doi": "10.5281/zenodo.18924852",
+    "record_url": "https://zenodo.org/records/19026908",
+    "api_url": "https://zenodo.org/api/records/19026908",
+    "archive_url": "https://zenodo.org/api/records/19026908/files/T98G_electrotaxis.zip/content",
+    "publisher": "Zenodo",
+    "publication_date": "2026-03-15",
+    "access_right": "open",
+    "license": "CC-BY-4.0",
+    "creators": [
+      {
+        "name": "Chang, I-Ming",
+        "affiliation": "Chang Gung University"
+      },
+      {
+        "name": "Tsai, Hsieh-Fu",
+        "affiliation": "Chang Gung University",
+        "orcid": "0000-0002-8652-4643"
+      }
+    ]
+  },
+  "archive": {
+    "file_name": "T98G_electrotaxis.zip",
+    "size_bytes": 147735077,
+    "zenodo_md5": "5e89fc619d40e1e8f4aa8e733abc2f87",
+    "sha256": "1b80d50f61efca6729af4ef691adab77d06c358fbda7a73744eb4e9b252abd6c",
+    "zip_integrity": "PASS",
+    "file_count": 298,
+    "uncompressed_bytes": 469651691
+  },
+  "locked_test": {
+    "dataset_id": "T98G_electrotaxis_human_v2",
+    "sequence_id": "T98G_sample",
+    "selected_variant": "T98G_human",
+    "reference_kind": "human_curated_segmentation_masks_and_lineage",
+    "test_corruption_seed": 20260920,
+    "variant": "T98G_human",
+    "raw_frames": 37,
+    "tracking_mask_frames": 37,
+    "segmentation_mask_frames": 37,
+    "source_frame_range": [
+      1,
+      37
+    ],
+    "reference_frame_range": [
+      0,
+      36
+    ],
+    "shape_pixels": [
+      1022,
+      1024
+    ],
+    "image_dtypes": [
+      "uint16"
+    ],
+    "tracking_mask_dtypes": [
+      "uint16"
+    ],
+    "segmentation_mask_dtypes": [
+      "uint16"
+    ],
+    "lineage_rows": 101,
+    "root_tracks": 84,
+    "child_tracks": 17,
+    "expected_active_label_instances": 2653,
+    "observed_active_label_instances": 2648,
+    "missing_active_label_instances": 5,
+    "raw_frame_series_sha256": "718a258ea0b175fc8dc482f8b1583ae0b45a7560de430393d3f1a6e0c3815360",
+    "lineage_sha256": "8be6651a0906ada03311954ce2ab3dc354cd3f6faaf8a4e6b868a5fe8a196505",
+    "selected_member_set_sha256": "4b1645883c5b13e29717f56b7f93c286d6bee012c50cd6e16069650d8285a176",
+    "schema_checks": {
+      "contiguous_frame_indices": true,
+      "two_dimensional_images": true,
+      "consistent_shapes": true,
+      "known_nonoverlapping_parents": true,
+      "tracking_labels_stay_within_lineage_intervals": true,
+      "every_lineage_id_is_observed": true
+    }
+  },
+  "excluded_variant": {
+    "variant": "T98G_detectron2",
+    "reason": "Automated Detectron2 segmentation of the same raw sequence and lineage; not an independent locked-test sequence.",
+    "structural_audit": {
+      "variant": "T98G_detectron2",
+      "raw_frames": 37,
+      "tracking_mask_frames": 37,
+      "segmentation_mask_frames": 37,
+      "source_frame_range": [
+        1,
+        37
+      ],
+      "reference_frame_range": [
+        0,
+        36
+      ],
+      "shape_pixels": [
+        1022,
+        1024
+      ],
+      "image_dtypes": [
+        "uint16"
+      ],
+      "tracking_mask_dtypes": [
+        "uint16"
+      ],
+      "segmentation_mask_dtypes": [
+        "uint16"
+      ],
+      "lineage_rows": 101,
+      "root_tracks": 84,
+      "child_tracks": 17,
+      "expected_active_label_instances": 2653,
+      "observed_active_label_instances": 2648,
+      "missing_active_label_instances": 5,
+      "raw_frame_series_sha256": "718a258ea0b175fc8dc482f8b1583ae0b45a7560de430393d3f1a6e0c3815360",
+      "lineage_sha256": "8be6651a0906ada03311954ce2ab3dc354cd3f6faaf8a4e6b868a5fe8a196505",
+      "selected_member_set_sha256": "cd669300da2bbd160eaf73bcd417b483da78e742f85c3b72d4262afb167a280f",
+      "schema_checks": {
+        "contiguous_frame_indices": true,
+        "two_dimensional_images": true,
+        "consistent_shapes": true,
+        "known_nonoverlapping_parents": true,
+        "tracking_labels_stay_within_lineage_intervals": true,
+        "every_lineage_id_is_observed": true
+      }
+    }
+  },
+  "evaluation_boundary": {
+    "u373_sequence_01_role": "development_only",
+    "u373_sequence_02_role": "consumed_v1_test_archival_only",
+    "tracking_metrics_computed": false,
+    "migration_summaries_computed": false,
+    "performance_evaluation_run": false,
+    "reference_coordinates_exported": false
+  },
+  "decision": "T98G human-curated variant qualifies as the independent Stage C v2 locked test. It must remain unevaluated until all v2 development values are frozen.",
+  "warning": "Technical 2D T98G electrotaxis benchmark only; this does not validate a GlioTrace brain-slice biological phenotype."
+}

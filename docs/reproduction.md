@@ -40,6 +40,13 @@ The workflow supplies `GBM_AUDIT_GIT_SHA=${{ github.sha }}` to the numerical pip
 
 A compact permanent numerical record is versioned at `docs/reproduced-results-2026-09-19.json`. Full generated JSON remains an Actions artifact rather than committed bulk output.
 
+`.github/workflows/audit-t98g.yml` separately reproduces the Stage C v2
+structural-only T98G audit. It downloads the DOI-versioned Zenodo archive,
+checks its MD5 and SHA-256, validates the CTC-like human and automated variants,
+and compares the generated locked manifest byte-for-byte with
+`docs/stage-c-v2-t98g-locked-manifest.json`. It never runs tracking or
+downstream performance evaluation.
+
 ## Local pipeline
 
 Run from the repository root. The reference and corruption JSON files are generated locally under ignored `results/` paths.
@@ -63,6 +70,22 @@ PYTHONPATH=src python3 -m gbm_audit.final_audit results/u373-reference-manifest.
 
 Every downstream stage validates schema version, reference-manifest identity, corruption seed, scenario IDs, scenario metadata, and sequence IDs before combining artifacts. Reordered scenarios therefore remain safe, while stale or mismatched artifacts fail explicitly.
 
+## Reproduce the T98G data-only audit
+
+```bash
+curl --fail --location --retry 3 \
+  --output data/raw/T98G_electrotaxis.zip \
+  https://zenodo.org/api/records/19026908/files/T98G_electrotaxis.zip/content
+PYTHONPATH=src python3 -m gbm_audit.t98g_audit \
+  data/raw/T98G_electrotaxis.zip \
+  --output /tmp/stage-c-v2-t98g-locked-manifest.json
+diff -u docs/stage-c-v2-t98g-locked-manifest.json \
+  /tmp/stage-c-v2-t98g-locked-manifest.json
+```
+
+This command verifies structure and identity only. It must not be extended to
+run Stage C v2 performance before development values are frozen.
+
 ## Reproduced interpretation
 
 The final audit derives its gates from the validated artifacts. The operator-readiness rule requires at least one candidate radius to achieve at least 95% clean true-link coverage on every sequence without worsening the absolute held-out `localization_noise_5p0` soft-speed error by more than 1.0 px/frame relative to the smallest tested gate.
@@ -71,4 +94,8 @@ The reproduced result remains `operator_learning_ready = false`: 8 px fails clea
 
 ## Licensing
 
-Repository source code is distributed under the MIT License in `LICENSE`. That license does not grant redistribution rights for external datasets. The U373/Cell Tracking Challenge and GlioTrace sources retain their own terms and should be cited and redistributed only according to those terms.
+Repository source code is distributed under the MIT License in `LICENSE`. That
+license does not grant redistribution rights for external datasets. The T98G
+Zenodo record declares `CC-BY-4.0`; U373/Cell Tracking Challenge and GlioTrace
+retain their own terms. Each dataset must be cited and redistributed only under
+its own terms.
