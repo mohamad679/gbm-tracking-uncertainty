@@ -49,3 +49,7 @@ independent locked test dataset or split is required for a subsequent claim.
 
 This result remains a technical U373 benchmark and supports no biological
 phenotype claim for GlioTrace.
+
+The pre-development revision plan is frozen in
+[`stage-c-v2-protocol.md`](stage-c-v2-protocol.md). It excludes sequence `02`
+from all future selection and requires an independently locked T98G evaluation.
