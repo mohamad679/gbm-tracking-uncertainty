@@ -1,0 +1,73 @@
+name: reproduce-stage-c-v2-t98g
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - ".github/workflows/reproduce-stage-c-v2-t98g.yml"
+      - "docs/stage-c-v2-t98g-locked-manifest.json"
+      - "docs/stage-c-v2-t98g-locked-evaluation.json"
+      - "docs/stage-c-v2-step5-t98g-evaluation.md"
+      - "docs/stage-c-v2-development-fit.json"
+      - "src/gbm_audit/**"
+      - "tests/**"
+      - "pyproject.toml"
+      - "constraints.txt"
+
+permissions:
+  contents: read
+
+jobs:
+  locked-t98g-evaluation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install pinned environment
+        run: python -m pip install -c constraints.txt -e .
+      - name: Run repository tests
+        run: python -m unittest discover -s tests -q
+      - name: Download official locked T98G archive
+        run: |
+          mkdir -p data/raw
+          curl --fail --location --retry 5 --retry-delay 2 \
+            https://zenodo.org/api/records/19026908/files/T98G_electrotaxis.zip/content \
+            --output data/raw/T98G_electrotaxis.zip
+          test "$(stat -c '%s' data/raw/T98G_electrotaxis.zip)" = "147735077"
+          echo "1b80d50f61efca6729af4ef691adab77d06c358fbda7a73744eb4e9b252abd6c  data/raw/T98G_electrotaxis.zip" | sha256sum --check
+      - name: Reproduce data-only audit and compare lock
+        run: |
+          python -m gbm_audit.t98g_audit data/raw/T98G_electrotaxis.zip \
+            --output /tmp/stage-c-v2-t98g-audit.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          expected = json.loads(Path("docs/stage-c-v2-t98g-locked-manifest.json").read_text())
+          actual = json.loads(Path("/tmp/stage-c-v2-t98g-audit.json").read_text())
+          if expected != actual:
+              raise SystemExit("T98G audit differs from the locked manifest")
+          print("T98G data-only audit matches the locked manifest.")
+          PY
+      - name: Reproduce one-time locked performance evaluation
+        env:
+          STAGE_C_V2_WORKERS: "4"
+        run: |
+          python -m gbm_audit.stage_c_v2_t98g_evaluation \
+            data/raw/T98G_electrotaxis.zip \
+            docs/stage-c-v2-development-fit.json \
+            --output /tmp/stage-c-v2-t98g-locked-evaluation.json \
+            --ensemble-count 256
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          expected = json.loads(Path("docs/stage-c-v2-t98g-locked-evaluation.json").read_text())
+          actual = json.loads(Path("/tmp/stage-c-v2-t98g-locked-evaluation.json").read_text())
+          if expected != actual:
+              raise SystemExit("T98G locked evaluation differs from the committed artifact")
+          if actual["status"] != "PASS":
+              raise SystemExit(f"Stage C v2 T98G decision is {actual['status']}")
+          print("Locked T98G evaluation matches and passes all gates.")
+          PY
