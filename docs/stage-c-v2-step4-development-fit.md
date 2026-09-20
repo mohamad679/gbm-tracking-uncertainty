@@ -26,14 +26,14 @@ test-time sampler inputs remain reference-free.
 | Parameter | Frozen value |
 |---|---:|
 | Intercept (px) | 0.0 |
-| Median proposal-distance weight | 0.14713462466450963 |
+| Median proposal-distance weight | 0.147134625 |
 | Candidate-degree weight | 0.0 |
-| Training residual SSE | 26480.743294747055 |
+| Training residual SSE | 26480.743294747 |
 
 Leave-one-family-out fits are retained in the machine-readable artifact, and
 each held-out family contributes its out-of-fold mean-speed residuals to the
 fixed split-conformal correction. The frozen 90% correction is
-`1.3234006723487588` px/frame from 17 out-of-fold scenario residuals.
+`1.323400672` px/frame from 17 out-of-fold scenario residuals.
 
 ## Development result
 
