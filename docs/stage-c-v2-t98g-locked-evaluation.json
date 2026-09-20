@@ -1,0 +1,1436 @@
+{
+  "schema_version": 1,
+  "method": "stage_c_v2_t98g_locked_performance_evaluation_v1",
+  "status": "PASS",
+  "performance_evaluation_run": true,
+  "evaluation_date": "2026-09-20",
+  "source": {
+    "archive_url": "https://zenodo.org/api/records/19026908/files/T98G_electrotaxis.zip/content",
+    "archive_sha256": "1b80d50f61efca6729af4ef691adab77d06c358fbda7a73744eb4e9b252abd6c",
+    "archive_size_bytes": 147735077,
+    "audit_sha256": "8b415878f46f1020da033ac59507a5288f43b27306ee66708c06f227963720b1",
+    "dataset_id": "T98G_electrotaxis_human_v2",
+    "sequence_id": "T98G_sample",
+    "variant": "T98G_human"
+  },
+  "frozen_inputs": {
+    "development_artifact_sha256": "f3323e13a09a750d5966682c58a7e64ca81824171879a8ccf4e8f5d26f2eb721",
+    "development_artifact_method": "stage_c_v2_development_fit_and_cross_validation_v1",
+    "development_sequence": "01",
+    "excluded_sequences": [
+      "02"
+    ],
+    "locked_adaptive_config": {
+      "min_radius_px": 8.0,
+      "max_radius_px": 16.0,
+      "motion_uncertainty_weight": 2.75,
+      "density_weight_px": 0.0,
+      "density_radius_px": 16.0,
+      "density_saturation_count": 6,
+      "cold_start_uncertainty_px": 4.0,
+      "history_length": 4,
+      "new_track_score_px": 10.0,
+      "posterior_probability_floor": 0.7
+    },
+    "sampler_config": {
+      "recovery_gate_multiplier": 2.0,
+      "bridge_delta_t": 2,
+      "temperature_px": 4.0,
+      "new_track_score_px": 10.0,
+      "ensemble_count": 256,
+      "max_localization_sigma_px": 32.0
+    },
+    "localization_model": {
+      "schema_version": 1,
+      "method": "development_nonnegative_affine_rayleigh_localization_v1",
+      "fit_sequence": "01",
+      "fit_rows": 12276,
+      "diagnostic_fields": [
+        "median_proposal_distance_px",
+        "candidate_degree"
+      ],
+      "coefficients": {
+        "intercept_px": 0.0,
+        "median_proposal_distance_weight": 0.147134625,
+        "candidate_degree_weight": 0.0
+      },
+      "rayleigh_mean_factor": 1.253314137,
+      "training_residual_sse": 26480.743294747
+    },
+    "conformal_quantile_px_per_frame": 1.323400672,
+    "hmm": {
+      "status": "ok",
+      "speed_observations": 757,
+      "sequences": 8,
+      "state_means_px_per_frame": [
+        0.199786,
+        6.541016
+      ],
+      "state_stds_px_per_frame": [
+        0.404617,
+        5.092416
+      ],
+      "transition_matrix": [
+        [
+          0.626064,
+          0.373936
+        ],
+        [
+          0.165722,
+          0.834278
+        ]
+      ],
+      "initial_state_probability": [
+        0.0,
+        1.0
+      ],
+      "stationary_state_probability": [
+        0.307088,
+        0.692912
+      ],
+      "expected_state_switch_probability": 0.229662
+    }
+  },
+  "test_design": {
+    "registered_corruption_seed": 20260920,
+    "scenario_count": 17,
+    "ensemble_count": 256,
+    "scenario_families": [
+      "clean",
+      "missed_detection",
+      "localization_noise",
+      "fragmentation",
+      "id_switch",
+      "wrong_link",
+      "false_positive"
+    ],
+    "reference_coordinates_used_for": "held_out_metrics_only",
+    "truth_used_in_sampling": false,
+    "refit_or_tuning_on_t98g": false,
+    "sequence02_reused": false
+  },
+  "reference_summary": {
+    "track_count": 101,
+    "observation_count": 2648,
+    "mean_track_length": 26.217821782,
+    "median_track_length": 37.0,
+    "consecutive_steps": 2545,
+    "mean_speed_px_per_frame": 5.649183399,
+    "median_speed_px_per_frame": 4.52330296,
+    "mean_net_displacement_px": 61.659616119,
+    "directional_persistence": 0.09295273,
+    "mean_squared_displacement_px2": {
+      "1": 51.867962314,
+      "2": 121.244257321,
+      "3": 210.106428637
+    },
+    "hmm_2state": {
+      "status": "ok",
+      "state_occupancy": [
+        0.029862475,
+        0.970137525
+      ],
+      "transition_matrix": [
+        [
+          0.305555556,
+          0.694444444
+        ],
+        [
+          0.022727273,
+          0.977272727
+        ]
+      ],
+      "expected_state_switch_probability": 0.044014085,
+      "mean_dwell_length_steps": [
+        1.407407407,
+        16.795918367
+      ]
+    }
+  },
+  "scenarios": [
+    {
+      "scenario_id": "clean_0",
+      "corruption": "clean",
+      "severity": 0,
+      "sequence_id": "T98G_sample",
+      "scenario_seed": 20260921,
+      "reference_mean_speed_px_per_frame": 5.649183399,
+      "association_only_interval": {
+        "defined_samples": 256,
+        "mean": 4.51121823,
+        "median": 4.509017138,
+        "p05": 4.45339533,
+        "p95": 4.56697455
+      },
+      "mechanistic_predictive_interval": {
+        "defined_samples": 256,
+        "mean": 4.633492857,
+        "median": 4.633567392,
+        "p05": 4.559310513,
+        "p95": 4.709935289
+      },
+      "conformalized_interval": {
+        "defined": true,
+        "p05": 3.235909841,
+        "p95": 6.033335961,
+        "half_width_correction": 1.323400672
+      },
+      "metrics": {
+        "primary_covered": true,
+        "primary_width_px_per_frame": 2.79742612,
+        "primary_normalized_width": 0.495191238,
+        "v2_median_absolute_error_px_per_frame": 1.015616008,
+        "v1_median_absolute_error_px_per_frame": 1.140166261
+      },
+      "association_only_diagnostics": {
+        "component_count": 2684,
+        "maximum_component_targets": 2,
+        "invariants": {
+          "one_to_one_pass": true,
+          "trajectory_partition_pass": true,
+          "candidate_graph_pass": true,
+          "one_to_one_violation_sample_indices": [],
+          "trajectory_partition_violation_sample_indices": [],
+          "candidate_graph_violations": []
+        }
+      },
+      "predictive_diagnostics": {
+        "graph_counts": {
+          "primary_edge_count": 2454,
+          "recovery_adjacent_edge_count": 331,
+          "recovery_bridge_edge_count": 83,
+          "recovery_edge_count": 414
+        },
+        "component_count": 2352,
+        "maximum_component_targets": 7,
+        "invariants": {
+          "sample_count_pass": true,
+          "truth_blind_pass": true,
+          "one_to_one_pass": true,
+          "trajectory_partition_pass": true,
+          "candidate_graph_pass": true,
+          "bridge_virtual_node_pass": true,
+          "exact_resource_bound_pass": true
+        }
+      },
+      "invariants": {
+        "all_pass": true
+      },
+      "summary_fields": {
+        "produced": 12,
+        "required": 12,
+        "coverage": 1.0
+      }
+    },
+    {
+      "scenario_id": "missed_detection_0p1",
+      "corruption": "missed_detection",
+      "severity": 0.1,
+      "sequence_id": "T98G_sample",
+      "scenario_seed": 20261921,
+      "reference_mean_speed_px_per_frame": 5.649183399,
+      "association_only_interval": {
+        "defined_samples": 256,
+        "mean": 4.508240064,
+        "median": 4.508887384,
+        "p05": 4.4356596,
+        "p95": 4.57466181
+      },
+      "mechanistic_predictive_interval": {
+        "defined_samples": 256,
+        "mean": 4.624692486,
+        "median": 4.626213071,
+        "p05": 4.538965662,
+        "p95": 4.699451124
+      },
+      "conformalized_interval": {
+        "defined": true,
+        "p05": 3.21556499,
+        "p95": 6.022851796,
+        "half_width_correction": 1.323400672
+      },
+      "metrics": {
+        "primary_covered": true,
+        "primary_width_px_per_frame": 2.807286806,
+        "primary_normalized_width": 0.496936744,
+        "v2_median_absolute_error_px_per_frame": 1.022970329,
+        "v1_median_absolute_error_px_per_frame": 1.140296015
+      },
+      "association_only_diagnostics": {
+        "component_count": 2638,
+        "maximum_component_targets": 2,
+        "invariants": {
+          "one_to_one_pass": true,
+          "trajectory_partition_pass": true,
+          "candidate_graph_pass": true,
+          "one_to_one_violation_sample_indices": [],
+          "trajectory_partition_violation_sample_indices": [],
+          "candidate_graph_violations": []
+        }
+      },
+      "predictive_diagnostics": {
+        "graph_counts": {
+          "primary_edge_count": 1957,
+          "recovery_adjacent_edge_count": 273,
+          "recovery_bridge_edge_count": 312,
+          "recovery_edge_count": 586
+        },
+        "component_count": 2073,
+        "maximum_component_targets": 9,
+        "invariants": {
+          "sample_count_pass": true,
+          "truth_blind_pass": true,
+          "one_to_one_pass": true,
+          "trajectory_partition_pass": true,
+          "candidate_graph_pass": true,
+          "bridge_virtual_node_pass": true,
+          "exact_resource_bound_pass": true
+        }
+      },
+      "invariants": {
+        "all_pass": true
+      },
+      "summary_fields": {
+        "produced": 12,
+        "required": 12,
+        "coverage": 1.0
+      }
+    },
+    {
+      "scenario_id": "missed_detection_0p25",
+      "corruption": "missed_detection",
+      "severity": 0.25,
+      "sequence_id": "T98G_sample",
+      "scenario_seed": 20262921,
+      "reference_mean_speed_px_per_frame": 5.649183399,
+      "association_only_interval": {
+        "defined_samples": 256,
+        "mean": 4.510816927,
+        "median": 4.511787484,
+        "p05": 4.427470166,
+        "p95": 4.588076698
+      },
+      "mechanistic_predictive_interval": {
+        "defined_samples": 256,
+        "mean": 4.615403898,
+        "median": 4.614252234,
+        "p05": 4.517717211,
+        "p95": 4.718141974
+      },
+      "conformalized_interval": {
+        "defined": true,
+        "p05": 3.194316539,
+        "p95": 6.041542646,
+        "half_width_correction": 1.323400672
+      },
+      "metrics": {
+        "primary_covered": true,
+        "primary_width_px_per_frame": 2.847226107,
+        "primary_normalized_width": 0.504006669,
+        "v2_median_absolute_error_px_per_frame": 1.034931165,
+        "v1_median_absolute_error_px_per_frame": 1.137395915
+      },
+      "association_only_diagnostics": {
+        "component_count": 2486,
+        "maximum_component_targets": 2,
+        "invariants": {
+          "one_to_one_pass": true,
+          "trajectory_partition_pass": true,
+          "candidate_graph_pass": true,
+          "one_to_one_violation_sample_indices": [],
+          "trajectory_partition_violation_sample_indices": [],
+          "candidate_graph_violations": []
+        }
+      },
+      "predictive_diagnostics": {
+        "graph_counts": {
+          "primary_edge_count": 1398,
+          "recovery_adjacent_edge_count": 201,
+          "recovery_bridge_edge_count": 464,
+          "recovery_edge_count": 665
+        },
+        "component_count": 1667,
+        "maximum_component_targets": 7,
+        "invariants": {
+          "sample_count_pass": true,
+          "truth_blind_pass": true,
+          "one_to_one_pass": true,
+          "trajectory_partition_pass": true,
+          "candidate_graph_pass": true,
+          "bridge_virtual_node_pass": true,
+          "exact_resource_bound_pass": true
+        }
+      },
+      "invariants": {
+        "all_pass": true
+      },
+      "summary_fields": {
+        "produced": 12,
+        "required": 12,
+        "coverage": 1.0
+      }
+    },
+    {
+      "scenario_id": "missed_detection_0p5",
+      "corruption": "missed_detection",
+      "severity": 0.5,
+      "sequence_id": "T98G_sample",
+      "scenario_seed": 20263921,
+      "reference_mean_speed_px_per_frame": 5.649183399,
+      "association_only_interval": {
+        "defined_samples": 256,
+        "mean": 4.454385678,
+        "median": 4.458194319,
+        "p05": 4.326006356,
+        "p95": 4.570913535
+      },
+      "mechanistic_predictive_interval": {
+        "defined_samples": 256,
+        "mean": 4.528348956,
+        "median": 4.525059845,
+        "p05": 4.380679466,
+        "p95": 4.684850421
+      },
+      "conformalized_interval": {
+        "defined": true,
+        "p05": 3.057278794,
+        "p95": 6.008251093,
+        "half_width_correction": 1.323400672
+      },
+      "metrics": {
+        "primary_covered": true,
+        "primary_width_px_per_frame": 2.9509723,
+        "primary_normalized_width": 0.522371481,
+        "v2_median_absolute_error_px_per_frame": 1.124123554,
+        "v1_median_absolute_error_px_per_frame": 1.190989081
+      },
+      "association_only_diagnostics": {
+        "component_count": 1974,
+        "maximum_component_targets": 2,
+        "invariants": {
+          "one_to_one_pass": true,
+          "trajectory_partition_pass": true,
+          "candidate_graph_pass": true,
+          "one_to_one_violation_sample_indices": [],
+          "trajectory_partition_violation_sample_indices": [],
+          "candidate_graph_violations": []
+        }
+      },
+      "predictive_diagnostics": {
+        "graph_counts": {
+          "primary_edge_count": 641,
+          "recovery_adjacent_edge_count": 86,
+          "recovery_bridge_edge_count": 450,
+          "recovery_edge_count": 537
+        },
+        "component_count": 939,
+        "maximum_component_targets": 6,
+        "invariants": {
+          "sample_count_pass": true,
+          "truth_blind_pass": true,
+          "one_to_one_pass": true,
+          "trajectory_partition_pass": true,
+          "candidate_graph_pass": true,
+          "bridge_virtual_node_pass": true,
+          "exact_resource_bound_pass": true
+        }
+      },
+      "invariants": {
+        "all_pass": true
+      },
+      "summary_fields": {
+        "produced": 12,
+        "required": 12,
+        "coverage": 1.0
+      }
+    },
+    {
+      "scenario_id": "localization_noise_1p0",
+      "corruption": "localization_noise",
+      "severity": 1.0,
+      "sequence_id": "T98G_sample",
+      "scenario_seed": 20264921,
+      "reference_mean_speed_px_per_frame": 5.649183399,
+      "association_only_interval": {
+        "defined_samples": 256,
+        "mean": 4.829232898,
+        "median": 4.829341601,
+        "p05": 4.766671711,
+        "p95": 4.890568813
+      },
+      "mechanistic_predictive_interval": {
+        "defined_samples": 256,
+        "mean": 4.958074915,
+        "median": 4.957698078,
+        "p05": 4.874490888,
+        "p95": 5.042798821
+      },
+      "conformalized_interval": {
+        "defined": true,
+        "p05": 3.551090216,
+        "p95": 6.366199493,
+        "half_width_correction": 1.323400672
+      },
+      "metrics": {
+        "primary_covered": true,
+        "primary_width_px_per_frame": 2.815109277,
+        "primary_normalized_width": 0.498321453,
+        "v2_median_absolute_error_px_per_frame": 0.691485321,
+        "v1_median_absolute_error_px_per_frame": 0.819841798
+      },
+      "association_only_diagnostics": {
+        "component_count": 2691,
+        "maximum_component_targets": 2,
+        "invariants": {
+          "one_to_one_pass": true,
+          "trajectory_partition_pass": true,
+          "candidate_graph_pass": true,
+          "one_to_one_violation_sample_indices": [],
+          "trajectory_partition_violation_sample_indices": [],
+          "candidate_graph_violations": []
+        }
+      },
+      "predictive_diagnostics": {
+        "graph_counts": {
+          "primary_edge_count": 2445,
+          "recovery_adjacent_edge_count": 357,
+          "recovery_bridge_edge_count": 90,
+          "recovery_edge_count": 447
+        },
+        "component_count": 2327,
+        "maximum_component_targets": 7,
+        "invariants": {
+          "sample_count_pass": true,
+          "truth_blind_pass": true,
+          "one_to_one_pass": true,
+          "trajectory_partition_pass": true,
+          "candidate_graph_pass": true,
+          "bridge_virtual_node_pass": true,
+          "exact_resource_bound_pass": true
+        }
+      },
+      "invariants": {
+        "all_pass": true
+      },
+      "summary_fields": {
+        "produced": 12,
+        "required": 12,
+        "coverage": 1.0
+      }
+    },
+    {
+      "scenario_id": "localization_noise_3p0",
+      "corruption": "localization_noise",
+      "severity": 3.0,
+      "sequence_id": "T98G_sample",
+      "scenario_seed": 20265921,
+      "reference_mean_speed_px_per_frame": 5.649183399,
+      "association_only_interval": {
+        "defined_samples": 256,
+        "mean": 6.119190902,
+        "median": 6.118056151,
+        "p05": 6.043744274,
+        "p95": 6.198787295
+      },
+      "mechanistic_predictive_interval": {
+        "defined_samples": 256,
+        "mean": 6.372727385,
+        "median": 6.371007281,
+        "p05": 6.262578973,
+        "p95": 6.481736397
+      },
+      "conformalized_interval": {
+        "defined": true,
+        "p05": 4.939178301,
+        "p95": 7.805137069,
+        "half_width_correction": 1.323400672
+      },
+      "metrics": {
+        "primary_covered": true,
+        "primary_width_px_per_frame": 2.865958768,
+        "primary_normalized_width": 0.507322663,
+        "v2_median_absolute_error_px_per_frame": 0.721823881,
+        "v1_median_absolute_error_px_per_frame": 0.468872752
+      },
+      "association_only_diagnostics": {
+        "component_count": 2837,
+        "maximum_component_targets": 2,
+        "invariants": {
+          "one_to_one_pass": true,
+          "trajectory_partition_pass": true,
+          "candidate_graph_pass": true,
+          "one_to_one_violation_sample_indices": [],
+          "trajectory_partition_violation_sample_indices": [],
+          "candidate_graph_violations": []
+        }
+      },
+      "predictive_diagnostics": {
+        "graph_counts": {
+          "primary_edge_count": 2287,
+          "recovery_adjacent_edge_count": 508,
+          "recovery_bridge_edge_count": 123,
+          "recovery_edge_count": 631
+        },
+        "component_count": 2299,
+        "maximum_component_targets": 7,
+        "invariants": {
+          "sample_count_pass": true,
+          "truth_blind_pass": true,
+          "one_to_one_pass": true,
+          "trajectory_partition_pass": true,
+          "candidate_graph_pass": true,
+          "bridge_virtual_node_pass": true,
+          "exact_resource_bound_pass": true
+        }
+      },
+      "invariants": {
+        "all_pass": true
+      },
+      "summary_fields": {
+        "produced": 12,
+        "required": 12,
+        "coverage": 1.0
+      }
+    },
+    {
+      "scenario_id": "localization_noise_5p0",
+      "corruption": "localization_noise",
+      "severity": 5.0,
+      "sequence_id": "T98G_sample",
+      "scenario_seed": 20266921,
+      "reference_mean_speed_px_per_frame": 5.649183399,
+      "association_only_interval": {
+        "defined_samples": 256,
+        "mean": 7.262655989,
+        "median": 7.263784794,
+        "p05": 7.154156881,
+        "p95": 7.375365426
+      },
+      "mechanistic_predictive_interval": {
+        "defined_samples": 256,
+        "mean": 7.687689692,
+        "median": 7.68219502,
+        "p05": 7.529226253,
+        "p95": 7.85233895
+      },
+      "conformalized_interval": {
+        "defined": true,
+        "p05": 6.205825581,
+        "p95": 9.175739622,
+        "half_width_correction": 1.323400672
+      },
+      "metrics": {
+        "primary_covered": false,
+        "primary_width_px_per_frame": 2.969914042,
+        "primary_normalized_width": 0.525724487,
+        "v2_median_absolute_error_px_per_frame": 2.03301162,
+        "v1_median_absolute_error_px_per_frame": 1.614601394
+      },
+      "association_only_diagnostics": {
+        "component_count": 3110,
+        "maximum_component_targets": 2,
+        "invariants": {
+          "one_to_one_pass": true,
+          "trajectory_partition_pass": true,
+          "candidate_graph_pass": true,
+          "one_to_one_violation_sample_indices": [],
+          "trajectory_partition_violation_sample_indices": [],
+          "candidate_graph_violations": []
+        }
+      },
+      "predictive_diagnostics": {
+        "graph_counts": {
+          "primary_edge_count": 1965,
+          "recovery_adjacent_edge_count": 855,
+          "recovery_bridge_edge_count": 163,
+          "recovery_edge_count": 1019
+        },
+        "component_count": 2221,
+        "maximum_component_targets": 13,
+        "invariants": {
+          "sample_count_pass": true,
+          "truth_blind_pass": true,
+          "one_to_one_pass": true,
+          "trajectory_partition_pass": true,
+          "candidate_graph_pass": true,
+          "bridge_virtual_node_pass": true,
+          "exact_resource_bound_pass": true
+        }
+      },
+      "invariants": {
+        "all_pass": true
+      },
+      "summary_fields": {
+        "produced": 12,
+        "required": 12,
+        "coverage": 1.0
+      }
+    },
+    {
+      "scenario_id": "fragmentation_1",
+      "corruption": "fragmentation",
+      "severity": 1,
+      "sequence_id": "T98G_sample",
+      "scenario_seed": 20267921,
+      "reference_mean_speed_px_per_frame": 5.649183399,
+      "association_only_interval": {
+        "defined_samples": 256,
+        "mean": 4.52990679,
+        "median": 4.528411995,
+        "p05": 4.461185283,
+        "p95": 4.593245209
+      },
+      "mechanistic_predictive_interval": {
+        "defined_samples": 256,
+        "mean": 4.632656661,
+        "median": 4.632336606,
+        "p05": 4.546908296,
+        "p95": 4.709190559
+      },
+      "conformalized_interval": {
+        "defined": true,
+        "p05": 3.223507624,
+        "p95": 6.032591231,
+        "half_width_correction": 1.323400672
+      },
+      "metrics": {
+        "primary_covered": true,
+        "primary_width_px_per_frame": 2.809083607,
+        "primary_normalized_width": 0.497254808,
+        "v2_median_absolute_error_px_per_frame": 1.016846793,
+        "v1_median_absolute_error_px_per_frame": 1.120771404
+      },
+      "association_only_diagnostics": {
+        "component_count": 2676,
+        "maximum_component_targets": 2,
+        "invariants": {
+          "one_to_one_pass": true,
+          "trajectory_partition_pass": true,
+          "candidate_graph_pass": true,
+          "one_to_one_violation_sample_indices": [],
+          "trajectory_partition_violation_sample_indices": [],
+          "candidate_graph_violations": []
+        }
+      },
+      "predictive_diagnostics": {
+        "graph_counts": {
+          "primary_edge_count": 2277,
+          "recovery_adjacent_edge_count": 312,
+          "recovery_bridge_edge_count": 190,
+          "recovery_edge_count": 502
+        },
+        "component_count": 2260,
+        "maximum_component_targets": 7,
+        "invariants": {
+          "sample_count_pass": true,
+          "truth_blind_pass": true,
+          "one_to_one_pass": true,
+          "trajectory_partition_pass": true,
+          "candidate_graph_pass": true,
+          "bridge_virtual_node_pass": true,
+          "exact_resource_bound_pass": true
+        }
+      },
+      "invariants": {
+        "all_pass": true
+      },
+      "summary_fields": {
+        "produced": 12,
+        "required": 12,
+        "coverage": 1.0
+      }
+    },
+    {
+      "scenario_id": "fragmentation_3",
+      "corruption": "fragmentation",
+      "severity": 3,
+      "sequence_id": "T98G_sample",
+      "scenario_seed": 20268921,
+      "reference_mean_speed_px_per_frame": 5.649183399,
+      "association_only_interval": {
+        "defined_samples": 256,
+        "mean": 4.522963639,
+        "median": 4.5244515,
+        "p05": 4.457617244,
+        "p95": 4.584863124
+      },
+      "mechanistic_predictive_interval": {
+        "defined_samples": 256,
+        "mean": 4.639740503,
+        "median": 4.64015328,
+        "p05": 4.555342625,
+        "p95": 4.722502685
+      },
+      "conformalized_interval": {
+        "defined": true,
+        "p05": 3.231941953,
+        "p95": 6.045903357,
+        "half_width_correction": 1.323400672
+      },
+      "metrics": {
+        "primary_covered": true,
+        "primary_width_px_per_frame": 2.813961404,
+        "primary_normalized_width": 0.49811826,
+        "v2_median_absolute_error_px_per_frame": 1.009030119,
+        "v1_median_absolute_error_px_per_frame": 1.124731899
+      },
+      "association_only_diagnostics": {
+        "component_count": 2497,
+        "maximum_component_targets": 2,
+        "invariants": {
+          "one_to_one_pass": true,
+          "trajectory_partition_pass": true,
+          "candidate_graph_pass": true,
+          "one_to_one_violation_sample_indices": [],
+          "trajectory_partition_violation_sample_indices": [],
+          "candidate_graph_violations": []
+        }
+      },
+      "predictive_diagnostics": {
+        "graph_counts": {
+          "primary_edge_count": 2113,
+          "recovery_adjacent_edge_count": 287,
+          "recovery_bridge_edge_count": 66,
+          "recovery_edge_count": 353
+        },
+        "component_count": 2049,
+        "maximum_component_targets": 7,
+        "invariants": {
+          "sample_count_pass": true,
+          "truth_blind_pass": true,
+          "one_to_one_pass": true,
+          "trajectory_partition_pass": true,
+          "candidate_graph_pass": true,
+          "bridge_virtual_node_pass": true,
+          "exact_resource_bound_pass": true
+        }
+      },
+      "invariants": {
+        "all_pass": true
+      },
+      "summary_fields": {
+        "produced": 12,
+        "required": 12,
+        "coverage": 1.0
+      }
+    },
+    {
+      "scenario_id": "fragmentation_5",
+      "corruption": "fragmentation",
+      "severity": 5,
+      "sequence_id": "T98G_sample",
+      "scenario_seed": 20269921,
+      "reference_mean_speed_px_per_frame": 5.649183399,
+      "association_only_interval": {
+        "defined_samples": 256,
+        "mean": 4.5242384,
+        "median": 4.521091071,
+        "p05": 4.452904165,
+        "p95": 4.603486927
+      },
+      "mechanistic_predictive_interval": {
+        "defined_samples": 256,
+        "mean": 4.641614038,
+        "median": 4.642289055,
+        "p05": 4.550402394,
+        "p95": 4.729368546
+      },
+      "conformalized_interval": {
+        "defined": true,
+        "p05": 3.227001722,
+        "p95": 6.052769218,
+        "half_width_correction": 1.323400672
+      },
+      "metrics": {
+        "primary_covered": true,
+        "primary_width_px_per_frame": 2.825767496,
+        "primary_normalized_width": 0.500208136,
+        "v2_median_absolute_error_px_per_frame": 1.006894345,
+        "v1_median_absolute_error_px_per_frame": 1.128092328
+      },
+      "association_only_diagnostics": {
+        "component_count": 2315,
+        "maximum_component_targets": 2,
+        "invariants": {
+          "one_to_one_pass": true,
+          "trajectory_partition_pass": true,
+          "candidate_graph_pass": true,
+          "one_to_one_violation_sample_indices": [],
+          "trajectory_partition_violation_sample_indices": [],
+          "candidate_graph_violations": []
+        }
+      },
+      "predictive_diagnostics": {
+        "graph_counts": {
+          "primary_edge_count": 1949,
+          "recovery_adjacent_edge_count": 263,
+          "recovery_bridge_edge_count": 61,
+          "recovery_edge_count": 325
+        },
+        "component_count": 1892,
+        "maximum_component_targets": 8,
+        "invariants": {
+          "sample_count_pass": true,
+          "truth_blind_pass": true,
+          "one_to_one_pass": true,
+          "trajectory_partition_pass": true,
+          "candidate_graph_pass": true,
+          "bridge_virtual_node_pass": true,
+          "exact_resource_bound_pass": true
+        }
+      },
+      "invariants": {
+        "all_pass": true
+      },
+      "summary_fields": {
+        "produced": 12,
+        "required": 12,
+        "coverage": 1.0
+      }
+    },
+    {
+      "scenario_id": "id_switch_1",
+      "corruption": "id_switch",
+      "severity": 1,
+      "sequence_id": "T98G_sample",
+      "scenario_seed": 20270921,
+      "reference_mean_speed_px_per_frame": 5.649183399,
+      "association_only_interval": {
+        "defined_samples": 256,
+        "mean": 4.510313328,
+        "median": 4.510948989,
+        "p05": 4.440294061,
+        "p95": 4.571874775
+      },
+      "mechanistic_predictive_interval": {
+        "defined_samples": 256,
+        "mean": 4.633564212,
+        "median": 4.635056969,
+        "p05": 4.544284044,
+        "p95": 4.706647516
+      },
+      "conformalized_interval": {
+        "defined": true,
+        "p05": 3.220883372,
+        "p95": 6.030048188,
+        "half_width_correction": 1.323400672
+      },
+      "metrics": {
+        "primary_covered": true,
+        "primary_width_px_per_frame": 2.809164816,
+        "primary_normalized_width": 0.497269183,
+        "v2_median_absolute_error_px_per_frame": 1.01412643,
+        "v1_median_absolute_error_px_per_frame": 1.13823441
+      },
+      "association_only_diagnostics": {
+        "component_count": 2684,
+        "maximum_component_targets": 2,
+        "invariants": {
+          "one_to_one_pass": true,
+          "trajectory_partition_pass": true,
+          "candidate_graph_pass": true,
+          "one_to_one_violation_sample_indices": [],
+          "trajectory_partition_violation_sample_indices": [],
+          "candidate_graph_violations": []
+        }
+      },
+      "predictive_diagnostics": {
+        "graph_counts": {
+          "primary_edge_count": 2453,
+          "recovery_adjacent_edge_count": 332,
+          "recovery_bridge_edge_count": 83,
+          "recovery_edge_count": 416
+        },
+        "component_count": 2349,
+        "maximum_component_targets": 7,
+        "invariants": {
+          "sample_count_pass": true,
+          "truth_blind_pass": true,
+          "one_to_one_pass": true,
+          "trajectory_partition_pass": true,
+          "candidate_graph_pass": true,
+          "bridge_virtual_node_pass": true,
+          "exact_resource_bound_pass": true
+        }
+      },
+      "invariants": {
+        "all_pass": true
+      },
+      "summary_fields": {
+        "produced": 12,
+        "required": 12,
+        "coverage": 1.0
+      }
+    },
+    {
+      "scenario_id": "id_switch_2",
+      "corruption": "id_switch",
+      "severity": 2,
+      "sequence_id": "T98G_sample",
+      "scenario_seed": 20271921,
+      "reference_mean_speed_px_per_frame": 5.649183399,
+      "association_only_interval": {
+        "defined_samples": 256,
+        "mean": 4.513555244,
+        "median": 4.512650255,
+        "p05": 4.454512365,
+        "p95": 4.578102033
+      },
+      "mechanistic_predictive_interval": {
+        "defined_samples": 256,
+        "mean": 4.630225161,
+        "median": 4.628519416,
+        "p05": 4.552274401,
+        "p95": 4.698421621
+      },
+      "conformalized_interval": {
+        "defined": true,
+        "p05": 3.228873729,
+        "p95": 6.021822293,
+        "half_width_correction": 1.323400672
+      },
+      "metrics": {
+        "primary_covered": true,
+        "primary_width_px_per_frame": 2.792948565,
+        "primary_normalized_width": 0.494398636,
+        "v2_median_absolute_error_px_per_frame": 1.020663984,
+        "v1_median_absolute_error_px_per_frame": 1.136533144
+      },
+      "association_only_diagnostics": {
+        "component_count": 2684,
+        "maximum_component_targets": 2,
+        "invariants": {
+          "one_to_one_pass": true,
+          "trajectory_partition_pass": true,
+          "candidate_graph_pass": true,
+          "one_to_one_violation_sample_indices": [],
+          "trajectory_partition_violation_sample_indices": [],
+          "candidate_graph_violations": []
+        }
+      },
+      "predictive_diagnostics": {
+        "graph_counts": {
+          "primary_edge_count": 2454,
+          "recovery_adjacent_edge_count": 331,
+          "recovery_bridge_edge_count": 83,
+          "recovery_edge_count": 414
+        },
+        "component_count": 2349,
+        "maximum_component_targets": 7,
+        "invariants": {
+          "sample_count_pass": true,
+          "truth_blind_pass": true,
+          "one_to_one_pass": true,
+          "trajectory_partition_pass": true,
+          "candidate_graph_pass": true,
+          "bridge_virtual_node_pass": true,
+          "exact_resource_bound_pass": true
+        }
+      },
+      "invariants": {
+        "all_pass": true
+      },
+      "summary_fields": {
+        "produced": 12,
+        "required": 12,
+        "coverage": 1.0
+      }
+    },
+    {
+      "scenario_id": "wrong_link_1",
+      "corruption": "wrong_link",
+      "severity": 1,
+      "sequence_id": "T98G_sample",
+      "scenario_seed": 20272921,
+      "reference_mean_speed_px_per_frame": 5.649183399,
+      "association_only_interval": {
+        "defined_samples": 256,
+        "mean": 4.513802454,
+        "median": 4.51108518,
+        "p05": 4.460094376,
+        "p95": 4.573640251
+      },
+      "mechanistic_predictive_interval": {
+        "defined_samples": 256,
+        "mean": 4.638544034,
+        "median": 4.638264248,
+        "p05": 4.563810496,
+        "p95": 4.713439764
+      },
+      "conformalized_interval": {
+        "defined": true,
+        "p05": 3.240409824,
+        "p95": 6.036840436,
+        "half_width_correction": 1.323400672
+      },
+      "metrics": {
+        "primary_covered": true,
+        "primary_width_px_per_frame": 2.796430612,
+        "primary_normalized_width": 0.495015016,
+        "v2_median_absolute_error_px_per_frame": 1.010919152,
+        "v1_median_absolute_error_px_per_frame": 1.13809822
+      },
+      "association_only_diagnostics": {
+        "component_count": 2684,
+        "maximum_component_targets": 2,
+        "invariants": {
+          "one_to_one_pass": true,
+          "trajectory_partition_pass": true,
+          "candidate_graph_pass": true,
+          "one_to_one_violation_sample_indices": [],
+          "trajectory_partition_violation_sample_indices": [],
+          "candidate_graph_violations": []
+        }
+      },
+      "predictive_diagnostics": {
+        "graph_counts": {
+          "primary_edge_count": 2454,
+          "recovery_adjacent_edge_count": 331,
+          "recovery_bridge_edge_count": 82,
+          "recovery_edge_count": 414
+        },
+        "component_count": 2349,
+        "maximum_component_targets": 7,
+        "invariants": {
+          "sample_count_pass": true,
+          "truth_blind_pass": true,
+          "one_to_one_pass": true,
+          "trajectory_partition_pass": true,
+          "candidate_graph_pass": true,
+          "bridge_virtual_node_pass": true,
+          "exact_resource_bound_pass": true
+        }
+      },
+      "invariants": {
+        "all_pass": true
+      },
+      "summary_fields": {
+        "produced": 12,
+        "required": 12,
+        "coverage": 1.0
+      }
+    },
+    {
+      "scenario_id": "wrong_link_2",
+      "corruption": "wrong_link",
+      "severity": 2,
+      "sequence_id": "T98G_sample",
+      "scenario_seed": 20273921,
+      "reference_mean_speed_px_per_frame": 5.649183399,
+      "association_only_interval": {
+        "defined_samples": 256,
+        "mean": 4.512128671,
+        "median": 4.512477236,
+        "p05": 4.453907233,
+        "p95": 4.570153074
+      },
+      "mechanistic_predictive_interval": {
+        "defined_samples": 256,
+        "mean": 4.632948277,
+        "median": 4.63430238,
+        "p05": 4.554814418,
+        "p95": 4.710417827
+      },
+      "conformalized_interval": {
+        "defined": true,
+        "p05": 3.231413746,
+        "p95": 6.033818499,
+        "half_width_correction": 1.323400672
+      },
+      "metrics": {
+        "primary_covered": true,
+        "primary_width_px_per_frame": 2.802404753,
+        "primary_normalized_width": 0.496072539,
+        "v2_median_absolute_error_px_per_frame": 1.01488102,
+        "v1_median_absolute_error_px_per_frame": 1.136706163
+      },
+      "association_only_diagnostics": {
+        "component_count": 2684,
+        "maximum_component_targets": 2,
+        "invariants": {
+          "one_to_one_pass": true,
+          "trajectory_partition_pass": true,
+          "candidate_graph_pass": true,
+          "one_to_one_violation_sample_indices": [],
+          "trajectory_partition_violation_sample_indices": [],
+          "candidate_graph_violations": []
+        }
+      },
+      "predictive_diagnostics": {
+        "graph_counts": {
+          "primary_edge_count": 2454,
+          "recovery_adjacent_edge_count": 331,
+          "recovery_bridge_edge_count": 83,
+          "recovery_edge_count": 414
+        },
+        "component_count": 2349,
+        "maximum_component_targets": 7,
+        "invariants": {
+          "sample_count_pass": true,
+          "truth_blind_pass": true,
+          "one_to_one_pass": true,
+          "trajectory_partition_pass": true,
+          "candidate_graph_pass": true,
+          "bridge_virtual_node_pass": true,
+          "exact_resource_bound_pass": true
+        }
+      },
+      "invariants": {
+        "all_pass": true
+      },
+      "summary_fields": {
+        "produced": 12,
+        "required": 12,
+        "coverage": 1.0
+      }
+    },
+    {
+      "scenario_id": "false_positive_5",
+      "corruption": "false_positive",
+      "severity": 5,
+      "sequence_id": "T98G_sample",
+      "scenario_seed": 20274921,
+      "reference_mean_speed_px_per_frame": 5.649183399,
+      "association_only_interval": {
+        "defined_samples": 256,
+        "mean": 4.513914411,
+        "median": 4.51389684,
+        "p05": 4.452485458,
+        "p95": 4.575455032
+      },
+      "mechanistic_predictive_interval": {
+        "defined_samples": 256,
+        "mean": 4.633461505,
+        "median": 4.634941451,
+        "p05": 4.55575849,
+        "p95": 4.710382653
+      },
+      "conformalized_interval": {
+        "defined": true,
+        "p05": 3.232357818,
+        "p95": 6.033783325,
+        "half_width_correction": 1.323400672
+      },
+      "metrics": {
+        "primary_covered": true,
+        "primary_width_px_per_frame": 2.801425506,
+        "primary_normalized_width": 0.495899196,
+        "v2_median_absolute_error_px_per_frame": 1.014241948,
+        "v1_median_absolute_error_px_per_frame": 1.135286559
+      },
+      "association_only_diagnostics": {
+        "component_count": 2693,
+        "maximum_component_targets": 2,
+        "invariants": {
+          "one_to_one_pass": true,
+          "trajectory_partition_pass": true,
+          "candidate_graph_pass": true,
+          "one_to_one_violation_sample_indices": [],
+          "trajectory_partition_violation_sample_indices": [],
+          "candidate_graph_violations": []
+        }
+      },
+      "predictive_diagnostics": {
+        "graph_counts": {
+          "primary_edge_count": 2456,
+          "recovery_adjacent_edge_count": 334,
+          "recovery_bridge_edge_count": 82,
+          "recovery_edge_count": 417
+        },
+        "component_count": 2351,
+        "maximum_component_targets": 7,
+        "invariants": {
+          "sample_count_pass": true,
+          "truth_blind_pass": true,
+          "one_to_one_pass": true,
+          "trajectory_partition_pass": true,
+          "candidate_graph_pass": true,
+          "bridge_virtual_node_pass": true,
+          "exact_resource_bound_pass": true
+        }
+      },
+      "invariants": {
+        "all_pass": true
+      },
+      "summary_fields": {
+        "produced": 12,
+        "required": 12,
+        "coverage": 1.0
+      }
+    },
+    {
+      "scenario_id": "false_positive_10",
+      "corruption": "false_positive",
+      "severity": 10,
+      "sequence_id": "T98G_sample",
+      "scenario_seed": 20275921,
+      "reference_mean_speed_px_per_frame": 5.649183399,
+      "association_only_interval": {
+        "defined_samples": 256,
+        "mean": 4.513273699,
+        "median": 4.512606633,
+        "p05": 4.446117537,
+        "p95": 4.572988005
+      },
+      "mechanistic_predictive_interval": {
+        "defined_samples": 256,
+        "mean": 4.639721808,
+        "median": 4.645255305,
+        "p05": 4.564920196,
+        "p95": 4.712023932
+      },
+      "conformalized_interval": {
+        "defined": true,
+        "p05": 3.241519524,
+        "p95": 6.035424604,
+        "half_width_correction": 1.323400672
+      },
+      "metrics": {
+        "primary_covered": true,
+        "primary_width_px_per_frame": 2.79390508,
+        "primary_normalized_width": 0.494567955,
+        "v2_median_absolute_error_px_per_frame": 1.003928095,
+        "v1_median_absolute_error_px_per_frame": 1.136576766
+      },
+      "association_only_diagnostics": {
+        "component_count": 2700,
+        "maximum_component_targets": 2,
+        "invariants": {
+          "one_to_one_pass": true,
+          "trajectory_partition_pass": true,
+          "candidate_graph_pass": true,
+          "one_to_one_violation_sample_indices": [],
+          "trajectory_partition_violation_sample_indices": [],
+          "candidate_graph_violations": []
+        }
+      },
+      "predictive_diagnostics": {
+        "graph_counts": {
+          "primary_edge_count": 2456,
+          "recovery_adjacent_edge_count": 335,
+          "recovery_bridge_edge_count": 83,
+          "recovery_edge_count": 419
+        },
+        "component_count": 2349,
+        "maximum_component_targets": 7,
+        "invariants": {
+          "sample_count_pass": true,
+          "truth_blind_pass": true,
+          "one_to_one_pass": true,
+          "trajectory_partition_pass": true,
+          "candidate_graph_pass": true,
+          "bridge_virtual_node_pass": true,
+          "exact_resource_bound_pass": true
+        }
+      },
+      "invariants": {
+        "all_pass": true
+      },
+      "summary_fields": {
+        "produced": 12,
+        "required": 12,
+        "coverage": 1.0
+      }
+    },
+    {
+      "scenario_id": "false_positive_20",
+      "corruption": "false_positive",
+      "severity": 20,
+      "sequence_id": "T98G_sample",
+      "scenario_seed": 20276921,
+      "reference_mean_speed_px_per_frame": 5.649183399,
+      "association_only_interval": {
+        "defined_samples": 256,
+        "mean": 4.511040069,
+        "median": 4.508860419,
+        "p05": 4.448110131,
+        "p95": 4.57437098
+      },
+      "mechanistic_predictive_interval": {
+        "defined_samples": 256,
+        "mean": 4.636156196,
+        "median": 4.631033596,
+        "p05": 4.560930182,
+        "p95": 4.717015134
+      },
+      "conformalized_interval": {
+        "defined": true,
+        "p05": 3.23752951,
+        "p95": 6.040415806,
+        "half_width_correction": 1.323400672
+      },
+      "metrics": {
+        "primary_covered": true,
+        "primary_width_px_per_frame": 2.802886296,
+        "primary_normalized_width": 0.49615778,
+        "v2_median_absolute_error_px_per_frame": 1.018149803,
+        "v1_median_absolute_error_px_per_frame": 1.140322981
+      },
+      "association_only_diagnostics": {
+        "component_count": 2719,
+        "maximum_component_targets": 2,
+        "invariants": {
+          "one_to_one_pass": true,
+          "trajectory_partition_pass": true,
+          "candidate_graph_pass": true,
+          "one_to_one_violation_sample_indices": [],
+          "trajectory_partition_violation_sample_indices": [],
+          "candidate_graph_violations": []
+        }
+      },
+      "predictive_diagnostics": {
+        "graph_counts": {
+          "primary_edge_count": 2457,
+          "recovery_adjacent_edge_count": 342,
+          "recovery_bridge_edge_count": 89,
+          "recovery_edge_count": 431
+        },
+        "component_count": 2347,
+        "maximum_component_targets": 7,
+        "invariants": {
+          "sample_count_pass": true,
+          "truth_blind_pass": true,
+          "one_to_one_pass": true,
+          "trajectory_partition_pass": true,
+          "candidate_graph_pass": true,
+          "bridge_virtual_node_pass": true,
+          "exact_resource_bound_pass": true
+        }
+      },
+      "invariants": {
+        "all_pass": true
+      },
+      "summary_fields": {
+        "produced": 12,
+        "required": 12,
+        "coverage": 1.0
+      }
+    }
+  ],
+  "metrics": {
+    "defined_case_count": 17,
+    "coverage_nominal_90_primary": 0.941176471,
+    "median_v2_absolute_error_px_per_frame": 1.01488102,
+    "median_v1_absolute_error_px_per_frame": 1.136706163,
+    "median_error_delta_v2_minus_v1_px_per_frame": -0.121825143,
+    "median_primary_normalized_width": 0.497254808,
+    "summary_field_completeness": 1.0
+  },
+  "gates": {
+    "invariants_pass": true,
+    "coverage_lower_bound_pass": true,
+    "coverage_upper_bound_pass": true,
+    "median_error_noninferiority_pass": true,
+    "normalized_width_pass": true,
+    "summary_completeness_pass": true
+  },
+  "invariants": {
+    "provenance_pass": true,
+    "leakage_pass": true,
+    "compatibility_pass": true,
+    "component_limit": 18,
+    "ensemble_size": 256
+  },
+  "decision": "Stage C v2 passes the registered T98G locked-test gates.",
+  "warning": "Technical 2D T98G tracking result only; no biological GlioTrace validation claim."
+}
