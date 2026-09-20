@@ -313,8 +313,19 @@ def build_recovery_graph(
                 continue
             source_gate = source_gates.get(source_id)
             if source_gate is None:
-                raise ValueError(f"primary graph has no source gate for {source_id!r}")
-            gate = config.recovery_gate_multiplier * float(source_gate["adaptive_radius_px"])
+                # The adaptive generator omits gates when the next frame is
+                # empty. A bridge still needs a frozen per-frame bound, so use
+                # the primary configuration's declared maximum radius rather
+                # than inferring anything from reference identities.
+                primary_config = primary_graph.get("config", {})
+                fallback_radius = primary_config.get("max_radius_px")
+                if fallback_radius is None:
+                    raise ValueError(f"primary graph has no source gate for {source_id!r}")
+                gate = config.recovery_gate_multiplier * _finite(
+                    fallback_radius, "primary max_radius_px"
+                )
+            else:
+                gate = config.recovery_gate_multiplier * float(source_gate["adaptive_radius_px"])
             for target in sorted(gate_targets, key=lambda row: row["observation_id"]):
                 target_id = target["observation_id"]
                 pair = (source_id, target_id)
@@ -338,6 +349,21 @@ def build_recovery_graph(
                 distance = _distance(source, target)
                 per_frame_score = distance / config.bridge_delta_t
                 if per_frame_score > gate:
+                    continue
+                # A bridge represents a likely missing detection, not a second
+                # route through an already observed intermediate detection.
+                # Suppress it when any intermediate observation lies inside
+                # the same per-frame recovery gate of the linear midpoint.
+                midpoint = {
+                    "x_px": float(source["x_px"]) + (
+                        float(target["x_px"]) - float(source["x_px"])
+                    ) / config.bridge_delta_t,
+                    "y_px": float(source["y_px"]) + (
+                        float(target["y_px"]) - float(source["y_px"])
+                    ) / config.bridge_delta_t,
+                }
+                if any(_distance(midpoint, intermediate) <= gate
+                       for intermediate in by_frame.get(frame + 1, [])):
                     continue
                 recovery_edges.append({
                     "from_observation_id": source_id,
