@@ -153,3 +153,9 @@ Step 1 of the execution order passed the data-only audit. The human-curated
 the Detectron2 variant is excluded because it is not an independent sequence.
 No tracking or downstream performance was evaluated. Implementation may now
 proceed to Step 2 while T98G remains locked and unevaluated.
+
+The localization/proposal-recovery implementation in Step 2 is now complete;
+its leakage, compatibility, and resource-bound tests pass. See
+[`stage-c-v2-step3-sampler.md`](stage-c-v2-step3-sampler.md). The next step is
+the development-only U373 sequence-`01` fit and cross-validation.
+
