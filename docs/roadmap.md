@@ -39,8 +39,9 @@ Stage C v2 is active under the pre-development protocol in
 [`stage-c-v2-protocol.md`](stage-c-v2-protocol.md). It adds explicit
 localization and proposal-recovery uncertainty plus development-only predictive
 calibration. U373 sequence `01` is the sole development source; sequence `02`
-may not be reused for selection. T98G is the candidate independent test and
-must pass a data-only audit before its qualifying sequences are locked.
+may not be reused for selection. The T98G data-only audit passed and its sole
+qualifying human-curated sequence is now `LOCKED_UNEVALUATED`; see
+[`stage-c-v2-step2-t98g-audit.md`](stage-c-v2-step2-t98g-audit.md).
 
 Stage D operator learning remains blocked until the Stage C v2 locked gate
 passes. No Stage B or Stage C result is biological validation.
