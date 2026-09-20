@@ -75,34 +75,34 @@
     "mean_track_length": 95.625,
     "median_track_length": 115.0,
     "consecutive_steps": 757,
-    "mean_speed_px_per_frame": 4.624282732640314,
-    "median_speed_px_per_frame": 3.1622776601683795,
-    "mean_net_displacement_px": 88.76516389857805,
-    "directional_persistence": 0.46733850740738553,
+    "mean_speed_px_per_frame": 4.624282733,
+    "median_speed_px_per_frame": 3.16227766,
+    "mean_net_displacement_px": 88.765163899,
+    "directional_persistence": 0.467338507,
     "mean_squared_displacement_px2": {
-      "1": 48.00820502378316,
-      "2": 123.0791772801391,
-      "3": 213.4701491531005
+      "1": 48.008205024,
+      "2": 123.07917728,
+      "3": 213.470149153
     },
     "hmm_2state": {
       "status": "ok",
       "state_occupancy": [
-        0.3157199471598415,
-        0.6842800528401585
+        0.315719947,
+        0.684280053
       ],
       "transition_matrix": [
         [
-          0.6134453781512605,
-          0.3865546218487395
+          0.613445378,
+          0.386554622
         ],
         [
-          0.18199608610567514,
-          0.8180039138943248
+          0.181996086,
+          0.818003914
         ]
       ],
-      "expected_state_switch_probability": 0.24747635438058604,
+      "expected_state_switch_probability": 0.247476354,
       "mean_dwell_length_steps": [
-        2.5698924731182795,
+        2.569892473,
         5.18
       ]
     }
@@ -129,11 +129,11 @@
       ],
       "coefficients": {
         "intercept_px": 0.0,
-        "median_proposal_distance_weight": 0.14713462466450963,
+        "median_proposal_distance_weight": 0.147134625,
         "candidate_degree_weight": 0.0
       },
-      "rayleigh_mean_factor": 1.2533141373155001,
-      "training_residual_sse": 26480.743294747055
+      "rayleigh_mean_factor": 1.253314137,
+      "training_residual_sse": 26480.743294747
     },
     "leave_one_family_out": [
       {
@@ -151,15 +151,15 @@
           ],
           "coefficients": {
             "intercept_px": 0.0,
-            "median_proposal_distance_weight": 0.15501400790645736,
+            "median_proposal_distance_weight": 0.155014008,
             "candidate_degree_weight": 0.0
           },
-          "rayleigh_mean_factor": 1.2533141373155001,
-          "training_residual_sse": 26102.073763330693
+          "rayleigh_mean_factor": 1.253314137,
+          "training_residual_sse": 26102.073763331
         },
         "held_out_scenario_count": 1,
         "mean_speed_abs_residuals_px_per_frame": [
-          1.2229578646227646
+          1.222957865
         ],
         "standardized_localization_residual_p50": 0.0,
         "standardized_localization_residual_p90": 0.0
@@ -179,17 +179,17 @@
           ],
           "coefficients": {
             "intercept_px": 0.0,
-            "median_proposal_distance_weight": 0.16581846719543547,
+            "median_proposal_distance_weight": 0.165818467,
             "candidate_degree_weight": 0.0
           },
-          "rayleigh_mean_factor": 1.2533141373155001,
-          "training_residual_sse": 25582.830135938202
+          "rayleigh_mean_factor": 1.253314137,
+          "training_residual_sse": 25582.830135938
         },
         "held_out_scenario_count": 3,
         "mean_speed_abs_residuals_px_per_frame": [
-          1.2714474735710763,
-          1.2524411451528774,
-          1.4013304705152825
+          1.271447474,
+          1.252441145,
+          1.401330471
         ],
         "standardized_localization_residual_p50": 0.0,
         "standardized_localization_residual_p90": 0.0
@@ -212,14 +212,14 @@
             "median_proposal_distance_weight": 0.0,
             "candidate_degree_weight": 0.0
           },
-          "rayleigh_mean_factor": 1.2533141373155001,
+          "rayleigh_mean_factor": 1.253314137,
           "training_residual_sse": 0.0
         },
         "held_out_scenario_count": 3,
         "mean_speed_abs_residuals_px_per_frame": [
-          0.6008617446797322,
-          1.245351902733666,
-          3.0563124968047646
+          0.600861745,
+          1.245351903,
+          3.056312497
         ],
         "standardized_localization_residual_p50": 2772146132765.755,
         "standardized_localization_residual_p90": 8059757668630.355
@@ -239,17 +239,17 @@
           ],
           "coefficients": {
             "intercept_px": 0.0,
-            "median_proposal_distance_weight": 0.1730210933325857,
+            "median_proposal_distance_weight": 0.173021093,
             "candidate_degree_weight": 0.0
           },
-          "rayleigh_mean_factor": 1.2533141373155001,
-          "training_residual_sse": 25236.684380544324
+          "rayleigh_mean_factor": 1.253314137,
+          "training_residual_sse": 25236.684380544
         },
         "held_out_scenario_count": 3,
         "mean_speed_abs_residuals_px_per_frame": [
-          1.2058814514733065,
-          1.1903117611304372,
-          1.1820111179808155
+          1.205881451,
+          1.190311761,
+          1.182011118
         ],
         "standardized_localization_residual_p50": 0.0,
         "standardized_localization_residual_p90": 0.0
@@ -269,16 +269,16 @@
           ],
           "coefficients": {
             "intercept_px": 0.0,
-            "median_proposal_distance_weight": 0.16378505855911465,
+            "median_proposal_distance_weight": 0.163785059,
             "candidate_degree_weight": 0.0
           },
-          "rayleigh_mean_factor": 1.2533141373155001,
-          "training_residual_sse": 25680.552238271594
+          "rayleigh_mean_factor": 1.253314137,
+          "training_residual_sse": 25680.552238272
         },
         "held_out_scenario_count": 2,
         "mean_speed_abs_residuals_px_per_frame": [
-          1.227515540914296,
-          1.227515540914296
+          1.227515541,
+          1.227515541
         ],
         "standardized_localization_residual_p50": 0.0,
         "standardized_localization_residual_p90": 0.0
@@ -298,16 +298,16 @@
           ],
           "coefficients": {
             "intercept_px": 0.0,
-            "median_proposal_distance_weight": 0.16378505855911465,
+            "median_proposal_distance_weight": 0.163785059,
             "candidate_degree_weight": 0.0
           },
-          "rayleigh_mean_factor": 1.2533141373155001,
-          "training_residual_sse": 25680.552238271594
+          "rayleigh_mean_factor": 1.253314137,
+          "training_residual_sse": 25680.552238272
         },
         "held_out_scenario_count": 2,
         "mean_speed_abs_residuals_px_per_frame": [
-          1.2111197234926676,
-          1.2099325925465108
+          1.211119723,
+          1.209932593
         ],
         "standardized_localization_residual_p50": 0.0,
         "standardized_localization_residual_p90": 0.0
@@ -327,17 +327,17 @@
           ],
           "coefficients": {
             "intercept_px": 0.0,
-            "median_proposal_distance_weight": 0.1736248737473428,
+            "median_proposal_distance_weight": 0.173624874,
             "candidate_degree_weight": 0.0
           },
-          "rayleigh_mean_factor": 1.2533141373155001,
-          "training_residual_sse": 25207.667738033862
+          "rayleigh_mean_factor": 1.253314137,
+          "training_residual_sse": 25207.667738034
         },
         "held_out_scenario_count": 3,
         "mean_speed_abs_residuals_px_per_frame": [
-          1.2002914329839371,
-          1.1943641958073994,
-          1.1956341104502357
+          1.200291433,
+          1.194364196,
+          1.19563411
         ],
         "standardized_localization_residual_p50": 0.0,
         "standardized_localization_residual_p90": 0.0
@@ -348,7 +348,7 @@
     "method": "split_conformal_abs_oof_mean_speed_residual_v1",
     "held_out_unit": "corruption_family",
     "quantile": 0.9,
-    "quantile_value_px_per_frame": 1.3234006723487588,
+    "quantile_value_px_per_frame": 1.323400672,
     "out_of_fold_residual_count": 17
   },
   "scenarios": [
@@ -359,23 +359,23 @@
       "sequence_id": "01",
       "association_only_interval": {
         "defined_samples": 256,
-        "mean": 3.170199008130217,
-        "median": 3.1716153785156713,
-        "p05": 3.0358276340975765,
-        "p95": 3.3087190826678023
+        "mean": 3.170199008,
+        "median": 3.171615379,
+        "p05": 3.035827634,
+        "p95": 3.308719083
       },
       "mechanistic_predictive_interval": {
         "defined_samples": 256,
-        "mean": 3.382639146464991,
-        "median": 3.3811206558690756,
-        "p05": 3.2489997269404856,
-        "p95": 3.5233539506385254
+        "mean": 3.382639146,
+        "median": 3.381120656,
+        "p05": 3.248999727,
+        "p95": 3.523353951
       },
       "conformalized_interval": {
         "defined": true,
-        "p05": 1.9255990545917268,
-        "p95": 4.846754622987284,
-        "half_width_correction": 1.3234006723487588
+        "p05": 1.925599055,
+        "p95": 4.846754623,
+        "half_width_correction": 1.323400672
       },
       "association_only_diagnostics": {
         "component_count": 796,
@@ -416,23 +416,23 @@
       "sequence_id": "01",
       "association_only_interval": {
         "defined_samples": 256,
-        "mean": 3.1119379282430346,
-        "median": 3.1050832767432244,
-        "p05": 2.996937869873767,
-        "p95": 3.253253539207394
+        "mean": 3.111937928,
+        "median": 3.105083277,
+        "p05": 2.99693787,
+        "p95": 3.253253539
       },
       "mechanistic_predictive_interval": {
         "defined_samples": 256,
-        "mean": 3.3440858354373484,
-        "median": 3.3433986640054645,
-        "p05": 3.166449239312196,
-        "p95": 3.5139356359008955
+        "mean": 3.344085835,
+        "median": 3.343398664,
+        "p05": 3.166449239,
+        "p95": 3.513935636
       },
       "conformalized_interval": {
         "defined": true,
-        "p05": 1.843048566963437,
-        "p95": 4.837336308249654,
-        "half_width_correction": 1.3234006723487588
+        "p05": 1.843048567,
+        "p95": 4.837336308,
+        "half_width_correction": 1.323400672
       },
       "association_only_diagnostics": {
         "component_count": 779,
@@ -473,23 +473,23 @@
       "sequence_id": "01",
       "association_only_interval": {
         "defined_samples": 256,
-        "mean": 3.21197669442258,
-        "median": 3.2131212371788846,
-        "p05": 3.035807473932263,
-        "p95": 3.388111153964407
+        "mean": 3.211976694,
+        "median": 3.213121237,
+        "p05": 3.035807474,
+        "p95": 3.388111154
       },
       "mechanistic_predictive_interval": {
         "defined_samples": 256,
-        "mean": 3.3667328266142986,
-        "median": 3.3706188878773107,
-        "p05": 3.1689321484427655,
-        "p95": 3.5742142648521824
+        "mean": 3.366732827,
+        "median": 3.370618888,
+        "p05": 3.168932148,
+        "p95": 3.574214265
       },
       "conformalized_interval": {
         "defined": true,
-        "p05": 1.8455314760940067,
-        "p95": 4.897614937200942,
-        "half_width_correction": 1.3234006723487588
+        "p05": 1.845531476,
+        "p95": 4.897614937,
+        "half_width_correction": 1.323400672
       },
       "association_only_diagnostics": {
         "component_count": 724,
@@ -530,23 +530,23 @@
       "sequence_id": "01",
       "association_only_interval": {
         "defined_samples": 256,
-        "mean": 3.0754617198004173,
-        "median": 3.0762992545134678,
-        "p05": 2.798108711896183,
-        "p95": 3.3367237897932798
+        "mean": 3.07546172,
+        "median": 3.076299255,
+        "p05": 2.798108712,
+        "p95": 3.33672379
       },
       "mechanistic_predictive_interval": {
         "defined_samples": 256,
-        "mean": 3.2310719302915527,
-        "median": 3.224604421700559,
-        "p05": 2.922101741858962,
-        "p95": 3.546783440604712
+        "mean": 3.23107193,
+        "median": 3.224604422,
+        "p05": 2.922101742,
+        "p95": 3.546783441
       },
       "conformalized_interval": {
         "defined": true,
-        "p05": 1.598701069510203,
-        "p95": 4.870184112953471,
-        "half_width_correction": 1.3234006723487588
+        "p05": 1.59870107,
+        "p95": 4.870184113,
+        "half_width_correction": 1.323400672
       },
       "association_only_diagnostics": {
         "component_count": 560,
@@ -587,23 +587,23 @@
       "sequence_id": "01",
       "association_only_interval": {
         "defined_samples": 256,
-        "mean": 3.942536619304671,
-        "median": 3.937887301595733,
-        "p05": 3.817828871006472,
-        "p95": 4.059444115768137
+        "mean": 3.942536619,
+        "median": 3.937887302,
+        "p05": 3.817828871,
+        "p95": 4.059444116
       },
       "mechanistic_predictive_interval": {
         "defined_samples": 256,
-        "mean": 4.05331615044912,
-        "median": 4.05307594635182,
-        "p05": 3.9251122460400287,
-        "p95": 4.177186172254377
+        "mean": 4.05331615,
+        "median": 4.053075946,
+        "p05": 3.925112246,
+        "p95": 4.177186172
       },
       "conformalized_interval": {
         "defined": true,
-        "p05": 2.60171157369127,
-        "p95": 5.500586844603136,
-        "half_width_correction": 1.3234006723487588
+        "p05": 2.601711574,
+        "p95": 5.500586845,
+        "half_width_correction": 1.323400672
       },
       "association_only_diagnostics": {
         "component_count": 788,
@@ -644,23 +644,23 @@
       "sequence_id": "01",
       "association_only_interval": {
         "defined_samples": 256,
-        "mean": 5.665638345387261,
-        "median": 5.6653458465733255,
-        "p05": 5.507213651765209,
-        "p95": 5.806343229940647
+        "mean": 5.665638345,
+        "median": 5.665345847,
+        "p05": 5.507213652,
+        "p95": 5.80634323
       },
       "mechanistic_predictive_interval": {
         "defined_samples": 256,
-        "mean": 5.876982419712112,
-        "median": 5.887862070400738,
-        "p05": 5.694409478328952,
-        "p95": 6.050194152047943
+        "mean": 5.87698242,
+        "median": 5.88786207,
+        "p05": 5.694409478,
+        "p95": 6.050194152
       },
       "conformalized_interval": {
         "defined": true,
-        "p05": 4.371008805980193,
-        "p95": 7.373594824396703,
-        "half_width_correction": 1.3234006723487588
+        "p05": 4.371008806,
+        "p95": 7.373594824,
+        "half_width_correction": 1.323400672
       },
       "association_only_diagnostics": {
         "component_count": 829,
@@ -701,23 +701,23 @@
       "sequence_id": "01",
       "association_only_interval": {
         "defined_samples": 256,
-        "mean": 7.225014558638145,
-        "median": 7.22912458457925,
-        "p05": 7.039897438519052,
-        "p95": 7.412941322149877
+        "mean": 7.225014559,
+        "median": 7.229124585,
+        "p05": 7.039897439,
+        "p95": 7.412941322
       },
       "mechanistic_predictive_interval": {
         "defined_samples": 256,
-        "mean": 7.607859161782778,
-        "median": 7.601952543037216,
-        "p05": 7.360955145777372,
-        "p95": 7.902655957609625
+        "mean": 7.607859162,
+        "median": 7.601952543,
+        "p05": 7.360955146,
+        "p95": 7.902655958
       },
       "conformalized_interval": {
         "defined": true,
-        "p05": 6.037554473428614,
-        "p95": 9.226056629958384,
-        "half_width_correction": 1.3234006723487588
+        "p05": 6.037554473,
+        "p95": 9.22605663,
+        "half_width_correction": 1.323400672
       },
       "association_only_diagnostics": {
         "component_count": 907,
@@ -758,23 +758,23 @@
       "sequence_id": "01",
       "association_only_interval": {
         "defined_samples": 256,
-        "mean": 3.1584879132339556,
-        "median": 3.1589976828176187,
-        "p05": 3.008660429295107,
-        "p95": 3.298672685732325
+        "mean": 3.158487913,
+        "median": 3.158997683,
+        "p05": 3.008660429,
+        "p95": 3.298672686
       },
       "mechanistic_predictive_interval": {
         "defined_samples": 256,
-        "mean": 3.3813337165726547,
-        "median": 3.381160561317447,
-        "p05": 3.2495658502566993,
-        "p95": 3.509799624026705
+        "mean": 3.381333717,
+        "median": 3.381160561,
+        "p05": 3.24956585,
+        "p95": 3.509799624
       },
       "conformalized_interval": {
         "defined": true,
-        "p05": 1.9261651779079405,
-        "p95": 4.833200296375464,
-        "half_width_correction": 1.3234006723487588
+        "p05": 1.926165178,
+        "p95": 4.833200296,
+        "half_width_correction": 1.323400672
       },
       "association_only_diagnostics": {
         "component_count": 796,
@@ -815,23 +815,23 @@
       "sequence_id": "01",
       "association_only_interval": {
         "defined_samples": 256,
-        "mean": 3.1635482868203093,
-        "median": 3.159144172704883,
-        "p05": 3.014729969086166,
-        "p95": 3.305121578187343
+        "mean": 3.163548287,
+        "median": 3.159144173,
+        "p05": 3.014729969,
+        "p95": 3.305121578
       },
       "mechanistic_predictive_interval": {
         "defined_samples": 256,
-        "mean": 3.391482055396505,
-        "median": 3.387301044783781,
-        "p05": 3.2536433625554957,
-        "p95": 3.5283564309633513
+        "mean": 3.391482055,
+        "median": 3.387301045,
+        "p05": 3.253643363,
+        "p95": 3.528356431
       },
       "conformalized_interval": {
         "defined": true,
-        "p05": 1.9302426902067369,
-        "p95": 4.85175710331211,
-        "half_width_correction": 1.3234006723487588
+        "p05": 1.93024269,
+        "p95": 4.851757103,
+        "half_width_correction": 1.323400672
       },
       "association_only_diagnostics": {
         "component_count": 779,
@@ -872,23 +872,23 @@
       "sequence_id": "01",
       "association_only_interval": {
         "defined_samples": 256,
-        "mean": 3.1769544783522736,
-        "median": 3.1742266596231596,
-        "p05": 3.045850793165936,
-        "p95": 3.305340256733697
+        "mean": 3.176954478,
+        "median": 3.17422666,
+        "p05": 3.045850793,
+        "p95": 3.305340257
       },
       "mechanistic_predictive_interval": {
         "defined_samples": 256,
-        "mean": 3.4039999632605022,
-        "median": 3.397168368334526,
-        "p05": 3.2543825562164246,
-        "p95": 3.5442226317047485
+        "mean": 3.403999963,
+        "median": 3.397168368,
+        "p05": 3.254382556,
+        "p95": 3.544222632
       },
       "conformalized_interval": {
         "defined": true,
-        "p05": 1.9309818838676658,
-        "p95": 4.867623304053508,
-        "half_width_correction": 1.3234006723487588
+        "p05": 1.930981884,
+        "p95": 4.867623304,
+        "half_width_correction": 1.323400672
       },
       "association_only_diagnostics": {
         "component_count": 763,
@@ -929,23 +929,23 @@
       "sequence_id": "01",
       "association_only_interval": {
         "defined_samples": 256,
-        "mean": 3.1718322513257693,
-        "median": 3.1746399305097737,
-        "p05": 3.0358276340975765,
-        "p95": 3.310742232153962
+        "mean": 3.171832251,
+        "median": 3.174639931,
+        "p05": 3.035827634,
+        "p95": 3.310742232
       },
       "mechanistic_predictive_interval": {
         "defined_samples": 256,
-        "mean": 3.380687874859686,
-        "median": 3.379618232322281,
-        "p05": 3.2470677186258046,
-        "p95": 3.5240360799169093
+        "mean": 3.380687875,
+        "median": 3.379618232,
+        "p05": 3.247067719,
+        "p95": 3.52403608
       },
       "conformalized_interval": {
         "defined": true,
-        "p05": 1.9236670462770458,
-        "p95": 4.8474367522656685,
-        "half_width_correction": 1.3234006723487588
+        "p05": 1.923667046,
+        "p95": 4.847436752,
+        "half_width_correction": 1.323400672
       },
       "association_only_diagnostics": {
         "component_count": 796,
@@ -986,23 +986,23 @@
       "sequence_id": "01",
       "association_only_interval": {
         "defined_samples": 256,
-        "mean": 3.171412044528255,
-        "median": 3.1740871238986657,
-        "p05": 3.0358276340975765,
-        "p95": 3.310742232153962
+        "mean": 3.171412045,
+        "median": 3.174087124,
+        "p05": 3.035827634,
+        "p95": 3.310742232
       },
       "mechanistic_predictive_interval": {
         "defined_samples": 256,
-        "mean": 3.380303691401599,
-        "median": 3.3794127039430952,
-        "p05": 3.2470677186258046,
-        "p95": 3.5240360799169093
+        "mean": 3.380303691,
+        "median": 3.379412704,
+        "p05": 3.247067719,
+        "p95": 3.52403608
       },
       "conformalized_interval": {
         "defined": true,
-        "p05": 1.9236670462770458,
-        "p95": 4.8474367522656685,
-        "half_width_correction": 1.3234006723487588
+        "p05": 1.923667046,
+        "p95": 4.847436752,
+        "half_width_correction": 1.323400672
       },
       "association_only_diagnostics": {
         "component_count": 796,
@@ -1043,23 +1043,23 @@
       "sequence_id": "01",
       "association_only_interval": {
         "defined_samples": 256,
-        "mean": 3.1711610451024423,
-        "median": 3.1740871238986657,
-        "p05": 3.0358276340975765,
-        "p95": 3.310742232153962
+        "mean": 3.171161045,
+        "median": 3.174087124,
+        "p05": 3.035827634,
+        "p95": 3.310742232
       },
       "mechanistic_predictive_interval": {
         "defined_samples": 256,
-        "mean": 3.3803997520184,
-        "median": 3.3794127039430952,
-        "p05": 3.2470677186258046,
-        "p95": 3.5240360799169093
+        "mean": 3.380399752,
+        "median": 3.379412704,
+        "p05": 3.247067719,
+        "p95": 3.52403608
       },
       "conformalized_interval": {
         "defined": true,
-        "p05": 1.9236670462770458,
-        "p95": 4.8474367522656685,
-        "half_width_correction": 1.3234006723487588
+        "p05": 1.923667046,
+        "p95": 4.847436752,
+        "half_width_correction": 1.323400672
       },
       "association_only_diagnostics": {
         "component_count": 796,
@@ -1100,23 +1100,23 @@
       "sequence_id": "01",
       "association_only_interval": {
         "defined_samples": 256,
-        "mean": 3.1708880707960745,
-        "median": 3.1740871238986657,
-        "p05": 3.026971018726525,
-        "p95": 3.310742232153962
+        "mean": 3.170888071,
+        "median": 3.174087124,
+        "p05": 3.026971019,
+        "p95": 3.310742232
       },
       "mechanistic_predictive_interval": {
         "defined_samples": 256,
-        "mean": 3.380999603391512,
-        "median": 3.379618232322281,
-        "p05": 3.2476776940699246,
-        "p95": 3.5240360799169093
+        "mean": 3.380999603,
+        "median": 3.379618232,
+        "p05": 3.247677694,
+        "p95": 3.52403608
       },
       "conformalized_interval": {
         "defined": true,
-        "p05": 1.9242770217211658,
-        "p95": 4.8474367522656685,
-        "half_width_correction": 1.3234006723487588
+        "p05": 1.924277022,
+        "p95": 4.847436752,
+        "half_width_correction": 1.323400672
       },
       "association_only_diagnostics": {
         "component_count": 796,
@@ -1157,23 +1157,23 @@
       "sequence_id": "01",
       "association_only_interval": {
         "defined_samples": 256,
-        "mean": 3.168159043146362,
-        "median": 3.1718447963588656,
-        "p05": 3.0344985053697764,
-        "p95": 3.3008753176326655
+        "mean": 3.168159043,
+        "median": 3.171844796,
+        "p05": 3.034498505,
+        "p95": 3.300875318
       },
       "mechanistic_predictive_interval": {
         "defined_samples": 256,
-        "mean": 3.391590484313414,
-        "median": 3.394387810344835,
-        "p05": 3.2372109366579203,
-        "p95": 3.544139270993497
+        "mean": 3.391590484,
+        "median": 3.39438781,
+        "p05": 3.237210937,
+        "p95": 3.544139271
       },
       "conformalized_interval": {
         "defined": true,
-        "p05": 1.9138102643091615,
-        "p95": 4.867539943342256,
-        "half_width_correction": 1.3234006723487588
+        "p05": 1.913810264,
+        "p95": 4.867539943,
+        "half_width_correction": 1.323400672
       },
       "association_only_diagnostics": {
         "component_count": 806,
@@ -1214,23 +1214,23 @@
       "sequence_id": "01",
       "association_only_interval": {
         "defined_samples": 256,
-        "mean": 3.167131311256823,
-        "median": 3.1644725825693136,
-        "p05": 3.038094949468242,
-        "p95": 3.301006100619761
+        "mean": 3.167131311,
+        "median": 3.164472583,
+        "p05": 3.038094949,
+        "p95": 3.301006101
       },
       "mechanistic_predictive_interval": {
         "defined_samples": 256,
-        "mean": 3.395753782346776,
-        "median": 3.3885528736830874,
-        "p05": 3.2504717702367447,
-        "p95": 3.5412617207461907
+        "mean": 3.395753782,
+        "median": 3.388552874,
+        "p05": 3.25047177,
+        "p95": 3.541261721
       },
       "conformalized_interval": {
         "defined": true,
-        "p05": 1.927071097887986,
-        "p95": 4.8646623930949495,
-        "half_width_correction": 1.3234006723487588
+        "p05": 1.927071098,
+        "p95": 4.864662393,
+        "half_width_correction": 1.323400672
       },
       "association_only_diagnostics": {
         "component_count": 816,
@@ -1271,23 +1271,23 @@
       "sequence_id": "01",
       "association_only_interval": {
         "defined_samples": 256,
-        "mean": 3.1744656927674573,
-        "median": 3.179444126451287,
-        "p05": 3.0453976075636597,
-        "p95": 3.29329872693777
+        "mean": 3.174465693,
+        "median": 3.179444126,
+        "p05": 3.045397608,
+        "p95": 3.293298727
       },
       "mechanistic_predictive_interval": {
         "defined_samples": 256,
-        "mean": 3.3875783112225193,
-        "median": 3.386507992369121,
-        "p05": 3.2594252375081934,
-        "p95": 3.51520593950037
+        "mean": 3.387578311,
+        "median": 3.386507992,
+        "p05": 3.259425238,
+        "p95": 3.51520594
       },
       "conformalized_interval": {
         "defined": true,
-        "p05": 1.9360245651594346,
-        "p95": 4.838606611849128,
-        "half_width_correction": 1.3234006723487588
+        "p05": 1.936024565,
+        "p95": 4.838606612,
+        "half_width_correction": 1.323400672
       },
       "association_only_diagnostics": {
         "component_count": 834,
