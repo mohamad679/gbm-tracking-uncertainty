@@ -1,0 +1,52 @@
+name: reproduce-stage-c-v2-development
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - ".github/workflows/reproduce-stage-c-v2-development.yml"
+      - "docs/stage-c-v2-development-fit.json"
+      - "docs/stage-c-v2-step4-development-fit.md"
+      - "src/gbm_audit/**"
+      - "tests/**"
+      - "pyproject.toml"
+      - "constraints.txt"
+
+permissions:
+  contents: read
+
+jobs:
+  development-fit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install pinned environment
+        run: python -m pip install -c constraints.txt -e .
+      - name: Run repository tests
+        run: python -m unittest discover -s tests -q
+      - name: Download official U373 training archive
+        run: |
+          mkdir -p data/raw results
+          curl --fail --location --retry 3 --retry-delay 2 \
+            https://data.celltrackingchallenge.net/training-datasets/PhC-C2DH-U373.zip \
+            --output data/raw/PhC-C2DH-U373.zip
+      - name: Build development inputs
+        run: |
+          python -m gbm_audit.benchmark data/raw/PhC-C2DH-U373.zip \
+            --output results/u373-reference-manifest.json
+          python -m gbm_audit.corruptions results/u373-reference-manifest.json \
+            --output results/u373-corruption-benchmark.json --seed 20260919
+      - name: Reproduce frozen Stage C v2 development artifact
+        run: |
+          python -m gbm_audit.stage_c_v2_development \
+            results/u373-reference-manifest.json \
+            results/u373-corruption-benchmark.json \
+            --output /tmp/stage-c-v2-development-fit.json \
+            --ensemble-count 256 --seed 20260919
+          diff -u docs/stage-c-v2-development-fit.json \
+            /tmp/stage-c-v2-development-fit.json
+
