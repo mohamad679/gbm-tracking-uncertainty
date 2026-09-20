@@ -81,8 +81,9 @@ class TestStageCV2Sampler(unittest.TestCase):
         observations = [
             {"observation_id": "a0", "frame": 0, "x_px": 0.0, "y_px": 0.0},
             {"observation_id": "b1", "frame": 1, "x_px": 1.0, "y_px": 0.0},
-            {"observation_id": "shell1", "frame": 1, "x_px": 10.0, "y_px": 0.0},
-            {"observation_id": "c2", "frame": 2, "x_px": 20.0, "y_px": 0.0},
+            {"observation_id": "shell1", "frame": 1, "x_px": 0.0, "y_px": 24.0},
+            {"observation_id": "d0", "frame": 0, "x_px": 100.0, "y_px": 0.0},
+            {"observation_id": "c2", "frame": 2, "x_px": 148.0, "y_px": 0.0},
         ]
         primary = generate_adaptive_candidate_graph(observations, AdaptiveCandidateConfig())
         recovery = build_recovery_graph(observations, primary)
