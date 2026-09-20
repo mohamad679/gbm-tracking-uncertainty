@@ -44,6 +44,18 @@ DEFAULT_ENSEMBLE_COUNT = 256
 DEFAULT_SEED = 20260919
 
 
+def _stable_artifact(value):
+    """Normalize floating-point serialization across supported NumPy versions."""
+    if isinstance(value, float):
+        rounded = round(value, 9)
+        return 0.0 if rounded == 0 else rounded
+    if isinstance(value, dict):
+        return {key: _stable_artifact(item) for key, item in value.items()}
+    if isinstance(value, list):
+        return [_stable_artifact(item) for item in value]
+    return value
+
+
 def _canonical_sha256(value: dict) -> str:
     payload = json.dumps(value, sort_keys=True, separators=(",", ":")).encode("utf-8")
     return hashlib.sha256(payload).hexdigest()
@@ -395,7 +407,10 @@ def main(argv=None) -> int:
         print(f"Stage C v2 development fit failed: {exc}", file=sys.stderr)
         return 2
     args.output.parent.mkdir(parents=True, exist_ok=True)
-    args.output.write_text(json.dumps(result, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    args.output.write_text(
+        json.dumps(_stable_artifact(result), indent=2, ensure_ascii=False) + "\n",
+        encoding="utf-8",
+    )
     print(
         f"Wrote {args.output} ({result['status']}; "
         f"{len(result['scenarios'])} sequence-01 scenarios; T98G unevaluated)"
