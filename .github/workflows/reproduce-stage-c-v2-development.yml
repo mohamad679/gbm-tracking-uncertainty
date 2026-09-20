@@ -47,6 +47,13 @@ jobs:
             results/u373-corruption-benchmark.json \
             --output /tmp/stage-c-v2-development-fit.json \
             --ensemble-count 256 --seed 20260919
-          diff -u docs/stage-c-v2-development-fit.json \
-            /tmp/stage-c-v2-development-fit.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          expected = json.loads(Path("docs/stage-c-v2-development-fit.json").read_text())
+          actual = json.loads(Path("/tmp/stage-c-v2-development-fit.json").read_text())
+          if expected != actual:
+              raise SystemExit("frozen development artifact differs from reproduction")
+          print("Frozen development artifact matches (JSON-equivalent).")
+          PY
 
