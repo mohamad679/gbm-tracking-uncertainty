@@ -156,6 +156,9 @@ proceed to Step 2 while T98G remains locked and unevaluated.
 
 The localization/proposal-recovery implementation in Step 2 is now complete;
 its leakage, compatibility, and resource-bound tests pass. See
-[`stage-c-v2-step3-sampler.md`](stage-c-v2-step3-sampler.md). The next step is
-the development-only U373 sequence-`01` fit and cross-validation.
+[`stage-c-v2-step3-sampler.md`](stage-c-v2-step3-sampler.md). The development-only
+U373 sequence-`01` fit and cross-validation is also complete, with frozen values
+and a compact artifact in
+[`stage-c-v2-step4-development-fit.md`](stage-c-v2-step4-development-fit.md).
+The only remaining execution step is the one-time registered T98G evaluation.
 
