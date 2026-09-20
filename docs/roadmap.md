@@ -35,7 +35,12 @@ non-inferiority and completeness gates, but their mean-speed intervals covered
 the sequence-`02` reference in 0/17 scenarios. The result and required revision
 boundary are documented in [`stage-c-final-report.md`](stage-c-final-report.md).
 
-Stage D operator learning remains blocked. A Stage C revision must model
-proposal/localization uncertainty using development data and must reserve a new
-independent locked test; sequence `02` may not be reused for selection. No Stage
-B or Stage C result is biological validation.
+Stage C v2 is active under the pre-development protocol in
+[`stage-c-v2-protocol.md`](stage-c-v2-protocol.md). It adds explicit
+localization and proposal-recovery uncertainty plus development-only predictive
+calibration. U373 sequence `01` is the sole development source; sequence `02`
+may not be reused for selection. T98G is the candidate independent test and
+must pass a data-only audit before its qualifying sequences are locked.
+
+Stage D operator learning remains blocked until the Stage C v2 locked gate
+passes. No Stage B or Stage C result is biological validation.
