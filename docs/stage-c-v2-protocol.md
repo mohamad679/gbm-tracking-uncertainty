@@ -1,6 +1,6 @@
 # Stage C v2 protocol: calibrated predictive trajectory uncertainty
 
-Date: 2026-09-20. Status: **FROZEN — TEST MANIFEST LOCKED UNEVALUATED**.
+Date: 2026-09-20. Status: **COMPLETE — T98G LOCKED EVALUATION PASS**.
 
 ## Reason for revision
 
@@ -160,5 +160,8 @@ its leakage, compatibility, and resource-bound tests pass. See
 U373 sequence-`01` fit and cross-validation is also complete, with frozen values
 and a compact artifact in
 [`stage-c-v2-step4-development-fit.md`](stage-c-v2-step4-development-fit.md).
-The only remaining execution step is the one-time registered T98G evaluation.
-
+The one-time registered T98G evaluation is complete and passes all locked-test
+gates; see [`stage-c-v2-step5-t98g-evaluation.md`](stage-c-v2-step5-t98g-evaluation.md)
+and the complete artifact in [`stage-c-v2-t98g-locked-evaluation.json`](stage-c-v2-t98g-locked-evaluation.json).
+Stage C v2 is complete. Stage D remains subject to the roadmap's separate
+authorization and design gates.
