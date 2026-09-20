@@ -89,6 +89,10 @@ class TestStageCDynamics(unittest.TestCase):
         self.assertEqual([row["sequence_id"] for row in result["scenarios"]], ["01"])
         self.assertEqual(result["ensemble"]["count"], 4)
         self.assertTrue(result["scenarios"][0]["exact_context"]["invariants_pass"])
+        self.assertIsNotNone(
+            result["scenarios"][0]["exact_context"]["posterior_summary"]
+            ["hmm_2state"]["state_occupancy"][0]["mean"]
+        )
 
     def test_development_evaluator_rejects_invalid_ensemble_size(self):
         manifest = _manifest()

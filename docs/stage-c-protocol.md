@@ -1,6 +1,6 @@
 # Stage C protocol: posterior propagation to migration and state summaries
 
-Date: 2026-09-19. Status: **FROZEN BEFORE IMPLEMENTATION**.
+Date: 2026-09-19. Status: **FROZEN — REVISE 2026-09-20**.
 
 ## Research question
 
@@ -107,3 +107,10 @@ Stage C establishes technical uncertainty propagation through migration and
 image-derived state summaries on U373. It does not justify SLDS, Koopman or
 other operator learning; those remain a separate Stage D decision after this
 gate. It does not validate any claim about GlioTrace brain-slice biology.
+
+## Final decision
+
+The one-time locked sequence-`02` evaluation passed the invariant,
+non-inferiority and completeness gates but failed the registered 90% mean-speed
+interval-coverage gate (0/17 scenarios covered the reference). Stage C is
+therefore `REVISE`; see [`stage-c-final-report.md`](stage-c-final-report.md).

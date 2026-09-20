@@ -33,6 +33,21 @@ MIGRATION_SCALAR_FIELDS = (
 )
 MSD_LAGS = (1, 2, 3)
 
+# Fitted once on the uncorrupted Stage C development reference (sequence 01)
+# and recorded in docs/stage-c-development-summaries.json.  Locked evaluation
+# imports this value and never calls fit_hmm on sequence 02.
+LOCKED_DEVELOPMENT_HMM_MODEL = {
+    "status": "ok",
+    "speed_observations": 757,
+    "sequences": 8,
+    "state_means_px_per_frame": [0.199786, 6.541016],
+    "state_stds_px_per_frame": [0.404617, 5.092416],
+    "transition_matrix": [[0.626064, 0.373936], [0.165722, 0.834278]],
+    "initial_state_probability": [0.0, 1.0],
+    "stationary_state_probability": [0.307088, 0.692912],
+    "expected_state_switch_probability": 0.229662,
+}
+
 
 def _reference_trajectories(sequence: dict) -> tuple[dict[str, dict], list[dict]]:
     observations, trajectories = {}, []
@@ -188,9 +203,16 @@ def summarize_trajectories(trajectories: list[dict], observations: dict[str, dic
 def _interval(values: list[float | None]) -> dict:
     defined = [value for value in values if value is not None and math.isfinite(value)]
     if not defined:
-        return {"defined_samples": 0, "median": None, "p05": None, "p95": None}
+        return {
+            "defined_samples": 0,
+            "mean": None,
+            "median": None,
+            "p05": None,
+            "p95": None,
+        }
     return {
         "defined_samples": len(defined),
+        "mean": float(np.mean(defined)),
         "median": float(np.quantile(defined, 0.5)),
         "p05": float(np.quantile(defined, 0.05)),
         "p95": float(np.quantile(defined, 0.95)),
@@ -246,8 +268,8 @@ def aggregate_posterior_summaries(sample_summaries: list[dict]) -> dict:
     }
 
 
-def _sampled_ensemble(observations: list[dict], candidate_edges: list[dict], *, count: int,
-                      seed: int) -> dict:
+def sample_stage_a_ensemble(observations: list[dict], candidate_edges: list[dict], *, count: int,
+                            seed: int) -> dict:
     link_sets = sample_candidate_graph_hypotheses(
         observations, candidate_edges, count=count, temperature_px=4.0,
         new_track_score_px=10.0, seed=seed,
@@ -271,7 +293,7 @@ def _sampled_ensemble(observations: list[dict], candidate_edges: list[dict], *, 
     return {"samples": samples, "invariants_pass": not violations, "violation_sample_indices": violations}
 
 
-def _summarize_ensemble(ensemble: dict, observations: list[dict], hmm: dict) -> dict:
+def summarize_ensemble(ensemble: dict, observations: list[dict], hmm: dict) -> dict:
     by_id = {row["observation_id"]: row for row in observations}
     summaries = [
         summarize_trajectories(sample["trajectories"], by_id, hmm)
@@ -311,10 +333,10 @@ def evaluate_development(manifest: dict, corruptions: dict, *,
             seed=seed, temperature_px=4.0,
             new_track_score_px=LOCKED_ADAPTIVE_V3_CONFIG.new_track_score_px,
         )
-        sampled = _sampled_ensemble(
+        sampled = sample_stage_a_ensemble(
             sequence["observations"], graph["candidate_edges"], count=ensemble_count, seed=seed
         )
-        exact_summary = _summarize_ensemble(
+        exact_summary = summarize_ensemble(
             {"samples": exact["samples"], "invariants_pass": all((
                 exact["invariants"]["one_to_one_pass"],
                 exact["invariants"]["trajectory_partition_pass"],
@@ -326,7 +348,7 @@ def evaluate_development(manifest: dict, corruptions: dict, *,
             ))},
             sequence["observations"], frozen_hmm["model"],
         )
-        sampled_summary = _summarize_ensemble(sampled, sequence["observations"], frozen_hmm["model"])
+        sampled_summary = summarize_ensemble(sampled, sequence["observations"], frozen_hmm["model"])
         scenarios.append({
             "scenario_id": scenario["scenario_id"],
             "corruption": scenario["corruption"],
