@@ -1,6 +1,6 @@
 # Stage D protocol: uncertainty-aware operator learning
 
-Date: 2026-09-21. Status: **STEP 3 COMPLETE — DEVELOPMENT FIT STABLE; PERFORMANCE HOLD**.
+Date: 2026-09-21. Status: **STEP 4 COMPLETE — HOLD; NO INDEPENDENT EVALUATION SOURCE**.
 
 Stage D asks whether a constrained dynamical operator can learn useful state
 transitions from the uncertainty-aware trajectory distributions produced by
@@ -21,9 +21,10 @@ biological validation of GlioTrace or a clinical claim.
    sequence `01`, use leave-one-track-out diagnostics inside that development
    source, and record calibration, spectral/stability diagnostics, rollout
    bounds and exact reproducibility.
-4. **Run the one-time held-out evaluation.** Use a newly audited independent
-   operator-evaluation sequence. Publish every metric and issue `GO`, `REVISE`
-   or `HOLD`; never tune after seeing the held-out result.
+4. **Run the one-time held-out evaluation.** **Complete as HOLD.** No newly
+   audited independent operator-evaluation sequence is available. U373
+   sequence `02` and T98G are already-consumed locked sources and cannot be
+   reused; no held-out metric was fabricated or inferred.
 
 ## Frozen data boundary
 
@@ -59,3 +60,13 @@ finite bounded rollouts for every candidate and fold. No candidate was selected
 from these development diagnostics; performance remains HOLD until Step 4.
 The complete machine-readable result is
 [`stage-d-development-fit.json`](stage-d-development-fit.json).
+
+## Final Step 4 decision
+
+Step 4 produced [`stage-d-heldout-decision.json`](stage-d-heldout-decision.json).
+The evaluation was attempted zero times and no candidate was selected. The
+decision is **HOLD**, exactly as required when an independent held-out source
+is unavailable. A future continuation requires a new dataset to pass a
+data-only provenance/schema audit and be locked before any operator fitting or
+one-time evaluation. Stage D therefore ends here with a technical HOLD, not a
+performance success or biological claim.
