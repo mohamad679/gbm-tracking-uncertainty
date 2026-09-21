@@ -56,4 +56,18 @@ jobs:
               raise SystemExit("frozen development artifact differs from reproduction")
           print("Frozen development artifact matches (JSON-equivalent).")
           PY
-
+      - name: Reproduce Stage D Step 3 development artifact
+        run: |
+          python -m gbm_audit.stage_d_development \
+            results/u373-reference-manifest.json \
+            /tmp/stage-c-v2-development-fit.json \
+            --output /tmp/stage-d-development-fit.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          expected = json.loads(Path("docs/stage-d-development-fit.json").read_text())
+          actual = json.loads(Path("/tmp/stage-d-development-fit.json").read_text())
+          if expected != actual:
+              raise SystemExit("Stage D development artifact differs from reproduction")
+          print("Stage D Step 3 development artifact matches (JSON-equivalent).")
+          PY
