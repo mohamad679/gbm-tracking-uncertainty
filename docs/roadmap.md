@@ -43,5 +43,8 @@ may not be reused for selection. The T98G data-only audit passed and its sole
 qualifying human-curated sequence is now `LOCKED_UNEVALUATED`; see
 [`stage-c-v2-step2-t98g-audit.md`](stage-c-v2-step2-t98g-audit.md).
 
-Stage D operator learning remains blocked until the Stage C v2 locked gate
-passes. No Stage B or Stage C result is biological validation.
+Stage C v2 has now passed its locked T98G gate. Stage D Step 1 therefore freezes
+the operator-learning protocol, data boundary and decision gates in
+[`stage-d-protocol.md`](stage-d-protocol.md). Operator performance remains
+HOLD until the remaining three steps pass; no Stage B, Stage C or Stage D
+technical result is biological validation.
