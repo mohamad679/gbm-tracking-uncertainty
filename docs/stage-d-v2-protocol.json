@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "stage": "D-v2",
+  "method": "independent_huh7_operator_evaluation_v1",
+  "status": "FROZEN_BEFORE_OUTCOME_INSPECTION",
+  "source": {
+    "dataset_id": "CTC_Fluo-C2DL-Huh7_training_2021-01-14",
+    "archive_url": "https://data.celltrackingchallenge.net/training-datasets/Fluo-C2DL-Huh7.zip",
+    "expected_size_bytes": 38151145,
+    "expected_sha256": "1912658c1b3d8b38b314eb658b559e7b39c256917150e9b3dd8bfdc77347617d",
+    "pixel_size_um": [0.65, 0.65],
+    "time_step_min": 15
+  },
+  "data_only_selection_rule": {
+    "ordering": "lexicographic_sequence_id",
+    "minimum_lineage_tracks": 2,
+    "minimum_structural_velocity_transition_slots": 100,
+    "forbidden_during_audit": [
+      "centroid_extraction",
+      "motion_calculation",
+      "model_fitting",
+      "outcome_metric_exposure"
+    ]
+  },
+  "fit_sources": ["U373_sequence_01", "frozen_Stage_C_v2_development_HMM"],
+  "forbidden_sources": ["U373_sequence_02_archival_v1_test", "T98G_locked_stage_c_v2_test"],
+  "candidate": "stable_linear_koopman_operator_v1",
+  "baselines": [
+    "frozen_hmm_speed_baseline_v1",
+    "weighted_empirical_transition_baseline_v1"
+  ],
+  "metrics": {
+    "primary": "one_step_velocity_rmse_px_per_frame",
+    "state_summary": "absolute_error_of_mean_predicted_next_speed_px_per_frame",
+    "interval": "coverage_using_frozen_development_p90_residual_radius",
+    "stability_horizon": 10
+  },
+  "gates": {
+    "primary_predictive": "candidate RMSE strictly lower than both baselines",
+    "state_summary_noninferiority_margin_px_per_frame": 0.1,
+    "nominal_90_interval_coverage": [0.8, 0.98],
+    "maximum_rollout_abs_state": 1000.0,
+    "maximum_koopman_spectral_radius": 0.98,
+    "reproducibility": "exact"
+  },
+  "decision_policy": {
+    "GO": "all gates pass",
+    "REVISE": "pre-specified implementation or calibration defect only; no Huh7 tuning",
+    "HOLD": "valid evaluation does not justify operator complexity"
+  },
+  "biological_claim": "not supported"
+}

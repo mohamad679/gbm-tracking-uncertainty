@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "stage": "D-v3",
+  "method": "huh7_calibrated_koopman_empirical_blend_v1",
+  "status": "SEQUENCE_02_LOCKED_BEFORE_DEVELOPMENT_FIT",
+  "development_source": "CTC_Fluo-C2DL-Huh7_training_sequence_01_consumed_v2",
+  "evaluation_source": "CTC_Fluo-C2DL-Huh7_training_sequence_02_locked_unevaluated",
+  "evaluation_member_set_sha256": "84cb1f20c08574224a773e94b8bf1f745f4bd8139616f33a46566cb8c7658183",
+  "source_audit_sha256": "52e3e42e70a043ecbbef28f32cadef0e47c958d146ea9b68fe47de89fd92e4f0",
+  "v2_consumed_evaluation_sha256": "2ed1eee0c009e687755eed52db153e42e0146b752adf43b3fc2898a749f06ff1",
+  "candidate": {
+    "name": "huh7_calibrated_koopman_empirical_blend_v1",
+    "formula": "lambda * stable_linear_koopman_operator_v1 + (1 - lambda) * weighted_empirical_transition_baseline_v1",
+    "lambda_grid": [
+      0.05, 0.10, 0.15, 0.20, 0.25,
+      0.30, 0.35, 0.40, 0.45, 0.50,
+      0.55, 0.60, 0.65, 0.70, 0.75,
+      0.80, 0.85, 0.90, 0.95, 1.00
+    ],
+    "selection": "minimum sequence-01 velocity RMSE among passing values; ties choose larger lambda",
+    "interval_radius": "sequence-01 p90 Euclidean residual"
+  },
+  "development_gates": {
+    "primary": "candidate RMSE strictly lower than both frozen baselines",
+    "state_summary_noninferiority_margin_px_per_frame": 0.1,
+    "maximum_rollout_abs_state": 1000.0,
+    "stability_horizon": 10
+  },
+  "evaluation_gates": {
+    "primary": "candidate RMSE strictly lower than both frozen baselines",
+    "state_summary_noninferiority_margin_px_per_frame": 0.1,
+    "nominal_90_interval_coverage": [0.8, 0.98],
+    "maximum_rollout_abs_state": 1000.0,
+    "reproducibility": "exact"
+  },
+  "forbidden_for_fit_or_selection": [
+    "CTC_Fluo-C2DL-Huh7_training_sequence_02",
+    "U373_sequence_02_archival_v1_test",
+    "T98G_locked_stage_c_v2_test"
+  ],
+  "claim_scope": "within-Huh7 sequence generalization after one-sequence calibration",
+  "biological_claim": "not supported"
+}

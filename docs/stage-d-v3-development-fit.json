@@ -1,0 +1,564 @@
+{
+  "schema_version": 1,
+  "method": "stage_d_v3_huh7_sequence01_calibration_v1",
+  "status": "DEVELOPMENT_COMPLETE",
+  "protocol_sha256": "782ee02c6eb1e4b3826b4fcbee261cc12370075eb88c42b256057cea1e8bb835",
+  "source_audit_sha256": "52e3e42e70a043ecbbef28f32cadef0e47c958d146ea9b68fe47de89fd92e4f0",
+  "v2_consumed_evaluation_sha256": "2ed1eee0c009e687755eed52db153e42e0146b752adf43b3fc2898a749f06ff1",
+  "u373_development_manifest_sha256": "ce4d1dfc805eba0ab15b12de7e3ebef3eab2b23cf2f35ebed59d18a6cd1e0d47",
+  "stage_c_development_artifact_sha256": "f3323e13a09a750d5966682c58a7e64ca81824171879a8ccf4e8f5d26f2eb721",
+  "stage_d_development_artifact_sha256": "921603ceaa035868bed7c6c556ad2a3aef1d0b6da5c383658438dfe52f595e56",
+  "development_sequence": "Huh7_01_consumed_v2",
+  "evaluation_sequence": "Huh7_02_locked_unevaluated",
+  "evaluation_sequence_evaluated": false,
+  "selection_performed": true,
+  "development_row_count": 883,
+  "fit_row_count": 749,
+  "baselines": {
+    "frozen_hmm_speed_baseline_v1": {
+      "candidate": "frozen_hmm_speed_baseline_v1",
+      "evaluation_row_count": 883,
+      "one_step_velocity_rmse_px_per_frame": 6.6746083,
+      "observed_mean_next_speed_px_per_frame": 2.204336058,
+      "predicted_mean_next_speed_px_per_frame": 5.490134682,
+      "mean_next_speed_absolute_error_px_per_frame": 3.285798624
+    },
+    "weighted_empirical_transition_baseline_v1": {
+      "candidate": "weighted_empirical_transition_baseline_v1",
+      "evaluation_row_count": 883,
+      "one_step_velocity_rmse_px_per_frame": 5.894248138,
+      "observed_mean_next_speed_px_per_frame": 2.204336058,
+      "predicted_mean_next_speed_px_per_frame": 2.243481529,
+      "mean_next_speed_absolute_error_px_per_frame": 0.039145471
+    }
+  },
+  "grid_results": [
+    {
+      "candidate": "huh7_calibrated_koopman_empirical_blend_v1",
+      "lambda": 0.05,
+      "evaluation_row_count": 883,
+      "one_step_velocity_rmse_px_per_frame": 5.804025154,
+      "one_step_velocity_mae_px_per_frame": 3.474486201,
+      "observed_mean_next_speed_px_per_frame": 2.204336058,
+      "predicted_mean_next_speed_px_per_frame": 2.173314808,
+      "mean_next_speed_absolute_error_px_per_frame": 0.03102125,
+      "calibration_radius_p90_px_per_frame": 9.135072598,
+      "nominal_90_interval_coverage": 0.899207248,
+      "stability": {
+        "finite_rollout": true,
+        "max_abs_state": 28.094411196,
+        "forecast_horizon": 10,
+        "max_abs_state_bound": 1000.0,
+        "stability_pass": true
+      },
+      "gates": {
+        "primary_predictive_improvement": true,
+        "state_summary_noninferiority": true,
+        "stability": true,
+        "pass": true
+      }
+    },
+    {
+      "candidate": "huh7_calibrated_koopman_empirical_blend_v1",
+      "lambda": 0.1,
+      "evaluation_row_count": 883,
+      "one_step_velocity_rmse_px_per_frame": 5.715863361,
+      "one_step_velocity_mae_px_per_frame": 3.418789523,
+      "observed_mean_next_speed_px_per_frame": 2.204336058,
+      "predicted_mean_next_speed_px_per_frame": 2.103169534,
+      "mean_next_speed_absolute_error_px_per_frame": 0.101166524,
+      "calibration_radius_p90_px_per_frame": 8.970659236,
+      "nominal_90_interval_coverage": 0.899207248,
+      "stability": {
+        "finite_rollout": true,
+        "max_abs_state": 27.201160457,
+        "forecast_horizon": 10,
+        "max_abs_state_bound": 1000.0,
+        "stability_pass": true
+      },
+      "gates": {
+        "primary_predictive_improvement": true,
+        "state_summary_noninferiority": true,
+        "stability": true,
+        "pass": true
+      }
+    },
+    {
+      "candidate": "huh7_calibrated_koopman_empirical_blend_v1",
+      "lambda": 0.15,
+      "evaluation_row_count": 883,
+      "one_step_velocity_rmse_px_per_frame": 5.629859593,
+      "one_step_velocity_mae_px_per_frame": 3.363628841,
+      "observed_mean_next_speed_px_per_frame": 2.204336058,
+      "predicted_mean_next_speed_px_per_frame": 2.033047884,
+      "mean_next_speed_absolute_error_px_per_frame": 0.171288174,
+      "calibration_radius_p90_px_per_frame": 8.870268241,
+      "nominal_90_interval_coverage": 0.899207248,
+      "stability": {
+        "finite_rollout": true,
+        "max_abs_state": 26.307909719,
+        "forecast_horizon": 10,
+        "max_abs_state_bound": 1000.0,
+        "stability_pass": true
+      },
+      "gates": {
+        "primary_predictive_improvement": true,
+        "state_summary_noninferiority": false,
+        "stability": true,
+        "pass": false
+      }
+    },
+    {
+      "candidate": "huh7_calibrated_koopman_empirical_blend_v1",
+      "lambda": 0.2,
+      "evaluation_row_count": 883,
+      "one_step_velocity_rmse_px_per_frame": 5.546114245,
+      "one_step_velocity_mae_px_per_frame": 3.309058475,
+      "observed_mean_next_speed_px_per_frame": 2.204336058,
+      "predicted_mean_next_speed_px_per_frame": 1.962952341,
+      "mean_next_speed_absolute_error_px_per_frame": 0.241383717,
+      "calibration_radius_p90_px_per_frame": 8.711600693,
+      "nominal_90_interval_coverage": 0.899207248,
+      "stability": {
+        "finite_rollout": true,
+        "max_abs_state": 25.41465898,
+        "forecast_horizon": 10,
+        "max_abs_state_bound": 1000.0,
+        "stability_pass": true
+      },
+      "gates": {
+        "primary_predictive_improvement": true,
+        "state_summary_noninferiority": false,
+        "stability": true,
+        "pass": false
+      }
+    },
+    {
+      "candidate": "huh7_calibrated_koopman_empirical_blend_v1",
+      "lambda": 0.25,
+      "evaluation_row_count": 883,
+      "one_step_velocity_rmse_px_per_frame": 5.464731147,
+      "one_step_velocity_mae_px_per_frame": 3.25514879,
+      "observed_mean_next_speed_px_per_frame": 2.204336058,
+      "predicted_mean_next_speed_px_per_frame": 1.892885747,
+      "mean_next_speed_absolute_error_px_per_frame": 0.31145031,
+      "calibration_radius_p90_px_per_frame": 8.624014215,
+      "nominal_90_interval_coverage": 0.899207248,
+      "stability": {
+        "finite_rollout": true,
+        "max_abs_state": 24.521408241,
+        "forecast_horizon": 10,
+        "max_abs_state_bound": 1000.0,
+        "stability_pass": true
+      },
+      "gates": {
+        "primary_predictive_improvement": true,
+        "state_summary_noninferiority": false,
+        "stability": true,
+        "pass": false
+      }
+    },
+    {
+      "candidate": "huh7_calibrated_koopman_empirical_blend_v1",
+      "lambda": 0.3,
+      "evaluation_row_count": 883,
+      "one_step_velocity_rmse_px_per_frame": 5.385817385,
+      "one_step_velocity_mae_px_per_frame": 3.201954274,
+      "observed_mean_next_speed_px_per_frame": 2.204336058,
+      "predicted_mean_next_speed_px_per_frame": 1.822851372,
+      "mean_next_speed_absolute_error_px_per_frame": 0.381484686,
+      "calibration_radius_p90_px_per_frame": 8.552799462,
+      "nominal_90_interval_coverage": 0.899207248,
+      "stability": {
+        "finite_rollout": true,
+        "max_abs_state": 23.628157503,
+        "forecast_horizon": 10,
+        "max_abs_state_bound": 1000.0,
+        "stability_pass": true
+      },
+      "gates": {
+        "primary_predictive_improvement": true,
+        "state_summary_noninferiority": false,
+        "stability": true,
+        "pass": false
+      }
+    },
+    {
+      "candidate": "huh7_calibrated_koopman_empirical_blend_v1",
+      "lambda": 0.35,
+      "evaluation_row_count": 883,
+      "one_step_velocity_rmse_px_per_frame": 5.309483064,
+      "one_step_velocity_mae_px_per_frame": 3.149500188,
+      "observed_mean_next_speed_px_per_frame": 2.204336058,
+      "predicted_mean_next_speed_px_per_frame": 1.752852994,
+      "mean_next_speed_absolute_error_px_per_frame": 0.451483064,
+      "calibration_radius_p90_px_per_frame": 8.462298966,
+      "nominal_90_interval_coverage": 0.899207248,
+      "stability": {
+        "finite_rollout": true,
+        "max_abs_state": 22.734906764,
+        "forecast_horizon": 10,
+        "max_abs_state_bound": 1000.0,
+        "stability_pass": true
+      },
+      "gates": {
+        "primary_predictive_improvement": true,
+        "state_summary_noninferiority": false,
+        "stability": true,
+        "pass": false
+      }
+    },
+    {
+      "candidate": "huh7_calibrated_koopman_empirical_blend_v1",
+      "lambda": 0.4,
+      "evaluation_row_count": 883,
+      "one_step_velocity_rmse_px_per_frame": 5.235841003,
+      "one_step_velocity_mae_px_per_frame": 3.097802207,
+      "observed_mean_next_speed_px_per_frame": 2.204336058,
+      "predicted_mean_next_speed_px_per_frame": 1.682895009,
+      "mean_next_speed_absolute_error_px_per_frame": 0.521441049,
+      "calibration_radius_p90_px_per_frame": 8.422919687,
+      "nominal_90_interval_coverage": 0.899207248,
+      "stability": {
+        "finite_rollout": true,
+        "max_abs_state": 21.841656026,
+        "forecast_horizon": 10,
+        "max_abs_state_bound": 1000.0,
+        "stability_pass": true
+      },
+      "gates": {
+        "primary_predictive_improvement": true,
+        "state_summary_noninferiority": false,
+        "stability": true,
+        "pass": false
+      }
+    },
+    {
+      "candidate": "huh7_calibrated_koopman_empirical_blend_v1",
+      "lambda": 0.45,
+      "evaluation_row_count": 883,
+      "one_step_velocity_rmse_px_per_frame": 5.165006361,
+      "one_step_velocity_mae_px_per_frame": 3.046870664,
+      "observed_mean_next_speed_px_per_frame": 2.204336058,
+      "predicted_mean_next_speed_px_per_frame": 1.612982554,
+      "mean_next_speed_absolute_error_px_per_frame": 0.591353504,
+      "calibration_radius_p90_px_per_frame": 8.340473948,
+      "nominal_90_interval_coverage": 0.899207248,
+      "stability": {
+        "finite_rollout": true,
+        "max_abs_state": 20.948405287,
+        "forecast_horizon": 10,
+        "max_abs_state_bound": 1000.0,
+        "stability_pass": true
+      },
+      "gates": {
+        "primary_predictive_improvement": true,
+        "state_summary_noninferiority": false,
+        "stability": true,
+        "pass": false
+      }
+    },
+    {
+      "candidate": "huh7_calibrated_koopman_empirical_blend_v1",
+      "lambda": 0.5,
+      "evaluation_row_count": 883,
+      "one_step_velocity_rmse_px_per_frame": 5.097096186,
+      "one_step_velocity_mae_px_per_frame": 2.996734109,
+      "observed_mean_next_speed_px_per_frame": 2.204336058,
+      "predicted_mean_next_speed_px_per_frame": 1.543121679,
+      "mean_next_speed_absolute_error_px_per_frame": 0.661214379,
+      "calibration_radius_p90_px_per_frame": 8.231123658,
+      "nominal_90_interval_coverage": 0.899207248,
+      "stability": {
+        "finite_rollout": true,
+        "max_abs_state": 20.055154548,
+        "forecast_horizon": 10,
+        "max_abs_state_bound": 1000.0,
+        "stability_pass": true
+      },
+      "gates": {
+        "primary_predictive_improvement": true,
+        "state_summary_noninferiority": false,
+        "stability": true,
+        "pass": false
+      }
+    },
+    {
+      "candidate": "huh7_calibrated_koopman_empirical_blend_v1",
+      "lambda": 0.55,
+      "evaluation_row_count": 883,
+      "one_step_velocity_rmse_px_per_frame": 5.032228874,
+      "one_step_velocity_mae_px_per_frame": 2.947430804,
+      "observed_mean_next_speed_px_per_frame": 2.204336058,
+      "predicted_mean_next_speed_px_per_frame": 1.473319552,
+      "mean_next_speed_absolute_error_px_per_frame": 0.731016506,
+      "calibration_radius_p90_px_per_frame": 8.116344204,
+      "nominal_90_interval_coverage": 0.899207248,
+      "stability": {
+        "finite_rollout": true,
+        "max_abs_state": 19.16190381,
+        "forecast_horizon": 10,
+        "max_abs_state_bound": 1000.0,
+        "stability_pass": true
+      },
+      "gates": {
+        "primary_predictive_improvement": true,
+        "state_summary_noninferiority": false,
+        "stability": true,
+        "pass": false
+      }
+    },
+    {
+      "candidate": "huh7_calibrated_koopman_empirical_blend_v1",
+      "lambda": 0.6,
+      "evaluation_row_count": 883,
+      "one_step_velocity_rmse_px_per_frame": 4.97052356,
+      "one_step_velocity_mae_px_per_frame": 2.898963688,
+      "observed_mean_next_speed_px_per_frame": 2.204336058,
+      "predicted_mean_next_speed_px_per_frame": 1.403584743,
+      "mean_next_speed_absolute_error_px_per_frame": 0.800751315,
+      "calibration_radius_p90_px_per_frame": 8.024788338,
+      "nominal_90_interval_coverage": 0.899207248,
+      "stability": {
+        "finite_rollout": true,
+        "max_abs_state": 18.268653071,
+        "forecast_horizon": 10,
+        "max_abs_state_bound": 1000.0,
+        "stability_pass": true
+      },
+      "gates": {
+        "primary_predictive_improvement": true,
+        "state_summary_noninferiority": false,
+        "stability": true,
+        "pass": false
+      }
+    },
+    {
+      "candidate": "huh7_calibrated_koopman_empirical_blend_v1",
+      "lambda": 0.65,
+      "evaluation_row_count": 883,
+      "one_step_velocity_rmse_px_per_frame": 4.912099407,
+      "one_step_velocity_mae_px_per_frame": 2.851402749,
+      "observed_mean_next_speed_px_per_frame": 2.204336058,
+      "predicted_mean_next_speed_px_per_frame": 1.333927586,
+      "mean_next_speed_absolute_error_px_per_frame": 0.870408472,
+      "calibration_radius_p90_px_per_frame": 7.885905651,
+      "nominal_90_interval_coverage": 0.899207248,
+      "stability": {
+        "finite_rollout": true,
+        "max_abs_state": 17.375402333,
+        "forecast_horizon": 10,
+        "max_abs_state_bound": 1000.0,
+        "stability_pass": true
+      },
+      "gates": {
+        "primary_predictive_improvement": true,
+        "state_summary_noninferiority": false,
+        "stability": true,
+        "pass": false
+      }
+    },
+    {
+      "candidate": "huh7_calibrated_koopman_empirical_blend_v1",
+      "lambda": 0.7,
+      "evaluation_row_count": 883,
+      "one_step_velocity_rmse_px_per_frame": 4.857074821,
+      "one_step_velocity_mae_px_per_frame": 2.805005642,
+      "observed_mean_next_speed_px_per_frame": 2.204336058,
+      "predicted_mean_next_speed_px_per_frame": 1.264360689,
+      "mean_next_speed_absolute_error_px_per_frame": 0.939975368,
+      "calibration_radius_p90_px_per_frame": 7.83666249,
+      "nominal_90_interval_coverage": 0.899207248,
+      "stability": {
+        "finite_rollout": true,
+        "max_abs_state": 16.502185436,
+        "forecast_horizon": 10,
+        "max_abs_state_bound": 1000.0,
+        "stability_pass": true
+      },
+      "gates": {
+        "primary_predictive_improvement": true,
+        "state_summary_noninferiority": false,
+        "stability": true,
+        "pass": false
+      }
+    },
+    {
+      "candidate": "huh7_calibrated_koopman_empirical_blend_v1",
+      "lambda": 0.75,
+      "evaluation_row_count": 883,
+      "one_step_velocity_rmse_px_per_frame": 4.805566579,
+      "one_step_velocity_mae_px_per_frame": 2.760351749,
+      "observed_mean_next_speed_px_per_frame": 2.204336058,
+      "predicted_mean_next_speed_px_per_frame": 1.194899681,
+      "mean_next_speed_absolute_error_px_per_frame": 1.009436377,
+      "calibration_radius_p90_px_per_frame": 7.816221035,
+      "nominal_90_interval_coverage": 0.899207248,
+      "stability": {
+        "finite_rollout": true,
+        "max_abs_state": 15.753222829,
+        "forecast_horizon": 10,
+        "max_abs_state_bound": 1000.0,
+        "stability_pass": true
+      },
+      "gates": {
+        "primary_predictive_improvement": true,
+        "state_summary_noninferiority": false,
+        "stability": true,
+        "pass": false
+      }
+    },
+    {
+      "candidate": "huh7_calibrated_koopman_empirical_blend_v1",
+      "lambda": 0.8,
+      "evaluation_row_count": 883,
+      "one_step_velocity_rmse_px_per_frame": 4.757688891,
+      "one_step_velocity_mae_px_per_frame": 2.717432209,
+      "observed_mean_next_speed_px_per_frame": 2.204336058,
+      "predicted_mean_next_speed_px_per_frame": 1.125564472,
+      "mean_next_speed_absolute_error_px_per_frame": 1.078771586,
+      "calibration_radius_p90_px_per_frame": 7.770783165,
+      "nominal_90_interval_coverage": 0.899207248,
+      "stability": {
+        "finite_rollout": true,
+        "max_abs_state": 15.004260222,
+        "forecast_horizon": 10,
+        "max_abs_state_bound": 1000.0,
+        "stability_pass": true
+      },
+      "gates": {
+        "primary_predictive_improvement": true,
+        "state_summary_noninferiority": false,
+        "stability": true,
+        "pass": false
+      }
+    },
+    {
+      "candidate": "huh7_calibrated_koopman_empirical_blend_v1",
+      "lambda": 0.85,
+      "evaluation_row_count": 883,
+      "one_step_velocity_rmse_px_per_frame": 4.713552389,
+      "one_step_velocity_mae_px_per_frame": 2.675764335,
+      "observed_mean_next_speed_px_per_frame": 2.204336058,
+      "predicted_mean_next_speed_px_per_frame": 1.056382426,
+      "mean_next_speed_absolute_error_px_per_frame": 1.147953632,
+      "calibration_radius_p90_px_per_frame": 7.62684456,
+      "nominal_90_interval_coverage": 0.899207248,
+      "stability": {
+        "finite_rollout": true,
+        "max_abs_state": 14.255297615,
+        "forecast_horizon": 10,
+        "max_abs_state_bound": 1000.0,
+        "stability_pass": true
+      },
+      "gates": {
+        "primary_predictive_improvement": true,
+        "state_summary_noninferiority": false,
+        "stability": true,
+        "pass": false
+      }
+    },
+    {
+      "candidate": "huh7_calibrated_koopman_empirical_blend_v1",
+      "lambda": 0.9,
+      "evaluation_row_count": 883,
+      "one_step_velocity_rmse_px_per_frame": 4.673263076,
+      "one_step_velocity_mae_px_per_frame": 2.635215872,
+      "observed_mean_next_speed_px_per_frame": 2.204336058,
+      "predicted_mean_next_speed_px_per_frame": 0.987408953,
+      "mean_next_speed_absolute_error_px_per_frame": 1.216927105,
+      "calibration_radius_p90_px_per_frame": 7.616207261,
+      "nominal_90_interval_coverage": 0.899207248,
+      "stability": {
+        "finite_rollout": true,
+        "max_abs_state": 13.506335008,
+        "forecast_horizon": 10,
+        "max_abs_state_bound": 1000.0,
+        "stability_pass": true
+      },
+      "gates": {
+        "primary_predictive_improvement": true,
+        "state_summary_noninferiority": false,
+        "stability": true,
+        "pass": false
+      }
+    },
+    {
+      "candidate": "huh7_calibrated_koopman_empirical_blend_v1",
+      "lambda": 0.95,
+      "evaluation_row_count": 883,
+      "one_step_velocity_rmse_px_per_frame": 4.636921233,
+      "one_step_velocity_mae_px_per_frame": 2.597269128,
+      "observed_mean_next_speed_px_per_frame": 2.204336058,
+      "predicted_mean_next_speed_px_per_frame": 0.920481011,
+      "mean_next_speed_absolute_error_px_per_frame": 1.283855047,
+      "calibration_radius_p90_px_per_frame": 7.615027877,
+      "nominal_90_interval_coverage": 0.899207248,
+      "stability": {
+        "finite_rollout": true,
+        "max_abs_state": 12.7573724,
+        "forecast_horizon": 10,
+        "max_abs_state_bound": 1000.0,
+        "stability_pass": true
+      },
+      "gates": {
+        "primary_predictive_improvement": true,
+        "state_summary_noninferiority": false,
+        "stability": true,
+        "pass": false
+      }
+    },
+    {
+      "candidate": "huh7_calibrated_koopman_empirical_blend_v1",
+      "lambda": 1.0,
+      "evaluation_row_count": 883,
+      "one_step_velocity_rmse_px_per_frame": 4.60462033,
+      "one_step_velocity_mae_px_per_frame": 2.563508441,
+      "observed_mean_next_speed_px_per_frame": 2.204336058,
+      "predicted_mean_next_speed_px_per_frame": 0.857657005,
+      "mean_next_speed_absolute_error_px_per_frame": 1.346679053,
+      "calibration_radius_p90_px_per_frame": 7.591754318,
+      "nominal_90_interval_coverage": 0.899207248,
+      "stability": {
+        "finite_rollout": true,
+        "max_abs_state": 12.008409793,
+        "forecast_horizon": 10,
+        "max_abs_state_bound": 1000.0,
+        "stability_pass": true
+      },
+      "gates": {
+        "primary_predictive_improvement": true,
+        "state_summary_noninferiority": false,
+        "stability": true,
+        "pass": false
+      }
+    }
+  ],
+  "selected_configuration": {
+    "candidate": "huh7_calibrated_koopman_empirical_blend_v1",
+    "lambda": 0.1,
+    "evaluation_row_count": 883,
+    "one_step_velocity_rmse_px_per_frame": 5.715863361,
+    "one_step_velocity_mae_px_per_frame": 3.418789523,
+    "observed_mean_next_speed_px_per_frame": 2.204336058,
+    "predicted_mean_next_speed_px_per_frame": 2.103169534,
+    "mean_next_speed_absolute_error_px_per_frame": 0.101166524,
+    "calibration_radius_p90_px_per_frame": 8.970659236,
+    "nominal_90_interval_coverage": 0.899207248,
+    "stability": {
+      "finite_rollout": true,
+      "max_abs_state": 27.201160457,
+      "forecast_horizon": 10,
+      "max_abs_state_bound": 1000.0,
+      "stability_pass": true
+    },
+    "gates": {
+      "primary_predictive_improvement": true,
+      "state_summary_noninferiority": true,
+      "stability": true,
+      "pass": true
+    }
+  },
+  "decision": "PROCEED_TO_LOCKED_EVALUATION",
+  "biological_claim": "not supported"
+}

@@ -9,6 +9,15 @@ All notable project changes are documented here. The project follows semantic ve
 - Candidate-burden instrumentation and a provenance-checked comparison CLI for fixed 8/12/16-pixel baselines and `adaptive_v1`.
 - Deterministic, truth-blind adaptive candidate generator v1 with motion-uncertainty and local-density gates.
 - Explicit candidate-graph sampling for `adaptive_v1`, downstream posterior diagnostics, and graph-consistency enforcement for legacy motion scorers.
+- Outcome-blind CTC Huh7 audit and sequence locks for independent Stage D evaluation.
+- Frozen zero-shot Huh7 evaluator and a bounded Koopman/empirical blend calibrated on sequence `01`.
+- One-time locked Huh7 sequence-`02` evaluation with exact CI reproduction.
+
+### Validation status
+
+- Stage D v2 zero-shot evaluation: `HOLD` because mean-speed non-inferiority failed despite improved RMSE.
+- Stage D v3 calibrated sequence generalization: `GO`; all seven locked gates passed on 1481 Huh7 sequence-`02` transitions.
+- Claim scope remains technical and excludes zero-shot, biological and clinical validation.
 
 ## [0.1.0] - 2026-09-19
 

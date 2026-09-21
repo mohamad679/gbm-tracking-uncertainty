@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "method": "stage_d_v3_huh7_sequence02_data_only_lock_v1",
+  "status": "LOCKED_UNEVALUATED",
+  "dataset_id": "CTC_Fluo-C2DL-Huh7_training_2021-01-14",
+  "sequence_id": "02",
+  "archive_sha256": "1912658c1b3d8b38b314eb658b559e7b39c256917150e9b3dd8bfdc77347617d",
+  "selected_member_set_sha256": "84cb1f20c08574224a773e94b8bf1f745f4bd8139616f33a46566cb8c7658183",
+  "frame_count": 30,
+  "lineage_track_count": 69,
+  "structural_velocity_transition_slots": 1481,
+  "source_audit_sha256": "52e3e42e70a043ecbbef28f32cadef0e47c958d146ea9b68fe47de89fd92e4f0",
+  "data_only_invariants": {
+    "coordinates_extracted": false,
+    "motion_values_computed": false,
+    "models_fitted": false,
+    "outcome_metrics_exposed": false,
+    "locked_before_development_fit": true
+  },
+  "decision": "PASS_DATA_ONLY_LOCK",
+  "biological_claim": "not supported"
+}
