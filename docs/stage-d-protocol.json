@@ -1,0 +1,71 @@
+{
+  "schema_version": 1,
+  "stage": "D",
+  "method": "operator_learning_protocol_v1",
+  "status": "PROTOCOL_FROZEN_STEP_1_COMPLETE",
+  "title": "Uncertainty-aware operator learning",
+  "goal": "Test whether a constrained dynamical operator learned from uncertainty-aware trajectories improves held-out state and migration prediction without learning proposal or gate artifacts.",
+  "step_count": 4,
+  "steps": [
+    {
+      "step": 1,
+      "name": "freeze_protocol_and_inputs",
+      "status": "complete",
+      "output": "stage-d-protocol.md and this machine-readable contract"
+    },
+    {
+      "step": 2,
+      "name": "implement_baselines_and_operator_candidates",
+      "status": "pending",
+      "output": "reproducible baseline and constrained SLDS/Koopman candidate implementations"
+    },
+    {
+      "step": 3,
+      "name": "development_fit_and_stability_checks",
+      "status": "pending",
+      "output": "development-only fits, cross-validation, calibration and stability artifact"
+    },
+    {
+      "step": 4,
+      "name": "one_time_held_out_evaluation_and_decision",
+      "status": "pending",
+      "output": "GO, REVISE or HOLD decision with complete held-out artifact"
+    }
+  ],
+  "data_boundary": {
+    "development_sources": ["U373_sequence_01", "new_audited_training_sequences_only"],
+    "forbidden_for_fit_or_selection": [
+      "U373_sequence_02_archival_v1_test",
+      "T98G_locked_stage_c_v2_test",
+      "any_held_out_operator_evaluation_sequence"
+    ],
+    "new_data_rule": "Any additional dataset must pass a data-only provenance/schema audit and be locked before operator fitting."
+  },
+  "candidate_scope": {
+    "required_baselines": [
+      "frozen_HMM_speed_baseline",
+      "frozen_uncertainty_aware_empirical_transition_baseline"
+    ],
+    "allowed_operator_families": [
+      "constrained_SLDS",
+      "stable_linear_Koopman_operator"
+    ],
+    "complexity_rule": "Do not promote an operator family unless diagnostics justify dynamics beyond the frozen baselines."
+  },
+  "acceptance_gates": {
+    "provenance_and_split_integrity": "all source hashes, sequence roles and fit/evaluation boundaries reproduce",
+    "leakage": "no held-out coordinates, labels, corruption truth or evaluation summaries enter fitting or model selection",
+    "held_out_predictive_improvement": "operator must improve the pre-registered held-out primary score over both required baselines; a null result is REVISE, not a success",
+    "noninferiority": "migration/state summary absolute error must not worsen by more than 0.10 px/frame versus the frozen best baseline",
+    "interval_calibration": "nominal 90% predictive intervals must cover 80% to 98% of defined held-out cases",
+    "stability": "no NaN/Inf, unbounded rollout, unstable spectral radius, or compatibility violation over the registered forecast horizon",
+    "reproducibility": "artifact, environment, seeds and tests reproduce exactly on CI"
+  },
+  "decision_policy": {
+    "GO": "all gates pass and the operator adds held-out value beyond baselines",
+    "REVISE": "implementation or calibration needs a bounded revision that does not use held-out results for tuning",
+    "HOLD": "the diagnostics do not justify operator complexity or no independent held-out evaluation is available",
+    "biological_claim": "never supported by this technical operator benchmark alone"
+  },
+  "current_decision": "Stage D may proceed to implementation only after this protocol is reviewed; operator performance remains HOLD until Steps 2-4 pass."
+}
