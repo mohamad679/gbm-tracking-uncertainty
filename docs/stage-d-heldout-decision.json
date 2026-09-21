@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "method": "stage_d_one_time_held_out_decision_v1",
+  "status": "HOLD_NO_INDEPENDENT_EVALUATION_SOURCE",
+  "stage": "D",
+  "step": 4,
+  "development_artifact_sha256": "921603ceaa035868bed7c6c556ad2a3aef1d0b6da5c383658438dfe52f595e56",
+  "evaluation_attempted": false,
+  "evaluation_count": 0,
+  "selection_performed": false,
+  "audited_candidate_sources": [
+    {
+      "source_id": "U373_sequence_02_archival_v1_test",
+      "eligible_for_stage_d": false,
+      "rejection_reasons": [
+        "already_consumed_locked_source",
+        "not_independent"
+      ]
+    },
+    {
+      "source_id": "T98G_locked_stage_c_v2_test",
+      "eligible_for_stage_d": false,
+      "rejection_reasons": [
+        "already_consumed_locked_source"
+      ]
+    }
+  ],
+  "eligible_source_count": 0,
+  "gate_results": {
+    "provenance_and_split_integrity": "NOT_AVAILABLE_NO_ELIGIBLE_SOURCE",
+    "leakage": "PASS_NO_EVALUATION_PERFORMED",
+    "held_out_predictive_improvement": "NOT_RUN",
+    "noninferiority": "NOT_RUN",
+    "interval_calibration": "NOT_RUN",
+    "stability": "DEVELOPMENT_ONLY_NOT_HELD_OUT",
+    "reproducibility": "PASS_ARTIFACT_DETERMINISTIC"
+  },
+  "decision": "HOLD",
+  "decision_reason": "No newly audited independent operator-evaluation sequence is available. U373 sequence 02 and T98G are already-consumed locked sources and cannot be reused.",
+  "forbidden_reuse": [
+    "02",
+    "T98G_electrotaxis_human_v2",
+    "T98G_locked_stage_c_v2_test",
+    "T98G_sample",
+    "U373_sequence_02_archival_v1_test"
+  ],
+  "next_action": "Audit and lock one genuinely independent operator-evaluation sequence before any future evaluation; do not refit or select from this HOLD artifact.",
+  "biological_claim": "not supported"
+}

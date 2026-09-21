@@ -43,9 +43,8 @@ may not be reused for selection. The T98G data-only audit passed and its sole
 qualifying human-curated sequence is now `LOCKED_UNEVALUATED`; see
 [`stage-c-v2-step2-t98g-audit.md`](stage-c-v2-step2-t98g-audit.md).
 
-Stage C v2 has now passed its locked T98G gate. Stage D Step 3 has completed
-the development-only candidate fits and stability checks under the frozen
-operator-learning protocol in [`stage-d-protocol.md`](stage-d-protocol.md).
-Operator performance remains HOLD until the one-time independent Step 4
-evaluation; no Stage B, Stage C or Stage D technical result is biological
-validation.
+Stage C v2 has now passed its locked T98G gate. Stage D has completed all four
+protocol steps with a final technical `HOLD`: the development-only candidate
+fits and stability checks passed, but no newly audited independent operator-
+evaluation source is available. U373 sequence `02` and T98G cannot be reused;
+no Stage B, Stage C or Stage D technical result is biological validation.
