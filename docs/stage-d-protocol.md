@@ -1,6 +1,6 @@
 # Stage D protocol: uncertainty-aware operator learning
 
-Date: 2026-09-21. Status: **STEP 2 COMPLETE — CANDIDATES IMPLEMENTED; PERFORMANCE HOLD**.
+Date: 2026-09-21. Status: **STEP 3 COMPLETE — DEVELOPMENT FIT STABLE; PERFORMANCE HOLD**.
 
 Stage D asks whether a constrained dynamical operator can learn useful state
 transitions from the uncertainty-aware trajectory distributions produced by
@@ -17,9 +17,10 @@ biological validation of GlioTrace or a clinical claim.
    uncertainty-aware empirical transition model as mandatory comparators. Add
    a stable linear Koopman candidate with an explicit spectral-radius
    constraint; SLDS remains deferred until diagnostics justify that complexity.
-3. **Fit development models and check stability.** Fit only on development
-   sources, use sequence-level cross-validation, and record calibration,
-   spectral/stability diagnostics, rollout bounds and exact reproducibility.
+3. **Fit development models and check stability.** **Complete.** Fit only on
+   sequence `01`, use leave-one-track-out diagnostics inside that development
+   source, and record calibration, spectral/stability diagnostics, rollout
+   bounds and exact reproducibility.
 4. **Run the one-time held-out evaluation.** Use a newly audited independent
    operator-evaluation sequence. Publish every metric and issue `GO`, `REVISE`
    or `HOLD`; never tune after seeing the held-out result.
@@ -49,7 +50,12 @@ schema audit before it is locked.
 `GO` requires every gate. A bounded, non-leaking correction is `REVISE`; lack
 of justified complexity or an independent held-out sequence is `HOLD`.
 
-Step 2 adds the declarative candidate registry, truth/source-boundary checks,
+Step 2 added the declarative candidate registry, truth/source-boundary checks,
 the frozen-HMM speed baseline, the uncertainty-weighted empirical transition
-baseline, and the stable linear Koopman operator. No dataset was fit or
-selected in this step; performance remains HOLD until Steps 3–4.
+baseline, and the stable linear Koopman operator. Step 3 fit all candidates on
+749 truth-blind velocity transitions from U373 sequence `01`, evaluated
+leave-one-track-out stability and nominal 90% residual coverage, and found
+finite bounded rollouts for every candidate and fold. No candidate was selected
+from these development diagnostics; performance remains HOLD until Step 4.
+The complete machine-readable result is
+[`stage-d-development-fit.json`](stage-d-development-fit.json).
