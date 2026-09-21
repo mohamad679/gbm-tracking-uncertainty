@@ -43,8 +43,17 @@ may not be reused for selection. The T98G data-only audit passed and its sole
 qualifying human-curated sequence is now `LOCKED_UNEVALUATED`; see
 [`stage-c-v2-step2-t98g-audit.md`](stage-c-v2-step2-t98g-audit.md).
 
-Stage C v2 has now passed its locked T98G gate. Stage D has completed all four
-protocol steps with a final technical `HOLD`: the development-only candidate
-fits and stability checks passed, but no newly audited independent operator-
-evaluation source is available. U373 sequence `02` and T98G cannot be reused;
-no Stage B, Stage C or Stage D technical result is biological validation.
+Stage C v2 passed its locked T98G gate. Stage D v1 then ended with a technical
+`HOLD` because no new independent operator-evaluation source was available.
+The official CTC Huh7 archive subsequently passed a data-only audit. Its
+zero-shot sequence-`01` evaluation improved velocity RMSE but remained `HOLD`
+because mean speed was strongly underestimated.
+
+Stage D v3 used the consumed Huh7 sequence `01` for a bounded blend calibration
+and evaluated the frozen result once on previously locked sequence `02`. The
+blend passed every pre-registered predictive, non-inferiority, calibration,
+stability, leakage and reproducibility gate, producing a qualified technical
+`GO`. The supported scope is within-Huh7 sequence generalization after
+one-sequence calibration. U373 sequence `02` and T98G were not reused, the
+zero-shot result remains `HOLD`, and no Stage B, C or D result is biological
+validation. See [`stage-d-v3-final-report.md`](stage-d-v3-final-report.md).

@@ -70,3 +70,12 @@ is unavailable. A future continuation requires a new dataset to pass a
 data-only provenance/schema audit and be locked before any operator fitting or
 one-time evaluation. Stage D therefore ends here with a technical HOLD, not a
 performance success or biological claim.
+
+## Later continuation
+
+This v1 artifact remains immutable historical evidence. Stage D v2 added the
+independent CTC Huh7 source and recorded an honest zero-shot `HOLD`. Stage D v3
+then calibrated a bounded blend on consumed Huh7 sequence `01` and obtained a
+qualified `GO` on previously locked sequence `02`. See
+[`stage-d-v3-final-report.md`](stage-d-v3-final-report.md). The later result has
+a narrower post-calibration claim and does not overwrite this v1 decision.

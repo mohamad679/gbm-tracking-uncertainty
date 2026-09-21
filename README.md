@@ -13,15 +13,17 @@ The quantitative benchmark uses expert annotations from the Cell Tracking Challe
 **Version:** `0.1.0`  
 **Python:** 3.11-3.13  
 **License:** MIT  
-**Tests:** 127 tests; CI enforced on all supported Python versions
+**Tests:** 133 tests; CI enforced on all supported Python versions
 **Coverage:** 71% package coverage, 65% enforced CI gate
 **Technical benchmark:** complete  
-**Operator learning:** Stage D complete; HOLD — no eligible independent evaluation source
+**Operator learning:** Stage D v3 GO — calibrated blend passed locked Huh7 sequence `02`
 **Biological validation claim:** not supported
 
-The operator-learning decision is evidence-derived: development fits and
-stability checks pass, but no eligible independent held-out source is available
-for the one-time performance decision.
+The operator-learning decision is evidence-derived. The zero-shot Huh7
+candidate remained HOLD because of mean-speed bias. A bounded blend calibrated
+on Huh7 sequence `01` subsequently passed every pre-registered gate on locked
+sequence `02`. This supports within-Huh7 sequence generalization after
+calibration, not zero-shot or biological generalization.
 
 ## What this project demonstrates
 
@@ -104,6 +106,10 @@ The latest frozen result summary is in [`docs/reproduced-results-2026-09-19.json
 |---|---|
 | `benchmark.py` | Build deterministic U373 reference manifest |
 | `t98g_audit.py` | Lock T98G provenance, archive identity and reference structure without performance evaluation |
+| `stage_d_huh7_audit.py` | Audit and lock independent Huh7 sequences without exposing outcomes |
+| `stage_d_huh7_evaluation.py` | Reproduce the frozen zero-shot Huh7 evaluation |
+| `stage_d_v3_development.py` | Fit the bounded Huh7 sequence-01 blend calibration |
+| `stage_d_v3_evaluation.py` | Evaluate the frozen blend on locked Huh7 sequence `02` |
 | `corruptions.py` | Generate 17 seeded known-truth scenarios |
 | `baseline.py` | Frozen greedy nearest-neighbour comparator |
 | `uncertainty.py` | Sample one-to-one association hypotheses and calibrate probabilities |
@@ -141,6 +147,7 @@ Raw data and generated `results/` outputs are not source-controlled.
 - [`docs/stage-a-step2-adaptive-generator.md`](docs/stage-a-step2-adaptive-generator.md) — adaptive v1 engineering design and scope
 - [`docs/stage-a-step3-integration.md`](docs/stage-a-step3-integration.md) — candidate/posterior/downstream graph invariant
 - [`docs/stage-c-v2-step2-t98g-audit.md`](docs/stage-c-v2-step2-t98g-audit.md) — independent T98G data-only audit and lock decision
+- [`docs/stage-d-v3-final-report.md`](docs/stage-d-v3-final-report.md) — final calibrated Huh7 operator decision
 - [`CHANGELOG.md`](CHANGELOG.md) — release history
 
 ## Sources
@@ -149,6 +156,7 @@ Raw data and generated `results/` outputs are not source-controlled.
 - Exploratory images: [GlioTrace example data, Zenodo 21981544](https://zenodo.org/records/21981544).
 - Reference implementation: [Gliomethods/GlioTrace](https://github.com/Gliomethods/GlioTrace).
 - Locked independent technical test: [T98G electrotaxis](https://zenodo.org/records/19026908), human-curated variant, `CC-BY-4.0`; performance remains unevaluated.
+- Independent operator benchmark: [Cell Tracking Challenge Huh7](https://celltrackingchallenge.net/2d-datasets/); raw data and annotations are not redistributed.
 
 Dataset licenses and redistribution terms are independent from this repository's MIT source-code license.
 

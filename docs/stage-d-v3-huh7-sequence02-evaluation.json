@@ -1,0 +1,94 @@
+{
+  "schema_version": 1,
+  "method": "stage_d_v3_huh7_sequence02_one_time_evaluation_v1",
+  "status": "COMPLETE_GO",
+  "stage": "D-v3",
+  "evaluation_count": 1,
+  "evaluation_attempted": true,
+  "selection_performed_after_heldout_inspection": false,
+  "protocol_sha256": "782ee02c6eb1e4b3826b4fcbee261cc12370075eb88c42b256057cea1e8bb835",
+  "source_audit_sha256": "52e3e42e70a043ecbbef28f32cadef0e47c958d146ea9b68fe47de89fd92e4f0",
+  "v2_evaluation_sha256": "2ed1eee0c009e687755eed52db153e42e0146b752adf43b3fc2898a749f06ff1",
+  "development_artifact_sha256": "8667e45b0ddb88e5afab117f6c147bac3c18727763a53dadcabf8f877fd213ef",
+  "sequence02_lock_sha256": "31efc2eebaf677f4eb00fd190ccd50bb794f766e2940b63193be090f17f6e1bc",
+  "u373_development_manifest_sha256": "ce4d1dfc805eba0ab15b12de7e3ebef3eab2b23cf2f35ebed59d18a6cd1e0d47",
+  "stage_c_development_artifact_sha256": "f3323e13a09a750d5966682c58a7e64ca81824171879a8ccf4e8f5d26f2eb721",
+  "stage_d_development_artifact_sha256": "921603ceaa035868bed7c6c556ad2a3aef1d0b6da5c383658438dfe52f595e56",
+  "evaluation_sequence": "Huh7_02",
+  "evaluation_member_set_sha256": "84cb1f20c08574224a773e94b8bf1f745f4bd8139616f33a46566cb8c7658183",
+  "evaluation_row_count": 1481,
+  "fit_row_count": 749,
+  "selected_lambda": 0.1,
+  "frozen_sequence01_p90_radius_px_per_frame": 8.970659236,
+  "metrics": {
+    "frozen_hmm_speed_baseline_v1": {
+      "candidate": "frozen_hmm_speed_baseline_v1",
+      "evaluation_row_count": 1481,
+      "one_step_velocity_rmse_px_per_frame": 6.748608824,
+      "one_step_velocity_mae_px_per_frame": 5.958950302,
+      "observed_mean_next_speed_px_per_frame": 2.431071172,
+      "predicted_mean_next_speed_px_per_frame": 5.490134682,
+      "mean_next_speed_absolute_error_px_per_frame": 3.05906351,
+      "frozen_development_p90_radius_px_per_frame": 10.986594157,
+      "nominal_90_interval_coverage": 0.966914247,
+      "stability": {
+        "finite_rollout": true,
+        "max_abs_state": 5.490134682,
+        "forecast_horizon": 10,
+        "max_abs_state_bound": 1000.0,
+        "stability_pass": true
+      }
+    },
+    "weighted_empirical_transition_baseline_v1": {
+      "candidate": "weighted_empirical_transition_baseline_v1",
+      "evaluation_row_count": 1481,
+      "one_step_velocity_rmse_px_per_frame": 5.436030433,
+      "one_step_velocity_mae_px_per_frame": 3.266752752,
+      "observed_mean_next_speed_px_per_frame": 2.431071172,
+      "predicted_mean_next_speed_px_per_frame": 2.486922616,
+      "mean_next_speed_absolute_error_px_per_frame": 0.055851444,
+      "frozen_development_p90_radius_px_per_frame": 13.681261719,
+      "nominal_90_interval_coverage": 0.972991222,
+      "stability": {
+        "finite_rollout": true,
+        "max_abs_state": 50.948472922,
+        "forecast_horizon": 10,
+        "max_abs_state_bound": 1000.0,
+        "stability_pass": true
+      }
+    },
+    "huh7_calibrated_koopman_empirical_blend_v1": {
+      "candidate": "huh7_calibrated_koopman_empirical_blend_v1",
+      "lambda": 0.1,
+      "evaluation_row_count": 1481,
+      "one_step_velocity_rmse_px_per_frame": 5.270002844,
+      "one_step_velocity_mae_px_per_frame": 3.1613018,
+      "observed_mean_next_speed_px_per_frame": 2.431071172,
+      "predicted_mean_next_speed_px_per_frame": 2.332038094,
+      "mean_next_speed_absolute_error_px_per_frame": 0.099033078,
+      "calibration_radius_p90_px_per_frame": 8.970659236,
+      "nominal_90_interval_coverage": 0.942606347,
+      "stability": {
+        "finite_rollout": true,
+        "max_abs_state": 46.85300998,
+        "forecast_horizon": 10,
+        "max_abs_state_bound": 1000.0,
+        "stability_pass": true
+      }
+    }
+  },
+  "gates": {
+    "provenance_and_split_integrity": true,
+    "leakage_boundary": true,
+    "primary_predictive_improvement": true,
+    "state_summary_noninferiority": true,
+    "interval_calibration": true,
+    "stability": true,
+    "reproducibility": true
+  },
+  "decision": "GO",
+  "decision_reason": "All pre-registered sequence-02 gates passed.",
+  "claim_scope": "within-Huh7 sequence generalization after one-sequence calibration",
+  "zero_shot_cross_dataset_claim": "not supported; Stage D v2 remains HOLD",
+  "biological_claim": "not supported"
+}
