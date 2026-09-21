@@ -1,6 +1,6 @@
 # Stage D protocol: uncertainty-aware operator learning
 
-Date: 2026-09-21. Status: **PROTOCOL FROZEN — STEP 1 COMPLETE**.
+Date: 2026-09-21. Status: **STEP 2 COMPLETE — CANDIDATES IMPLEMENTED; PERFORMANCE HOLD**.
 
 Stage D asks whether a constrained dynamical operator can learn useful state
 transitions from the uncertainty-aware trajectory distributions produced by
@@ -13,10 +13,10 @@ biological validation of GlioTrace or a clinical claim.
    model families, leakage rules, stability checks and decision gates. This
    document and [`stage-d-protocol.json`](stage-d-protocol.json) are the frozen
    Step 1 output.
-2. **Implement baselines and operator candidates.** Keep the frozen HMM and
+2. **Implement baselines and operator candidates.** **Complete.** Keep the frozen HMM and
    uncertainty-aware empirical transition model as mandatory comparators. Add
-   constrained SLDS and/or a stable linear Koopman operator only when the
-   diagnostics justify that complexity.
+   a stable linear Koopman candidate with an explicit spectral-radius
+   constraint; SLDS remains deferred until diagnostics justify that complexity.
 3. **Fit development models and check stability.** Fit only on development
    sources, use sequence-level cross-validation, and record calibration,
    spectral/stability diagnostics, rollout bounds and exact reproducibility.
@@ -49,6 +49,7 @@ schema audit before it is locked.
 `GO` requires every gate. A bounded, non-leaking correction is `REVISE`; lack
 of justified complexity or an independent held-out sequence is `HOLD`.
 
-No Stage D performance result exists yet. Step 1 only makes the subsequent
-implementation auditable and prevents tuning decisions after held-out results
-are visible.
+Step 2 adds the declarative candidate registry, truth/source-boundary checks,
+the frozen-HMM speed baseline, the uncertainty-weighted empirical transition
+baseline, and the stable linear Koopman operator. No dataset was fit or
+selected in this step; performance remains HOLD until Steps 3–4.
