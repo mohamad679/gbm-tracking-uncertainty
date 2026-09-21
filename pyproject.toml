@@ -4,11 +4,11 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "gbm-tracking-uncertainty"
-version = "0.1.0"
+version = "0.2.0"
 description = "Reproducible feasibility audit for uncertainty-aware glioblastoma cell tracking"
 readme = "README.md"
 requires-python = ">=3.11,<3.14"
-license = {file = "LICENSE"}
+license = "MIT"
 keywords = ["cell-tracking", "uncertainty", "reproducibility", "glioblastoma", "benchmark"]
 classifiers = [
   "Development Status :: 3 - Alpha",
@@ -16,7 +16,6 @@ classifiers = [
   "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
   "Programming Language :: Python :: 3.13",
-  "License :: OSI Approved :: MIT License",
   "Operating System :: OS Independent",
 ]
 dependencies = [

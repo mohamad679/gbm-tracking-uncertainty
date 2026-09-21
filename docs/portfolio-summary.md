@@ -28,17 +28,21 @@ Shared configuration, calibration, numerical utilities, artifact validation, and
 
 ## Evidence
 
-At the v0.1.0 release-candidate state:
+At the v0.2.0 Stage D closure state:
 
-- 50/50 tests pass on Python 3.11, 3.12, and 3.13;
-- package coverage is 69%, with a 65% enforced gate;
+- 133 tests pass locally, with Python 3.11-3.13 CI and a 65% coverage gate;
 - the wheel builds and reinstalls successfully;
 - the complete pinned U373 reproduction succeeds;
 - the technical benchmark is complete;
-- the operator-learning gate remains HOLD;
+- Stage D v3 passes all seven locked gates on 1481 Huh7 sequence-`02`
+  transitions after bounded calibration on sequence `01`;
 - no biological validation claim is supported.
 
-The HOLD is itself a project result: increasing the association gate improves clean true-link coverage, but tested settings do not meet the declared robustness criterion under localization noise. The repository therefore stops before presenting SLDS/Koopman results that the benchmark does not yet justify.
+The earlier zero-shot Stage D v2 `HOLD` remains part of the evidence: its
+Koopman candidate improved velocity RMSE but underestimated mean speed. The
+current `GO` is deliberately narrower and supports within-Huh7 sequence
+generalization after one-sequence calibration. It does not support zero-shot,
+brain-slice biological, GBM-wide, or clinical generalization.
 
 ## Why this project is portfolio-relevant
 

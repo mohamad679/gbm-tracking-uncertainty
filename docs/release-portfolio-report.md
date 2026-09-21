@@ -1,5 +1,8 @@
 # Release and Portfolio Polish Report
 
+> Historical v0.1.0 release report. The current Stage D closure release is
+> v0.2.0; see [`stage-d-closure-report.md`](stage-d-closure-report.md).
+
 Date: 2026-09-19
 
 ## Scope

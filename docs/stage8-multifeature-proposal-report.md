@@ -1,5 +1,8 @@
 # Stage 8 multi-feature proposal report
 
+> Historical pre-Stage-A-D report. Its `HOLD` status was superseded by the
+> qualified Stage D v3 `GO`; see [`stage-d-closure-report.md`](stage-d-closure-report.md).
+
 Date: 2026-09-19. Status: **COMPLETED; HOLD before SLDS/Koopman.**
 
 ## Purpose

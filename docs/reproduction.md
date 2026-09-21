@@ -4,7 +4,7 @@ This repository is a technical feasibility audit. It does not claim validated gl
 
 ## Supported environment
 
-Release `0.1.0` supports CPython 3.11, 3.12, and 3.13. Runtime dependency ranges live in `pyproject.toml`; exact versions for the validated environment live in `constraints.txt`.
+Release `0.2.0` supports CPython 3.11, 3.12, and 3.13. Runtime dependency ranges live in `pyproject.toml`; exact versions for the validated environment live in `constraints.txt`.
 
 ```bash
 python3 -m venv .venv
