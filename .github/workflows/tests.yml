@@ -34,5 +34,13 @@ jobs:
         run: python -m pip wheel . --no-deps --wheel-dir dist
       - name: Install wheel and verify version
         run: |
-          python -m pip install --no-deps --force-reinstall dist/gbm_tracking_uncertainty-0.1.0-py3-none-any.whl
-          python -c "import gbm_audit; assert gbm_audit.__version__ == '0.1.0'; print(gbm_audit.__version__)"
+          python -m pip install --no-deps --force-reinstall dist/*.whl
+          python - <<'PY'
+          import tomllib
+          import gbm_audit
+
+          with open("pyproject.toml", "rb") as stream:
+              expected = tomllib.load(stream)["project"]["version"]
+          assert gbm_audit.__version__ == expected
+          print(gbm_audit.__version__)
+          PY
