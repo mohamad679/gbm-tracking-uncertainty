@@ -2,7 +2,7 @@
   "schema_version": 1,
   "stage": "D",
   "method": "operator_learning_protocol_v1",
-  "status": "STEP_3_COMPLETE_DEVELOPMENT_FIT_STABLE",
+  "status": "STEP_4_COMPLETE_HOLD_NO_INDEPENDENT_SOURCE",
   "title": "Uncertainty-aware operator learning",
   "goal": "Test whether a constrained dynamical operator learned from uncertainty-aware trajectories improves held-out state and migration prediction without learning proposal or gate artifacts.",
   "step_count": 4,
@@ -28,8 +28,8 @@
     {
       "step": 4,
       "name": "one_time_held_out_evaluation_and_decision",
-      "status": "pending",
-      "output": "GO, REVISE or HOLD decision with complete held-out artifact"
+      "status": "complete",
+      "output": "docs/stage-d-heldout-decision.json and docs/stage-d-step4-heldout-decision.md"
     }
   ],
   "data_boundary": {
@@ -67,5 +67,5 @@
     "HOLD": "the diagnostics do not justify operator complexity or no independent held-out evaluation is available",
     "biological_claim": "never supported by this technical operator benchmark alone"
   },
-  "current_decision": "Stage D Step 3 is complete; held-out operator performance remains HOLD until the one-time Step 4 evaluation."
+  "current_decision": "Stage D is complete with HOLD: no newly audited independent operator-evaluation sequence is available; U373 sequence 02 and T98G cannot be reused."
 }
