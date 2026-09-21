@@ -1,0 +1,90 @@
+{
+  "schema_version": 1,
+  "method": "stage_d_v2_huh7_data_only_audit_v1",
+  "status": "LOCKED_UNEVALUATED",
+  "dataset_id": "CTC_Fluo-C2DL-Huh7_training_2021-01-14",
+  "source_page": "https://celltrackingchallenge.net/2d-datasets/",
+  "archive_url": "https://data.celltrackingchallenge.net/training-datasets/Fluo-C2DL-Huh7.zip",
+  "archive": {
+    "file_name": "Fluo-C2DL-Huh7.zip",
+    "size_bytes": 38151145,
+    "sha256": "1912658c1b3d8b38b314eb658b559e7b39c256917150e9b3dd8bfdc77347617d"
+  },
+  "acquisition_metadata": {
+    "pixel_size_um": [
+      0.65,
+      0.65
+    ],
+    "time_step_min": 15,
+    "matches_u373_operator_units": true
+  },
+  "selection_rule": "Lexicographically first schema-valid sequence with at least 2 lineage tracks and 100 structural velocity-transition slots; no coordinate or outcome metric is inspected.",
+  "locked_sequence_id": "01",
+  "locked_sequence_member_set_sha256": "336437c884752db20daf29eac3b4d59b55a3355f3c3b8a16af119deb97680e81",
+  "sequence_audits": [
+    {
+      "sequence_id": "01",
+      "frame_count": 30,
+      "frame_range": [
+        0,
+        29
+      ],
+      "shape_pixels": [
+        1024,
+        1024
+      ],
+      "lineage_track_count": 34,
+      "root_track_count": 31,
+      "child_track_count": 3,
+      "structural_velocity_transition_slots": 883,
+      "selected_member_set_sha256": "336437c884752db20daf29eac3b4d59b55a3355f3c3b8a16af119deb97680e81",
+      "eligible": true,
+      "schema_checks": {
+        "contiguous_zero_based_frames": true,
+        "tracking_mask_for_every_frame": true,
+        "two_dimensional_images_and_masks": true,
+        "consistent_image_mask_shapes": true,
+        "known_nonoverlapping_lineage_parents": true,
+        "tracking_labels_within_lineage_intervals": true,
+        "every_lineage_id_observed": true
+      }
+    },
+    {
+      "sequence_id": "02",
+      "frame_count": 30,
+      "frame_range": [
+        0,
+        29
+      ],
+      "shape_pixels": [
+        1024,
+        1024
+      ],
+      "lineage_track_count": 69,
+      "root_track_count": 55,
+      "child_track_count": 14,
+      "structural_velocity_transition_slots": 1481,
+      "selected_member_set_sha256": "84cb1f20c08574224a773e94b8bf1f745f4bd8139616f33a46566cb8c7658183",
+      "eligible": true,
+      "schema_checks": {
+        "contiguous_zero_based_frames": true,
+        "tracking_mask_for_every_frame": true,
+        "two_dimensional_images_and_masks": true,
+        "consistent_image_mask_shapes": true,
+        "known_nonoverlapping_lineage_parents": true,
+        "tracking_labels_within_lineage_intervals": true,
+        "every_lineage_id_observed": true
+      }
+    }
+  ],
+  "data_only_invariants": {
+    "coordinates_extracted": false,
+    "motion_values_computed": false,
+    "models_fitted": false,
+    "outcome_metrics_exposed": false,
+    "locked_before_evaluation": true
+  },
+  "repository_policy": "Do not commit or redistribute the archive or reference annotations.",
+  "decision": "PASS_DATA_ONLY_AUDIT_AND_LOCK",
+  "biological_claim": "not supported"
+}
