@@ -7,11 +7,11 @@ class TestStageDProtocol(unittest.TestCase):
     def setUp(self):
         self.protocol = json.loads(Path("docs/stage-d-protocol.json").read_text())
 
-    def test_protocol_has_four_ordered_steps_and_steps_one_two_complete(self):
+    def test_protocol_has_four_ordered_steps_and_steps_one_two_three_complete(self):
         self.assertEqual(self.protocol["step_count"], 4)
         steps = self.protocol["steps"]
         self.assertEqual([step["step"] for step in steps], [1, 2, 3, 4])
-        self.assertEqual([step["status"] for step in steps], ["complete", "complete", "pending", "pending"])
+        self.assertEqual([step["status"] for step in steps], ["complete", "complete", "complete", "pending"])
 
     def test_forbidden_evaluation_sources_are_not_development_sources(self):
         boundary = self.protocol["data_boundary"]
