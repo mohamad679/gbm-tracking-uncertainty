@@ -2,7 +2,7 @@
   "schema_version": 1,
   "stage": "D",
   "method": "operator_learning_protocol_v1",
-  "status": "STEP_2_COMPLETE_CANDIDATES_IMPLEMENTED",
+  "status": "STEP_3_COMPLETE_DEVELOPMENT_FIT_STABLE",
   "title": "Uncertainty-aware operator learning",
   "goal": "Test whether a constrained dynamical operator learned from uncertainty-aware trajectories improves held-out state and migration prediction without learning proposal or gate artifacts.",
   "step_count": 4,
@@ -22,8 +22,8 @@
     {
       "step": 3,
       "name": "development_fit_and_stability_checks",
-      "status": "pending",
-      "output": "development-only fits, cross-validation, calibration and stability artifact"
+      "status": "complete",
+      "output": "docs/stage-d-development-fit.json and docs/stage-d-step3-development-fit.md"
     },
     {
       "step": 4,
@@ -67,5 +67,5 @@
     "HOLD": "the diagnostics do not justify operator complexity or no independent held-out evaluation is available",
     "biological_claim": "never supported by this technical operator benchmark alone"
   },
-  "current_decision": "Stage D Step 2 is complete; operator performance remains HOLD until development fitting, stability checks and held-out evaluation pass."
+  "current_decision": "Stage D Step 3 is complete; held-out operator performance remains HOLD until the one-time Step 4 evaluation."
 }
