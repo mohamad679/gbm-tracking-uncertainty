@@ -71,3 +71,17 @@ jobs:
               raise SystemExit("Stage D development artifact differs from reproduction")
           print("Stage D Step 3 development artifact matches (JSON-equivalent).")
           PY
+      - name: Reproduce Stage D Step 4 decision artifact
+        run: |
+          python -m gbm_audit.stage_d_decision \
+            docs/stage-d-development-fit.json \
+            --output /tmp/stage-d-heldout-decision.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          expected = json.loads(Path("docs/stage-d-heldout-decision.json").read_text())
+          actual = json.loads(Path("/tmp/stage-d-heldout-decision.json").read_text())
+          if expected != actual:
+              raise SystemExit("Stage D Step 4 decision artifact differs from reproduction")
+          print("Stage D Step 4 HOLD decision artifact matches (JSON-equivalent).")
+          PY
