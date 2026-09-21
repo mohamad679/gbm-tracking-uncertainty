@@ -1,0 +1,92 @@
+{
+  "schema_version": 1,
+  "method": "stage_d_v2_huh7_one_time_evaluation_v1",
+  "status": "COMPLETE_HOLD",
+  "stage": "D-v2",
+  "evaluation_count": 1,
+  "evaluation_attempted": true,
+  "selection_performed_after_heldout_inspection": false,
+  "protocol_sha256": "dfbcb241da5ecda66dc4139d70ed4e447d4735cdb1fad12604a9d198aad1fac1",
+  "audit_sha256": "52e3e42e70a043ecbbef28f32cadef0e47c958d146ea9b68fe47de89fd92e4f0",
+  "u373_development_manifest_sha256": "ce4d1dfc805eba0ab15b12de7e3ebef3eab2b23cf2f35ebed59d18a6cd1e0d47",
+  "stage_c_development_artifact_sha256": "f3323e13a09a750d5966682c58a7e64ca81824171879a8ccf4e8f5d26f2eb721",
+  "stage_d_development_artifact_sha256": "921603ceaa035868bed7c6c556ad2a3aef1d0b6da5c383658438dfe52f595e56",
+  "evaluation_dataset_id": "CTC_Fluo-C2DL-Huh7_training_2021-01-14",
+  "evaluation_sequence_id": "01",
+  "evaluation_member_set_sha256": "336437c884752db20daf29eac3b4d59b55a3355f3c3b8a16af119deb97680e81",
+  "state_definition": "velocity_xy_px_per_frame",
+  "evaluation_row_count": 883,
+  "fit_row_count": 749,
+  "metrics": {
+    "frozen_hmm_speed_baseline_v1": {
+      "candidate": "frozen_hmm_speed_baseline_v1",
+      "evaluation_row_count": 883,
+      "one_step_velocity_rmse_px_per_frame": 6.6746083,
+      "one_step_velocity_mae_px_per_frame": 6.010546142,
+      "observed_mean_next_speed_px_per_frame": 2.204336058,
+      "predicted_mean_next_speed_px_per_frame": 5.490134682,
+      "mean_next_speed_absolute_error_px_per_frame": 3.285798624,
+      "frozen_development_p90_radius_px_per_frame": 10.986594157,
+      "nominal_90_interval_coverage": 0.951302378,
+      "stability": {
+        "finite_rollout": true,
+        "max_abs_state": 5.490134682,
+        "forecast_horizon": 10,
+        "max_abs_state_bound": 1000.0,
+        "stability_pass": true
+      }
+    },
+    "weighted_empirical_transition_baseline_v1": {
+      "candidate": "weighted_empirical_transition_baseline_v1",
+      "evaluation_row_count": 883,
+      "one_step_velocity_rmse_px_per_frame": 5.894248138,
+      "one_step_velocity_mae_px_per_frame": 3.530680813,
+      "observed_mean_next_speed_px_per_frame": 2.204336058,
+      "predicted_mean_next_speed_px_per_frame": 2.243481529,
+      "mean_next_speed_absolute_error_px_per_frame": 0.039145471,
+      "frozen_development_p90_radius_px_per_frame": 13.681261719,
+      "nominal_90_interval_coverage": 0.962627407,
+      "stability": {
+        "finite_rollout": true,
+        "max_abs_state": 28.987661934,
+        "forecast_horizon": 10,
+        "max_abs_state_bound": 1000.0,
+        "stability_pass": true
+      }
+    },
+    "stable_linear_koopman_operator_v1": {
+      "candidate": "stable_linear_koopman_operator_v1",
+      "evaluation_row_count": 883,
+      "one_step_velocity_rmse_px_per_frame": 4.60462033,
+      "one_step_velocity_mae_px_per_frame": 2.563508441,
+      "observed_mean_next_speed_px_per_frame": 2.204336058,
+      "predicted_mean_next_speed_px_per_frame": 0.857657005,
+      "mean_next_speed_absolute_error_px_per_frame": 1.346679053,
+      "frozen_development_p90_radius_px_per_frame": 10.94915063,
+      "nominal_90_interval_coverage": 0.961494904,
+      "stability": {
+        "finite_rollout": true,
+        "max_abs_state": 12.008409793,
+        "forecast_horizon": 10,
+        "max_abs_state_bound": 1000.0,
+        "stability_pass": true
+      }
+    }
+  },
+  "gates": {
+    "provenance_and_split_integrity": true,
+    "leakage_boundary": true,
+    "primary_predictive_improvement": true,
+    "state_summary_noninferiority": false,
+    "interval_calibration": true,
+    "stability": true,
+    "reproducibility": true
+  },
+  "decision": "HOLD",
+  "decision_reason": "The valid independent Huh7 evaluation failed one or more pre-registered gates; operator complexity is not promoted.",
+  "forbidden_sources_not_used": [
+    "U373_sequence_02_archival_v1_test",
+    "T98G_locked_stage_c_v2_test"
+  ],
+  "biological_claim": "not supported"
+}
