@@ -52,6 +52,7 @@ gbm-stage-c-v2-development = "gbm_audit.stage_c_v2_development:main"
 gbm-stage-c-v2-evaluate-t98g = "gbm_audit.stage_c_v2_t98g_evaluation:main"
 gbm-stage-d-development = "gbm_audit.stage_d_development:main"
 gbm-stage-d-decision = "gbm_audit.stage_d_decision:main"
+gbm-stage-d-v2-audit-huh7 = "gbm_audit.stage_d_huh7_audit:main"
 gbm-soft-dynamics = "gbm_audit.soft_dynamics:main"
 gbm-final-audit = "gbm_audit.final_audit:main"
 
