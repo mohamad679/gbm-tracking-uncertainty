@@ -50,6 +50,7 @@ gbm-stage-c-locked = "gbm_audit.stage_c_locked_evaluation:main"
 gbm-stage-c-v2-audit-t98g = "gbm_audit.t98g_audit:main"
 gbm-stage-c-v2-development = "gbm_audit.stage_c_v2_development:main"
 gbm-stage-c-v2-evaluate-t98g = "gbm_audit.stage_c_v2_t98g_evaluation:main"
+gbm-stage-d-development = "gbm_audit.stage_d_development:main"
 gbm-soft-dynamics = "gbm_audit.soft_dynamics:main"
 gbm-final-audit = "gbm_audit.final_audit:main"
 

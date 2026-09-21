@@ -13,13 +13,14 @@ The quantitative benchmark uses expert annotations from the Cell Tracking Challe
 **Version:** `0.1.0`  
 **Python:** 3.11-3.13  
 **License:** MIT  
-**Tests:** 63 tests; CI enforced on all supported Python versions
+**Tests:** 123 tests; CI enforced on all supported Python versions
 **Coverage:** 71% package coverage, 65% enforced CI gate
 **Technical benchmark:** complete  
-**Operator learning:** HOLD  
+**Operator learning:** Stage D Step 3 development pass; held-out performance HOLD
 **Biological validation claim:** not supported
 
-The operator-learning gate is evidence-derived: none of the tested proposal radii simultaneously satisfies the declared clean-link coverage and localization-noise robustness criteria.
+The operator-learning decision remains evidence-derived: development fits and
+stability checks pass, but no held-out operator performance claim has been made.
 
 ## What this project demonstrates
 
