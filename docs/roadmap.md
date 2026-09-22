@@ -35,7 +35,7 @@ non-inferiority and completeness gates, but their mean-speed intervals covered
 the sequence-`02` reference in 0/17 scenarios. The result and required revision
 boundary are documented in [`stage-c-final-report.md`](stage-c-final-report.md).
 
-Stage C v2 is active under the pre-development protocol in
+Stage C v2 was executed under the pre-development protocol in
 [`stage-c-v2-protocol.md`](stage-c-v2-protocol.md). It adds explicit
 localization and proposal-recovery uncertainty plus development-only predictive
 calibration. U373 sequence `01` is the sole development source; sequence `02`
@@ -57,3 +57,9 @@ stability, leakage and reproducibility gate, producing a qualified technical
 one-sequence calibration. U373 sequence `02` and T98G were not reused, the
 zero-shot result remains `HOLD`, and no Stage B, C or D result is biological
 validation. See [`stage-d-v3-final-report.md`](stage-d-v3-final-report.md).
+
+Stage D was formally closed on 2026-09-21. Its historical v1 and v2 `HOLD`
+artifacts remain immutable evidence, while the current decision is the qualified
+v3 `GO`. Work beyond this point belongs to real-GBM validation (Stage E), a
+pre-registered biological hypothesis (Stage F), and perturbation testing
+(Stage G). See [`stage-d-closure-report.md`](stage-d-closure-report.md).

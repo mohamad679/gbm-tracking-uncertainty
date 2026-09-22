@@ -10,13 +10,14 @@ The quantitative benchmark uses expert annotations from the Cell Tracking Challe
 
 ## Current status
 
-**Version:** `0.1.0`  
+**Version:** `0.2.0`
 **Python:** 3.11-3.13  
 **License:** MIT  
 **Tests:** 133 tests; CI enforced on all supported Python versions
 **Coverage:** 71% package coverage, 65% enforced CI gate
 **Technical benchmark:** complete  
 **Operator learning:** Stage D v3 GO — calibrated blend passed locked Huh7 sequence `02`
+**Research Stage D:** formally closed on 2026-09-21
 **Biological validation claim:** not supported
 
 The operator-learning decision is evidence-derived. The zero-shot Huh7
@@ -42,17 +43,14 @@ calibration, not zero-shot or biological generalization.
 ## Architecture
 
 ```mermaid
-flowchart LR
-    A[U373 ZIP] --> B[Reference manifest]
-    B --> C[Known-truth corruptions]
-    C --> D[Baseline]
-    C --> E[Uncertainty]
-    E --> F[Hard dynamics]
-    E --> G[Soft dynamics]
-    E --> H[Gate sensitivity]
-    F --> I[Final audit]
-    G --> I
-    H --> I
+flowchart TD
+    A[U373 reference and corruptions] --> B[Stage A: adaptive candidates]
+    B --> C[Stage B: graph-context posterior]
+    C --> D[Stage C: uncertainty-aware dynamics]
+    D --> E[T98G locked validation]
+    E --> F[Stage D: operator extension]
+    F --> G[Huh7 sequence 01 calibration]
+    G --> H[Huh7 sequence 02 locked GO]
 ```
 
 See [`docs/architecture.md`](docs/architecture.md) for the full module-level architecture, invariants, safety layer, and reproducibility boundaries.
@@ -148,6 +146,7 @@ Raw data and generated `results/` outputs are not source-controlled.
 - [`docs/stage-a-step3-integration.md`](docs/stage-a-step3-integration.md) — candidate/posterior/downstream graph invariant
 - [`docs/stage-c-v2-step2-t98g-audit.md`](docs/stage-c-v2-step2-t98g-audit.md) — independent T98G data-only audit and lock decision
 - [`docs/stage-d-v3-final-report.md`](docs/stage-d-v3-final-report.md) — final calibrated Huh7 operator decision
+- [`docs/stage-d-closure-report.md`](docs/stage-d-closure-report.md) — formal Stage D closure and claim boundary
 - [`CHANGELOG.md`](CHANGELOG.md) — release history
 
 ## Sources

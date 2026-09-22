@@ -4,6 +4,8 @@ All notable project changes are documented here. The project follows semantic ve
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-09-21
+
 ### Added
 - Frozen Stage A adaptive-candidate protocol with leakage controls and quantitative pass/revise thresholds.
 - Candidate-burden instrumentation and a provenance-checked comparison CLI for fixed 8/12/16-pixel baselines and `adaptive_v1`.
@@ -12,6 +14,13 @@ All notable project changes are documented here. The project follows semantic ve
 - Outcome-blind CTC Huh7 audit and sequence locks for independent Stage D evaluation.
 - Frozen zero-shot Huh7 evaluator and a bounded Koopman/empirical blend calibrated on sequence `01`.
 - One-time locked Huh7 sequence-`02` evaluation with exact CI reproduction.
+- Formal Stage D closure report and consolidated project-level conclusion.
+
+### Changed
+- Project status, roadmap, portfolio summary, and README now consistently record
+  the qualified Stage D v3 `GO`.
+- Package version advanced to `0.2.0` for the completed Stage A-D technical
+  research line.
 
 ### Validation status
 
