@@ -15,6 +15,10 @@ All notable project changes are documented here. The project follows semantic ve
   sources excluded from new confirmation.
 - Artifact-contract tests that enforce the manifest hashes, split roles,
   untouched test state, and biological-claim boundary.
+- Generic CTC archive reader with a sequence-`02` decode boundary, plus
+  dependency-free association AUPRC, selective-risk and calibration metrics.
+- Frozen three-domain sequence-`01` development fit and a dedicated GitHub
+  Actions reproduction workflow; no sequence-`02` outcome was accessed.
 
 ## [0.2.0] - 2026-09-21
 

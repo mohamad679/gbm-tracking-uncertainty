@@ -69,9 +69,12 @@ multi-domain technical validation using previously unused CTC GOWT1 and HeLa
 data, with SIM+ as an exact-truth diagnostic. Sequence `01` is assigned to
 development/calibration and sequence `02` is locked for one-time evaluation.
 The question, claims, endpoints, gates, verified archive manifest and split
-were frozen before outcome evaluation on 2026-09-22; see
-[`stage-e-protocol.md`](stage-e-protocol.md) and
-[`stage-e-steps1-3-report.md`](stage-e-steps1-3-report.md).
+were frozen before outcome evaluation on 2026-09-22. The generic parser,
+metrics and sequence-`01` development configuration are also complete; all
+sequence-`02` outcomes remain locked pending CI. See
+[`stage-e-protocol.md`](stage-e-protocol.md),
+[`stage-e-steps1-3-report.md`](stage-e-steps1-3-report.md), and
+[`stage-e-step4-development.md`](stage-e-step4-development.md).
 
 Stage F biological inference and Stage G perturbation testing are deferred
 future studies requiring independent biological replicates. They are not
