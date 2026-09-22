@@ -21,6 +21,7 @@ class TestStageEProtocol(unittest.TestCase):
         self.split = load_json("stage-e-split-lock.json")
         self.protocol = load_json("stage-e-protocol.json")
         self.development_fit = load_json("stage-e-development-fit.json")
+        self.evaluation_lock = load_json("stage-e-sequence02-evaluation-lock.json")
 
     def test_registered_artifact_hashes_match(self):
         self.assertEqual(
@@ -112,6 +113,16 @@ class TestStageEProtocol(unittest.TestCase):
             self.assertEqual(result["development_sequence"], "01")
             self.assertEqual(result["locked_test_sequence"], "02")
             self.assertEqual(result["uncertainty_configuration"]["hypothesis_count"], 64)
+
+    def test_one_time_evaluation_lock_is_bound_to_the_frozen_development_artifact(self):
+        lock = self.evaluation_lock
+        self.assertEqual(lock["status"], "LOCKED_UNEVALUATED")
+        self.assertEqual(lock["evaluation_count"], 0)
+        self.assertEqual(lock["development_artifact_sha256"], sha256("stage-e-development-fit.json"))
+        self.assertEqual(lock["decision_scenario_id"], "clean_0")
+        self.assertEqual(lock["posterior_track_threshold"], 0.5)
+        implementation = self.protocol["locked_evaluation_implementation"]
+        self.assertFalse(implementation["fitting_or_selection_on_sequence_02"])
 
 
 if __name__ == "__main__":

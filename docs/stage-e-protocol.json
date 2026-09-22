@@ -61,7 +61,15 @@
     "uncertainty_hypothesis_count": 64,
     "proposal_temperature_rule": "max(radius_px / 2, 0.5)",
     "probability_calibration": "temperature scaling fit only on sequence-01 corrupted-development scenarios",
-    "registered_before_locked_test_access": true
+    "registered_before_locked_test_access": true,
+    "association_error_auprc_definition": "Rank association errors with score 1 - correct-link confidence and label 1 - true_link."
+  },
+  "locked_evaluation_implementation": {
+    "evaluation_lock_path": "docs/stage-e-sequence02-evaluation-lock.json",
+    "decision_scenario_id": "clean_0",
+    "posterior_track_threshold": 0.5,
+    "posterior_track_rule": "greedily retain a one-to-one compatible link set ordered by decreasing calibrated probability and stable observation IDs",
+    "fitting_or_selection_on_sequence_02": false
   },
   "registered_comparators": [
     "nearest-neighbour hard linking",

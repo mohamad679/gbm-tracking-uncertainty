@@ -70,6 +70,14 @@ fit only on Sequence `01` corrupted-development scenarios. This addendum is
 part of the pre-test implementation freeze and does not alter the question,
 endpoints, split or decision gates.
 
+For the registered association-error AUPRC, an error is the positive class:
+the score is `1 - correct-link confidence` and the label is `1 - true_link`.
+This direction is fixed before test access. The one-time sequence-`02` command
+uses the frozen configuration in `stage-e-development-fit.json`, the clean
+registered scenario `clean_0`, and a calibrated posterior-link threshold of
+`0.5`; links are retained greedily only when one-to-one compatible. The
+execution lock is [`stage-e-sequence02-evaluation-lock.json`](stage-e-sequence02-evaluation-lock.json).
+
 ## Registered comparisons and endpoints
 
 Comparators:

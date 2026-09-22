@@ -18,7 +18,7 @@ The quantitative benchmark uses expert annotations from the Cell Tracking Challe
 **Technical benchmark:** complete  
 **Operator learning:** Stage D v3 GO — calibrated blend passed locked Huh7 sequence `02`
 **Research Stage D:** formally closed on 2026-09-21
-**Research Stage E-Final:** development-only configuration frozen on 2026-09-22; sequence `02` remains locked and no outcomes have been evaluated
+**Research Stage E-Final:** locked evaluator and one-time execution lock prepared; sequence `02` remains unevaluated pending CI
 **Biological validation claim:** not supported
 
 The operator-learning decision is evidence-derived. The zero-shot Huh7
@@ -114,6 +114,7 @@ The latest frozen result summary is in [`docs/reproduced-results-2026-09-19.json
 | `stage_e_data.py` | Verify CTC archives and decode only registered development sequence `01` |
 | `stage_e_metrics.py` | Dependency-free AUPRC, selective-risk and calibration metrics |
 | `stage_e_development.py` | Reproduce the Stage E sequence-`01` fit while preserving the `02` lock |
+| `stage_e_evaluation.py` | Execute exactly one frozen Stage E sequence-`02` evaluation after CI approval |
 | `corruptions.py` | Generate 17 seeded known-truth scenarios |
 | `baseline.py` | Frozen greedy nearest-neighbour comparator |
 | `uncertainty.py` | Sample one-to-one association hypotheses and calibrate probabilities |
@@ -159,6 +160,7 @@ Raw data and generated `results/` outputs are not source-controlled.
 - [`docs/stage-e-steps1-3-report.md`](docs/stage-e-steps1-3-report.md) — completion evidence for Stage E Steps 1-3
 - [`docs/stage-e-step4-development.md`](docs/stage-e-step4-development.md) — development implementation, selected configuration and lock evidence
 - [`docs/stage-e-development-fit.json`](docs/stage-e-development-fit.json) — frozen development-only fit artifact
+- [`docs/stage-e-step5-evaluator-freeze.md`](docs/stage-e-step5-evaluator-freeze.md) — pre-outcome evaluator and execution-lock record
 - [`CHANGELOG.md`](CHANGELOG.md) — release history
 
 ## Sources
