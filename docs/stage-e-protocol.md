@@ -58,6 +58,18 @@ The immutable assignment and unlock conditions are in
 be replaced after an outcome is observed. SIM+ cannot satisfy or rescue a
 real-data gate.
 
+## Development implementation addendum
+
+Before any Sequence `02` coordinate or outcome access, the generic CTC
+implementation evaluates only Sequence `01` using the fixed maximum-speed grid
+`0.20, 0.35, 0.50, 0.75, 1.00, 1.25, 1.50, 2.00` µm/min. It selects the value
+with highest clean nearest-neighbour link F1; exact ties select the lower speed.
+The registered uncertainty model uses 64 one-to-one hypothesis samples and a
+proposal temperature of `max(radius / 2, 0.5)` pixels. Temperature scaling is
+fit only on Sequence `01` corrupted-development scenarios. This addendum is
+part of the pre-test implementation freeze and does not alter the question,
+endpoints, split or decision gates.
+
 ## Registered comparisons and endpoints
 
 Comparators:

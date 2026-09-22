@@ -13,12 +13,12 @@ The quantitative benchmark uses expert annotations from the Cell Tracking Challe
 **Version:** `0.2.0`
 **Python:** 3.11-3.13  
 **License:** MIT  
-**Tests:** 138 tests; CI enforced on all supported Python versions
+**Tests:** 144 tests; CI enforced on all supported Python versions
 **Coverage:** 71% package coverage, 65% enforced CI gate
 **Technical benchmark:** complete  
 **Operator learning:** Stage D v3 GO — calibrated blend passed locked Huh7 sequence `02`
 **Research Stage D:** formally closed on 2026-09-21
-**Research Stage E-Final:** protocol, verified dataset manifest, and sequence split locked on 2026-09-22; no outcomes evaluated
+**Research Stage E-Final:** development-only configuration frozen on 2026-09-22; sequence `02` remains locked and no outcomes have been evaluated
 **Biological validation claim:** not supported
 
 The operator-learning decision is evidence-derived. The zero-shot Huh7
@@ -53,6 +53,7 @@ flowchart TD
     F --> G[Huh7 sequence 01 calibration]
     G --> H[Huh7 sequence 02 locked GO]
     H --> I[Stage E: multidomain protocol and split lock]
+    I --> J[Sequence 01 development-only fit]
 ```
 
 See [`docs/architecture.md`](docs/architecture.md) for the full module-level architecture, invariants, safety layer, and reproducibility boundaries.
@@ -110,6 +111,9 @@ The latest frozen result summary is in [`docs/reproduced-results-2026-09-19.json
 | `stage_d_huh7_evaluation.py` | Reproduce the frozen zero-shot Huh7 evaluation |
 | `stage_d_v3_development.py` | Fit the bounded Huh7 sequence-01 blend calibration |
 | `stage_d_v3_evaluation.py` | Evaluate the frozen blend on locked Huh7 sequence `02` |
+| `stage_e_data.py` | Verify CTC archives and decode only registered development sequence `01` |
+| `stage_e_metrics.py` | Dependency-free AUPRC, selective-risk and calibration metrics |
+| `stage_e_development.py` | Reproduce the Stage E sequence-`01` fit while preserving the `02` lock |
 | `corruptions.py` | Generate 17 seeded known-truth scenarios |
 | `baseline.py` | Frozen greedy nearest-neighbour comparator |
 | `uncertainty.py` | Sample one-to-one association hypotheses and calibrate probabilities |
@@ -153,6 +157,8 @@ Raw data and generated `results/` outputs are not source-controlled.
 - [`docs/stage-e-dataset-manifest.json`](docs/stage-e-dataset-manifest.json) — verified GOWT1, HeLa, and SIM+ archive identities and structures
 - [`docs/stage-e-split-lock.json`](docs/stage-e-split-lock.json) — immutable sequence-01 development and sequence-02 test assignment
 - [`docs/stage-e-steps1-3-report.md`](docs/stage-e-steps1-3-report.md) — completion evidence for Stage E Steps 1-3
+- [`docs/stage-e-step4-development.md`](docs/stage-e-step4-development.md) — development implementation, selected configuration and lock evidence
+- [`docs/stage-e-development-fit.json`](docs/stage-e-development-fit.json) — frozen development-only fit artifact
 - [`CHANGELOG.md`](CHANGELOG.md) — release history
 
 ## Sources

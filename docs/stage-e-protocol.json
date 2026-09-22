@@ -55,6 +55,14 @@
     ],
     "implementation_freeze_requirement": "The complete evaluator, fitted sequence-01 artifact and all thresholds must be committed with passing CI before the one-time sequence-02 evaluation."
   },
+  "development_implementation": {
+    "max_speed_grid_um_per_min": [0.2, 0.35, 0.5, 0.75, 1.0, 1.25, 1.5, 2.0],
+    "radius_selection_rule": "maximize clean nearest-neighbour link F1; exact ties select the lower max-speed gate",
+    "uncertainty_hypothesis_count": 64,
+    "proposal_temperature_rule": "max(radius_px / 2, 0.5)",
+    "probability_calibration": "temperature scaling fit only on sequence-01 corrupted-development scenarios",
+    "registered_before_locked_test_access": true
+  },
   "registered_comparators": [
     "nearest-neighbour hard linking",
     "distance-derived confidence",

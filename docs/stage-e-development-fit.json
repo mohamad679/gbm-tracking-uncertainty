@@ -1,0 +1,352 @@
+{
+  "schema_version": 1,
+  "method": "stage_e_development_only_multidomain_v1",
+  "status": "DEVELOPMENT_CONFIGURATION_FROZEN_PENDING_CI",
+  "dataset_manifest_sha256": "bcd7404dc083f1254655dc184a5857a4b5f43316cae7bf2f58d31f93eee95955",
+  "split_lock_sha256": "79876f90bd5b59fb5d77cad362a115cac1bb1bf8566790373d309d3eccab3421",
+  "seed": 20260922,
+  "registered_access_boundary": {
+    "decoded_sequences": [
+      "01"
+    ],
+    "structurally_audited_locked_sequences": [
+      "02"
+    ],
+    "locked_test_coordinates_extracted": false,
+    "locked_test_metrics_computed": false,
+    "locked_test_outcomes_evaluated": false
+  },
+  "datasets": {
+    "CTC_DIC-C2DH-HeLa_training": {
+      "structural_audit": {
+        "dataset_id": "CTC_DIC-C2DH-HeLa_training",
+        "archive_file": "DIC-C2DH-HeLa.zip",
+        "archive_size_bytes": 41504758,
+        "archive_sha256": "832fed2d05bb7488cf9c51a2994b75f8f3f53b3c3098856211f2d39023c34e1a",
+        "sequences": {
+          "01": {
+            "raw_frame_count": 84,
+            "tracking_mask_count": 84,
+            "gold_segmentation_mask_count": 9,
+            "lineage_row_count": 38,
+            "tiff_pixels_decoded": false
+          },
+          "02": {
+            "raw_frame_count": 84,
+            "tracking_mask_count": 84,
+            "gold_segmentation_mask_count": 9,
+            "lineage_row_count": 32,
+            "tiff_pixels_decoded": false
+          }
+        },
+        "audit_kind": "structural_only",
+        "locked_test_outcome_access": false
+      },
+      "development_sequence": "01",
+      "locked_test_sequence": "02",
+      "development_manifest_summary": {
+        "frames": 84,
+        "tracks": 38,
+        "consecutive_links": 1082,
+        "pixel_size_um": [
+          0.19,
+          0.19
+        ],
+        "time_step_min": 10
+      },
+      "candidate_selection": {
+        "rule": "maximize clean nearest-neighbour link F1; exact ties select the lower max-speed gate",
+        "grid_max_speed_um_per_min": [
+          0.2,
+          0.35,
+          0.5,
+          0.75,
+          1.0,
+          1.25,
+          1.5,
+          2.0
+        ],
+        "selected": {
+          "max_speed_um_per_min": 1.25,
+          "max_distance_px": 65.78947368421052,
+          "clean_link_f1": 0.9949425287356322,
+          "clean_link_precision": 0.989935956084172,
+          "clean_link_recall": 1.0
+        }
+      },
+      "uncertainty_configuration": {
+        "method": "sampled_one_to_one_distance_hypotheses",
+        "hypothesis_count": 64,
+        "temperature_px": 32.89473684210526,
+        "calibration_fit_sequence": "01",
+        "metric_summary": {
+          "edge_count": 18415,
+          "calibration_temperature": 0.25,
+          "distance_confidence": {
+            "association_error_auprc": 0.9991382171123249,
+            "selective_link_risk": {
+              "coverage": 0.8,
+              "accepted": 14732,
+              "risk": 0.0022400217214227913
+            },
+            "calibration": {
+              "brier": 0.029509742427344342,
+              "ece": 0.07646757159457089,
+              "nll": 0.12540718269419573,
+              "count": 18415
+            }
+          },
+          "uncalibrated_uncertainty": {
+            "association_error_auprc": 0.9995204821096811,
+            "selective_link_risk": {
+              "coverage": 0.8,
+              "accepted": 14732,
+              "risk": 0.0006787944610372465
+            },
+            "calibration": {
+              "brier": 0.03468194237035026,
+              "ece": 0.1493059326635896,
+              "nll": 0.18503991586769636,
+              "count": 18415
+            }
+          },
+          "calibrated_uncertainty": {
+            "association_error_auprc": 0.9995204821096811,
+            "selective_link_risk": {
+              "coverage": 0.8,
+              "accepted": 14732,
+              "risk": 0.0006787944610372465
+            },
+            "calibration": {
+              "brier": 0.008626411072699687,
+              "ece": 0.0035300153340771462,
+              "nll": 0.03238686652224984,
+              "count": 18415
+            }
+          }
+        }
+      }
+    },
+    "CTC_Fluo-N2DH-GOWT1_training": {
+      "structural_audit": {
+        "dataset_id": "CTC_Fluo-N2DH-GOWT1_training",
+        "archive_file": "Fluo-N2DH-GOWT1.zip",
+        "archive_size_bytes": 59331035,
+        "archive_sha256": "1a7bd9a7d1d10c4122c7782427b437246fb69cc3322a975485c04e206f64fc2c",
+        "sequences": {
+          "01": {
+            "raw_frame_count": 92,
+            "tracking_mask_count": 92,
+            "gold_segmentation_mask_count": 30,
+            "lineage_row_count": 28,
+            "tiff_pixels_decoded": false
+          },
+          "02": {
+            "raw_frame_count": 92,
+            "tracking_mask_count": 92,
+            "gold_segmentation_mask_count": 20,
+            "lineage_row_count": 58,
+            "tiff_pixels_decoded": false
+          }
+        },
+        "audit_kind": "structural_only",
+        "locked_test_outcome_access": false
+      },
+      "development_sequence": "01",
+      "locked_test_sequence": "02",
+      "development_manifest_summary": {
+        "frames": 92,
+        "tracks": 28,
+        "consecutive_links": 2030,
+        "pixel_size_um": [
+          0.24,
+          0.24
+        ],
+        "time_step_min": 5
+      },
+      "candidate_selection": {
+        "rule": "maximize clean nearest-neighbour link F1; exact ties select the lower max-speed gate",
+        "grid_max_speed_um_per_min": [
+          0.2,
+          0.35,
+          0.5,
+          0.75,
+          1.0,
+          1.25,
+          1.5,
+          2.0
+        ],
+        "selected": {
+          "max_speed_um_per_min": 1.5,
+          "max_distance_px": 31.25,
+          "clean_link_f1": 0.9980295566502463,
+          "clean_link_precision": 0.9980295566502463,
+          "clean_link_recall": 0.9980295566502463
+        }
+      },
+      "uncertainty_configuration": {
+        "method": "sampled_one_to_one_distance_hypotheses",
+        "hypothesis_count": 64,
+        "temperature_px": 15.625,
+        "calibration_fit_sequence": "01",
+        "metric_summary": {
+          "edge_count": 31415,
+          "calibration_temperature": 0.25,
+          "distance_confidence": {
+            "association_error_auprc": 0.9999802647915226,
+            "selective_link_risk": {
+              "coverage": 0.8,
+              "accepted": 25132,
+              "risk": 0.0
+            },
+            "calibration": {
+              "brier": 0.0239456117642584,
+              "ece": 0.10561651185141478,
+              "nll": 0.12499985243067065,
+              "count": 31415
+            }
+          },
+          "uncalibrated_uncertainty": {
+            "association_error_auprc": 0.999944612991823,
+            "selective_link_risk": {
+              "coverage": 0.8,
+              "accepted": 25132,
+              "risk": 7.957981855799545e-05
+            },
+            "calibration": {
+              "brier": 0.02521579031463871,
+              "ece": 0.14458906971192115,
+              "nll": 0.1620235854008405,
+              "count": 31415
+            }
+          },
+          "calibrated_uncertainty": {
+            "association_error_auprc": 0.999944612991823,
+            "selective_link_risk": {
+              "coverage": 0.8,
+              "accepted": 25132,
+              "risk": 7.957981855799545e-05
+            },
+            "calibration": {
+              "brier": 0.0019069735278699138,
+              "ece": 0.0021351048475794863,
+              "nll": 0.009085306917346977,
+              "count": 31415
+            }
+          }
+        }
+      }
+    },
+    "CTC_Fluo-N2DH-SIM+_training": {
+      "structural_audit": {
+        "dataset_id": "CTC_Fluo-N2DH-SIM+_training",
+        "archive_file": "Fluo-N2DH-SIM+.zip",
+        "archive_size_bytes": 99034393,
+        "archive_sha256": "3e809148c87ace80c72f563b56c35e0d9448dcdeb461a09c83f61e93f5e40ec8",
+        "sequences": {
+          "01": {
+            "raw_frame_count": 65,
+            "tracking_mask_count": 65,
+            "gold_segmentation_mask_count": 65,
+            "lineage_row_count": 95,
+            "tiff_pixels_decoded": false
+          },
+          "02": {
+            "raw_frame_count": 150,
+            "tracking_mask_count": 150,
+            "gold_segmentation_mask_count": 150,
+            "lineage_row_count": 107,
+            "tiff_pixels_decoded": false
+          }
+        },
+        "audit_kind": "structural_only",
+        "locked_test_outcome_access": false
+      },
+      "development_sequence": "01",
+      "locked_test_sequence": "02",
+      "development_manifest_summary": {
+        "frames": 65,
+        "tracks": 95,
+        "consecutive_links": 2512,
+        "pixel_size_um": [
+          0.125,
+          0.125
+        ],
+        "time_step_min": 29
+      },
+      "candidate_selection": {
+        "rule": "maximize clean nearest-neighbour link F1; exact ties select the lower max-speed gate",
+        "grid_max_speed_um_per_min": [
+          0.2,
+          0.35,
+          0.5,
+          0.75,
+          1.0,
+          1.25,
+          1.5,
+          2.0
+        ],
+        "selected": {
+          "max_speed_um_per_min": 0.2,
+          "max_distance_px": 46.400000000000006,
+          "clean_link_f1": 0.9938674579624134,
+          "clean_link_precision": 0.9878096736138419,
+          "clean_link_recall": 1.0
+        }
+      },
+      "uncertainty_configuration": {
+        "method": "sampled_one_to_one_distance_hypotheses",
+        "hypothesis_count": 64,
+        "temperature_px": 23.200000000000003,
+        "calibration_fit_sequence": "01",
+        "metric_summary": {
+          "edge_count": 40387,
+          "calibration_temperature": 0.25,
+          "distance_confidence": {
+            "association_error_auprc": 0.9996960605013444,
+            "selective_link_risk": {
+              "coverage": 0.8,
+              "accepted": 32310,
+              "risk": 0.0004642525533889996
+            },
+            "calibration": {
+              "brier": 0.017089019200091756,
+              "ece": 0.08858416053027472,
+              "nll": 0.11079814997537821,
+              "count": 40387
+            }
+          },
+          "uncalibrated_uncertainty": {
+            "association_error_auprc": 0.9992254843848684,
+            "selective_link_risk": {
+              "coverage": 0.8,
+              "accepted": 32310,
+              "risk": 0.0008047044258743252
+            },
+            "calibration": {
+              "brier": 0.02866205013370639,
+              "ece": 0.14645879243320886,
+              "nll": 0.16982919010392572,
+              "count": 40387
+            }
+          },
+          "calibrated_uncertainty": {
+            "association_error_auprc": 0.9992254843848684,
+            "selective_link_risk": {
+              "coverage": 0.8,
+              "accepted": 32310,
+              "risk": 0.0008047044258743252
+            },
+            "calibration": {
+              "brier": 0.006173632959143365,
+              "ece": 0.0076311577847477325,
+              "nll": 0.025047828963361534,
+              "count": 40387
+            }
+          }
+        }
+      }
+    }
+  },
+  "warning": "Development-only technical artifact. It supports no locked-test, biological, brain-slice or clinical claim."
+}

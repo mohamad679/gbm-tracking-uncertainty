@@ -20,6 +20,7 @@ class TestStageEProtocol(unittest.TestCase):
         self.manifest = load_json("stage-e-dataset-manifest.json")
         self.split = load_json("stage-e-split-lock.json")
         self.protocol = load_json("stage-e-protocol.json")
+        self.development_fit = load_json("stage-e-development-fit.json")
 
     def test_registered_artifact_hashes_match(self):
         self.assertEqual(
@@ -83,6 +84,34 @@ class TestStageEProtocol(unittest.TestCase):
         self.assertEqual(policy["biological_claim"], "not supported under every decision")
         self.assertIn("STOP", policy)
         self.assertIn("REVISE", policy)
+
+    def test_development_fit_preserves_lock_and_registered_configuration(self):
+        fit = self.development_fit
+        self.assertEqual(fit["status"], "DEVELOPMENT_CONFIGURATION_FROZEN_PENDING_CI")
+        self.assertEqual(fit["dataset_manifest_sha256"], sha256("stage-e-dataset-manifest.json"))
+        self.assertEqual(fit["split_lock_sha256"], sha256("stage-e-split-lock.json"))
+        boundary = fit["registered_access_boundary"]
+        self.assertEqual(boundary["decoded_sequences"], ["01"])
+        self.assertEqual(boundary["structurally_audited_locked_sequences"], ["02"])
+        self.assertFalse(boundary["locked_test_coordinates_extracted"])
+        self.assertFalse(boundary["locked_test_metrics_computed"])
+        self.assertFalse(boundary["locked_test_outcomes_evaluated"])
+        selected_speeds = {
+            dataset_id: result["candidate_selection"]["selected"]["max_speed_um_per_min"]
+            for dataset_id, result in fit["datasets"].items()
+        }
+        self.assertEqual(
+            selected_speeds,
+            {
+                "CTC_Fluo-N2DH-GOWT1_training": 1.5,
+                "CTC_DIC-C2DH-HeLa_training": 1.25,
+                "CTC_Fluo-N2DH-SIM+_training": 0.2,
+            },
+        )
+        for result in fit["datasets"].values():
+            self.assertEqual(result["development_sequence"], "01")
+            self.assertEqual(result["locked_test_sequence"], "02")
+            self.assertEqual(result["uncertainty_configuration"]["hypothesis_count"], 64)
 
 
 if __name__ == "__main__":
