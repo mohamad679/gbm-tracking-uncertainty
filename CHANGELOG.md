@@ -4,6 +4,18 @@ All notable project changes are documented here. The project follows semantic ve
 
 ## [Unreleased]
 
+### Added
+- Frozen Stage E-Final multi-domain technical-validation protocol with explicit
+  supported and unsupported claims, registered endpoints, and GO/REVISE/STOP
+  rules.
+- Verified CTC GOWT1, HeLa, and SIM+ dataset manifest with archive SHA-256
+  identities, annotation metadata, and structural counts.
+- Immutable sequence-level split assigning sequence `01` to development and
+  sequence `02` to locked evaluation, with consumed U373, T98G, and Huh7
+  sources excluded from new confirmation.
+- Artifact-contract tests that enforce the manifest hashes, split roles,
+  untouched test state, and biological-claim boundary.
+
 ## [0.2.0] - 2026-09-21
 
 ### Added
