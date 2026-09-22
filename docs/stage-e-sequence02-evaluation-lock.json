@@ -2,8 +2,8 @@
   "schema_version": 1,
   "lock_id": "stage_e_sequence02_one_time_evaluation_v1",
   "locked_utc": "2026-09-22",
-  "status": "LOCKED_UNEVALUATED",
-  "evaluation_count": 0,
+  "status": "EVALUATED_ONCE",
+  "evaluation_count": 1,
   "development_artifact_path": "docs/stage-e-development-fit.json",
   "development_artifact_sha256": "176c5452c14b3a583e7faed828ad9a8024161fac678f0cc66d6a8abfc5d954d6",
   "evaluation_sequence": "02",
@@ -14,6 +14,15 @@
   "synthetic_diagnostic_domain": "CTC_Fluo-N2DH-SIM+_training",
   "decision_scenario_id": "clean_0",
   "posterior_track_threshold": 0.5,
+  "evaluated_utc": "2026-09-22",
+  "decision": "REVISE",
+  "evaluation_artifact_path": "docs/stage-e-sequence02-evaluation.json",
+  "evaluation_artifact_sha256": "514fae28860f51d57cdda3453ffe6639687f753a7e2ac0ed48d9a1f9d0faa545",
+  "pre_evaluation_lock_sha256": "d9a63e0584bc3e191884eea9ddefdaea667b880b1e28d5a151445049dc23c23c",
+  "failed_go_gates": [
+    "calibrated_error_auprc_beats_distance_on_both_real_tests",
+    "motion_endpoint_wins_at_least_five_of_eight"
+  ],
   "threshold_rule": "Use calibrated posterior probability >= 0.5, then greedily retain a one-to-one compatible link set ordered by decreasing probability and stable observation IDs.",
   "error_auprc_definition": "Rank association errors with score 1 - correct-link confidence and label 1 - true_link.",
   "forbidden_after_unlock": [

@@ -19,6 +19,10 @@ All notable project changes are documented here. The project follows semantic ve
   dependency-free association AUPRC, selective-risk and calibration metrics.
 - Frozen three-domain sequence-`01` development fit and a dedicated GitHub
   Actions reproduction workflow; no sequence-`02` outcome was accessed.
+- One-time locked Stage E-Final sequence-`02` evaluation artifact and final
+  report. The valid decision is `REVISE`: selective-risk, calibration,
+  provenance, leakage and reproducibility gates passed; the real-data AUPRC
+  gate and the motion-win gate failed.
 
 ## [0.2.0] - 2026-09-21
 

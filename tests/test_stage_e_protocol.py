@@ -114,11 +114,18 @@ class TestStageEProtocol(unittest.TestCase):
             self.assertEqual(result["locked_test_sequence"], "02")
             self.assertEqual(result["uncertainty_configuration"]["hypothesis_count"], 64)
 
-    def test_one_time_evaluation_lock_is_bound_to_the_frozen_development_artifact(self):
+    def test_one_time_evaluation_lock_records_the_single_published_attempt(self):
         lock = self.evaluation_lock
-        self.assertEqual(lock["status"], "LOCKED_UNEVALUATED")
-        self.assertEqual(lock["evaluation_count"], 0)
+        self.assertEqual(lock["status"], "EVALUATED_ONCE")
+        self.assertEqual(lock["evaluation_count"], 1)
         self.assertEqual(lock["development_artifact_sha256"], sha256("stage-e-development-fit.json"))
+        self.assertEqual(lock["decision"], "REVISE")
+        self.assertEqual(lock["evaluation_artifact_path"], "docs/stage-e-sequence02-evaluation.json")
+        self.assertEqual(lock["evaluation_artifact_sha256"], sha256("stage-e-sequence02-evaluation.json"))
+        self.assertEqual(
+            lock["pre_evaluation_lock_sha256"],
+            "d9a63e0584bc3e191884eea9ddefdaea667b880b1e28d5a151445049dc23c23c",
+        )
         self.assertEqual(lock["decision_scenario_id"], "clean_0")
         self.assertEqual(lock["posterior_track_threshold"], 0.5)
         implementation = self.protocol["locked_evaluation_implementation"]

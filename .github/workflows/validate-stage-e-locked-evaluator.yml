@@ -15,7 +15,7 @@ permissions:
   contents: read
 
 jobs:
-  verify-pre-outcome-freeze:
+  verify-stage-e-artifacts:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -24,10 +24,11 @@ jobs:
           python-version: "3.12"
       - name: Install pinned environment
         run: python -m pip install -c constraints.txt -e .
-      - name: Validate evaluator and lock without sequence-02 data
+      - name: Validate Stage E code, lock, and published artifact
         run: |
           python -m unittest \
             tests.test_stage_e_data \
             tests.test_stage_e_metrics \
             tests.test_stage_e_evaluation \
+            tests.test_stage_e_final \
             tests.test_stage_e_protocol -v

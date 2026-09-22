@@ -1,6 +1,6 @@
 # Stage E-Final locked evaluator freeze
 
-Date: 2026-09-22. Status: **EVALUATOR AND ONE-TIME EXECUTION LOCK PENDING CI**.
+Date: 2026-09-22. Status: **SUPERSEDED BY ONE-TIME LOCKED EVALUATION**.
 
 The sequence-`02` evaluator has been implemented before any locked-test
 coordinate, metric or outcome access. It consumes only the frozen
@@ -20,5 +20,6 @@ diagnostic only. Official CTC `LNK` and `TRA` executables are not bundled, so
 the artifact records them as not computed rather than substituting a different
 metric under those names.
 
-The next permissible action is merge after all CI checks pass; only then may
-the single locked sequence-`02` run occur.
+The evaluator freeze was merged after all CI checks passed. The permitted
+single locked sequence-`02` run then occurred and is reported in
+[`stage-e-final-report.md`](stage-e-final-report.md).

@@ -1,6 +1,11 @@
 # Stage E-Final protocol: multi-domain tracking-uncertainty validation
 
-Date: 2026-09-22. Status: **STEPS 1-3 LOCKED; NO OUTCOMES EVALUATED**.
+Date: 2026-09-22. Freeze status: **STEPS 1-3 LOCKED; NO OUTCOMES EVALUATED
+AT THE TIME OF THIS PRE-TEST CONTRACT**.
+
+Post-evaluation note: the one-time sequence-`02` evaluation was later executed
+under this contract and closed as `REVISE`; see
+[`stage-e-final-report.md`](stage-e-final-report.md).
 
 ## Scope change
 
@@ -112,7 +117,7 @@ provenance, compatibility, exact-reproduction or required-output failure.
 
 Every decision leaves the biological claim unsupported.
 
-## Remaining execution order
+## Execution order frozen before outcome access
 
 1. implement the generic CTC parser, registered baselines and metrics without
    reading locked outcomes;
