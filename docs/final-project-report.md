@@ -1,7 +1,8 @@
 # Consolidated technical project report
 
-Date: 2026-09-22. Status: **Stages A-E complete; Stage E-Final closed with a
-valid technical REVISE. Biological validation is not supported.**
+Date: 2026-09-22. Status: **Project closed at v1.0.0 as a reproducible
+technical/research-engineering artifact. Stage E-Final closed with a valid
+technical REVISE. Biological validation is not supported.**
 
 ## What the repository demonstrates
 
@@ -19,7 +20,7 @@ The completed technical line contains:
 - locked independent T98G validation for Stage C v2;
 - a stable operator extension audited on independent CTC Huh7 data;
 - schema, provenance, leakage, stability, and reproducibility checks;
-- automated tests, package builds, and real-data GitHub Actions workflows.
+- automated tests, package builds, and real-data GitHub Actions workflows;
 - final multi-domain Stage E validation on locked GOWT1 and HeLa sequence `02`
   data, with SIM+ as a diagnostic-only exact-truth source.
 
@@ -57,10 +58,12 @@ retroactively alter historical evidence.
 
 ## Reproducibility state
 
-- 133 tests pass in the Stage D closure suite.
+- 153 tests pass in the final closure suite.
 - Python 3.11-3.13 CI and a 65% package-coverage gate are enforced.
 - Huh7 audit, zero-shot evaluation, calibration, and locked v3 evaluation each
   have machine-readable artifacts and dedicated reproduction workflows.
+- Stage E development and final artifact validation have dedicated regression
+  tests and workflow coverage.
 - Raw third-party datasets are not redistributed.
 
 The formal Stage D closure record is
@@ -71,3 +74,7 @@ AUPRC did not beat the distance baseline on both real tests, and uncertainty
 won only four of eight registered motion comparisons. The final artifact and
 report are [`stage-e-sequence02-evaluation.json`](stage-e-sequence02-evaluation.json)
 and [`stage-e-final-report.md`](stage-e-final-report.md).
+
+The final closure record and release notes are
+[`project-closure-report.md`](project-closure-report.md) and
+[`release-notes-v1.0.0.md`](release-notes-v1.0.0.md).

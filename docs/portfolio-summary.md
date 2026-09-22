@@ -28,14 +28,16 @@ Shared configuration, calibration, numerical utilities, artifact validation, and
 
 ## Evidence
 
-At the v0.2.0 Stage D closure state:
+At the v1.0.0 final closure state:
 
-- 133 tests pass locally, with Python 3.11-3.13 CI and a 65% coverage gate;
+- 153 tests pass locally, with Python 3.11-3.13 CI and a 65% coverage gate;
 - the wheel builds and reinstalls successfully;
 - the complete pinned U373 reproduction succeeds;
 - the technical benchmark is complete;
 - Stage D v3 passes all seven locked gates on 1481 Huh7 sequence-`02`
   transitions after bounded calibration on sequence `01`;
+- Stage E-Final completes one locked multi-domain sequence-`02` run and returns
+  a valid `REVISE` because the AUPRC and motion-win gates fail;
 - no biological validation claim is supported.
 
 The earlier zero-shot Stage D v2 `HOLD` remains part of the evidence: its

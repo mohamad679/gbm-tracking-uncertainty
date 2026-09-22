@@ -2,7 +2,7 @@
 
 All notable project changes are documented here. The project follows semantic versioning from `0.1.0` onward.
 
-## [Unreleased]
+## [1.0.0] - 2026-09-22
 
 ### Added
 - Frozen Stage E-Final multi-domain technical-validation protocol with explicit
@@ -23,6 +23,20 @@ All notable project changes are documented here. The project follows semantic ve
   report. The valid decision is `REVISE`: selective-risk, calibration,
   provenance, leakage and reproducibility gates passed; the real-data AUPRC
   gate and the motion-win gate failed.
+- Final project closure report and v1.0.0 release notes documenting the
+  completed technical scope, Stage D `GO`, Stage E `REVISE`, and claim boundary.
+
+### Changed
+- Package version advanced to `1.0.0` for the final technical project closure.
+- README, roadmap, reproduction guide, portfolio summary, and consolidated
+  project report now describe the complete A-E project state.
+
+### Validation status
+
+- Final project state: closed as a reproducible technical/research-engineering
+  portfolio artifact.
+- Biological, GBM brain-slice, treatment-effect, and clinical claims remain
+  unsupported.
 
 ## [0.2.0] - 2026-09-21
 

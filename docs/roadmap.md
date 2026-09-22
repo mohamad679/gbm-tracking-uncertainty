@@ -83,3 +83,8 @@ Stage F biological inference and Stage G perturbation testing are deferred
 future studies requiring independent biological replicates. They are not
 completion requirements for the current technical project and cannot be
 claimed from the Stage E-Final benchmark.
+
+The project is formally closed at `v1.0.0` as a technical/research-engineering
+portfolio artifact. The final closure and release scope are recorded in
+[`project-closure-report.md`](project-closure-report.md) and
+[`release-notes-v1.0.0.md`](release-notes-v1.0.0.md).

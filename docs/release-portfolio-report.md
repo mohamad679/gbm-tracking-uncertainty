@@ -1,7 +1,7 @@
 # Release and Portfolio Polish Report
 
-> Historical v0.1.0 release report. The current Stage D closure release is
-> v0.2.0; see [`stage-d-closure-report.md`](stage-d-closure-report.md).
+> Historical v0.1.0 release report. The final project closure release is
+> v1.0.0; see [`project-closure-report.md`](project-closure-report.md).
 
 Date: 2026-09-19
 
@@ -52,16 +52,21 @@ A manual workflow dispatch runs the validation/build path without creating a rel
 
 ## Release state
 
-The repository is prepared as a `0.1.0` release candidate. At the time this report was written, the repository had no published GitHub Release. The available repository connector does not expose Git tag/release creation, so no tag or release was fabricated. Pushing the `v0.1.0` tag through a normal Git client will trigger the validated release automation.
+This historical report described the first release-candidate polish pass. The
+final project state is now `v1.0.0`, documented in
+[`project-closure-report.md`](project-closure-report.md) and
+[`release-notes-v1.0.0.md`](release-notes-v1.0.0.md). The tag-based release
+automation remains the validated publication path.
 
 ## Scientific state carried into the release candidate
 
-- 50/50 tests pass on supported Python versions 3.11, 3.12, and 3.13.
-- Package coverage is 69% with a 65% enforced gate.
+- The historical v0.1.0 state had 50/50 tests on supported Python versions
+  3.11, 3.12, and 3.13.
+- Package coverage was 69% with a 65% enforced gate.
 - Wheel build and reinstall smoke tests pass.
 - Full pinned U373 reproduction succeeds.
 - `technical_benchmark_complete = true`.
-- `operator_learning_ready = false`.
+- `operator_learning_ready = false` in the original U373 final audit.
 - `biological_validation_claim_supported = false`.
 
 This release polish does not alter those scientific results.
