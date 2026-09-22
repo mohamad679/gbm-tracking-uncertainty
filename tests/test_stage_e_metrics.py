@@ -28,7 +28,12 @@ class TestStageEMetrics(unittest.TestCase):
         self.assertGreater(metrics["nll"], 0.0)
         report = link_score_report(probabilities, labels)
         self.assertIn("association_error_auprc", report)
+        self.assertEqual(report["association_error_auprc"], 1.0)
         self.assertEqual(report["selective_link_risk"]["coverage"], 0.8)
+
+    def test_error_auprc_uses_inverse_of_correct_link_probability(self):
+        report = link_score_report([0.95, 0.8, 0.15, 0.05], [1, 1, 0, 0])
+        self.assertEqual(report["association_error_auprc"], 1.0)
 
 
 if __name__ == "__main__":

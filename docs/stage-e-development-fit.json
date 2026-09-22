@@ -83,7 +83,7 @@
           "edge_count": 18415,
           "calibration_temperature": 0.25,
           "distance_confidence": {
-            "association_error_auprc": 0.9991382171123249,
+            "association_error_auprc": 0.9409908614232718,
             "selective_link_risk": {
               "coverage": 0.8,
               "accepted": 14732,
@@ -97,7 +97,7 @@
             }
           },
           "uncalibrated_uncertainty": {
-            "association_error_auprc": 0.9995204821096811,
+            "association_error_auprc": 0.9852929293992007,
             "selective_link_risk": {
               "coverage": 0.8,
               "accepted": 14732,
@@ -111,7 +111,7 @@
             }
           },
           "calibrated_uncertainty": {
-            "association_error_auprc": 0.9995204821096811,
+            "association_error_auprc": 0.9852929293992007,
             "selective_link_risk": {
               "coverage": 0.8,
               "accepted": 14732,
@@ -193,7 +193,7 @@
           "edge_count": 31415,
           "calibration_temperature": 0.25,
           "distance_confidence": {
-            "association_error_auprc": 0.9999802647915226,
+            "association_error_auprc": 0.29938574407851826,
             "selective_link_risk": {
               "coverage": 0.8,
               "accepted": 25132,
@@ -207,7 +207,7 @@
             }
           },
           "uncalibrated_uncertainty": {
-            "association_error_auprc": 0.999944612991823,
+            "association_error_auprc": 0.5176369448535283,
             "selective_link_risk": {
               "coverage": 0.8,
               "accepted": 25132,
@@ -221,7 +221,7 @@
             }
           },
           "calibrated_uncertainty": {
-            "association_error_auprc": 0.999944612991823,
+            "association_error_auprc": 0.5176369448535283,
             "selective_link_risk": {
               "coverage": 0.8,
               "accepted": 25132,
@@ -303,7 +303,7 @@
           "edge_count": 40387,
           "calibration_temperature": 0.25,
           "distance_confidence": {
-            "association_error_auprc": 0.9996960605013444,
+            "association_error_auprc": 0.9728756468861517,
             "selective_link_risk": {
               "coverage": 0.8,
               "accepted": 32310,
@@ -317,7 +317,7 @@
             }
           },
           "uncalibrated_uncertainty": {
-            "association_error_auprc": 0.9992254843848684,
+            "association_error_auprc": 0.9804223354101997,
             "selective_link_risk": {
               "coverage": 0.8,
               "accepted": 32310,
@@ -331,7 +331,7 @@
             }
           },
           "calibrated_uncertainty": {
-            "association_error_auprc": 0.9992254843848684,
+            "association_error_auprc": 0.9804223354101997,
             "selective_link_risk": {
               "coverage": 0.8,
               "accepted": 32310,

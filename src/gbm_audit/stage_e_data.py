@@ -120,11 +120,11 @@ def audit_ctc_archive(path: Path, dataset: dict) -> dict:
     }
 
 
-def build_development_manifest(path: Path, dataset: dict, sequence_id: str = "01") -> dict:
-    """Decode only the registered development sequence into a reference manifest."""
+def _build_sequence_manifest(path: Path, dataset: dict, sequence_id: str, *, split: str) -> dict:
+    """Decode one explicitly authorized sequence into a reference manifest."""
     audit_ctc_archive(path, dataset)
-    if sequence_id != "01":
-        raise ValueError("Stage E development builder is restricted to sequence 01")
+    if sequence_id not in {"01", "02"}:
+        raise ValueError("Stage E supports only sequences 01 and 02")
 
     with ZipFile(path) as archive:
         names = set(archive.namelist())
@@ -166,7 +166,7 @@ def build_development_manifest(path: Path, dataset: dict, sequence_id: str = "01
             frozen_tracks.append({**track, "observations": points})
         sequence = {
             "sequence_id": sequence_id,
-            "split": "development",
+            "split": split,
             "frames": len(image_paths),
             "frame_indices": sorted(image_paths),
             "shape_pixels": image_shape,
@@ -190,12 +190,26 @@ def build_development_manifest(path: Path, dataset: dict, sequence_id: str = "01
         },
         "pixel_size_um": dataset["pixel_size_um"],
         "time_step_min": dataset["time_step_min"],
-        "split_policy": "Stage E development only: sequence 01 is decoded; sequence 02 remains locked and omitted.",
+        "split_policy": f"Stage E {split}: only sequence {sequence_id} is decoded.",
         "stage_e_access_boundary": {
-            "decoded_sequences": ["01"],
-            "locked_sequences": ["02"],
-            "locked_test_outcome_access": False,
+            "decoded_sequences": [sequence_id],
+            "locked_sequences": ["02"] if sequence_id == "01" else [],
+            "locked_test_outcome_access": sequence_id == "02",
         },
-        "warning": "Reference-backed technical development artifact; not biological or clinical validation.",
+        "warning": "Reference-backed technical artifact; not biological or clinical validation.",
         "sequences": {sequence_id: sequence},
     }
+
+
+def build_development_manifest(path: Path, dataset: dict, sequence_id: str = "01") -> dict:
+    """Decode only the registered development sequence into a reference manifest."""
+    if sequence_id != "01":
+        raise ValueError("Stage E development builder is restricted to sequence 01")
+    return _build_sequence_manifest(path, dataset, sequence_id, split="development")
+
+
+def build_locked_test_manifest(path: Path, dataset: dict, sequence_id: str = "02") -> dict:
+    """Decode the locked test only from the one-time Stage E evaluator."""
+    if sequence_id != "02":
+        raise ValueError("Stage E locked-test builder is restricted to sequence 02")
+    return _build_sequence_manifest(path, dataset, sequence_id, split="locked_test")

@@ -72,8 +72,17 @@ def distance_confidence(distances_px: list[float], max_distance_px: float) -> li
 
 
 def link_score_report(probabilities: list[float], labels: list[int], *, coverage: float = 0.8) -> dict:
+    """Report error-ranking, selective-risk and calibration metrics.
+
+    Probabilities represent confidence that a candidate link is correct. The
+    registered AUPRC endpoint instead ranks association errors, so it must use
+    1 - probability and the inverse truth label. Selective risk and calibration
+    deliberately retain the original correct-link orientation.
+    """
+    error_scores = [1.0 - float(value) for value in probabilities]
+    error_labels = [1 - int(bool(label)) for label in labels]
     return {
-        "association_error_auprc": average_precision(probabilities, labels),
+        "association_error_auprc": average_precision(error_scores, error_labels),
         "selective_link_risk": selective_link_risk(probabilities, labels, coverage),
         "calibration": probability_metrics(probabilities, labels),
     }

@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "lock_id": "stage_e_sequence02_one_time_evaluation_v1",
+  "locked_utc": "2026-09-22",
+  "status": "LOCKED_UNEVALUATED",
+  "evaluation_count": 0,
+  "development_artifact_path": "docs/stage-e-development-fit.json",
+  "development_artifact_sha256": "176c5452c14b3a583e7faed828ad9a8024161fac678f0cc66d6a8abfc5d954d6",
+  "evaluation_sequence": "02",
+  "real_confirmatory_domains": [
+    "CTC_Fluo-N2DH-GOWT1_training",
+    "CTC_DIC-C2DH-HeLa_training"
+  ],
+  "synthetic_diagnostic_domain": "CTC_Fluo-N2DH-SIM+_training",
+  "decision_scenario_id": "clean_0",
+  "posterior_track_threshold": 0.5,
+  "threshold_rule": "Use calibrated posterior probability >= 0.5, then greedily retain a one-to-one compatible link set ordered by decreasing probability and stable observation IDs.",
+  "error_auprc_definition": "Rank association errors with score 1 - correct-link confidence and label 1 - true_link.",
+  "forbidden_after_unlock": [
+    "parameter selection",
+    "temperature fitting",
+    "threshold tuning",
+    "manual exception handling",
+    "replacement of any locked sequence"
+  ],
+  "reproduction_policy": "After publication, exact replay is allowed only to verify the published artifact; it cannot create a second decision attempt."
+}
