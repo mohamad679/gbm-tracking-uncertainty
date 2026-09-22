@@ -13,11 +13,12 @@ The quantitative benchmark uses expert annotations from the Cell Tracking Challe
 **Version:** `0.2.0`
 **Python:** 3.11-3.13  
 **License:** MIT  
-**Tests:** 133 tests; CI enforced on all supported Python versions
+**Tests:** 138 tests; CI enforced on all supported Python versions
 **Coverage:** 71% package coverage, 65% enforced CI gate
 **Technical benchmark:** complete  
 **Operator learning:** Stage D v3 GO — calibrated blend passed locked Huh7 sequence `02`
 **Research Stage D:** formally closed on 2026-09-21
+**Research Stage E-Final:** protocol, verified dataset manifest, and sequence split locked on 2026-09-22; no outcomes evaluated
 **Biological validation claim:** not supported
 
 The operator-learning decision is evidence-derived. The zero-shot Huh7
@@ -51,6 +52,7 @@ flowchart TD
     E --> F[Stage D: operator extension]
     F --> G[Huh7 sequence 01 calibration]
     G --> H[Huh7 sequence 02 locked GO]
+    H --> I[Stage E: multidomain protocol and split lock]
 ```
 
 See [`docs/architecture.md`](docs/architecture.md) for the full module-level architecture, invariants, safety layer, and reproducibility boundaries.
@@ -147,6 +149,10 @@ Raw data and generated `results/` outputs are not source-controlled.
 - [`docs/stage-c-v2-step2-t98g-audit.md`](docs/stage-c-v2-step2-t98g-audit.md) — independent T98G data-only audit and lock decision
 - [`docs/stage-d-v3-final-report.md`](docs/stage-d-v3-final-report.md) — final calibrated Huh7 operator decision
 - [`docs/stage-d-closure-report.md`](docs/stage-d-closure-report.md) — formal Stage D closure and claim boundary
+- [`docs/stage-e-protocol.md`](docs/stage-e-protocol.md) — frozen final-stage question, endpoints, gates, and claim boundary
+- [`docs/stage-e-dataset-manifest.json`](docs/stage-e-dataset-manifest.json) — verified GOWT1, HeLa, and SIM+ archive identities and structures
+- [`docs/stage-e-split-lock.json`](docs/stage-e-split-lock.json) — immutable sequence-01 development and sequence-02 test assignment
+- [`docs/stage-e-steps1-3-report.md`](docs/stage-e-steps1-3-report.md) — completion evidence for Stage E Steps 1-3
 - [`CHANGELOG.md`](CHANGELOG.md) — release history
 
 ## Sources

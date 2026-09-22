@@ -1,0 +1,112 @@
+{
+  "schema_version": 1,
+  "lock_id": "stage_e_final_sequence_split_v1",
+  "locked_utc": "2026-09-22",
+  "status": "LOCKED_BEFORE_IMPLEMENTATION_OR_OUTCOME_EVALUATION",
+  "dataset_manifest_path": "docs/stage-e-dataset-manifest.json",
+  "dataset_manifest_sha256": "bcd7404dc083f1254655dc184a5857a4b5f43316cae7bf2f58d31f93eee95955",
+  "split_unit": "dataset sequence",
+  "assignments": [
+    {
+      "dataset_id": "CTC_Fluo-N2DH-GOWT1_training",
+      "sequence_id": "01",
+      "role": "development_calibration",
+      "permitted_uses": [
+        "data-only structural audit",
+        "implementation debugging",
+        "baseline comparison",
+        "uncertainty calibration",
+        "threshold selection under the frozen protocol"
+      ],
+      "confirmatory_evidence": false
+    },
+    {
+      "dataset_id": "CTC_Fluo-N2DH-GOWT1_training",
+      "sequence_id": "02",
+      "role": "locked_real_test",
+      "permitted_uses": [
+        "data-only structural audit before implementation freeze",
+        "one-time confirmatory evaluation after implementation freeze"
+      ],
+      "confirmatory_evidence": true
+    },
+    {
+      "dataset_id": "CTC_DIC-C2DH-HeLa_training",
+      "sequence_id": "01",
+      "role": "development_calibration",
+      "permitted_uses": [
+        "data-only structural audit",
+        "implementation debugging",
+        "baseline comparison",
+        "uncertainty calibration",
+        "threshold selection under the frozen protocol"
+      ],
+      "confirmatory_evidence": false
+    },
+    {
+      "dataset_id": "CTC_DIC-C2DH-HeLa_training",
+      "sequence_id": "02",
+      "role": "locked_real_test",
+      "permitted_uses": [
+        "data-only structural audit before implementation freeze",
+        "one-time confirmatory evaluation after implementation freeze"
+      ],
+      "confirmatory_evidence": true
+    },
+    {
+      "dataset_id": "CTC_Fluo-N2DH-SIM+_training",
+      "sequence_id": "01",
+      "role": "synthetic_diagnostic_development",
+      "permitted_uses": [
+        "exact-truth parser validation",
+        "metric validation",
+        "implementation debugging"
+      ],
+      "confirmatory_evidence": false
+    },
+    {
+      "dataset_id": "CTC_Fluo-N2DH-SIM+_training",
+      "sequence_id": "02",
+      "role": "locked_synthetic_diagnostic_test",
+      "permitted_uses": [
+        "data-only structural audit before implementation freeze",
+        "one-time diagnostic evaluation after implementation freeze"
+      ],
+      "confirmatory_evidence": false
+    }
+  ],
+  "decision_population": {
+    "real_locked_tests": [
+      "CTC_Fluo-N2DH-GOWT1_training/02",
+      "CTC_DIC-C2DH-HeLa_training/02"
+    ],
+    "diagnostic_only": [
+      "CTC_Fluo-N2DH-SIM+_training/02"
+    ],
+    "excluded_previously_consumed": [
+      "CTC_PhC-C2DH-U373",
+      "T98G_sample",
+      "CTC_Fluo-C2DL-Huh7"
+    ]
+  },
+  "test_access_state": {
+    "tracking_coordinates_extracted": false,
+    "motion_summaries_computed": false,
+    "tracking_or_uncertainty_metrics_computed": false,
+    "model_or_threshold_selected": false,
+    "performance_evaluated": false
+  },
+  "leakage_prohibitions": [
+    "No sequence-02 coordinate, identity, motion, error or metric may enter implementation, model fitting, calibration, threshold selection or debugging.",
+    "No locked sequence may be replaced or removed after observing an outcome.",
+    "No result from U373, T98G or Huh7 may be relabelled as new Stage E confirmation.",
+    "Cells, tracks and frames are technical observations, not independent animal-level biological replicates.",
+    "The SIM+ diagnostic result cannot satisfy a real-data GO gate."
+  ],
+  "unlock_conditions": [
+    "Stage E implementation and baseline definitions are committed.",
+    "All unit, artifact-contract and leakage tests pass in CI.",
+    "Every fitted value and threshold derived from sequence 01 is frozen in a versioned artifact.",
+    "The evaluation command reads locked sequence 02 only after the preceding conditions pass."
+  ]
+}

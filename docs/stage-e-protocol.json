@@ -1,0 +1,120 @@
+{
+  "schema_version": 1,
+  "protocol_id": "stage_e_final_multidomain_uncertainty_v1",
+  "registered_utc": "2026-09-22",
+  "status": "STEPS_1_TO_3_LOCKED_NO_OUTCOMES_EVALUATED",
+  "title": "Multi-domain external validation of tracking uncertainty",
+  "study_type": "reference-backed technical validation",
+  "research_question": "Does the frozen uncertainty-aware tracking pipeline rank association errors and protect downstream motion summaries after bounded sequence-01 calibration when evaluated once on separately locked sequence-02 data from two previously unused real Cell Tracking Challenge domains?",
+  "primary_claim_if_go": "After calibration on sequence 01, tracking uncertainty generalizes to held-out sequence 02 within both GOWT1 fluorescence and HeLa DIC domains, ranks association errors better than a distance-confidence baseline, and improves selective reliability.",
+  "secondary_claim_if_go": "Uncertainty-aware trajectory handling reduces downstream motion-summary error relative to hard tracking in a majority of pre-registered dataset-endpoint comparisons.",
+  "explicitly_unsupported_claims": [
+    "calibration-free zero-shot transfer",
+    "brain-slice GBM validation",
+    "animal-level biological generalization",
+    "stable GBM migratory states",
+    "treatment or perturbation effects",
+    "clinical utility"
+  ],
+  "immutable_upstream_evidence": {
+    "stage_d_status": "CLOSED_QUALIFIED_TECHNICAL_GO",
+    "stage_d_supported_scope": "within-Huh7 sequence generalization after sequence-01 calibration",
+    "stage_d_zero_shot_status": "HOLD",
+    "stage_d_biological_claim": "not supported"
+  },
+  "registered_inputs": {
+    "dataset_manifest_path": "docs/stage-e-dataset-manifest.json",
+    "dataset_manifest_sha256": "bcd7404dc083f1254655dc184a5857a4b5f43316cae7bf2f58d31f93eee95955",
+    "split_lock_path": "docs/stage-e-split-lock.json",
+    "split_lock_sha256": "79876f90bd5b59fb5d77cad362a115cac1bb1bf8566790373d309d3eccab3421"
+  },
+  "evaluation_panel": {
+    "real_confirmatory_domains": [
+      "CTC_Fluo-N2DH-GOWT1_training",
+      "CTC_DIC-C2DH-HeLa_training"
+    ],
+    "exact_truth_diagnostic_domain": "CTC_Fluo-N2DH-SIM+_training",
+    "development_sequence": "01",
+    "locked_test_sequence": "02"
+  },
+  "adaptation_boundary": {
+    "allowed_on_sequence_01": [
+      "implementation debugging",
+      "registered baseline execution",
+      "bounded uncertainty calibration",
+      "threshold selection defined before sequence-02 access"
+    ],
+    "forbidden_on_sequence_02_before_unlock": [
+      "coordinate extraction",
+      "motion computation",
+      "performance evaluation",
+      "model fitting",
+      "calibration",
+      "threshold selection",
+      "manual exception handling"
+    ],
+    "implementation_freeze_requirement": "The complete evaluator, fitted sequence-01 artifact and all thresholds must be committed with passing CI before the one-time sequence-02 evaluation."
+  },
+  "registered_comparators": [
+    "nearest-neighbour hard linking",
+    "distance-derived confidence",
+    "frozen uncalibrated uncertainty pipeline",
+    "sequence-01-calibrated uncertainty pipeline"
+  ],
+  "primary_endpoints": [
+    {
+      "name": "association_error_auprc",
+      "purpose": "rank incorrect links under class imbalance",
+      "direction": "higher_is_better"
+    },
+    {
+      "name": "selective_link_risk_at_80_percent_coverage",
+      "purpose": "measure retained-link error after abstaining on the 20 percent most uncertain links",
+      "direction": "lower_is_better"
+    }
+  ],
+  "secondary_endpoints": [
+    "Brier score",
+    "expected calibration error",
+    "negative log likelihood",
+    "LNK",
+    "TRA",
+    "complete-track fraction",
+    "track fragmentation",
+    "mean-speed absolute error",
+    "total-path-length relative absolute error",
+    "net-displacement relative absolute error",
+    "directionality absolute error"
+  ],
+  "downstream_comparison_count": 8,
+  "decision_policy": {
+    "validity_requirements": [
+      "All archive, manifest and split hashes match.",
+      "No locked-test field contributes to fitting, calibration, selection or debugging.",
+      "All artifact-contract, compatibility and reproducibility tests pass.",
+      "Both real locked tests produce complete registered primary endpoints."
+    ],
+    "GO": [
+      "On both real locked sequence-02 tests, calibrated association-error AUPRC is strictly higher than distance-confidence AUPRC.",
+      "On both real locked sequence-02 tests, link risk at 80 percent coverage is strictly lower than link risk at full coverage.",
+      "On both real locked sequence-02 tests, calibrated Brier score is no worse than the uncalibrated pipeline, and mean ECE across the two tests is lower.",
+      "Uncertainty-aware motion summaries have lower absolute error than hard tracking in at least five of the eight registered real-dataset endpoint comparisons."
+    ],
+    "REVISE": "All validity requirements pass, but one or more GO gates fail. The project closes with a bounded negative or mixed technical result; locked tests may not be tuned and rerun as confirmation.",
+    "STOP": "A provenance, leakage, compatibility or exact-reproduction requirement fails, or a required real locked test cannot produce the primary endpoints.",
+    "synthetic_role": "SIM+ is diagnostic only and cannot satisfy or rescue a real-data GO gate.",
+    "biological_claim": "not supported under every decision"
+  },
+  "reporting_rules": [
+    "Report every registered dataset and endpoint, including failures and undefined values.",
+    "Retain zero-shot, calibrated and baseline outputs separately.",
+    "Report 95 percent track-cluster bootstrap intervals as technical uncertainty only, not animal-level inference.",
+    "Do not pool cells or tracks and describe them as biological replicates.",
+    "Do not use GlioTrace as quantitative evidence without independent reference labels."
+  ],
+  "deferred_work": {
+    "stage_f": "future biological-hypothesis study requiring independent biological replicates",
+    "stage_g": "future perturbation study requiring control and perturbation groups",
+    "project_completion_target": "Stage E-Final report plus reproducible v1.0 release; Stage F and G are outside the current project claim."
+  }
+}

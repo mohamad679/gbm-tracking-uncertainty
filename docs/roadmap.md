@@ -60,6 +60,20 @@ validation. See [`stage-d-v3-final-report.md`](stage-d-v3-final-report.md).
 
 Stage D was formally closed on 2026-09-21. Its historical v1 and v2 `HOLD`
 artifacts remain immutable evidence, while the current decision is the qualified
-v3 `GO`. Work beyond this point belongs to real-GBM validation (Stage E), a
-pre-registered biological hypothesis (Stage F), and perturbation testing
-(Stage G). See [`stage-d-closure-report.md`](stage-d-closure-report.md).
+v3 `GO`. See [`stage-d-closure-report.md`](stage-d-closure-report.md).
+
+The final project stage has been re-scoped because no independent annotator is
+available and no public source supplies complete reference tracks for the
+GlioTrace brain-slice example. Stage E-Final is now a reference-backed
+multi-domain technical validation using previously unused CTC GOWT1 and HeLa
+data, with SIM+ as an exact-truth diagnostic. Sequence `01` is assigned to
+development/calibration and sequence `02` is locked for one-time evaluation.
+The question, claims, endpoints, gates, verified archive manifest and split
+were frozen before outcome evaluation on 2026-09-22; see
+[`stage-e-protocol.md`](stage-e-protocol.md) and
+[`stage-e-steps1-3-report.md`](stage-e-steps1-3-report.md).
+
+Stage F biological inference and Stage G perturbation testing are deferred
+future studies requiring independent biological replicates. They are not
+completion requirements for the current technical project and cannot be
+claimed from the Stage E-Final benchmark.

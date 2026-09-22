@@ -60,6 +60,9 @@ retroactively alter historical evidence.
   have machine-readable artifacts and dedicated reproduction workflows.
 - Raw third-party datasets are not redistributed.
 
-The formal closure record is
-[`stage-d-closure-report.md`](stage-d-closure-report.md). Further scientific
-work begins with real-GBM validation in Stage E.
+The formal Stage D closure record is
+[`stage-d-closure-report.md`](stage-d-closure-report.md). Stage E-Final Steps
+1-3 are now complete: the multi-domain technical question, verified GOWT1,
+HeLa and SIM+ manifest, and sequence-level development/test split were locked
+before outcome evaluation. This does not add a result or biological claim; see
+[`stage-e-steps1-3-report.md`](stage-e-steps1-3-report.md).

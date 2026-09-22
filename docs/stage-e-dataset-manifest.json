@@ -1,0 +1,139 @@
+{
+  "schema_version": 1,
+  "manifest_id": "stage_e_final_ctc_multidomain_v1",
+  "created_utc": "2026-09-22",
+  "source_page": "https://celltrackingchallenge.net/2d-datasets/",
+  "annotation_reference": "https://celltrackingchallenge.net/annotations/",
+  "raw_data_policy": "External archives and annotations are downloaded from the official source for local or CI evaluation and are not redistributed by this repository.",
+  "archive_verification": {
+    "method": "SHA-256 over the downloaded ZIP bytes plus a successful full ZIP integrity test",
+    "verified_on": "2026-09-22"
+  },
+  "datasets": [
+    {
+      "dataset_id": "CTC_Fluo-N2DH-GOWT1_training",
+      "short_name": "GOWT1",
+      "data_origin": "real",
+      "biology": "GFP-GOWT1 mouse stem cells",
+      "imaging_modality": "fluorescence nuclei",
+      "archive_url": "https://data.celltrackingchallenge.net/training-datasets/Fluo-N2DH-GOWT1.zip",
+      "archive_file": "Fluo-N2DH-GOWT1.zip",
+      "archive_size_bytes": 59331035,
+      "archive_sha256": "1a7bd9a7d1d10c4122c7782427b437246fb69cc3322a975485c04e206f64fc2c",
+      "pixel_size_um": [
+        0.24,
+        0.24
+      ],
+      "time_step_min": 5,
+      "annotation_type": "human gold tracking truth with complete frame coverage; sparse gold segmentation truth",
+      "redistribution": "not assumed; retain external-source terms",
+      "sequences": [
+        {
+          "sequence_id": "01",
+          "raw_frame_count": 92,
+          "tracking_mask_count": 92,
+          "gold_segmentation_mask_count": 30,
+          "lineage_row_count": 28
+        },
+        {
+          "sequence_id": "02",
+          "raw_frame_count": 92,
+          "tracking_mask_count": 92,
+          "gold_segmentation_mask_count": 20,
+          "lineage_row_count": 58
+        }
+      ]
+    },
+    {
+      "dataset_id": "CTC_DIC-C2DH-HeLa_training",
+      "short_name": "HeLa",
+      "data_origin": "real",
+      "biology": "HeLa cells on flat glass",
+      "imaging_modality": "differential interference contrast",
+      "archive_url": "https://data.celltrackingchallenge.net/training-datasets/DIC-C2DH-HeLa.zip",
+      "archive_file": "DIC-C2DH-HeLa.zip",
+      "archive_size_bytes": 41504758,
+      "archive_sha256": "832fed2d05bb7488cf9c51a2994b75f8f3f53b3c3098856211f2d39023c34e1a",
+      "pixel_size_um": [
+        0.19,
+        0.19
+      ],
+      "time_step_min": 10,
+      "annotation_type": "human gold tracking truth with complete frame coverage; sparse gold segmentation truth",
+      "redistribution": "not assumed; retain external-source terms",
+      "sequences": [
+        {
+          "sequence_id": "01",
+          "raw_frame_count": 84,
+          "tracking_mask_count": 84,
+          "gold_segmentation_mask_count": 9,
+          "lineage_row_count": 38
+        },
+        {
+          "sequence_id": "02",
+          "raw_frame_count": 84,
+          "tracking_mask_count": 84,
+          "gold_segmentation_mask_count": 9,
+          "lineage_row_count": 32
+        }
+      ]
+    },
+    {
+      "dataset_id": "CTC_Fluo-N2DH-SIM+_training",
+      "short_name": "SIM+",
+      "data_origin": "computer_generated",
+      "biology": "simulated Hoechst-stained HL60 nuclei",
+      "imaging_modality": "simulated fluorescence nuclei",
+      "archive_url": "https://data.celltrackingchallenge.net/training-datasets/Fluo-N2DH-SIM+.zip",
+      "archive_file": "Fluo-N2DH-SIM+.zip",
+      "archive_size_bytes": 99034393,
+      "archive_sha256": "3e809148c87ace80c72f563b56c35e0d9448dcdeb461a09c83f61e93f5e40ec8",
+      "pixel_size_um": [
+        0.125,
+        0.125
+      ],
+      "time_step_min": 29,
+      "annotation_type": "exact ground-truth masks and lineage tree",
+      "redistribution": "not assumed; retain external-source terms",
+      "sequences": [
+        {
+          "sequence_id": "01",
+          "raw_frame_count": 65,
+          "tracking_mask_count": 65,
+          "gold_segmentation_mask_count": 65,
+          "lineage_row_count": 95
+        },
+        {
+          "sequence_id": "02",
+          "raw_frame_count": 150,
+          "tracking_mask_count": 150,
+          "gold_segmentation_mask_count": 150,
+          "lineage_row_count": 107
+        }
+      ]
+    }
+  ],
+  "previously_consumed_sources": [
+    {
+      "source": "CTC_PhC-C2DH-U373",
+      "reason": "Used throughout the U373 technical benchmark and Stage A-C development/evaluation; not an independent Stage E source."
+    },
+    {
+      "source": "T98G_sample",
+      "reason": "Consumed by the locked Stage C v2 evaluation; not reusable for Stage E selection or confirmation."
+    },
+    {
+      "source": "CTC_Fluo-C2DL-Huh7",
+      "reason": "Sequence 01 was consumed for Stage D calibration and sequence 02 for the locked Stage D evaluation."
+    }
+  ],
+  "claim_boundary": {
+    "supports": "Reference-backed technical validation across multiple CTC imaging domains.",
+    "does_not_support": [
+      "brain-slice GBM validation",
+      "animal-level biological inference",
+      "a GBM migratory phenotype",
+      "clinical utility"
+    ]
+  }
+}
