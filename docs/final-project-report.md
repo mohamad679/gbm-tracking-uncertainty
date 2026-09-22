@@ -1,7 +1,7 @@
 # Consolidated technical project report
 
-Date: 2026-09-21. Status: **Stages A-D complete; Stage D closed with a
-qualified technical GO. Biological validation is not yet supported.**
+Date: 2026-09-22. Status: **Stages A-E complete; Stage E-Final closed with a
+valid technical REVISE. Biological validation is not supported.**
 
 ## What the repository demonstrates
 
@@ -20,6 +20,8 @@ The completed technical line contains:
 - a stable operator extension audited on independent CTC Huh7 data;
 - schema, provenance, leakage, stability, and reproducibility checks;
 - automated tests, package builds, and real-data GitHub Actions workflows.
+- final multi-domain Stage E validation on locked GOWT1 and HeLa sequence `02`
+  data, with SIM+ as a diagnostic-only exact-truth source.
 
 ## Stage decisions
 
@@ -31,6 +33,7 @@ The completed technical line contains:
 | D v1 | HOLD | No eligible independent operator-evaluation source |
 | D v2 | HOLD | Zero-shot Huh7 RMSE improved, but mean-speed bias failed the gate |
 | D v3 | GO | Calibrated Huh7 sequence `01` to locked sequence `02` generalization |
+| E-Final | REVISE | Valid locked multi-domain run; calibration/selective risk passed, AUPRC and motion-win gates failed |
 
 Stage D v3 evaluated 1481 locked sequence-`02` transitions. The calibrated
 blend achieved velocity RMSE 5.270002844 px/frame versus 5.436030433 for the
@@ -61,10 +64,10 @@ retroactively alter historical evidence.
 - Raw third-party datasets are not redistributed.
 
 The formal Stage D closure record is
-[`stage-d-closure-report.md`](stage-d-closure-report.md). Stage E-Final
-development is now complete: the multi-domain question, verified GOWT1, HeLa
-and SIM+ manifest, sequence-level development/test split, generic CTC parser,
-registered metrics and sequence-`01` configuration are frozen. Sequence
-`02` remains unevaluated pending CI, so this does not add a locked-test result
-or biological claim; see
-[`stage-e-step4-development.md`](stage-e-step4-development.md).
+[`stage-d-closure-report.md`](stage-d-closure-report.md). Stage E-Final is also
+closed: the pre-registered one-time sequence-`02` evaluation returned `REVISE`.
+The run was valid and leakage-controlled, but calibrated association-error
+AUPRC did not beat the distance baseline on both real tests, and uncertainty
+won only four of eight registered motion comparisons. The final artifact and
+report are [`stage-e-sequence02-evaluation.json`](stage-e-sequence02-evaluation.json)
+and [`stage-e-final-report.md`](stage-e-final-report.md).

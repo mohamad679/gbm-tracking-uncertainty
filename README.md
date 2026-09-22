@@ -13,12 +13,12 @@ The quantitative benchmark uses expert annotations from the Cell Tracking Challe
 **Version:** `0.2.0`
 **Python:** 3.11-3.13  
 **License:** MIT  
-**Tests:** 144 tests; CI enforced on all supported Python versions
-**Coverage:** 71% package coverage, 65% enforced CI gate
+**Tests:** 153 tests; CI enforced on all supported Python versions
+**Coverage:** 66% package coverage, 65% enforced CI gate
 **Technical benchmark:** complete  
 **Operator learning:** Stage D v3 GO — calibrated blend passed locked Huh7 sequence `02`
 **Research Stage D:** formally closed on 2026-09-21
-**Research Stage E-Final:** locked evaluator and one-time execution lock prepared; sequence `02` remains unevaluated pending CI
+**Research Stage E-Final:** complete — valid one-time locked result is `REVISE`
 **Biological validation claim:** not supported
 
 The operator-learning decision is evidence-derived. The zero-shot Huh7
@@ -54,6 +54,7 @@ flowchart TD
     G --> H[Huh7 sequence 02 locked GO]
     H --> I[Stage E: multidomain protocol and split lock]
     I --> J[Sequence 01 development-only fit]
+    J --> K[Sequence 02 locked REVISE]
 ```
 
 See [`docs/architecture.md`](docs/architecture.md) for the full module-level architecture, invariants, safety layer, and reproducibility boundaries.
@@ -161,6 +162,8 @@ Raw data and generated `results/` outputs are not source-controlled.
 - [`docs/stage-e-step4-development.md`](docs/stage-e-step4-development.md) — development implementation, selected configuration and lock evidence
 - [`docs/stage-e-development-fit.json`](docs/stage-e-development-fit.json) — frozen development-only fit artifact
 - [`docs/stage-e-step5-evaluator-freeze.md`](docs/stage-e-step5-evaluator-freeze.md) — pre-outcome evaluator and execution-lock record
+- [`docs/stage-e-sequence02-evaluation.json`](docs/stage-e-sequence02-evaluation.json) — one-time locked Stage E result artifact
+- [`docs/stage-e-final-report.md`](docs/stage-e-final-report.md) — final Stage E decision report
 - [`CHANGELOG.md`](CHANGELOG.md) — release history
 
 ## Sources

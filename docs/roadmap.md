@@ -62,7 +62,7 @@ Stage D was formally closed on 2026-09-21. Its historical v1 and v2 `HOLD`
 artifacts remain immutable evidence, while the current decision is the qualified
 v3 `GO`. See [`stage-d-closure-report.md`](stage-d-closure-report.md).
 
-The final project stage has been re-scoped because no independent annotator is
+The final project stage was re-scoped because no independent annotator is
 available and no public source supplies complete reference tracks for the
 GlioTrace brain-slice example. Stage E-Final is now a reference-backed
 multi-domain technical validation using previously unused CTC GOWT1 and HeLa
@@ -70,11 +70,14 @@ data, with SIM+ as an exact-truth diagnostic. Sequence `01` is assigned to
 development/calibration and sequence `02` is locked for one-time evaluation.
 The question, claims, endpoints, gates, verified archive manifest and split
 were frozen before outcome evaluation on 2026-09-22. The generic parser,
-metrics and sequence-`01` development configuration are also complete; all
-sequence-`02` outcomes remain locked pending CI. See
+metrics, sequence-`01` development configuration and evaluator were committed
+before the locked test. Stage E-Final was then executed once on sequence `02`
+and closed with a valid `REVISE`: provenance, leakage, selective-risk,
+calibration and reproducibility gates passed, while the real-data AUPRC gate
+and motion-win gate failed. See
 [`stage-e-protocol.md`](stage-e-protocol.md),
 [`stage-e-steps1-3-report.md`](stage-e-steps1-3-report.md), and
-[`stage-e-step4-development.md`](stage-e-step4-development.md).
+[`stage-e-final-report.md`](stage-e-final-report.md).
 
 Stage F biological inference and Stage G perturbation testing are deferred
 future studies requiring independent biological replicates. They are not
