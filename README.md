@@ -10,22 +10,31 @@ The quantitative benchmark uses expert annotations from the Cell Tracking Challe
 
 ## Current status
 
-**Version:** `0.2.0`
-**Python:** 3.11-3.13  
-**License:** MIT  
-**Tests:** 153 tests; CI enforced on all supported Python versions
-**Coverage:** 66% package coverage, 65% enforced CI gate
-**Technical benchmark:** complete  
-**Operator learning:** Stage D v3 GO — calibrated blend passed locked Huh7 sequence `02`
-**Research Stage D:** formally closed on 2026-09-21
-**Research Stage E-Final:** complete — valid one-time locked result is `REVISE`
-**Biological validation claim:** not supported
+| Field | Status |
+| --- | --- |
+| Version | `1.0.0` |
+| Python | 3.11-3.13 |
+| License | MIT |
+| Tests | 153 tests; CI enforced on all supported Python versions |
+| Coverage | 66% package coverage, 65% enforced CI gate |
+| Technical benchmark | Complete |
+| Operator learning | Stage D v3 GO — calibrated blend passed locked Huh7 sequence `02` |
+| Research Stage D | Formally closed on 2026-09-21 |
+| Research Stage E-Final | Complete — valid one-time locked result is `REVISE` |
+| Final project release | Closed as a technical/research-engineering portfolio artifact |
+| Biological validation claim | Not supported |
 
 The operator-learning decision is evidence-derived. The zero-shot Huh7
 candidate remained HOLD because of mean-speed bias. A bounded blend calibrated
 on Huh7 sequence `01` subsequently passed every pre-registered gate on locked
 sequence `02`. This supports within-Huh7 sequence generalization after
 calibration, not zero-shot or biological generalization.
+
+The final project decision is intentionally mixed: the staged technical system
+is complete and reproducible, Stage D produced a qualified calibrated
+within-domain `GO`, and Stage E-Final produced a valid locked `REVISE` on
+multi-domain real CTC data. This closes the project as a defensible technical
+portfolio result, not as a GBM biological or clinical result.
 
 ## What this project demonstrates
 
@@ -144,6 +153,8 @@ Raw data and generated `results/` outputs are not source-controlled.
 ## Evidence and reports
 
 - [`docs/final-project-report.md`](docs/final-project-report.md) — overall technical conclusions
+- [`docs/project-closure-report.md`](docs/project-closure-report.md) — final v1.0.0 closure and release scope
+- [`docs/release-notes-v1.0.0.md`](docs/release-notes-v1.0.0.md) — final release notes
 - [`docs/reproduction.md`](docs/reproduction.md) — detailed reproduction guide
 - [`docs/architecture-performance-report.md`](docs/architecture-performance-report.md) — Stage 3 hardening/refactor evidence
 - [`docs/reproducibility-packaging-report.md`](docs/reproducibility-packaging-report.md) — packaging/reproducibility evidence
@@ -171,7 +182,7 @@ Raw data and generated `results/` outputs are not source-controlled.
 - Technical benchmark: [Cell Tracking Challenge U373](https://celltrackingchallenge.net/2d-datasets/), phase-contrast cells on a substrate, not brain slices.
 - Exploratory images: [GlioTrace example data, Zenodo 21981544](https://zenodo.org/records/21981544).
 - Reference implementation: [Gliomethods/GlioTrace](https://github.com/Gliomethods/GlioTrace).
-- Locked independent technical test: [T98G electrotaxis](https://zenodo.org/records/19026908), human-curated variant, `CC-BY-4.0`; performance remains unevaluated.
+- Locked independent technical test: [T98G electrotaxis](https://zenodo.org/records/19026908), human-curated variant, `CC-BY-4.0`; used for the locked Stage C v2 technical validation.
 - Independent operator benchmark: [Cell Tracking Challenge Huh7](https://celltrackingchallenge.net/2d-datasets/); raw data and annotations are not redistributed.
 
 Dataset licenses and redistribution terms are independent from this repository's MIT source-code license.

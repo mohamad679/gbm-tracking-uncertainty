@@ -45,6 +45,7 @@ Those claims require later real-GBM and biological validation stages.
 - Stage D implementation and artifact-contract tests remain in the standard
   test suite.
 - Release `v0.2.0` represents the completed Stage A-D technical research line.
+  Release `v1.0.0` supersedes it as the final A-E technical project closure.
 
 No further model selection or evaluation belongs to Stage D. Subsequent work
 starts at Stage E and requires real GBM reference evidence.

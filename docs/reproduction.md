@@ -4,7 +4,7 @@ This repository is a technical feasibility audit. It does not claim validated gl
 
 ## Supported environment
 
-Release `0.2.0` supports CPython 3.11, 3.12, and 3.13. Runtime dependency ranges live in `pyproject.toml`; exact versions for the validated environment live in `constraints.txt`.
+Release `1.0.0` supports CPython 3.11, 3.12, and 3.13. Runtime dependency ranges live in `pyproject.toml`; exact versions for the validated environment live in `constraints.txt`.
 
 ```bash
 python3 -m venv .venv
@@ -90,7 +90,7 @@ run Stage C v2 performance before development values are frozen.
 
 The final audit derives its gates from the validated artifacts. The operator-readiness rule requires at least one candidate radius to achieve at least 95% clean true-link coverage on every sequence without worsening the absolute held-out `localization_noise_5p0` soft-speed error by more than 1.0 px/frame relative to the smallest tested gate.
 
-The reproduced result remains `operator_learning_ready = false`: 8 px fails clean coverage, 12 px fails coverage and robustness, and 16 px passes coverage but fails the robustness criterion. Biological validation also remains false because the reference manifest does not declare brain-slice biological ground truth.
+The original U373 final audit remains `operator_learning_ready = false`: 8 px fails clean coverage, 12 px fails coverage and robustness, and 16 px passes coverage but fails the robustness criterion. Later staged work adds bounded calibrated Huh7 generalization and a final Stage E multidomain `REVISE`; neither changes the U373 audit field or creates biological validation. Biological validation remains false because no independent GBM brain-slice reference tracks or biological replicates were evaluated.
 
 ## Licensing
 
