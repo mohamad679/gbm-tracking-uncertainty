@@ -9,7 +9,10 @@
     "biological_n": 1,
     "track_count": 3759,
     "observation_count": 173456,
-    "frame_range": [0, 292],
+    "frame_range": [
+      0,
+      292
+    ],
     "frame_interval_s": 598.54199,
     "source_hashes": {
       "info_sha256": "7f1e2cbf4101e2c86535fffa146a8b7d2a7a6e54584d593558ca0535d2b08d31",
@@ -35,18 +38,45 @@
   "association": {
     "distance_confidence": {
       "association_error_auprc": 0.925168836374723,
-      "selective_link_risk": {"coverage": 0.8, "accepted": 144744, "risk": 0.0007046924224838325},
-      "calibration": {"brier": 0.02589389019648787, "ece": 0.082355030994774, "nll": 0.1260118128373568, "count": 180929}
+      "selective_link_risk": {
+        "coverage": 0.8,
+        "accepted": 144744,
+        "risk": 0.0007046924224838325
+      },
+      "calibration": {
+        "brier": 0.02589389019648787,
+        "ece": 0.082355030994774,
+        "nll": 0.1260118128373568,
+        "count": 180929
+      }
     },
     "uncalibrated_uncertainty": {
       "association_error_auprc": 0.9972924779646121,
-      "selective_link_risk": {"coverage": 0.8, "accepted": 144744, "risk": 0.0},
-      "calibration": {"brier": 0.030978638482671378, "ece": 0.15279750620409133, "nll": 0.17640824431585014, "count": 180929}
+      "selective_link_risk": {
+        "coverage": 0.8,
+        "accepted": 144744,
+        "risk": 0.0
+      },
+      "calibration": {
+        "brier": 0.030978638482671378,
+        "ece": 0.15279750620409133,
+        "nll": 0.17640824431585014,
+        "count": 180929
+      }
     },
     "calibrated_uncertainty": {
       "association_error_auprc": 0.9972924779646121,
-      "selective_link_risk": {"coverage": 0.8, "accepted": 144744, "risk": 0.0},
-      "calibration": {"brier": 0.004479027260920535, "ece": 0.009541460028501769, "nll": 0.017867848680804443, "count": 180929}
+      "selective_link_risk": {
+        "coverage": 0.8,
+        "accepted": 144744,
+        "risk": 0.0
+      },
+      "calibration": {
+        "brier": 0.004479027260920535,
+        "ece": 0.009541460028501769,
+        "nll": 0.017867848680804443,
+        "count": 180929
+      }
     },
     "calibrated_full_coverage_risk": 0.07085652382978957
   },
@@ -116,6 +146,5 @@
     "manual_ground_truth_validation": false,
     "dryad_three_experiment_confirmatory_arm_completed": false,
     "stage_e_decision_changed": false
-  },
-  "artifact_sha256_when_emitted_by_successful_ci_run": "cd9ae9213ad8ea450fc22528bab05c27cd4e9c2416e7c99aebc96a55aaed0ce5"
+  }
 }
