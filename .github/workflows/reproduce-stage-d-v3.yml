@@ -5,10 +5,10 @@ on:
   pull_request:
     paths:
       - ".github/workflows/reproduce-stage-d-v3.yml"
-      - "docs/stage-d-v2-**"
-      - "docs/stage-d-v3-**"
-      - "docs/stage-c-v2-development-fit.json"
-      - "docs/stage-d-development-fit.json"
+      - "docs/evidence/stage-d/stage-d-v2-**"
+      - "docs/evidence/stage-d/stage-d-v3-**"
+      - "docs/evidence/stage-c/stage-c-v2-development-fit.json"
+      - "docs/evidence/stage-d/stage-d-development-fit.json"
       - "src/gbm_audit/**"
       - "tests/**"
       - "pyproject.toml"
@@ -51,7 +51,7 @@ jobs:
           python - <<'PY'
           import json
           from pathlib import Path
-          expected = json.loads(Path("docs/stage-d-v2-huh7-locked-audit.json").read_text())
+          expected = json.loads(Path("docs/evidence/stage-d/stage-d-v2-huh7-locked-audit.json").read_text())
           actual = json.loads(Path("/tmp/stage-d-v2-huh7-locked-audit.json").read_text())
           if expected != actual:
               raise SystemExit("Huh7 data-only audit differs from frozen artifact")
@@ -59,17 +59,17 @@ jobs:
       - name: Reproduce Stage D v2 zero-shot result
         run: |
           python -m gbm_audit.stage_d_huh7_evaluation \
-            docs/stage-d-v2-protocol.json \
-            docs/stage-d-v2-huh7-locked-audit.json \
+            docs/evidence/stage-d/stage-d-v2-protocol.json \
+            docs/evidence/stage-d/stage-d-v2-huh7-locked-audit.json \
             results/u373-reference-manifest.json \
-            docs/stage-c-v2-development-fit.json \
-            docs/stage-d-development-fit.json \
+            docs/evidence/stage-c/stage-c-v2-development-fit.json \
+            docs/evidence/stage-d/stage-d-development-fit.json \
             data/raw/Fluo-C2DL-Huh7.zip \
             --output /tmp/stage-d-v2-huh7-evaluation.json
           python - <<'PY'
           import json
           from pathlib import Path
-          expected = json.loads(Path("docs/stage-d-v2-huh7-locked-evaluation.json").read_text())
+          expected = json.loads(Path("docs/evidence/stage-d/stage-d-v2-huh7-locked-evaluation.json").read_text())
           actual = json.loads(Path("/tmp/stage-d-v2-huh7-evaluation.json").read_text())
           if expected != actual:
               raise SystemExit("Stage D v2 Huh7 result differs from frozen artifact")
@@ -77,18 +77,18 @@ jobs:
       - name: Reproduce Stage D v3 calibration
         run: |
           python -m gbm_audit.stage_d_v3_development \
-            docs/stage-d-v3-protocol.json \
-            docs/stage-d-v2-huh7-locked-audit.json \
-            docs/stage-d-v2-huh7-locked-evaluation.json \
+            docs/evidence/stage-d/stage-d-v3-protocol.json \
+            docs/evidence/stage-d/stage-d-v2-huh7-locked-audit.json \
+            docs/evidence/stage-d/stage-d-v2-huh7-locked-evaluation.json \
             results/u373-reference-manifest.json \
-            docs/stage-c-v2-development-fit.json \
-            docs/stage-d-development-fit.json \
+            docs/evidence/stage-c/stage-c-v2-development-fit.json \
+            docs/evidence/stage-d/stage-d-development-fit.json \
             data/raw/Fluo-C2DL-Huh7.zip \
             --output /tmp/stage-d-v3-development-fit.json
           python - <<'PY'
           import json
           from pathlib import Path
-          expected = json.loads(Path("docs/stage-d-v3-development-fit.json").read_text())
+          expected = json.loads(Path("docs/evidence/stage-d/stage-d-v3-development-fit.json").read_text())
           actual = json.loads(Path("/tmp/stage-d-v3-development-fit.json").read_text())
           if expected != actual:
               raise SystemExit("Stage D v3 calibration differs from frozen artifact")
@@ -96,20 +96,20 @@ jobs:
       - name: Reproduce locked Stage D v3 result
         run: |
           python -m gbm_audit.stage_d_v3_evaluation \
-            docs/stage-d-v3-protocol.json \
-            docs/stage-d-v2-huh7-locked-audit.json \
-            docs/stage-d-v2-huh7-locked-evaluation.json \
-            docs/stage-d-v3-development-fit.json \
-            docs/stage-d-v3-huh7-sequence02-lock.json \
+            docs/evidence/stage-d/stage-d-v3-protocol.json \
+            docs/evidence/stage-d/stage-d-v2-huh7-locked-audit.json \
+            docs/evidence/stage-d/stage-d-v2-huh7-locked-evaluation.json \
+            docs/evidence/stage-d/stage-d-v3-development-fit.json \
+            docs/evidence/stage-d/stage-d-v3-huh7-sequence02-lock.json \
             results/u373-reference-manifest.json \
-            docs/stage-c-v2-development-fit.json \
-            docs/stage-d-development-fit.json \
+            docs/evidence/stage-c/stage-c-v2-development-fit.json \
+            docs/evidence/stage-d/stage-d-development-fit.json \
             data/raw/Fluo-C2DL-Huh7.zip \
             --output /tmp/stage-d-v3-huh7-sequence02-evaluation.json
           python - <<'PY'
           import json
           from pathlib import Path
-          expected = json.loads(Path("docs/stage-d-v3-huh7-sequence02-evaluation.json").read_text())
+          expected = json.loads(Path("docs/evidence/stage-d/stage-d-v3-huh7-sequence02-evaluation.json").read_text())
           actual = json.loads(Path("/tmp/stage-d-v3-huh7-sequence02-evaluation.json").read_text())
           if expected != actual:
               raise SystemExit("Stage D v3 locked result differs from frozen artifact")
