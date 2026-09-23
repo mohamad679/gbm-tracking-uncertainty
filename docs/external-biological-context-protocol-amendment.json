@@ -3,7 +3,7 @@
   "amendment_id": "postclosure_external_glioma_brainslice_validation_access_amendment_v1",
   "registered_utc": "2026-09-23",
   "parent_protocol": "postclosure_external_glioma_brainslice_validation_v1",
-  "status": "AMENDED_BEFORE_ANY_EXTERNAL_METHOD_PERFORMANCE_EVALUATION",
+  "status": "PARSER_AND_TRANSFER_RULE_FROZEN_BEFORE_ANY_EXTERNAL_METHOD_PERFORMANCE_EVALUATION",
   "reason": {
     "primary_dryad_source": "doi:10.5061/dryad.s4d28",
     "blocker": "The frozen Dryad metadata remain public, but both tested public file-download routes returned authorization errors in GitHub Actions (HTTP 403 and HTTP 401). No Dryad file content or method-performance outcome was accessed.",
@@ -20,8 +20,33 @@
     "biological_replicates": 1,
     "inference_boundary": "single external glioma-explant example; descriptive technical transfer only"
   },
+  "schema_only_audit": {
+    "completed_before_performance": true,
+    "spots_columns": ["ID", "TRACK_ID", "POSITION_X", "POSITION_Y", "POSITION_T", "FRAME"],
+    "track_metadata_columns": ["TRACK_ID", "NUMBER_SPOTS"],
+    "frame_interval_s": 598.54199,
+    "spots_sha256": "329296edb5392151e9b6b1602f043e21a355afd27567bc3f06536f8abf1cdc94",
+    "tracks_sha256": "76d9b02fe7672cf55bddfba13185f3929b81c628741e88de74b4564f0c38ef09",
+    "info_sha256": "7f1e2cbf4101e2c86535fffa146a8b7d2a7a6e54584d593558ca0535d2b08d31"
+  },
+  "frozen_parser_rule": {
+    "included_population": "spots whose TRACK_ID is present in the source tracks.csv trajectory table",
+    "unassigned_spots": "exclude because they have no source reference trajectory identity",
+    "coordinates": "POSITION_X and POSITION_Y are used directly as physical micrometre coordinates",
+    "frame": "integer FRAME",
+    "time": "POSITION_T retained for source validation; evaluation time step comes from info JSON",
+    "identity": "ID becomes the immutable observation identifier and TRACK_ID is used only to construct reference truth",
+    "reference_links": "same TRACK_ID in consecutive FRAME values only; no gap bridging",
+    "integrity_checks": [
+      "fail on duplicate TRACK_ID metadata",
+      "fail on more than one included spot for a TRACK_ID/FRAME pair",
+      "fail if included TRACK_ID identities differ from tracks.csv identities",
+      "fail if per-track included spot counts differ from NUMBER_SPOTS",
+      "fail on non-finite coordinates or time"
+    ]
+  },
   "pre_outcome_transfer_rule": {
-    "coordinate_units": "use the physical-position columns exported by TrackMate; do not rescale based on method performance",
+    "coordinate_units": "micrometres",
     "time_step_source": "NPA_stich_3_info.json Frame interval (s)",
     "max_speed_um_per_min": 1.5,
     "max_speed_rationale": "frozen before external scoring as the larger of the two already-selected real Stage E candidate speed gates (HeLa 1.25, GOWT1 1.5); not selected from external outcomes",
@@ -35,7 +60,6 @@
     "retuning_forbidden": true
   },
   "evaluation_plan": {
-    "reference_link_rule": "after schema-only inspection, reconstruct links only from source trajectory identifiers and consecutive frame indices; freeze parser before any performance calculation",
     "primary_endpoints": [
       "association_error_auprc: calibrated uncertainty versus distance confidence",
       "selective_link_risk_at_80_percent_coverage: calibrated uncertainty versus full coverage",
