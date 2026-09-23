@@ -1,0 +1,60 @@
+name: inspect-external-biological-schema
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - ".github/workflows/inspect-external-biological-schema.yml"
+      - "docs/external-biological-context-**"
+      - "src/gbm_audit/external_biology.py"
+      - "tests/test_external_biology.py"
+
+permissions:
+  contents: read
+
+jobs:
+  schema-only-audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download frozen Dryad documentation and tracking bundle
+        run: |
+          set -euo pipefail
+          curl -fL --retry 4 --retry-delay 3 -A "gbm-audit-external-validation/1.0" \
+            https://datadryad.org/stash/downloads/file_stream/62584 \
+            -o /tmp/source-readme.docx
+          curl -fL --retry 4 --retry-delay 3 -A "gbm-audit-external-validation/1.0" \
+            https://datadryad.org/stash/downloads/file_stream/62583 \
+            -o /tmp/tracking-bundle.zip
+          echo "fcbd2b285b860eb18d7ce600becda06d  /tmp/source-readme.docx" | md5sum -c -
+          echo "2b70accfbb4d81d41dfb10fcefa60cbf  /tmp/tracking-bundle.zip" | md5sum -c -
+      - name: Produce schema-only inventory
+        run: |
+          python - <<'PY'
+          import json, re, zipfile
+          from pathlib import Path
+          from xml.etree import ElementTree as ET
+
+          out = {"boundary": "schema-only; no method-performance outcomes computed"}
+          with zipfile.ZipFile('/tmp/source-readme.docx') as z:
+              root = ET.fromstring(z.read('word/document.xml'))
+              text = ' '.join(t.text or '' for t in root.iter() if t.tag.endswith('}t'))
+              Path('/tmp/source-readme.txt').write_text(text + '\n', encoding='utf-8')
+              out['readme_text'] = text
+          with zipfile.ZipFile('/tmp/tracking-bundle.zip') as z:
+              rows=[]
+              for info in z.infolist():
+                  name=info.filename
+                  rows.append({"path":name,"size":info.file_size,"suffix":Path(name).suffix.lower()})
+              out['members']=rows
+          Path('/tmp/external-schema-inventory.json').write_text(json.dumps(out,indent=2,ensure_ascii=False)+'\n',encoding='utf-8')
+          print(Path('/tmp/external-schema-inventory.json').read_text())
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: external-biological-schema-inventory
+          path: |
+            /tmp/external-schema-inventory.json
+            /tmp/source-readme.txt
+          if-no-files-found: error
