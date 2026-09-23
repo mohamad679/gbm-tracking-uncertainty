@@ -38,13 +38,13 @@ The workflow supplies `GBM_AUDIT_GIT_SHA=${{ github.sha }}` to the numerical pip
 - source Git commit SHA;
 - SHA-256 hashes of every audit input artifact.
 
-A compact permanent numerical record is versioned at `docs/reproduced-results-2026-09-19.json`. Full generated JSON remains an Actions artifact rather than committed bulk output.
+A compact permanent numerical record is versioned at `docs/evidence/engineering/reproduced-results-2026-09-19.json`. Full generated JSON remains an Actions artifact rather than committed bulk output.
 
 `.github/workflows/audit-t98g.yml` separately reproduces the Stage C v2
 structural-only T98G audit. It downloads the DOI-versioned Zenodo archive,
 checks its MD5 and SHA-256, validates the CTC-like human and automated variants,
 and compares the generated locked manifest byte-for-byte with
-`docs/stage-c-v2-t98g-locked-manifest.json`. It never runs tracking or
+`docs/evidence/stage-c/stage-c-v2-t98g-locked-manifest.json`. It never runs tracking or
 downstream performance evaluation.
 
 ## Local pipeline
@@ -79,7 +79,7 @@ curl --fail --location --retry 3 \
 PYTHONPATH=src python3 -m gbm_audit.t98g_audit \
   data/raw/T98G_electrotaxis.zip \
   --output /tmp/stage-c-v2-t98g-locked-manifest.json
-diff -u docs/stage-c-v2-t98g-locked-manifest.json \
+diff -u docs/evidence/stage-c/stage-c-v2-t98g-locked-manifest.json \
   /tmp/stage-c-v2-t98g-locked-manifest.json
 ```
 

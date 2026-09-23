@@ -5,7 +5,7 @@ on:
   pull_request:
     paths:
       - ".github/workflows/audit-t98g.yml"
-      - "docs/stage-c-v2-t98g-locked-manifest.json"
+      - "docs/evidence/stage-c/stage-c-v2-t98g-locked-manifest.json"
       - "pyproject.toml"
       - "src/gbm_audit/archive.py"
       - "src/gbm_audit/t98g_audit.py"
@@ -36,7 +36,7 @@ jobs:
             data/raw/T98G_electrotaxis.zip \
             --output /tmp/stage-c-v2-t98g-locked-manifest.json
           diff -u \
-            docs/stage-c-v2-t98g-locked-manifest.json \
+            docs/evidence/stage-c/stage-c-v2-t98g-locked-manifest.json \
             /tmp/stage-c-v2-t98g-locked-manifest.json
       - name: Run T98G audit contract tests
         run: python -m unittest tests.test_t98g_audit -v

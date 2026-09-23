@@ -5,7 +5,7 @@ import unittest
 
 class TestStageDProtocol(unittest.TestCase):
     def setUp(self):
-        self.protocol = json.loads(Path("docs/stage-d-protocol.json").read_text())
+        self.protocol = json.loads(Path("docs/evidence/stage-d/stage-d-protocol.json").read_text())
 
     def test_protocol_has_four_ordered_steps_and_stage_d_complete_with_hold(self):
         self.assertEqual(self.protocol["step_count"], 4)

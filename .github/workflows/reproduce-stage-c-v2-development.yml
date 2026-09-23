@@ -5,8 +5,8 @@ on:
   pull_request:
     paths:
       - ".github/workflows/reproduce-stage-c-v2-development.yml"
-      - "docs/stage-c-v2-development-fit.json"
-      - "docs/stage-c-v2-step4-development-fit.md"
+      - "docs/evidence/stage-c/stage-c-v2-development-fit.json"
+      - "docs/evidence/stage-c/stage-c-v2-step4-development-fit.md"
       - "src/gbm_audit/**"
       - "tests/**"
       - "pyproject.toml"
@@ -50,7 +50,7 @@ jobs:
           python - <<'PY'
           import json
           from pathlib import Path
-          expected = json.loads(Path("docs/stage-c-v2-development-fit.json").read_text())
+          expected = json.loads(Path("docs/evidence/stage-c/stage-c-v2-development-fit.json").read_text())
           actual = json.loads(Path("/tmp/stage-c-v2-development-fit.json").read_text())
           if expected != actual:
               raise SystemExit("frozen development artifact differs from reproduction")
@@ -65,7 +65,7 @@ jobs:
           python - <<'PY'
           import json
           from pathlib import Path
-          expected = json.loads(Path("docs/stage-d-development-fit.json").read_text())
+          expected = json.loads(Path("docs/evidence/stage-d/stage-d-development-fit.json").read_text())
           actual = json.loads(Path("/tmp/stage-d-development-fit.json").read_text())
           if expected != actual:
               raise SystemExit("Stage D development artifact differs from reproduction")
@@ -74,12 +74,12 @@ jobs:
       - name: Reproduce Stage D Step 4 decision artifact
         run: |
           python -m gbm_audit.stage_d_decision \
-            docs/stage-d-development-fit.json \
+            docs/evidence/stage-d/stage-d-development-fit.json \
             --output /tmp/stage-d-heldout-decision.json
           python - <<'PY'
           import json
           from pathlib import Path
-          expected = json.loads(Path("docs/stage-d-heldout-decision.json").read_text())
+          expected = json.loads(Path("docs/evidence/stage-d/stage-d-heldout-decision.json").read_text())
           actual = json.loads(Path("/tmp/stage-d-heldout-decision.json").read_text())
           if expected != actual:
               raise SystemExit("Stage D Step 4 decision artifact differs from reproduction")

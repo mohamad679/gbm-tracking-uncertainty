@@ -16,8 +16,8 @@ Release date: 2026-09-22.
 
 - `docs/project-closure-report.md`
 - `docs/final-project-report.md`
-- `docs/stage-d-closure-report.md`
-- `docs/stage-e-final-report.md`
+- `docs/evidence/stage-d/stage-d-closure-report.md`
+- `docs/evidence/stage-e/stage-e-final-report.md`
 - `docs/stage-e-sequence02-evaluation.json`
 - `docs/stage-e-sequence02-evaluation-lock.json`
 - `docs/reproduction.md`
@@ -55,7 +55,7 @@ Post-release evidence:
 
 - `docs/dryad-confirmatory-schema-lock.json`
 - `docs/dryad-confirmatory-final-report.md`
-- `docs/dryad-confirmatory-result.json.gz`
-- `docs/external-biological-context-final-report.md`
+- `docs/evidence/dryad/dryad-confirmatory-result.json.gz`
+- `docs/evidence/external-context/external-biological-context-final-report.md`
 
 Stage E remains `REVISE`.

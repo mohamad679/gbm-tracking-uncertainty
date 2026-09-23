@@ -24,8 +24,8 @@ Release `v1.0.0` packages the final code, protocols, artifacts, reports and test
 
 Included release evidence:
 
-- `docs/stage-d-closure-report.md` for the qualified Stage D technical `GO`;
-- `docs/stage-e-final-report.md` for the valid Stage E technical `REVISE`;
+- `docs/evidence/stage-d/stage-d-closure-report.md` for the qualified Stage D technical `GO`;
+- `docs/evidence/stage-e/stage-e-final-report.md` for the valid Stage E technical `REVISE`;
 - `docs/stage-e-sequence02-evaluation.json` for the complete locked Stage E result artifact;
 - `docs/final-project-report.md` for the consolidated interpretation;
 - `docs/reproduction.md` for local and GitHub Actions reproduction guidance;
@@ -77,7 +77,7 @@ Final extension evidence:
 
 - `docs/dryad-confirmatory-schema-lock.json`;
 - `docs/dryad-confirmatory-final-report.md`;
-- `docs/dryad-confirmatory-result.json.gz`;
-- `docs/external-biological-context-final-report.md`.
+- `docs/evidence/dryad/dryad-confirmatory-result.json.gz`;
+- `docs/evidence/external-context/external-biological-context-final-report.md`.
 
 With this amendment, the planned post-closure external technical-transfer work is complete. Any future biological mechanism or perturbation study is a new project rather than unfinished work from this closure.

@@ -13,14 +13,14 @@ from gbm_audit.stage_c_v2_t98g_evaluation import (
 
 class TestStageCV2T98GEvaluation(unittest.TestCase):
     def test_frozen_development_artifact_is_accepted_without_t98g(self):
-        artifact = json.loads(Path("docs/stage-c-v2-development-fit.json").read_text())
+        artifact = json.loads(Path("docs/evidence/stage-c/stage-c-v2-development-fit.json").read_text())
         _assert_frozen_development(artifact, ensemble_count=256)
         self.assertEqual(artifact["locked_adaptive_config"], {
             key: value for key, value in artifact["locked_adaptive_config"].items()
         })
 
     def test_frozen_configuration_drift_is_rejected(self):
-        artifact = json.loads(Path("docs/stage-c-v2-development-fit.json").read_text())
+        artifact = json.loads(Path("docs/evidence/stage-c/stage-c-v2-development-fit.json").read_text())
         artifact["sampler_config"]["temperature_px"] = 99.0
         with self.assertRaises(ValueError):
             _assert_frozen_development(artifact, ensemble_count=256)
