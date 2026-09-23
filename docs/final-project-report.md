@@ -41,7 +41,7 @@ Stage E-Final is closed: the pre-registered one-time sequence-`02` evaluation re
 
 This decision is immutable. The later external-context work does not retune Stage E, replace its datasets, or convert `REVISE` to `GO`.
 
-The final Stage E artifact and report are [`stage-e-sequence02-evaluation.json`](stage-e-sequence02-evaluation.json) and [`stage-e-final-report.md`](stage-e-final-report.md).
+The final Stage E artifact and report are [`evidence/stage-e/stage-e-sequence02-evaluation.json`](evidence/stage-e/stage-e-sequence02-evaluation.json) and [`evidence/stage-e/stage-e-final-report.md`](evidence/stage-e/stage-e-final-report.md).
 
 ## Post-closure Dryad external technical transfer
 
@@ -66,7 +66,7 @@ Candidate-graph reference-link coverage was about 99.6%, 97.6% and 99.7%. The pr
 
 The supported conclusion is therefore narrow and explicit: frozen calibrated uncertainty transfers strongly as an association-error ranking, calibration and selective-risk mechanism in these three external rat glioma brain-slice experiments, but the frozen posterior-to-hard-track rule does not outperform the hard nearest-neighbour baseline.
 
-See [`dryad-confirmatory-final-report.md`](dryad-confirmatory-final-report.md) and [`dryad-confirmatory-result.json.gz`](dryad-confirmatory-result.json.gz).
+See [`dryad-confirmatory-final-report.md`](dryad-confirmatory-final-report.md) and [`evidence/dryad/dryad-confirmatory-result.json.gz`](evidence/dryad/dryad-confirmatory-result.json.gz).
 
 ## Interpretation boundary
 
@@ -92,4 +92,4 @@ The legacy U373 audit field `operator_learning_ready = false` remains correct fo
 - The Dryad local pipeline verifies frozen hashes, inspects schema before outcomes, normalizes from a committed lock, and records a frozen one-time result.
 - Raw third-party datasets are not redistributed.
 
-The formal Stage D closure record is [`stage-d-closure-report.md`](stage-d-closure-report.md). The original final closure record and release notes are [`project-closure-report.md`](project-closure-report.md) and [`release-notes-v1.0.0.md`](release-notes-v1.0.0.md). The combined external-context chronology is [`external-biological-context-final-report.md`](external-biological-context-final-report.md).
+The formal Stage D closure record is [`evidence/stage-d/stage-d-closure-report.md`](evidence/stage-d/stage-d-closure-report.md). The original final closure record and release notes are [`project-closure-report.md`](project-closure-report.md) and [`evidence/release/release-notes-v1.0.0.md`](evidence/release/release-notes-v1.0.0.md). The combined external-context chronology is [`evidence/external/external-biological-context-final-report.md`](evidence/external/external-biological-context-final-report.md).
