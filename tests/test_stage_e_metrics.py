@@ -35,6 +35,30 @@ class TestStageEMetrics(unittest.TestCase):
         report = link_score_report([0.95, 0.8, 0.15, 0.05], [1, 1, 0, 0])
         self.assertEqual(report["association_error_auprc"], 1.0)
 
+    def test_metric_contracts_reject_mismatched_lengths_and_bad_coverage(self):
+        with self.assertRaisesRegex(ValueError, "same length"):
+            average_precision([0.5], [])
+        with self.assertRaisesRegex(ValueError, "same length"):
+            selective_link_risk([0.5], [])
+        with self.assertRaisesRegex(ValueError, "coverage"):
+            selective_link_risk([0.5], [1], 0.0)
+        with self.assertRaisesRegex(ValueError, "same length"):
+            probability_metrics([0.5], [])
+
+    def test_empty_and_degenerate_metric_inputs_are_explicit(self):
+        self.assertEqual(average_precision([0.9, 0.1], [0, 0]), 0.0)
+        self.assertEqual(selective_link_risk([], [], 0.8), {"coverage": 0.8, "accepted": 0, "risk": 0.0})
+        self.assertEqual(probability_metrics([], []), {"brier": 0.0, "ece": 0.0, "nll": 0.0, "count": 0})
+        with self.assertRaisesRegex(ValueError, "positive"):
+            distance_confidence([1.0], 0.0)
+
+    def test_probability_metrics_clip_extreme_values_and_populate_bins(self):
+        metrics = probability_metrics([-1.0, 0.25, 0.75, 2.0], [0, 0, 1, 1], bins=4)
+        self.assertEqual(metrics["count"], 4)
+        self.assertGreaterEqual(metrics["brier"], 0.0)
+        self.assertGreaterEqual(metrics["ece"], 0.0)
+        self.assertGreater(metrics["nll"], 0.0)
+
 
 if __name__ == "__main__":
     unittest.main()
