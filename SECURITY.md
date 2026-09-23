@@ -2,7 +2,7 @@
 
 ## Supported versions
 
-The current supported development line is `0.1.x` on Python 3.11-3.13.
+The current supported release is `1.0.x` on Python 3.11-3.13. Version `0.1.x` is no longer supported.
 
 ## Reporting a vulnerability
 

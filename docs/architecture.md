@@ -67,4 +67,6 @@ flowchart TD
 
 ## Current decision gate
 
-The benchmark pipeline is technically complete, but the operator-learning gate remains on HOLD because no tested proposal radius simultaneously satisfies the declared clean-link coverage and localization-noise robustness criteria. This is an evidence-derived project decision, not a hard-coded verdict.
+The staged technical pipeline is complete. Stage D v3 reached a qualified `GO`: the zero-shot Huh7 candidate remained `HOLD` because of mean-speed bias, while the bounded blend calibrated on Huh7 sequence `01` passed every pre-registered gate on locked sequence `02`. This supports calibrated within-Huh7 sequence generalization only; it does not establish zero-shot or biological generalization.
+
+Stage E-Final is also complete. Its valid one-time locked multi-domain CTC evaluation produced `REVISE`, and no post-test retuning was performed. The project is therefore closed at version `1.0.0` as a reproducible technical/research-engineering portfolio artifact, without a validated biological or clinical claim.
