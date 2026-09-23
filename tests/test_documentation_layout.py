@@ -76,7 +76,15 @@ class DocumentationLayoutTests(unittest.TestCase):
             for entry in relocated:
                 source = entry["source"]
                 if path.parent == DOCS:
-                    hit = source in text
+                    # Top-level docs use relative links. Match only the old
+                    # direct target/plain path, not a valid nested evidence path
+                    # that naturally contains the same basename.
+                    patterns = (
+                        f"]({source})",
+                        f"`docs/{source}`",
+                        f"`{source}`",
+                    )
+                    hit = any(pattern in text for pattern in patterns)
                 else:
                     hit = f"docs/{source}" in text
                 if hit:
