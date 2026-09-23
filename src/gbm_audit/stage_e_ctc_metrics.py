@@ -2,11 +2,11 @@
 
 The exporter deliberately reuses the public CTC gold tracking masks as fixed
 object detections and changes only their track identities according to the
-frozen hard or uncertainty-aware links.  Therefore LNK is the primary metric;
+frozen hard or uncertainty-aware links. Therefore LNK is the primary metric;
 TRA is interpreted as tracking-graph accuracy under fixed perfect detections,
 not as an end-to-end segmentation-and-tracking score.
 
-This is a post-closure supplementary evaluation.  It performs no fitting,
+This is a post-closure supplementary evaluation. It performs no fitting,
 threshold selection, or decision retuning and never changes the published
 Stage E REVISE/GO decision.
 """
@@ -30,10 +30,12 @@ from gbm_audit.corruptions import build_corruption_benchmark
 from gbm_audit.stage_e_data import _dataset_entry, build_locked_test_manifest, load_stage_e_contract
 from gbm_audit.stage_e_evaluation import (
     HYPOTHESIS_COUNT,
+    POSTERIOR_TRACK_THRESHOLD,
     _assignment_links,
     _compatible_posterior_links,
     _dataset_seed,
     _frozen_dataset_config,
+    _sha256,
 )
 from gbm_audit.uncertainty import evaluate_sequence
 
@@ -42,6 +44,64 @@ REAL_CONFIRMATORY_DATASETS = (
     "CTC_Fluo-N2DH-GOWT1_training",
     "CTC_DIC-C2DH-HeLa_training",
 )
+
+
+def _validate_frozen_development_identity(
+    manifest_path: Path,
+    split_path: Path,
+    development_path: Path,
+    evaluation_lock_path: Path,
+    evaluation_path: Path,
+    development: dict,
+    evaluation_lock: dict,
+    evaluation: dict,
+) -> dict:
+    """Verify that supplementary scoring uses the exact published Stage E freeze.
+
+    The CTC scorer is post-closure and must not accept a stale or modified
+    development artifact merely because its numeric fields are well formed.
+    This check binds the development artifact to the registered manifest/split,
+    the published one-time evaluation lock, and the published evaluation artifact.
+    """
+    manifest_sha = _sha256(manifest_path)
+    split_sha = _sha256(split_path)
+    development_sha = _sha256(development_path)
+    evaluation_sha = _sha256(evaluation_path)
+
+    if development.get("dataset_manifest_sha256") != manifest_sha:
+        raise ValueError("development/manifest hash mismatch")
+    if development.get("split_lock_sha256") != split_sha:
+        raise ValueError("development/split lock hash mismatch")
+
+    if evaluation.get("dataset_manifest_sha256") != manifest_sha:
+        raise ValueError("published evaluation/manifest hash mismatch")
+    if evaluation.get("split_lock_sha256") != split_sha:
+        raise ValueError("published evaluation/split lock hash mismatch")
+    if evaluation.get("development_artifact_sha256") != development_sha:
+        raise ValueError("published evaluation/development artifact hash mismatch")
+    if evaluation.get("evaluation_count") != 1 or not evaluation.get("evaluation_attempted"):
+        raise ValueError("published Stage E evaluation is not the one-time completed artifact")
+
+    if evaluation_lock.get("status") != "EVALUATED_ONCE":
+        raise ValueError("Stage E evaluation lock is not in the published evaluated-once state")
+    if evaluation_lock.get("evaluation_count") != 1:
+        raise ValueError("Stage E evaluation lock count drifted")
+    if evaluation_lock.get("development_artifact_sha256") != development_sha:
+        raise ValueError("evaluation lock/development artifact hash mismatch")
+    if evaluation_lock.get("evaluation_artifact_sha256") != evaluation_sha:
+        raise ValueError("evaluation lock/published evaluation artifact hash mismatch")
+    if evaluation_lock.get("posterior_track_threshold") != POSTERIOR_TRACK_THRESHOLD:
+        raise ValueError("posterior track threshold drifted")
+
+    return {
+        "verified": True,
+        "dataset_manifest_sha256": manifest_sha,
+        "split_lock_sha256": split_sha,
+        "development_artifact_sha256": development_sha,
+        "evaluation_artifact_sha256": evaluation_sha,
+        "evaluation_lock_path": str(evaluation_lock_path),
+        "evaluation_path": str(evaluation_path),
+    }
 
 
 def _track_assignments(observations: list[dict], links: set[tuple[str, str]]) -> tuple[dict[str, int], list[dict]]:
@@ -274,6 +334,16 @@ def main(argv=None) -> int:
     parser.add_argument("--manifest", type=Path, default=Path("docs/stage-e-dataset-manifest.json"))
     parser.add_argument("--split", type=Path, default=Path("docs/stage-e-split-lock.json"))
     parser.add_argument("--development", type=Path, default=Path("docs/stage-e-development-fit.json"))
+    parser.add_argument(
+        "--evaluation-lock",
+        type=Path,
+        default=Path("docs/stage-e-sequence02-evaluation-lock.json"),
+    )
+    parser.add_argument(
+        "--evaluation",
+        type=Path,
+        default=Path("docs/stage-e-sequence02-evaluation.json"),
+    )
     parser.add_argument("--gowt1", type=Path, required=True)
     parser.add_argument("--hela", type=Path, required=True)
     parser.add_argument("--workdir", type=Path, required=True)
@@ -282,6 +352,18 @@ def main(argv=None) -> int:
     try:
         manifest, _ = load_stage_e_contract(args.manifest, args.split)
         development = json.loads(args.development.read_text(encoding="utf-8"))
+        evaluation_lock = json.loads(args.evaluation_lock.read_text(encoding="utf-8"))
+        evaluation = json.loads(args.evaluation.read_text(encoding="utf-8"))
+        frozen_identity = _validate_frozen_development_identity(
+            args.manifest,
+            args.split,
+            args.development,
+            args.evaluation_lock,
+            args.evaluation,
+            development,
+            evaluation_lock,
+            evaluation,
+        )
         result = evaluate_stage_e_ctc_metrics(
             manifest,
             development,
@@ -291,6 +373,7 @@ def main(argv=None) -> int:
             },
             args.workdir,
         )
+        result["frozen_identity_verification"] = frozen_identity
     except (OSError, ValueError, RuntimeError, json.JSONDecodeError) as exc:
         print(f"Stage E CTC metric evaluation failed: {exc}", file=sys.stderr)
         return 2
