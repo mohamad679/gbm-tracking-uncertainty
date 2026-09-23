@@ -1,0 +1,99 @@
+name: audit-external-biological-source
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - ".github/workflows/audit-external-biological-source.yml"
+      - "docs/external-biological-context-**"
+
+permissions:
+  contents: read
+
+jobs:
+  dryad-preoutcome-source-audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Inventory published Dryad metadata without outcome access
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          from urllib.parse import quote
+          from urllib.request import Request, urlopen
+
+          BASE = "https://datadryad.org"
+          DOI = "doi:10.5061/dryad.s4d28"
+
+          def get_json(url):
+              request = Request(
+                  url,
+                  headers={"Accept": "application/json", "User-Agent": "gbm-audit-source-audit/1.0"},
+              )
+              with urlopen(request, timeout=60) as response:
+                  return json.load(response)
+
+          dataset = get_json(f"{BASE}/api/v2/datasets/{quote(DOI, safe='')}")
+          version_href = dataset["_links"]["stash:version"]["href"]
+          version = get_json(BASE + version_href)
+          files_href = version.get("_links", {}).get("stash:files", {}).get("href")
+          if not files_href:
+              version_id = version.get("id")
+              if version_id is None:
+                  raise SystemExit("Dryad version response does not expose files link or version id")
+              files_href = f"/api/v2/versions/{version_id}/files"
+          files_payload = get_json(BASE + files_href)
+          files = files_payload.get("_embedded", {}).get("stash:files", [])
+          if not files:
+              raise SystemExit("Dryad file inventory is empty")
+
+          inventory = {
+              "source": DOI,
+              "dataset_title": dataset.get("title"),
+              "version": dataset.get("versionNumber"),
+              "curation_status": dataset.get("curationStatus"),
+              "storage_size": dataset.get("storageSize"),
+              "files": [
+                  {
+                      "path": row.get("path"),
+                      "size": row.get("size"),
+                      "mime_type": row.get("mimeType"),
+                      "digest": row.get("digest"),
+                      "digest_type": row.get("digestType"),
+                      "download_href": row.get("_links", {}).get("stash:download", {}).get("href"),
+                  }
+                  for row in files
+              ],
+              "expected_public_files_present": {
+                  "experiment_1_movie": any(row.get("path") == "5-16-11.zip" for row in files),
+                  "experiment_2_movie": any(row.get("path") == "6-6-11.zip" for row in files),
+                  "experiment_3_movie": any(row.get("path") == "3-4-14C2.zip" for row in files),
+                  "tracking_and_piv_bundle": any(row.get("path") == "To Generate Figures.zip" for row in files),
+                  "documentation": any(row.get("path") == "README_for_To Generate Figures.docx" for row in files),
+              },
+              "audit_boundary": (
+                  "public metadata only; no source file download and no tracking-performance outcome computed"
+              ),
+              "download_note": (
+                  "Dryad file-download endpoint returned HTTP 401 without API credentials in CI; "
+                  "this metadata audit deliberately stops before authenticated content download."
+              ),
+          }
+          if not all(inventory["expected_public_files_present"].values()):
+              raise SystemExit("One or more preregistered Dryad source files are absent")
+          Path("/tmp/dryad-source-inventory.json").write_text(
+              json.dumps(inventory, indent=2, ensure_ascii=False) + "\n", encoding="utf-8"
+          )
+          print(Path("/tmp/dryad-source-inventory.json").read_text())
+          PY
+      - name: Upload pre-outcome source inventory
+        uses: actions/upload-artifact@v4
+        with:
+          name: external-biological-source-audit
+          path: /tmp/dryad-source-inventory.json
+          if-no-files-found: error

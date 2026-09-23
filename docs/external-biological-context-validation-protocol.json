@@ -1,0 +1,113 @@
+{
+  "schema_version": 1,
+  "protocol_id": "postclosure_external_glioma_brainslice_validation_v1",
+  "registered_utc": "2026-09-23",
+  "status": "SOURCE_SELECTED_OUTCOMES_NOT_EVALUATED",
+  "title": "External biological-context validation on independent glioma brain-slice tracking data",
+  "relationship_to_stage_e": {
+    "stage_e_final_decision": "REVISE",
+    "stage_e_decision_is_immutable": true,
+    "purpose": "supplementary external validation only; no retrospective rescue or retuning of Stage E"
+  },
+  "primary_source": {
+    "repository": "Dryad",
+    "doi": "10.5061/dryad.s4d28",
+    "dataset_title": "Comparative dynamics of microglial and glioma cell motility at the infiltrative margin of brain tumours",
+    "model": "PDGFB-driven rat glioma",
+    "preparation": "living acute brain slices at the infiltrative tumour margin",
+    "reference_tracking": "manual frame-by-frame single-cell tracking reported by the source study",
+    "biological_replicates": 3,
+    "replicate_unit": "separate experiment",
+    "target_population_for_this_project": "glioma/tumour cells only; microglia are not the primary validation population"
+  },
+  "secondary_exploratory_source": {
+    "repository": "Zenodo",
+    "doi": "10.5281/zenodo.21981544",
+    "dataset_title": "GlioTrace example dataset",
+    "status": "EXPLORATORY_NO_INDEPENDENT_REFERENCE_LABELS_IDENTIFIED",
+    "quantitative_confirmatory_use": false
+  },
+  "pre_outcome_ingestion_rule": {
+    "allowed_before_freeze": [
+      "download source files",
+      "inspect archive/file names and data schemas",
+      "identify coordinate columns, frame/time columns, cell-type labels and physical units",
+      "implement format conversion",
+      "verify row counts, missingness and coordinate/unit consistency without computing method-performance metrics"
+    ],
+    "forbidden_before_freeze": [
+      "inspect uncertainty-versus-baseline performance",
+      "choose exclusions based on method performance",
+      "tune distance, calibration or posterior thresholds against external outcomes",
+      "select a favourable experiment as the confirmatory test",
+      "change Stage E decision rules"
+    ],
+    "freeze_requirement": "Commit the source manifest, parser, unit conversion, inclusion/exclusion rules and evaluation code before computing confirmatory method comparisons."
+  },
+  "analysis_design": {
+    "biological_replication_rule": "The experiment is the biological replicate. Cells/tracks are nested observations and must not be counted as independent biological replicates.",
+    "preferred_design": "frozen Stage E method applied without parameter fitting to all three experiments",
+    "fallback_if_format_specific_adaptation_is_unavoidable": {
+      "development_experiment": "preselect one experiment by stable source identifier before outcomes are computed",
+      "confirmatory_experiments": 2,
+      "rule": "parser/unit adaptation only on the development experiment; no model/calibration/threshold fitting on confirmatory experiments"
+    },
+    "primary_unit_of_inference": "experiment",
+    "nested_uncertainty_unit": "track within experiment",
+    "pooling_rule": "Never report pooled cells/tracks as biological n."
+  },
+  "primary_endpoints_if_link_ground_truth_is_reconstructable": [
+    {
+      "name": "association_error_auprc",
+      "comparison": "frozen calibrated uncertainty versus registered distance confidence",
+      "direction": "higher_is_better"
+    },
+    {
+      "name": "selective_link_risk_at_80_percent_coverage",
+      "comparison": "selective calibrated uncertainty versus full coverage",
+      "direction": "lower_is_better"
+    },
+    {
+      "name": "link_f1",
+      "comparison": "uncertainty-compatible frozen links versus hard nearest-neighbour links",
+      "direction": "higher_is_better"
+    }
+  ],
+  "downstream_motion_endpoints": [
+    "mean-speed absolute error",
+    "total-path-length relative absolute error",
+    "net-displacement relative absolute error",
+    "directionality absolute error"
+  ],
+  "statistical_plan": {
+    "descriptive_per_experiment": true,
+    "paired_method_comparisons": true,
+    "confidence_interval": "95 percent hierarchical/cluster bootstrap where experiment is the top-level biological unit and tracks are resampled only within experiment",
+    "small_n_warning": "With only three experiments, intervals and experiment-level contrasts are descriptive/sensitivity evidence and must not be presented as precise population-level inference.",
+    "effect_reporting": "Report signed paired effect sizes and confidence intervals; do not rely on p-values as the primary interpretation."
+  },
+  "success_interpretation": {
+    "allowed": "Evidence that the frozen uncertainty-aware tracking methodology transfers technically to an independent rat glioma brain-slice context.",
+    "not_allowed": [
+      "human GBM-wide validation",
+      "patient-level generalization",
+      "clinical utility",
+      "treatment efficacy",
+      "validated biological cell-state discovery",
+      "retrospective conversion of Stage E REVISE to GO"
+    ]
+  },
+  "stop_conditions": [
+    "Deposited tracking data cannot be mapped unambiguously to time-resolved tumour-cell trajectories.",
+    "Source files do not permit independent reconstruction of the registered endpoints.",
+    "Biological experiment identity cannot be preserved.",
+    "Required preprocessing would need outcome-guided manual choices.",
+    "Reference labels are derived from the same frozen method being evaluated."
+  ],
+  "reporting": [
+    "Report every eligible experiment, including negative results.",
+    "Report exact biological n separately from track/cell counts.",
+    "Keep technical uncertainty and biological inference explicitly separated.",
+    "Preserve the Stage E locked result unchanged."
+  ]
+}

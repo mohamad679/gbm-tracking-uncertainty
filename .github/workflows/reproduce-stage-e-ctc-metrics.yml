@@ -1,0 +1,60 @@
+name: reproduce-stage-e-ctc-metrics
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - ".github/workflows/reproduce-stage-e-ctc-metrics.yml"
+      - "docs/stage-e-**"
+      - "src/gbm_audit/stage_e_ctc_metrics.py"
+      - "src/gbm_audit/stage_e_evaluation.py"
+      - "src/gbm_audit/stage_e_data.py"
+      - "src/gbm_audit/baseline.py"
+      - "src/gbm_audit/corruptions.py"
+      - "src/gbm_audit/calibration.py"
+      - "src/gbm_audit/uncertainty.py"
+      - "tests/test_stage_e_ctc_metrics.py"
+      - "pyproject.toml"
+      - "constraints.txt"
+
+permissions:
+  contents: read
+
+jobs:
+  ctc-tra-lnk:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install project and pinned CTC evaluator
+        run: |
+          python -m pip install -c constraints.txt -e .
+          python -m pip install "git+https://github.com/CellTrackingChallenge/py-ctcmetrics@59481c48a62d4376fe34bed3e3606b4ec4d60972"
+      - name: Run CTC export unit tests
+        run: python -m unittest tests.test_stage_e_ctc_metrics -v
+      - name: Download registered official CTC archives
+        run: |
+          mkdir -p data/raw
+          curl --fail --location --retry 3 --retry-delay 2 \
+            https://data.celltrackingchallenge.net/training-datasets/Fluo-N2DH-GOWT1.zip \
+            --output data/raw/Fluo-N2DH-GOWT1.zip
+          curl --fail --location --retry 3 --retry-delay 2 \
+            https://data.celltrackingchallenge.net/training-datasets/DIC-C2DH-HeLa.zip \
+            --output data/raw/DIC-C2DH-HeLa.zip
+      - name: Evaluate frozen clean sequence-02 links with CTC TRA and LNK
+        run: |
+          python -m gbm_audit.stage_e_ctc_metrics \
+            --gowt1 data/raw/Fluo-N2DH-GOWT1.zip \
+            --hela data/raw/DIC-C2DH-HeLa.zip \
+            --workdir /tmp/ctc-eval \
+            --output /tmp/stage-e-ctc-metrics.json
+          cat /tmp/stage-e-ctc-metrics.json
+      - name: Upload machine-readable supplementary metrics
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage-e-ctc-metrics
+          path: /tmp/stage-e-ctc-metrics.json
+          if-no-files-found: error
