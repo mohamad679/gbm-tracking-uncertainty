@@ -2,41 +2,48 @@
 
 All notable project changes are documented here. The project follows semantic versioning from `0.1.0` onward.
 
+## Post-release evidence extension - 2026-09-23
+
+### Added
+- Hash-verified local-resumption workflow for the originally selected Dryad `10.5061/dryad.s4d28` external glioma source after GitHub-hosted file-download authorization failures.
+- Hardened Dryad archive inventory that ignores macOS AppleDouble metadata and permits legitimate high-compression non-table assets while retaining fail-closed table validation.
+- Schema-only probe for legacy XLS, MATLAB `StoreData`, deposited MATLAB source contexts and README evidence.
+- Committed pre-outcome `LOCKED` mapping for three independent rat PDGFB-glioma brain-slice tumour-track experiments.
+- Deterministic normalization with exact source time retained and `global_time_rank` frame derivation.
+- One-time frozen three-experiment confirmatory evaluator and replicate-aware descriptive/sensitivity statistics.
+- Frozen machine-readable result `docs/dryad-confirmatory-result.json.gz` and final report `docs/dryad-confirmatory-final-report.md`.
+
+### Result
+- Association-error AUPRC uncertainty-minus-distance was positive in 3/3 experiments; mean effect `+0.596419`.
+- Selective-risk benefit was positive in 3/3 experiments; mean effect `+0.079359`.
+- Frozen uncertainty-compatible `p >= 0.5` link-F1 effect versus hard NN was negative in 3/3 experiments; mean effect `-0.012764`.
+- Mean-speed, path-length and net-displacement fidelity also favoured hard NN; directionality was mixed.
+- The result supports external technical transfer of calibrated confidence/error-ranking and selective-risk behavior, not superiority of the frozen hard tracker.
+- Historical Stage E remains `REVISE`; no human GBM-wide or clinical validation claim is added.
+
+### Documentation
+- README, roadmap, project closure report, consolidated final report, local runbook and external biological-context final report now distinguish the original v1.0.0 technical closure from the completed post-release Dryad evidence extension.
+- The earlier `n=1` TrackMate fallback remains preserved as historical external evidence.
+
 ## [1.0.0] - 2026-09-22
 
 ### Added
-- Frozen Stage E-Final multi-domain technical-validation protocol with explicit
-  supported and unsupported claims, registered endpoints, and GO/REVISE/STOP
-  rules.
-- Verified CTC GOWT1, HeLa, and SIM+ dataset manifest with archive SHA-256
-  identities, annotation metadata, and structural counts.
-- Immutable sequence-level split assigning sequence `01` to development and
-  sequence `02` to locked evaluation, with consumed U373, T98G, and Huh7
-  sources excluded from new confirmation.
-- Artifact-contract tests that enforce the manifest hashes, split roles,
-  untouched test state, and biological-claim boundary.
-- Generic CTC archive reader with a sequence-`02` decode boundary, plus
-  dependency-free association AUPRC, selective-risk and calibration metrics.
-- Frozen three-domain sequence-`01` development fit and a dedicated GitHub
-  Actions reproduction workflow; no sequence-`02` outcome was accessed.
-- One-time locked Stage E-Final sequence-`02` evaluation artifact and final
-  report. The valid decision is `REVISE`: selective-risk, calibration,
-  provenance, leakage and reproducibility gates passed; the real-data AUPRC
-  gate and the motion-win gate failed.
-- Final project closure report and v1.0.0 release notes documenting the
-  completed technical scope, Stage D `GO`, Stage E `REVISE`, and claim boundary.
+- Frozen Stage E-Final multi-domain technical-validation protocol with explicit supported and unsupported claims, registered endpoints, and GO/REVISE/STOP rules.
+- Verified CTC GOWT1, HeLa, and SIM+ dataset manifest with archive SHA-256 identities, annotation metadata, and structural counts.
+- Immutable sequence-level split assigning sequence `01` to development and sequence `02` to locked evaluation, with consumed U373, T98G, and Huh7 sources excluded from new confirmation.
+- Artifact-contract tests that enforce the manifest hashes, split roles, untouched test state, and biological-claim boundary.
+- Generic CTC archive reader with a sequence-`02` decode boundary, plus dependency-free association AUPRC, selective-risk and calibration metrics.
+- Frozen three-domain sequence-`01` development fit and a dedicated GitHub Actions reproduction workflow; no sequence-`02` outcome was accessed.
+- One-time locked Stage E-Final sequence-`02` evaluation artifact and final report. The valid decision is `REVISE`: selective-risk, calibration, provenance, leakage and reproducibility gates passed; the real-data AUPRC gate and the motion-win gate failed.
+- Final project closure report and v1.0.0 release notes documenting the completed technical scope, Stage D `GO`, Stage E `REVISE`, and claim boundary.
 
 ### Changed
 - Package version advanced to `1.0.0` for the final technical project closure.
-- README, roadmap, reproduction guide, portfolio summary, and consolidated
-  project report now describe the complete A-E project state.
+- README, roadmap, reproduction guide, portfolio summary, and consolidated project report now describe the complete A-E project state.
 
 ### Validation status
-
-- Final project state: closed as a reproducible technical/research-engineering
-  portfolio artifact.
-- Biological, GBM brain-slice, treatment-effect, and clinical claims remain
-  unsupported.
+- Final project state: closed as a reproducible technical/research-engineering portfolio artifact.
+- Biological, GBM brain-slice, treatment-effect, and clinical claims remain unsupported.
 
 ## [0.2.0] - 2026-09-21
 
@@ -51,13 +58,10 @@ All notable project changes are documented here. The project follows semantic ve
 - Formal Stage D closure report and consolidated project-level conclusion.
 
 ### Changed
-- Project status, roadmap, portfolio summary, and README now consistently record
-  the qualified Stage D v3 `GO`.
-- Package version advanced to `0.2.0` for the completed Stage A-D technical
-  research line.
+- Project status, roadmap, portfolio summary, and README now consistently record the qualified Stage D v3 `GO`.
+- Package version advanced to `0.2.0` for the completed Stage A-D technical research line.
 
 ### Validation status
-
 - Stage D v2 zero-shot evaluation: `HOLD` because mean-speed non-inferiority failed despite improved RMSE.
 - Stage D v3 calibrated sequence generalization: `GO`; all seven locked gates passed on 1481 Huh7 sequence-`02` transitions.
 - Claim scope remains technical and excludes zero-shot, biological and clinical validation.
