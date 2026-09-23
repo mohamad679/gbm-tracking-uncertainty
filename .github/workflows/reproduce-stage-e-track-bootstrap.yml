@@ -5,7 +5,7 @@ on:
   pull_request:
     paths:
       - ".github/workflows/reproduce-stage-e-track-bootstrap.yml"
-      - "docs/stage-e-**"
+      - "docs/evidence/stage-e/**"
       - "src/gbm_audit/stage_e_track_bootstrap.py"
       - "src/gbm_audit/stage_e_evaluation.py"
       - "src/gbm_audit/stage_e_data.py"
