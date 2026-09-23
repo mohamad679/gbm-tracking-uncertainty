@@ -5,7 +5,7 @@ on:
   pull_request:
     paths:
       - ".github/workflows/audit-external-biological-source.yml"
-      - "docs/external-biological-context-**"
+      - "docs/evidence/external/**"
 
 permissions:
   contents: read
