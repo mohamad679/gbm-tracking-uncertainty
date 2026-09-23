@@ -1,12 +1,12 @@
 # Dryad three-experiment confirmatory validation — local Mac runbook
 
-Status: **pre-outcome pipeline prepared; real source schema must be inspected locally before the schema lock can be finalized.**
+Status: **real source schema reviewed and LOCKED pre-outcome; Gate D normalization is next.**
 
-This runbook resumes the originally registered three-experiment Dryad confirmatory arm while preserving the historical Stage E `REVISE` decision and the already-completed `n=1` fallback result. The only change is data acquisition: the Dryad files are downloaded on the local workstation because GitHub-hosted runners received HTTP 403/401 from the public download endpoints.
+This runbook resumes the originally registered three-experiment Dryad confirmatory arm while preserving the historical Stage E `REVISE` decision and the already-completed `n=1` fallback result. The only acquisition change is that the Dryad files are downloaded on the local workstation because GitHub-hosted runners received HTTP 403/401 from the public download endpoints.
 
 ## Scientific boundary
 
-The pipeline is deliberately split into gates. The first local command verifies the deposited Dryad file identity and inventories file names/schema only. It does **not** calculate tracking-method performance. The real source-member mapping must then be committed in `docs/dryad-confirmatory-schema-lock.json` with `status: LOCKED` before normalization or confirmatory evaluation can run.
+The pipeline is deliberately split into gates. Source identity, archive structure, legacy XLS headers, MATLAB `StoreData` structure, deposited MATLAB code, and deposited README documentation were inspected without calculating tracking-method performance. The resulting mapping has now been committed in `docs/dryad-confirmatory-schema-lock.json` with `status: LOCKED` before normalization or confirmatory evaluation.
 
 No Dryad-specific parameter tuning is allowed. The frozen configuration remains:
 
@@ -19,6 +19,27 @@ No Dryad-specific parameter tuning is allowed. The frozen configuration remains:
 
 The biological replicate is the **experiment**, not the cell or track. Final biological `n = 3`.
 
+## Locked source mapping
+
+The deposited `MasterFigures_Control.m` identifies the tumour datasets as:
+
+- `experiment_1`: `GFPOrlando` — deposited README identifies this as the c1 `5-16-11` tumour/GFP tracking data;
+- `experiment_2`: `6-6-11_Tumor_Tracking_Data`;
+- `experiment_3`: `3-14-11_Tumor_Tracking_Data`.
+
+All three normalized inputs use the deposited MATLAB `StoreData` convention documented by the source analysis code:
+
+```text
+column 1 = elapsed time in hours
+column 2 = cell/track identifier
+column 3 = x coordinate in µm
+column 4 = y coordinate in µm
+```
+
+The deposited source has irregular acquisition timing in places. Therefore canonical `frame` is **not** reconstructed from a fixed interval. It is the deterministic sorted rank of each distinct global elapsed-time value within an experiment. Exact source elapsed time is retained and converted from hours to minutes for pairwise `dt` and motion calculations.
+
+The deposited README separately mentions `3-4-14C2` in the PIV/supplementary-movie context. The locked single-cell tracking schema does not equate that PIV label with the explicitly named `3-14-11_Tumor_Tracking_Data` member used by `MasterFigures_Control.m` as experiment 3.
+
 ## Local directories
 
 Use only ignored local directories for third-party data and generated results:
@@ -30,6 +51,7 @@ data/raw/dryad/
 
 results/dryad/
     source-inventory.json
+    schema-evidence.json
     normalized/
         experiment_1.csv
         experiment_2.csv
@@ -38,7 +60,7 @@ results/dryad/
     confirmatory-result.json
 ```
 
-`data/raw/*`, `results/*`, and `*.zip` are already excluded by `.gitignore`. Raw Dryad data must not be committed.
+`data/raw/*`, `results/*`, and `*.zip` are excluded by `.gitignore`. Raw Dryad data must not be committed.
 
 ## 1. Environment
 
@@ -48,10 +70,10 @@ From the repository root on macOS:
 python3 -m venv .venv
 source .venv/bin/activate
 python -m pip install --upgrade pip
-python -m pip install -c constraints.txt -e '.[dryad]'
+python -m pip install -c constraints.txt '.[dryad]'
 ```
 
-The optional `dryad` extra installs source-inspection support for `.xlsx` and MATLAB `.mat` members. Confirmatory evaluation itself uses the core package and normalized CSV files.
+The optional `dryad` extra installs source-inspection support for `.xlsx`, legacy `.xls`, and MATLAB `.mat` members. Confirmatory evaluation itself uses the core package and normalized CSV files.
 
 ## 2. Acquire the frozen Dryad source locally
 
@@ -62,18 +84,18 @@ Download from Dryad DOI `10.5061/dryad.s4d28`:
 
 Place both files unchanged under `data/raw/dryad/`.
 
-The repository already freezes the deposited MD5 identities:
+The repository freezes the deposited MD5 identities:
 
 ```text
 To Generate Figures.zip                  2b70accfbb4d81d41dfb10fcefa60cbf
 README_for_To Generate Figures.docx      fcbd2b285b860eb18d7ce600becda06d
 ```
 
-Do not rename, unzip, edit, recompress, or open the tracking tables before Gate A/B inventory. The inventory command opens the archive only after verifying the deposited digest.
+The source identity must match before any archive member is inspected.
 
-## 3. Gate A/B — source identity + schema-only inventory
+## 3. Gates A/B — source identity and schema-only evidence
 
-Run:
+Source inventory:
 
 ```bash
 gbm-dryad-local inventory \
@@ -82,35 +104,35 @@ gbm-dryad-local inventory \
   --output results/dryad/source-inventory.json
 ```
 
-Expected terminal message:
+Schema evidence probe:
 
-```text
-Wrote schema-only inventory: results/dryad/source-inventory.json
+```bash
+gbm-dryad-schema-probe \
+  --source-dir data/raw/dryad \
+  --source-manifest docs/external-biological-context-source-manifest.json \
+  --output results/dryad/schema-evidence.json
 ```
 
-The command verifies the source MD5 and size, computes an additional local SHA-256, checks ZIP safety limits, lists archive members, and previews only table/schema metadata where safe. It does not calculate uncertainty, tracking, motion, or method-comparison outcomes.
+These commands verify source identity and inspect only schema/documentation evidence. They do not calculate uncertainty, association, tracking, motion, or method-comparison outcomes.
 
-**STOP HERE after the first real run.** Review `results/dryad/source-inventory.json` and freeze the exact three-experiment source mapping in `docs/dryad-confirmatory-schema-lock.json` before proceeding. This stop is intentional and is part of the preregistered leakage boundary.
+## 4. Gate C — committed schema lock
 
-## 4. Gate C — commit the real schema lock
+Gate C is complete. `docs/dryad-confirmatory-schema-lock.json` is `LOCKED` with:
 
-After schema review, `docs/dryad-confirmatory-schema-lock.json` must contain, for each of `experiment_1`, `experiment_2`, and `experiment_3`:
+- exact tumour-only MATLAB source member for each of the three experiments;
+- `StoreData` as the MATLAB variable;
+- exact column mapping `time, track, x, y`;
+- tumour/glioma identity by dedicated source-member separation from microglia;
+- coordinate scale `1.0` to µm;
+- time scale `60.0` from hours to minutes;
+- deterministic `global_time_rank` frame reconstruction;
+- unchanged all-eligible-observation inclusion rule.
 
-- exact archive member path(s);
-- file format;
-- sheet name or MATLAB variable if applicable;
-- delimiter/header row if text;
-- exact track/frame/time/x/y/cell-type mapping;
-- accepted glioma/tumour cell-type values;
-- coordinate conversion to micrometres;
-- time conversion to minutes or a frozen frame interval;
-- the unchanged inclusion rule.
-
-Only after this mapping has been reviewed and committed should `status` become `LOCKED`.
+This lock was committed before any Dryad confirmatory method-performance calculation. If normalization now exposes a source-format inconsistency, stop rather than changing the mapping based on downstream outcomes.
 
 ## 5. Gate D — normalize all three experiments
 
-After the committed schema lock is `LOCKED`:
+Pull the commit containing the locked schema and frame adapter, reinstall the package, then run:
 
 ```bash
 gbm-dryad-local normalize \
@@ -126,13 +148,15 @@ The normalizer writes the canonical columns:
 experiment_id,cell_type,track_id,frame,time_min,x_um,y_um
 ```
 
-It refuses ambiguous mappings, non-finite coordinates, duplicate track/frame observations, non-increasing time, missing experiment identities, digest drift, or an unlocked schema. It records SHA-256 hashes for each normalized experiment and the exact schema-lock hash in `normalized-manifest.json`.
+It refuses ambiguous mappings, non-finite coordinates, duplicate track/frame observations, non-increasing time, missing experiment identities, digest drift, or an unlocked schema. For the locked Dryad mapping it also records the deterministic global-time-rank frame count and exact time range. SHA-256 hashes for each normalized experiment and the exact schema-lock hash are written to `normalized-manifest.json`.
 
-This step still computes no tracking-method performance.
+This step still computes **no tracking-method performance**.
 
-## 6. Gate E/F — one confirmatory evaluation
+After normalization, inspect and share `results/dryad/normalized/normalized-manifest.json` before running the confirmatory evaluator. Structural QC may be reviewed at this point; no method-performance result should yet be generated.
 
-Run once after the normalized files have passed review:
+## 6. Gates E/F — one confirmatory evaluation
+
+Run once only after the normalized manifest has passed structural review:
 
 ```bash
 gbm-dryad-confirmatory \
@@ -160,7 +184,7 @@ Positive effect orientation is explicitly encoded in the output. The small-`n` r
 Do **not** commit the raw Dryad archive or generated normalized CSVs. The intended final evidence committed to GitHub is:
 
 - the locked schema mapping;
-- source identities/hashes;
+- source identities/hashes and schema evidence provenance;
 - the confirmatory evaluator code and tests;
 - the small machine-readable `confirmatory-result.json` copied into `docs/` only after verification;
 - a final report describing all three experiments, including negative results;
@@ -173,7 +197,7 @@ Stop rather than improvise if any of these occurs:
 1. source digest mismatch;
 2. fewer than three unambiguous experiment identities;
 3. tumour/glioma tracks cannot be separated from microglia without subjective choices;
-4. time-resolved x/y trajectories cannot be reconstructed without guessing;
+4. time-resolved x/y trajectories cannot be reconstructed without the locked mapping;
 5. source format needs an outcome-guided exclusion or parameter choice;
 6. deposited reference tracks appear to be produced by the same method being evaluated.
 
