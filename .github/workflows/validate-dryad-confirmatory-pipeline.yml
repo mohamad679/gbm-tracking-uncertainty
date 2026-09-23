@@ -4,8 +4,12 @@ on:
   pull_request:
     paths:
       - "src/gbm_audit/dryad_local.py"
+      - "src/gbm_audit/dryad_local_safe.py"
+      - "src/gbm_audit/dryad_schema_probe.py"
       - "src/gbm_audit/dryad_confirmatory.py"
       - "tests/test_dryad_local.py"
+      - "tests/test_dryad_local_safe.py"
+      - "tests/test_dryad_schema_probe.py"
       - "tests/test_dryad_confirmatory.py"
       - "docs/dryad-confirmatory-**"
       - "pyproject.toml"
@@ -27,17 +31,40 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
-      - name: Install project
-        run: python -m pip install -c constraints.txt -e .
-      - name: Run Dryad local and confirmatory tests
-        run: python -m unittest tests.test_dryad_local tests.test_dryad_confirmatory -v
-      - name: Verify confirmatory schema remains pre-outcome pending
+      - name: Install project with Dryad schema dependencies
+        run: python -m pip install -c constraints.txt -e '.[dryad]'
+      - name: Run Dryad local, schema-probe and confirmatory tests
+        run: >-
+          python -m unittest
+          tests.test_dryad_local
+          tests.test_dryad_local_safe
+          tests.test_dryad_schema_probe
+          tests.test_dryad_confirmatory
+          -v
+      - name: Verify real schema is locked before outcomes
         run: |
           python - <<'PY'
           import json
           from pathlib import Path
+
           lock = json.loads(Path('docs/dryad-confirmatory-schema-lock.json').read_text())
-          if lock.get('status') != 'PENDING_LOCAL_SCHEMA_INSPECTION':
-              raise SystemExit('Schema lock must remain pending until the real local schema inventory is reviewed.')
-          print('Pre-outcome boundary preserved.')
+          if lock.get('status') != 'LOCKED':
+              raise SystemExit('Real Dryad schema must be LOCKED after schema-only review and before outcomes.')
+          expected = {
+              'experiment_1': 'To Generate Figures/Data/AllCombined/GFPOrlando.mat',
+              'experiment_2': 'To Generate Figures/Data/AllCombined/6-6-11_Tumor_Tracking_Data.mat',
+              'experiment_3': 'To Generate Figures/Data/AllCombined/3-14-11_Tumor_Tracking_Data.mat',
+          }
+          experiments = lock.get('experiments', {})
+          if set(experiments) != set(expected):
+              raise SystemExit('Schema lock must define exactly three experiments.')
+          for experiment_id, member in expected.items():
+              spec = experiments[experiment_id]
+              if spec.get('source_members') != [member]:
+                  raise SystemExit(f'Unexpected frozen source member for {experiment_id}.')
+              if spec.get('frame_derivation') != 'global_time_rank':
+                  raise SystemExit(f'Unexpected frame rule for {experiment_id}.')
+              if spec.get('time_scale_to_min') != 60.0:
+                  raise SystemExit(f'Unexpected time conversion for {experiment_id}.')
+          print('Locked pre-outcome Dryad schema boundary preserved.')
           PY
