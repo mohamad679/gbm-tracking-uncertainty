@@ -5,7 +5,7 @@ on:
   pull_request:
     paths:
       - ".github/workflows/inspect-external-biological-schema.yml"
-      - "docs/external-biological-context-**"
+      - "docs/evidence/external/**"
       - "src/gbm_audit/external_biology.py"
       - "tests/test_external_biology.py"
 
