@@ -12,25 +12,43 @@ class DocumentationLayoutTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.audit = json.loads(AUDIT.read_text(encoding="utf-8"))
-        cls.entries = cls.audit["entries"]
+        cls.entries = []
+        cls.entries.extend(
+            {"source": source, "action": "KEEP", "destination": source}
+            for source in cls.audit["keep"]
+        )
+        cls.entries.extend(
+            {"source": source, "action": "MOVE_TO_EVIDENCE", "destination": destination}
+            for source, destination in cls.audit["move_to_evidence"].items()
+        )
+        cls.entries.extend(
+            {"source": source, "action": "ARCHIVE", "destination": destination}
+            for source, destination in cls.audit["archive"].items()
+        )
+        cls.entries.extend(
+            {"source": source, "action": "DELETE", "destination": None}
+            for source in cls.audit["delete"]
+        )
 
     def test_audit_is_complete_and_counts_match(self):
         self.assertEqual(self.audit["original_file_count"], 100)
         self.assertEqual(len(self.entries), 100)
         counts = {key: 0 for key in self.audit["summary"]}
         for entry in self.entries:
-            counts[entry["action"]] = counts.get(entry["action"], 0) + 1
+            counts[entry["action"]] += 1
         self.assertEqual(counts, self.audit["summary"])
 
-    def test_every_audited_destination_exists(self):
+    def test_every_retained_destination_exists(self):
         missing = []
         for entry in self.entries:
+            if entry["action"] == "DELETE":
+                continue
             destination = DOCS / entry["destination"]
             if not destination.exists():
                 missing.append(str(destination.relative_to(ROOT)))
         self.assertEqual(missing, [], "Missing audited destinations: " + ", ".join(missing))
 
-    def test_no_moved_source_path_remains_at_docs_root(self):
+    def test_no_moved_or_archived_source_path_remains_at_docs_root(self):
         leftovers = []
         for entry in self.entries:
             if entry["action"] == "KEEP":
@@ -41,7 +59,7 @@ class DocumentationLayoutTests(unittest.TestCase):
         self.assertEqual(leftovers, [], "Old docs paths still exist: " + ", ".join(leftovers))
 
     def test_active_repository_has_no_stale_docs_references(self):
-        moved = [e for e in self.entries if e["action"] != "KEEP"]
+        relocated = [e for e in self.entries if e["action"] in {"MOVE_TO_EVIDENCE", "ARCHIVE"}]
         stale = []
 
         active_files = [ROOT / "README.md", ROOT / "CHANGELOG.md", ROOT / "CONTRIBUTING.md"]
@@ -55,7 +73,7 @@ class DocumentationLayoutTests(unittest.TestCase):
 
         for path in active_files:
             text = path.read_text(encoding="utf-8")
-            for entry in moved:
+            for entry in relocated:
                 source = entry["source"]
                 if path.parent == DOCS:
                     hit = source in text
@@ -71,12 +89,14 @@ class DocumentationLayoutTests(unittest.TestCase):
         )
 
     def test_tests_do_not_open_removed_top_level_docs_paths(self):
-        moved_sources = [e["source"] for e in self.entries if e["action"] != "KEEP"]
+        relocated_sources = [
+            e["source"] for e in self.entries if e["action"] in {"MOVE_TO_EVIDENCE", "ARCHIVE"}
+        ]
         stale = []
         for path in sorted((ROOT / "tests").rglob("*.py")):
             text = path.read_text(encoding="utf-8")
-            for source in moved_sources:
-                quoted_path = f'docs/{source}'
+            for source in relocated_sources:
+                quoted_path = f"docs/{source}"
                 direct_open_patterns = (
                     f'Path("{quoted_path}")',
                     f"Path('{quoted_path}')",
