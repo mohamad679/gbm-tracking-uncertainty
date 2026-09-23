@@ -1,3 +1,4 @@
+import hashlib
 import io
 import tempfile
 import unittest
@@ -7,13 +8,21 @@ from zipfile import ZIP_DEFLATED, ZipFile
 import numpy as np
 from PIL import Image
 
-from gbm_audit.stage_e_ctc_metrics import _track_assignments, export_fixed_detection_ctc_result
+from gbm_audit.stage_e_ctc_metrics import (
+    _track_assignments,
+    _validate_frozen_development_identity,
+    export_fixed_detection_ctc_result,
+)
 
 
 def _tif(array):
     stream = io.BytesIO()
     Image.fromarray(array).save(stream, format="TIFF")
     return stream.getvalue()
+
+
+def _sha256(path: Path) -> str:
+    return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
 class TestStageECTCMetrics(unittest.TestCase):
@@ -38,6 +47,65 @@ class TestStageECTCMetrics(unittest.TestCase):
             _track_assignments(observations, {("a1", "a0")})
         with self.assertRaisesRegex(ValueError, "one-to-one"):
             _track_assignments(observations, {("a0", "a1"), ("b0", "a1")})
+
+    def test_frozen_identity_binds_development_to_published_evaluation(self):
+        with tempfile.TemporaryDirectory() as directory:
+            directory = Path(directory)
+            manifest_path = directory / "manifest.json"
+            split_path = directory / "split.json"
+            development_path = directory / "development.json"
+            evaluation_path = directory / "evaluation.json"
+            evaluation_lock_path = directory / "evaluation-lock.json"
+
+            manifest_path.write_text("manifest\n", encoding="utf-8")
+            split_path.write_text("split\n", encoding="utf-8")
+            development_path.write_text("development\n", encoding="utf-8")
+            evaluation_path.write_text("evaluation\n", encoding="utf-8")
+            evaluation_lock_path.write_text("lock\n", encoding="utf-8")
+
+            development = {
+                "dataset_manifest_sha256": _sha256(manifest_path),
+                "split_lock_sha256": _sha256(split_path),
+            }
+            evaluation = {
+                "dataset_manifest_sha256": _sha256(manifest_path),
+                "split_lock_sha256": _sha256(split_path),
+                "development_artifact_sha256": _sha256(development_path),
+                "evaluation_count": 1,
+                "evaluation_attempted": True,
+            }
+            evaluation_lock = {
+                "status": "EVALUATED_ONCE",
+                "evaluation_count": 1,
+                "development_artifact_sha256": _sha256(development_path),
+                "evaluation_artifact_sha256": _sha256(evaluation_path),
+                "posterior_track_threshold": 0.5,
+            }
+
+            verified = _validate_frozen_development_identity(
+                manifest_path,
+                split_path,
+                development_path,
+                evaluation_lock_path,
+                evaluation_path,
+                development,
+                evaluation_lock,
+                evaluation,
+            )
+            self.assertTrue(verified["verified"])
+
+            development_path.write_text("modified development\n", encoding="utf-8")
+            with self.assertRaisesRegex(ValueError, "development artifact hash mismatch"):
+                _validate_frozen_development_identity(
+                    manifest_path,
+                    split_path,
+                    development_path,
+                    evaluation_lock_path,
+                    evaluation_path,
+                    development,
+                    evaluation_lock,
+                    evaluation,
+                )
 
     def test_export_relabels_gold_masks_without_changing_shapes(self):
         with tempfile.TemporaryDirectory() as directory:
