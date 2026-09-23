@@ -19,11 +19,28 @@ class TestNumerics(unittest.TestCase):
         result = normalize_transition_rows(candidate, fallback)
         np.testing.assert_allclose(result, [[0.5, 0.5], [0.3, 0.7]])
 
+    def test_transition_normalization_validates_shapes_and_uniform_fallback(self):
+        with self.assertRaisesRegex(ValueError, "matching 2D"):
+            normalize_transition_rows(np.asarray([1.0, 2.0]), np.asarray([1.0, 2.0]))
+        candidate = np.asarray([[0.0, 0.0], [float("nan"), 0.0]])
+        fallback = np.asarray([[0.0, 0.0], [0.0, 0.0]])
+        np.testing.assert_allclose(normalize_transition_rows(candidate, fallback), [[0.5, 0.5], [0.5, 0.5]])
+
     def test_stationary_distribution(self):
         transition = np.asarray([[0.9, 0.1], [0.2, 0.8]])
         stationary = stationary_distribution(transition)
         np.testing.assert_allclose(stationary @ transition, stationary, atol=1e-10)
         self.assertAlmostEqual(float(stationary.sum()), 1.0)
+
+    def test_stationary_distribution_rejects_invalid_matrices(self):
+        for transition in (
+            np.asarray([]),
+            np.asarray([[1.0, 0.0, 0.0], [0.0, 1.0, 0.0]]),
+            np.asarray([[1.0, float("nan")], [0.0, 1.0]]),
+            np.asarray([[0.2, 0.2], [0.2, 0.2]]),
+        ):
+            with self.assertRaises(ValueError):
+                stationary_distribution(transition)
 
 
 if __name__ == "__main__":
