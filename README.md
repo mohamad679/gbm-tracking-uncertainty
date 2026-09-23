@@ -1,8 +1,8 @@
 # Glioblastoma Tracking Uncertainty Audit
 
-[![Tests](https://github.com/mohamad679/gbm-tracking-uncertainty/actions/workflows/tests.yml/badge.svg)](https://github.com/mohamad679/gbm-tracking-uncertainty/actions/workflows/tests.yml)
-[![Reproduce benchmark](https://github.com/mohamad679/gbm-tracking-uncertainty/actions/workflows/reproduce-benchmark.yml/badge.svg)](https://github.com/mohamad679/gbm-tracking-uncertainty/actions/workflows/reproduce-benchmark.yml)
-[![Release](https://github.com/mohamad679/gbm-tracking-uncertainty/actions/workflows/release.yml/badge.svg)](https://github.com/mohamad679/gbm-tracking-uncertainty/actions/workflows/release.yml)
+[![Tests](https://github.com/mohamad679/glioblastoma-cell-tracking-uncertainty/actions/workflows/tests.yml/badge.svg)](https://github.com/mohamad679/glioblastoma-cell-tracking-uncertainty/actions/workflows/tests.yml)
+[![Reproduce benchmark](https://github.com/mohamad679/glioblastoma-cell-tracking-uncertainty/actions/workflows/reproduce-benchmark.yml/badge.svg)](https://github.com/mohamad679/glioblastoma-cell-tracking-uncertainty/actions/workflows/reproduce-benchmark.yml)
+[![Release](https://github.com/mohamad679/glioblastoma-cell-tracking-uncertainty/actions/workflows/release.yml/badge.svg)](https://github.com/mohamad679/glioblastoma-cell-tracking-uncertainty/actions/workflows/release.yml)
 
 A reproducible technical audit of how tracking errors and association uncertainty propagate into migration and latent-state estimates for cell-tracking pipelines.
 
