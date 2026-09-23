@@ -4,70 +4,78 @@
 [![Reproduce benchmark](https://github.com/mohamad679/glioblastoma-cell-tracking-uncertainty/actions/workflows/reproduce-benchmark.yml/badge.svg)](https://github.com/mohamad679/glioblastoma-cell-tracking-uncertainty/actions/workflows/reproduce-benchmark.yml)
 [![Release](https://github.com/mohamad679/glioblastoma-cell-tracking-uncertainty/actions/workflows/release.yml/badge.svg)](https://github.com/mohamad679/glioblastoma-cell-tracking-uncertainty/actions/workflows/release.yml)
 
-A reproducible technical audit of how tracking errors and association uncertainty propagate into migration and latent-state estimates for cell-tracking pipelines.
+A reproducible technical audit of how cell-tracking errors and association uncertainty propagate into migration and latent-state estimates.
 
-The quantitative benchmark uses expert annotations from the Cell Tracking Challenge PhC-C2DH-U373 dataset. GlioTrace brain-slice data are retained as an exploratory application only. A post-closure external technical-transfer arm additionally evaluates the frozen method on three independent rat glioma brain-slice experiments from Dryad. **This repository does not make a validated human-GBM biological or clinical claim.**
+The primary technical benchmark uses expert annotations from the Cell Tracking Challenge PhC-C2DH-U373 dataset. GlioTrace brain-slice data remain exploratory. A post-release external technical-transfer arm evaluates the frozen method on three independent rat PDGFB-glioma brain-slice experiments from Dryad. **The repository does not claim validated human-GBM biology or clinical utility.**
 
 ## Current status
 
 | Field | Status |
 | --- | --- |
 | Version | `1.0.0` |
-| Python | 3.11-3.13 |
+| Python | 3.11–3.13 |
 | License | MIT |
 | Tests | CI enforced on all supported Python versions |
 | Coverage | 65% enforced CI gate |
 | Technical benchmark | Complete |
-| Operator learning | Stage D v3 GO — calibrated blend passed locked Huh7 sequence `02` |
-| Research Stage D | Formally closed on 2026-09-21 |
-| Research Stage E-Final | Complete — valid one-time locked result is `REVISE` |
-| External glioma technical transfer | Complete — Dryad biological `n=3`; uncertainty ranking/calibration/selective-risk transferred, while frozen p≥0.5 tracking and motion did not beat hard NN |
-| Final project release | Closed as a technical/research-engineering portfolio artifact; post-release evidence extension completed 2026-09-23 |
-| Human GBM / clinical validation claim | Not supported |
+| Stage D | Formally closed; v3 qualified `GO` after Huh7 sequence-01 calibration and locked sequence-02 evaluation |
+| Stage E-Final | Complete; valid one-time locked result is `REVISE` |
+| External glioma transfer | Complete; Dryad biological `n=3` |
+| Project state | Closed as a technical/research-engineering portfolio artifact; post-release Dryad evidence extension complete |
+| Human GBM / clinical validation | Not supported |
 
-The operator-learning decision is evidence-derived. The zero-shot Huh7 candidate remained HOLD because of mean-speed bias. A bounded blend calibrated on Huh7 sequence `01` subsequently passed every pre-registered gate on locked sequence `02`. This supports within-Huh7 sequence generalization after calibration, not zero-shot or biological generalization.
+The final evidence is intentionally mixed. Stage D v3 produced a bounded within-Huh7 technical `GO`. Stage E-Final remained `REVISE`: calibration and selective-risk gates passed, while the registered real-data AUPRC and motion-win gates did not. That historical decision is immutable.
 
-The final technical benchmark decision remains intentionally mixed: the staged system is complete and reproducible, Stage D produced a qualified calibrated within-domain `GO`, and Stage E-Final produced a valid locked `REVISE` on multi-domain real CTC data. Stage E is immutable.
+The post-release Dryad arm used a separately frozen, pre-outcome schema lock and no Dryad-specific retuning. Across three independent rat glioma brain-slice experiments, calibrated uncertainty improved association-error ranking and selective risk relative to distance confidence, while the frozen `p >= 0.5` uncertainty-compatible hard reconstruction had lower link F1 than hard nearest-neighbour tracking in all three experiments and did not improve the main motion-error endpoints.
 
-A post-closure Dryad arm was then completed under a separate frozen protocol. Across three independent rat PDGFB-glioma brain-slice experiments, frozen calibrated uncertainty strongly improved association-error ranking over distance confidence and reduced selective risk. The frozen `p >= 0.5` uncertainty-compatible hard reconstruction, however, had lower link F1 than hard nearest-neighbour tracking in all three experiments and did not improve the main downstream motion errors. This is external **technical transfer** evidence, not human GBM-wide or clinical validation.
+## Start here
+
+- [`docs/README.md`](docs/README.md) — documentation index and evidence/archive map
+- [`docs/final-project-report.md`](docs/final-project-report.md) — consolidated technical conclusions
+- [`docs/dryad-confirmatory-final-report.md`](docs/dryad-confirmatory-final-report.md) — final Dryad `n=3` external-transfer report
+- [`docs/architecture.md`](docs/architecture.md) — architecture and scientific boundaries
+- [`docs/reproduction.md`](docs/reproduction.md) — reproduction guide
+- [`docs/project-closure-report.md`](docs/project-closure-report.md) — formal closure and claim boundary
+- [`docs/roadmap.md`](docs/roadmap.md) — chronological research progression
+
+Current frozen protocols, locks, manifests and machine-readable results live under [`docs/evidence/`](docs/evidence/). Superseded protocols, development-only tuning artifacts and earlier stage generations are preserved under [`docs/archive/`](docs/archive/). No scientific evidence was deleted during the documentation cleanup.
 
 ## What this project demonstrates
 
 - deterministic benchmark construction from expert tracking masks and lineages;
 - 17 seeded known-truth corruption scenarios;
-- baseline and uncertainty-aware association evaluation;
-- calibrated link probabilities with development/test separation;
-- hard and soft downstream dynamics sensitivity analysis;
-- artifact schema/provenance validation across pipeline stages;
-- reproducible, pinned environments and real-data GitHub Actions runs;
-- regression testing for scientific-correctness bugs;
-- archive safety limits for external ZIP inputs;
-- performance refactoring with output-equivalence tests;
-- pre-outcome schema locking for external biological-context transfer;
+- truth-blind candidate construction and baseline association evaluation;
+- graph-context marginalized link probabilities and calibrated uncertainty;
+- hard and soft downstream migration/dynamics sensitivity analysis;
+- locked independent technical evaluations on T98G and Huh7;
+- multi-domain Stage E development/test separation;
+- pre-outcome schema locking for external glioma transfer;
 - replicate-aware reporting with experiment-level biological `n`;
+- provenance, artifact-contract and leakage checks;
+- pinned environments, packaging smoke tests and real-data GitHub Actions workflows;
 - explicit separation between technical evidence and biological interpretation.
 
 ## Architecture
 
 ```mermaid
 flowchart TD
-    A[U373 reference and corruptions] --> B[Stage A: adaptive candidates]
+    A[U373 reference + known-truth corruptions] --> B[Stage A: adaptive candidates]
     B --> C[Stage B: graph-context posterior]
     C --> D[Stage C: uncertainty-aware dynamics]
-    D --> E[T98G locked validation]
+    D --> E[T98G locked technical validation]
     E --> F[Stage D: operator extension]
     F --> G[Huh7 sequence 01 calibration]
     G --> H[Huh7 sequence 02 locked GO]
-    H --> I[Stage E: multidomain protocol and split lock]
-    I --> J[Sequence 01 development-only fit]
+    H --> I[Stage E: multi-domain split lock]
+    I --> J[Sequence 01 development]
     J --> K[Sequence 02 locked REVISE]
-    K --> L[Post-closure Dryad schema lock]
+    K --> L[Post-release Dryad schema lock]
     L --> M[Dryad n=3 external technical transfer]
 ```
 
-See [`docs/architecture.md`](docs/architecture.md) for the full module-level architecture, invariants, safety layer, and reproducibility boundaries.
+See [`docs/architecture.md`](docs/architecture.md) for module-level details.
 
-## Reproducible installation
+## Installation
 
 ```bash
 python3 -m venv .venv
@@ -75,14 +83,13 @@ source .venv/bin/activate
 python -m pip install -c constraints.txt -e .
 ```
 
-On Windows PowerShell:
+For the local Dryad source-inspection utilities:
 
-```powershell
-.venv\Scripts\Activate.ps1
-python -m pip install -c constraints.txt -e .
+```bash
+python -m pip install -c constraints.txt -e '.[dryad]'
 ```
 
-The validated exact dependency environment is recorded in `constraints.txt`. Runtime provenance in the final audit records package version, Python version, dependency versions, and Git commit SHA.
+The exact validated dependency environment is recorded in `constraints.txt`.
 
 ## Validate the package
 
@@ -92,57 +99,41 @@ coverage run --source=gbm_audit -m unittest discover -s tests -q
 coverage report --show-missing --fail-under=65
 ```
 
-GitHub Actions additionally builds and reinstalls the wheel as a packaging smoke test on every relevant push.
+GitHub Actions additionally build and reinstall the wheel as a packaging smoke test.
 
 ## Reproduce the U373 benchmark
 
-The full pinned benchmark is automated by `.github/workflows/reproduce-benchmark.yml`. The workflow:
+The full pinned benchmark is automated by `.github/workflows/reproduce-benchmark.yml`. It installs the pinned environment, downloads the official U373 training archive, builds the reference manifest, generates the corruption benchmark, evaluates baseline/uncertainty/dynamics stages, and uploads numeric results as a workflow artifact.
 
-1. installs the pinned environment;
-2. runs the tests;
-3. downloads the official U373 training archive;
-4. builds the reference manifest;
-5. generates all corruption scenarios;
-6. evaluates baseline and uncertainty stages;
-7. evaluates hard/soft dynamics and gate sensitivity;
-8. creates the final audit;
-9. uploads the numeric results as a GitHub Actions artifact.
+The frozen reproduced-result snapshot is [`docs/evidence/engineering/reproduced-results-2026-09-19.json`](docs/evidence/engineering/reproduced-results-2026-09-19.json).
 
-The latest frozen result summary is in [`docs/reproduced-results-2026-09-19.json`](docs/reproduced-results-2026-09-19.json).
-
-## Pipeline modules
+## Key modules
 
 | Module | Responsibility |
-|---|---|
+| --- | --- |
 | `benchmark.py` | Build deterministic U373 reference manifest |
-| `t98g_audit.py` | Lock T98G provenance, archive identity and reference structure without performance evaluation |
-| `stage_d_huh7_audit.py` | Audit and lock independent Huh7 sequences without exposing outcomes |
-| `stage_d_huh7_evaluation.py` | Reproduce the frozen zero-shot Huh7 evaluation |
-| `stage_d_v3_development.py` | Fit the bounded Huh7 sequence-01 blend calibration |
-| `stage_d_v3_evaluation.py` | Evaluate the frozen blend on locked Huh7 sequence `02` |
-| `stage_e_data.py` | Verify CTC archives and decode only registered development sequence `01` |
-| `stage_e_metrics.py` | Dependency-free AUPRC, selective-risk and calibration metrics |
-| `stage_e_development.py` | Reproduce the Stage E sequence-`01` fit while preserving the `02` lock |
-| `stage_e_evaluation.py` | Execute exactly one frozen Stage E sequence-`02` evaluation after CI approval |
-| `dryad_schema_probe.py` | Extract schema-only evidence from the hash-verified Dryad source before outcomes |
-| `dryad_local.py`, `dryad_local_safe.py` | Verify, inventory and normalize the three Dryad experiments under a committed schema lock |
-| `dryad_confirmatory.py` | Execute the frozen three-experiment external technical-transfer evaluation |
-| `corruptions.py` | Generate 17 seeded known-truth scenarios |
-| `baseline.py` | Frozen greedy nearest-neighbour comparator |
-| `uncertainty.py` | Sample one-to-one association hypotheses and calibrate probabilities |
-| `adaptive_candidates.py` | Build deterministic, truth-blind adaptive candidate graphs |
-| `dynamics.py` | Hard migration and two-state HMM sensitivity |
-| `soft_dynamics.py` | Probability-weighted migration and transition summaries |
-| `gate_sensitivity.py` | Proposal-radius robustness sweep |
-| `final_audit.py` | Evidence-derived project decision gates |
-| `validation.py` | Cross-stage artifact contracts and provenance checks |
-| `archive.py` | External ZIP safety limits and bounded reads |
-| `config.py` | Shared benchmark defaults |
-| `calibration.py`, `numerics.py` | Shared mathematical utilities |
+| `corruptions.py` | Generate seeded known-truth corruption scenarios |
+| `adaptive_candidates.py` | Build deterministic truth-blind candidate graphs |
+| `uncertainty.py` | Association hypotheses and calibrated probabilities |
+| `dynamics.py`, `soft_dynamics.py` | Hard/soft downstream migration and state summaries |
+| `t98g_audit.py` | Lock T98G provenance and reference structure |
+| `stage_c_v2_t98g_evaluation.py` | Frozen Stage C v2 T98G evaluation |
+| `stage_d_huh7_audit.py` | Audit and lock Huh7 sequences |
+| `stage_d_v3_development.py` | Fit bounded Huh7 sequence-01 calibration |
+| `stage_d_v3_evaluation.py` | Evaluate locked Huh7 sequence 02 |
+| `stage_e_data.py` | Verify CTC sources and enforce Stage E split boundaries |
+| `stage_e_metrics.py` | AUPRC, selective-risk and calibration metrics |
+| `stage_e_development.py` | Stage E sequence-01 development fit |
+| `stage_e_evaluation.py` | One-time Stage E sequence-02 evaluator |
+| `dryad_schema_probe.py` | Extract schema-only evidence from verified Dryad source |
+| `dryad_local.py`, `dryad_local_safe.py` | Verify, inventory and normalize Dryad experiments |
+| `dryad_confirmatory.py` | Frozen three-experiment Dryad transfer evaluation |
+| `validation.py` | Cross-stage artifact/provenance contracts |
+| `archive.py` | External ZIP safety limits |
 
 ## Exploratory GlioTrace pilot
 
-The project also retains a small qualitative GlioTrace workflow for visual inspection. It is intentionally separate from the quantitative U373 benchmark.
+GlioTrace remains a qualitative/exploratory application and is intentionally separated from the quantitative reference-backed benchmark.
 
 ```bash
 python scripts/fetch_pilot_rois.py
@@ -150,49 +141,33 @@ python -m gbm_audit.roi data/raw/glio_trace/Set_67/exp_333_roi_84_stack.npz --ou
 python -m gbm_audit.roi data/raw/glio_trace/Set_68/exp_337_roi_63_stack.npz --expected-frames 68 --output results/set68-roi.json
 ```
 
-Raw data and generated `results/` outputs are not source-controlled.
+Raw third-party data and generated `results/` outputs are not source-controlled.
 
-## Evidence and reports
+## Evidence layout
 
-- [`docs/final-project-report.md`](docs/final-project-report.md) — overall technical conclusions
-- [`docs/project-closure-report.md`](docs/project-closure-report.md) — v1.0.0 closure plus post-release evidence boundary
-- [`docs/release-notes-v1.0.0.md`](docs/release-notes-v1.0.0.md) — release notes and post-release evidence extension
-- [`docs/reproduction.md`](docs/reproduction.md) — detailed reproduction guide
-- [`docs/roadmap.md`](docs/roadmap.md) — staged progression and post-closure Dryad extension
-- [`docs/dryad-confirmatory-local-resumption-protocol.json`](docs/dryad-confirmatory-local-resumption-protocol.json) — frozen local-resumption protocol
-- [`docs/dryad-confirmatory-schema-lock.json`](docs/dryad-confirmatory-schema-lock.json) — committed pre-outcome three-experiment mapping
-- [`docs/dryad-confirmatory-local-runbook.md`](docs/dryad-confirmatory-local-runbook.md) — local source verification/reproduction runbook
-- [`docs/dryad-confirmatory-final-report.md`](docs/dryad-confirmatory-final-report.md) — final `n=3` Dryad technical-transfer report
-- [`docs/dryad-confirmatory-result.json.gz`](docs/dryad-confirmatory-result.json.gz) — frozen one-time machine-readable Dryad result
-- [`docs/external-biological-context-final-report.md`](docs/external-biological-context-final-report.md) — combined fallback + Dryad external-context chronology
-- [`docs/architecture-performance-report.md`](docs/architecture-performance-report.md) — Stage 3 hardening/refactor evidence
-- [`docs/reproducibility-packaging-report.md`](docs/reproducibility-packaging-report.md) — packaging/reproducibility evidence
-- [`docs/engineering-hardening-report.md`](docs/engineering-hardening-report.md) — correctness/testing evidence
-- [`docs/reproduced-results-2026-09-19.json`](docs/reproduced-results-2026-09-19.json) — frozen machine-readable result snapshot
-- [`docs/stage-a-protocol.md`](docs/stage-a-protocol.md) — frozen adaptive-candidate benchmark contract
-- [`docs/stage-c-v2-step2-t98g-audit.md`](docs/stage-c-v2-step2-t98g-audit.md) — independent T98G data-only audit and lock decision
-- [`docs/stage-d-v3-final-report.md`](docs/stage-d-v3-final-report.md) — final calibrated Huh7 operator decision
-- [`docs/stage-d-closure-report.md`](docs/stage-d-closure-report.md) — formal Stage D closure and claim boundary
-- [`docs/stage-e-protocol.md`](docs/stage-e-protocol.md) — frozen final-stage question, endpoints, gates and claim boundary
-- [`docs/stage-e-sequence02-evaluation.json`](docs/stage-e-sequence02-evaluation.json) — one-time locked Stage E result artifact
-- [`docs/stage-e-final-report.md`](docs/stage-e-final-report.md) — final Stage E `REVISE` decision report
-- [`CHANGELOG.md`](CHANGELOG.md) — release and evidence-extension history
+The detailed index is [`docs/README.md`](docs/README.md). Key evidence groups are:
+
+- [`docs/evidence/stage-a/`](docs/evidence/stage-a/)
+- [`docs/evidence/stage-b/`](docs/evidence/stage-b/)
+- [`docs/evidence/stage-c/`](docs/evidence/stage-c/)
+- [`docs/evidence/stage-d/`](docs/evidence/stage-d/)
+- [`docs/evidence/stage-e/`](docs/evidence/stage-e/)
+- [`docs/evidence/dryad/`](docs/evidence/dryad/)
+- [`docs/evidence/external/`](docs/evidence/external/)
+- [`docs/evidence/engineering/`](docs/evidence/engineering/)
+
+Historical/superseded evidence is retained under [`docs/archive/`](docs/archive/), rather than mixed into the reader-facing document root.
 
 ## Sources
 
-- Technical benchmark: [Cell Tracking Challenge U373](https://celltrackingchallenge.net/2d-datasets/), phase-contrast cells on a substrate, not brain slices.
-- Exploratory images: [GlioTrace example data, Zenodo 21981544](https://zenodo.org/records/21981544).
-- Reference implementation: [Gliomethods/GlioTrace](https://github.com/Gliomethods/GlioTrace).
-- Locked independent technical test: [T98G electrotaxis](https://zenodo.org/records/19026908), human-curated variant, `CC-BY-4.0`; used for the locked Stage C v2 technical validation.
-- Independent operator benchmark: [Cell Tracking Challenge Huh7](https://celltrackingchallenge.net/2d-datasets/); raw data and annotations are not redistributed.
-- External glioma technical-transfer source: Dryad `10.5061/dryad.s4d28`, three rat PDGFB-glioma brain-slice experiments with source manual trajectories; raw deposited files are hash-verified locally and are not redistributed by this repository.
+- Cell Tracking Challenge U373 — primary technical benchmark; phase-contrast cells on a substrate, not brain slices.
+- GlioTrace example data — exploratory brain-slice application.
+- T98G electrotaxis — locked Stage C v2 technical validation.
+- Cell Tracking Challenge Huh7 — independent Stage D operator benchmark.
+- Dryad `10.5061/dryad.s4d28` — three rat PDGFB-glioma brain-slice experiments used for the post-release external technical-transfer arm; deposited files are hash-verified locally and are not redistributed by this repository.
 
 Dataset licenses and redistribution terms are independent from this repository's MIT source-code license.
 
-## Contributing and security
+## Contributing, security and release process
 
-See [`CONTRIBUTING.md`](CONTRIBUTING.md) for development and scientific-change requirements, and [`SECURITY.md`](SECURITY.md) for vulnerability reporting guidance.
-
-## Release process
-
-`v*` tags trigger `.github/workflows/release.yml`. The workflow verifies that the tag version matches the installed package version, runs the test/coverage gate, builds and reinstalls the wheel, and creates a GitHub Release only after validation succeeds.
+See [`CONTRIBUTING.md`](CONTRIBUTING.md) and [`SECURITY.md`](SECURITY.md). Tags matching `v*` trigger `.github/workflows/release.yml`, which verifies the package/tag version, runs the test/coverage gate, builds and reinstalls the wheel, and only then creates a GitHub Release.
