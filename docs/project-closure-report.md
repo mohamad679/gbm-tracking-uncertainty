@@ -22,14 +22,14 @@ The final A-E scientific state is mixed and therefore credible:
 
 Release `v1.0.0` packages the final code, protocols, artifacts, reports and tests for the completed A-E technical project. It supersedes the Stage D `v0.2.0` state by adding the final Stage E locked evaluation and closure documentation.
 
-Included release evidence:
+Included release evidence is now indexed under [`README.md`](README.md), with the historical release artifacts preserved under `evidence/`:
 
-- `docs/stage-d-closure-report.md` for the qualified Stage D technical `GO`;
-- `docs/stage-e-final-report.md` for the valid Stage E technical `REVISE`;
-- `docs/stage-e-sequence02-evaluation.json` for the complete locked Stage E result artifact;
-- `docs/final-project-report.md` for the consolidated interpretation;
-- `docs/reproduction.md` for local and GitHub Actions reproduction guidance;
-- Python 3.11-3.13 tests, coverage gate, wheel build and release automation.
+- [`evidence/stage-d/stage-d-closure-report.md`](evidence/stage-d/stage-d-closure-report.md) for the qualified Stage D technical `GO`;
+- [`evidence/stage-e/stage-e-final-report.md`](evidence/stage-e/stage-e-final-report.md) for the valid Stage E technical `REVISE`;
+- [`evidence/stage-e/stage-e-sequence02-evaluation.json`](evidence/stage-e/stage-e-sequence02-evaluation.json) for the complete locked Stage E result artifact;
+- [`final-project-report.md`](final-project-report.md) for the consolidated interpretation;
+- [`reproduction.md`](reproduction.md) for local and GitHub Actions reproduction guidance;
+- Python 3.11–3.13 tests, coverage gate, wheel build and release automation.
 
 ## Claim boundary
 
@@ -51,7 +51,7 @@ Stage F biological hypothesis testing and Stage G perturbation testing remain fu
 - Stage E development artifact, one-time execution lock, final artifact and final report are retained.
 - README, roadmap, changelog, final report, reproduction guide and portfolio summary are aligned with the final A-E state.
 - Package version is `1.0.0`.
-- Final release notes are recorded in `docs/release-notes-v1.0.0.md`.
+- Final release notes are retained at [`evidence/release/release-notes-v1.0.0.md`](evidence/release/release-notes-v1.0.0.md).
 - Raw third-party datasets remain excluded from source control.
 
 No further Stage E model selection, threshold tuning or replacement evaluation belongs to the original project closure.
@@ -75,9 +75,9 @@ This post-release extension supports **external technical transfer in three rat 
 
 Final extension evidence:
 
-- `docs/dryad-confirmatory-schema-lock.json`;
-- `docs/dryad-confirmatory-final-report.md`;
-- `docs/dryad-confirmatory-result.json.gz`;
-- `docs/external-biological-context-final-report.md`.
+- [`evidence/dryad/dryad-confirmatory-schema-lock.json`](evidence/dryad/dryad-confirmatory-schema-lock.json);
+- [`dryad-confirmatory-final-report.md`](dryad-confirmatory-final-report.md);
+- [`evidence/dryad/dryad-confirmatory-result.json.gz`](evidence/dryad/dryad-confirmatory-result.json.gz);
+- [`evidence/external/external-biological-context-final-report.md`](evidence/external/external-biological-context-final-report.md).
 
 With this amendment, the planned post-closure external technical-transfer work is complete. Any future biological mechanism or perturbation study is a new project rather than unfinished work from this closure.
