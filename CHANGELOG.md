@@ -11,7 +11,7 @@ All notable project changes are documented here. The project follows semantic ve
 - Committed pre-outcome `LOCKED` mapping for three independent rat PDGFB-glioma brain-slice tumour-track experiments.
 - Deterministic normalization with exact source time retained and `global_time_rank` frame derivation.
 - One-time frozen three-experiment confirmatory evaluator and replicate-aware descriptive/sensitivity statistics.
-- Frozen machine-readable result `docs/dryad-confirmatory-result.json.gz` and final report `docs/dryad-confirmatory-final-report.md`.
+- Frozen machine-readable result `docs/evidence/dryad/dryad-confirmatory-result.json.gz` and final report `docs/dryad-confirmatory-final-report.md`.
 
 ### Result
 - Association-error AUPRC uncertainty-minus-distance was positive in 3/3 experiments; mean effect `+0.596419`.
