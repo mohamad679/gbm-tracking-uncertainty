@@ -32,7 +32,7 @@ Changes that can affect numerical benchmark outputs must:
 1. include a regression test;
 2. preserve artifact schema/provenance contracts or document a schema migration;
 3. rerun the full U373 reproduction workflow;
-4. update `docs/reproduced-results-2026-09-19.json` and the relevant report when results change;
+4. update `docs/evidence/engineering/reproduced-results-2026-09-19.json` and the relevant report when results change;
 5. clearly distinguish technical benchmark evidence from biological interpretation.
 
 Do not commit raw datasets or generated `results/` artifacts unless the repository policy is intentionally changed.
