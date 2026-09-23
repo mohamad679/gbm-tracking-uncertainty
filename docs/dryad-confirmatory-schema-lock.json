@@ -1,0 +1,129 @@
+{
+  "schema_version": 1,
+  "lock_id": "dryad_three_experiment_schema_lock_v1",
+  "status": "LOCKED",
+  "locked_utc": "2026-09-23",
+  "source_bundle": {
+    "filename": "To Generate Figures.zip",
+    "md5": "2b70accfbb4d81d41dfb10fcefa60cbf",
+    "sha256_observed_local": "bb65dc02e404aba5e789377fa3a43d3dee04995174577e023bb565ad412ad536"
+  },
+  "documentation": {
+    "filename": "README_for_To Generate Figures.docx",
+    "md5": "fcbd2b285b860eb18d7ce600becda06d",
+    "sha256_observed_local": "5c7b56ba8871a47e7d2449840dc9068e55f7dd18c1d7af8e2afc9c133907cacf"
+  },
+  "schema_evidence": {
+    "local_probe_status": "SCHEMA_EVIDENCE_COMPLETE_NO_METHOD_OUTCOMES",
+    "local_probe_sha256": "312a4f97f6ccb485ac4611e5d98a76ce585cafec3af2e12f89c26267978881b5",
+    "source_manifest_sha256": "350a87f37731d124b47abc46496a97137f92f2e1ce8b2585865b9f92d99a85c7",
+    "experiment_identity_basis": [
+      "Deposited MasterFigures_Control.m explicitly defines Exp 1 tumour data as GFPOrlando, Exp 2 as 6-6-11_Tumor_Tracking_Data, and Exp 3 as 3-14-11_Tumor_Tracking_Data.",
+      "Deposited README identifies GFPOrlando.mat as tumour-cell tracking data from the c1 5-16-11 movie and states that tumour/GFP and microglia/TAM tracking are stored separately.",
+      "The README also mentions 3-4-14C2 in the separate PIV/supplementary-movie context; this schema lock does not equate that PIV label with the explicitly named Exp 3 single-cell tracking member."
+    ],
+    "column_semantics_basis": "Deposited MATLAB analysis code defines Cells = unique(StoreData(:,2)), time = StoreData(r,1), x = StoreData(r,3), and y = StoreData(r,4).",
+    "time_unit_basis": "Deposited analysis labels time as hours and the XLS elapsed-time examples agree with StoreData hour-valued samples; canonical normalization therefore multiplies source time by 60 to minutes.",
+    "coordinate_unit_basis": "Deposited analysis uses StoreData x/y directly for displacement and labels MSD in micrometre-squared units; plotting code converts the same x/y values to image pixels with Ctrl.pixelscale. Coordinates are therefore normalized with scale 1.0 to micrometres.",
+    "frame_rule_basis": "The deposited source has irregular acquisition intervals in some experiments. Canonical frame is therefore the deterministic sorted rank of each distinct global elapsed-time value, while the exact source elapsed time is retained for dt calculations. No fixed interval is imposed and no method outcome is consulted."
+  },
+  "canonical_schema": [
+    "experiment_id",
+    "cell_type",
+    "track_id",
+    "frame",
+    "time_min",
+    "x_um",
+    "y_um"
+  ],
+  "experiments": {
+    "experiment_1": {
+      "source_experiment_label": "5-16-11 / GFPOrlando",
+      "source_members": [
+        "To Generate Figures/Data/AllCombined/GFPOrlando.mat"
+      ],
+      "format": "mat",
+      "sheet": null,
+      "matlab_variable": "StoreData",
+      "delimiter": null,
+      "header_row": 1,
+      "column_map": {
+        "track_id": 1,
+        "frame": null,
+        "time_min": 0,
+        "x_um": 2,
+        "y_um": 3,
+        "cell_type": null
+      },
+      "cell_type_filter": {
+        "enabled": false,
+        "accepted_values": []
+      },
+      "cell_type_identity": "tumour/glioma by dedicated GFPOrlando tumour-data member identity",
+      "coordinate_scale_to_um": 1.0,
+      "time_scale_to_min": 60.0,
+      "frame_interval_min_if_time_absent": null,
+      "frame_derivation": "global_time_rank",
+      "inclusion_rule": "all observations in the unambiguously tumour-only GFPOrlando StoreData matrix with finite x/y/time and non-empty track identity; no method-performance-based exclusions"
+    },
+    "experiment_2": {
+      "source_experiment_label": "6-6-11",
+      "source_members": [
+        "To Generate Figures/Data/AllCombined/6-6-11_Tumor_Tracking_Data.mat"
+      ],
+      "format": "mat",
+      "sheet": null,
+      "matlab_variable": "StoreData",
+      "delimiter": null,
+      "header_row": 1,
+      "column_map": {
+        "track_id": 1,
+        "frame": null,
+        "time_min": 0,
+        "x_um": 2,
+        "y_um": 3,
+        "cell_type": null
+      },
+      "cell_type_filter": {
+        "enabled": false,
+        "accepted_values": []
+      },
+      "cell_type_identity": "tumour/glioma by dedicated Tumor_Tracking_Data member identity",
+      "coordinate_scale_to_um": 1.0,
+      "time_scale_to_min": 60.0,
+      "frame_interval_min_if_time_absent": null,
+      "frame_derivation": "global_time_rank",
+      "inclusion_rule": "all observations in the unambiguously tumour-only 6-6-11 StoreData matrix with finite x/y/time and non-empty track identity; no method-performance-based exclusions"
+    },
+    "experiment_3": {
+      "source_experiment_label": "3-14-11",
+      "source_members": [
+        "To Generate Figures/Data/AllCombined/3-14-11_Tumor_Tracking_Data.mat"
+      ],
+      "format": "mat",
+      "sheet": null,
+      "matlab_variable": "StoreData",
+      "delimiter": null,
+      "header_row": 1,
+      "column_map": {
+        "track_id": 1,
+        "frame": null,
+        "time_min": 0,
+        "x_um": 2,
+        "y_um": 3,
+        "cell_type": null
+      },
+      "cell_type_filter": {
+        "enabled": false,
+        "accepted_values": []
+      },
+      "cell_type_identity": "tumour/glioma by dedicated Tumor_Tracking_Data member identity",
+      "coordinate_scale_to_um": 1.0,
+      "time_scale_to_min": 60.0,
+      "frame_interval_min_if_time_absent": null,
+      "frame_derivation": "global_time_rank",
+      "inclusion_rule": "all observations in the unambiguously tumour-only 3-14-11 StoreData matrix with finite x/y/time and non-empty track identity; no method-performance-based exclusions"
+    }
+  },
+  "freeze_rule": "This mapping was frozen and committed after schema-only source inventory/documentation/code inspection and before any Dryad confirmatory method-performance calculation. Any later source-format failure must stop the pipeline rather than trigger outcome-guided remapping or retuning."
+}

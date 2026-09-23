@@ -24,6 +24,13 @@ dependencies = [
   "certifi>=2024.2.2,<2027",
 ]
 
+[project.optional-dependencies]
+dryad = [
+  "openpyxl>=3.1,<4",
+  "scipy>=1.14,<2",
+  "xlrd>=2.0,<3",
+]
+
 [project.urls]
 Repository = "https://github.com/mohamad679/glioblastoma-cell-tracking-uncertainty"
 Documentation = "https://github.com/mohamad679/glioblastoma-cell-tracking-uncertainty/tree/main/docs"
@@ -61,6 +68,9 @@ gbm-stage-e-statistics = "gbm_audit.stage_e_statistics:main"
 gbm-stage-e-track-bootstrap = "gbm_audit.stage_e_track_bootstrap:main"
 gbm-stage-e-ctc-metrics = "gbm_audit.stage_e_ctc_metrics:main"
 gbm-external-glioma-evaluate = "gbm_audit.external_biology:main"
+gbm-dryad-local = "gbm_audit.dryad_local_safe:main"
+gbm-dryad-schema-probe = "gbm_audit.dryad_schema_probe:main"
+gbm-dryad-confirmatory = "gbm_audit.dryad_confirmatory:main"
 gbm-soft-dynamics = "gbm_audit.soft_dynamics:main"
 gbm-final-audit = "gbm_audit.final_audit:main"
 
