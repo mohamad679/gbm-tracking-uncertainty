@@ -4,7 +4,7 @@ from pathlib import Path
 import unittest
 
 
-DOCS = Path("docs/evidence/stage-e")
+DOCS = Path("docs")
 
 
 def load_json(name: str) -> dict:
