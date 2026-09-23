@@ -133,10 +133,10 @@ Not supported:
 
 ## 10. Reproducibility artifacts
 
-- protocol: `dryad-confirmatory-local-resumption-protocol.json`;
-- schema lock: `dryad-confirmatory-schema-lock.json`;
-- local runbook: `dryad-confirmatory-local-runbook.md`;
+- protocol: [`evidence/dryad/dryad-confirmatory-local-resumption-protocol.json`](evidence/dryad/dryad-confirmatory-local-resumption-protocol.json);
+- schema lock: [`dryad-confirmatory-schema-lock.json`](dryad-confirmatory-schema-lock.json);
+- local runbook: [`evidence/dryad/dryad-confirmatory-local-runbook.md`](evidence/dryad/dryad-confirmatory-local-runbook.md);
 - evaluator: `src/gbm_audit/dryad_confirmatory.py`;
-- frozen machine-readable result: `dryad-confirmatory-result.json.gz`.
+- frozen machine-readable result: [`evidence/dryad/dryad-confirmatory-result.json.gz`](evidence/dryad/dryad-confirmatory-result.json.gz).
 
 The gzip artifact is a deterministic gzip (`gzip -n`) of the one-time local `confirmatory-result.json`. Its SHA-256 is `371e67c0ec026f4ea0ffa9e89748b9c55bcc612a3cee2ef7df9c0363261b1e31`; the uncompressed JSON SHA-256 is `7eb61dc829ad0eb7076dd46801d8e2f2a4863f6369494115ef0353be6ec6139f`.
