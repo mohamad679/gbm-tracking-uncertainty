@@ -11,6 +11,7 @@ on:
       - "tests/test_dryad_local_safe.py"
       - "tests/test_dryad_schema_probe.py"
       - "tests/test_dryad_confirmatory.py"
+      - "docs/dryad-confirmatory-schema-lock.json"
       - "docs/evidence/dryad/dryad-confirmatory-**"
       - "pyproject.toml"
       - ".github/workflows/validate-dryad-confirmatory-pipeline.yml"
@@ -47,7 +48,7 @@ jobs:
           import json
           from pathlib import Path
 
-          lock = json.loads(Path('docs/evidence/dryad/dryad-confirmatory-schema-lock.json').read_text())
+          lock = json.loads(Path('docs/dryad-confirmatory-schema-lock.json').read_text())
           if lock.get('status') != 'LOCKED':
               raise SystemExit('Real Dryad schema must be LOCKED after schema-only review and before outcomes.')
           expected = {
