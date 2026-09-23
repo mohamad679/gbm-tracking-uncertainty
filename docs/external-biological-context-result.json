@@ -1,0 +1,150 @@
+{
+  "schema_version": 1,
+  "status": "COMPLETE_SINGLE_EXTERNAL_GLIOMA_EXPLANT_TRANSFER",
+  "source": {
+    "repository": "smotsch/analysis_glioma",
+    "commit": "265285a03d87f3bf3275a0e78db1336570126bf4",
+    "dataset": "NPA_stich_3",
+    "reference_kind": "independent TrackMate trajectories; not manual gold-standard labels",
+    "biological_n": 1,
+    "track_count": 3759,
+    "observation_count": 173456,
+    "frame_range": [
+      0,
+      292
+    ],
+    "frame_interval_s": 598.54199,
+    "source_hashes": {
+      "info_sha256": "7f1e2cbf4101e2c86535fffa146a8b7d2a7a6e54584d593558ca0535d2b08d31",
+      "spots_sha256": "329296edb5392151e9b6b1602f043e21a355afd27567bc3f06536f8abf1cdc94",
+      "tracks_sha256": "76d9b02fe7672cf55bddfba13185f3929b81c628741e88de74b4564f0c38ef09"
+    }
+  },
+  "frozen_transfer_configuration": {
+    "max_speed_um_per_min": 1.5,
+    "max_link_distance_um": 14.96354975,
+    "proposal_temperature_um": 7.481774875,
+    "hypothesis_count": 64,
+    "calibration_temperature": 0.25,
+    "posterior_track_threshold": 0.5,
+    "seed": 20260922,
+    "external_parameter_fitting": false
+  },
+  "candidate_graph": {
+    "candidate_edges": 180929,
+    "reference_links": 168116,
+    "reference_link_coverage": 0.9999583620833234
+  },
+  "association": {
+    "distance_confidence": {
+      "association_error_auprc": 0.925168836374723,
+      "selective_link_risk": {
+        "coverage": 0.8,
+        "accepted": 144744,
+        "risk": 0.0007046924224838325
+      },
+      "calibration": {
+        "brier": 0.02589389019648787,
+        "ece": 0.082355030994774,
+        "nll": 0.1260118128373568,
+        "count": 180929
+      }
+    },
+    "uncalibrated_uncertainty": {
+      "association_error_auprc": 0.9972924779646121,
+      "selective_link_risk": {
+        "coverage": 0.8,
+        "accepted": 144744,
+        "risk": 0.0
+      },
+      "calibration": {
+        "brier": 0.030978638482671378,
+        "ece": 0.15279750620409133,
+        "nll": 0.17640824431585014,
+        "count": 180929
+      }
+    },
+    "calibrated_uncertainty": {
+      "association_error_auprc": 0.9972924779646121,
+      "selective_link_risk": {
+        "coverage": 0.8,
+        "accepted": 144744,
+        "risk": 0.0
+      },
+      "calibration": {
+        "brier": 0.004479027260920535,
+        "ece": 0.009541460028501769,
+        "nll": 0.017867848680804443,
+        "count": 180929
+      }
+    },
+    "calibrated_full_coverage_risk": 0.07085652382978957
+  },
+  "tracking": {
+    "hard_nearest_neighbor": {
+      "true_positive": 168035,
+      "predicted": 168089,
+      "reference": 168116,
+      "precision": 0.9996787416190233,
+      "recall": 0.9995181898213139,
+      "f1": 0.99959845927336
+    },
+    "uncertainty_compatible_p50": {
+      "true_positive": 167278,
+      "predicted": 167380,
+      "reference": 168116,
+      "precision": 0.9993906081969172,
+      "recall": 0.9950153465464322,
+      "f1": 0.9971981782197106
+    }
+  },
+  "motion": {
+    "reference": {
+      "trajectory_segments": 5340,
+      "consecutive_links": 168116,
+      "mean_speed_um_per_min": 0.1484223308221313,
+      "mean_total_path_length_um": 46.61336026779497,
+      "mean_net_displacement_um": 11.560065746776084,
+      "mean_directionality": 0.3608040057861884
+    },
+    "hard_nearest_neighbor": {
+      "summary": {
+        "trajectory_segments": 5367,
+        "consecutive_links": 168089,
+        "mean_speed_um_per_min": 0.14820819820041986,
+        "mean_total_path_length_um": 46.451646437920026,
+        "mean_net_displacement_um": 11.533755970675164,
+        "mean_directionality": 0.3636033009376743
+      },
+      "errors": {
+        "mean_speed_absolute_error_um_per_min": 0.0002141326217114381,
+        "total_path_length_relative_absolute_error": 0.003469259219800736,
+        "net_displacement_relative_absolute_error": 0.002275919244512711,
+        "directionality_absolute_error": 0.0027992951514859143
+      }
+    },
+    "uncertainty_compatible_p50": {
+      "summary": {
+        "trajectory_segments": 6076,
+        "consecutive_links": 167380,
+        "mean_speed_um_per_min": 0.14541167368239624,
+        "mean_total_path_length_um": 42.23319142611385,
+        "mean_net_displacement_um": 10.758741536897212,
+        "mean_directionality": 0.3825047022940102
+      },
+      "errors": {
+        "mean_speed_absolute_error_um_per_min": 0.0030106571397350568,
+        "total_path_length_relative_absolute_error": 0.09396809877075875,
+        "net_displacement_relative_absolute_error": 0.06931830903317734,
+        "directionality_absolute_error": 0.021700696507821804
+      }
+    }
+  },
+  "interpretation_boundary": {
+    "supported_scope": "single independent mouse glioma explant technical-transfer example",
+    "biological_population_inference": false,
+    "manual_ground_truth_validation": false,
+    "dryad_three_experiment_confirmatory_arm_completed": false,
+    "stage_e_decision_changed": false
+  }
+}

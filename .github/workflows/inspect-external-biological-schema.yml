@@ -1,0 +1,69 @@
+name: inspect-external-biological-schema
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - ".github/workflows/inspect-external-biological-schema.yml"
+      - "docs/external-biological-context-**"
+      - "src/gbm_audit/external_biology.py"
+      - "tests/test_external_biology.py"
+
+permissions:
+  contents: read
+
+jobs:
+  schema-only-audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download immutable public fallback tracking files
+        run: |
+          set -euo pipefail
+          BASE="https://raw.githubusercontent.com/smotsch/analysis_glioma/265285a03d87f3bf3275a0e78db1336570126bf4/data_tracking/step1_data_trackMate/NPA_stich_3"
+          curl -fL --retry 4 "$BASE/NPA_stich_3_info.json" -o /tmp/info.json
+          curl -fL --retry 4 "$BASE/NPA_stich_3_spots.csv" -o /tmp/spots.csv
+          curl -fL --retry 4 "$BASE/NPA_stich_3_tracks.csv" -o /tmp/tracks.csv
+      - name: Produce schema-only inventory
+        run: |
+          python - <<'PY'
+          import csv, hashlib, json
+          from pathlib import Path
+
+          def sha256(path):
+              return hashlib.sha256(Path(path).read_bytes()).hexdigest()
+
+          def inspect_csv(path):
+              text = Path(path).read_text(encoding='utf-8-sig', errors='replace').splitlines()
+              nonempty = [(i + 1, line) for i, line in enumerate(text) if line.strip()]
+              candidates = []
+              for line_number, line in nonempty[:20]:
+                  row = next(csv.reader([line]))
+                  candidates.append({"line": line_number, "columns": row})
+              return {
+                  "line_count": len(text),
+                  "first_nonempty_rows": candidates,
+                  "sha256": sha256(path),
+              }
+
+          info = json.loads(Path('/tmp/info.json').read_text(encoding='utf-8'))
+          out = {
+              "boundary": "schema-only; no method-performance outcomes computed",
+              "source_repository": "smotsch/analysis_glioma",
+              "source_commit": "265285a03d87f3bf3275a0e78db1336570126bf4",
+              "info": info,
+              "info_sha256": sha256('/tmp/info.json'),
+              "spots": inspect_csv('/tmp/spots.csv'),
+              "tracks": inspect_csv('/tmp/tracks.csv'),
+          }
+          Path('/tmp/external-schema-inventory.json').write_text(
+              json.dumps(out, indent=2, ensure_ascii=False) + '\n', encoding='utf-8'
+          )
+          print(Path('/tmp/external-schema-inventory.json').read_text())
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: external-biological-schema-inventory
+          path: /tmp/external-schema-inventory.json
+          if-no-files-found: error

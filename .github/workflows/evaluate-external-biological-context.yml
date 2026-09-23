@@ -1,0 +1,53 @@
+name: evaluate-external-biological-context
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - ".github/workflows/evaluate-external-biological-context.yml"
+      - "docs/external-biological-context-**"
+      - "src/gbm_audit/external_biology.py"
+      - "src/gbm_audit/calibration.py"
+      - "src/gbm_audit/stage_e_metrics.py"
+      - "tests/test_external_biology.py"
+      - "pyproject.toml"
+      - "constraints.txt"
+
+permissions:
+  contents: read
+
+jobs:
+  external-glioma-transfer:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install project
+        run: python -m pip install -c constraints.txt -e .
+      - name: Run external evaluator unit tests
+        run: python -m unittest tests.test_external_biology -v
+      - name: Download immutable external glioma reference
+        run: |
+          set -euo pipefail
+          BASE="https://raw.githubusercontent.com/smotsch/analysis_glioma/265285a03d87f3bf3275a0e78db1336570126bf4/data_tracking/step1_data_trackMate/NPA_stich_3"
+          curl -fL --retry 4 "$BASE/NPA_stich_3_info.json" -o /tmp/info.json
+          curl -fL --retry 4 "$BASE/NPA_stich_3_spots.csv" -o /tmp/spots.csv
+          curl -fL --retry 4 "$BASE/NPA_stich_3_tracks.csv" -o /tmp/tracks.csv
+          echo "7f1e2cbf4101e2c86535fffa146a8b7d2a7a6e54584d593558ca0535d2b08d31  /tmp/info.json" | sha256sum -c -
+          echo "329296edb5392151e9b6b1602f043e21a355afd27567bc3f06536f8abf1cdc94  /tmp/spots.csv" | sha256sum -c -
+          echo "76d9b02fe7672cf55bddfba13185f3929b81c628741e88de74b4564f0c38ef09  /tmp/tracks.csv" | sha256sum -c -
+      - name: Run frozen no-retuning external evaluation
+        run: |
+          gbm-external-glioma-evaluate \
+            --info /tmp/info.json \
+            --spots /tmp/spots.csv \
+            --tracks /tmp/tracks.csv \
+            --output /tmp/external-biological-context-result.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: external-biological-context-result
+          path: /tmp/external-biological-context-result.json
+          if-no-files-found: error
