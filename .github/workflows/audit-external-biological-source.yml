@@ -1,0 +1,108 @@
+name: audit-external-biological-source
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - ".github/workflows/audit-external-biological-source.yml"
+      - "docs/external-biological-context-**"
+
+permissions:
+  contents: read
+
+jobs:
+  dryad-preoutcome-source-audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Inventory published Dryad files and inspect documentation only
+        run: |
+          python - <<'PY'
+          import html
+          import json
+          from pathlib import Path
+          import re
+          from urllib.parse import quote
+          from urllib.request import Request, urlopen
+          from zipfile import ZipFile
+
+          BASE = "https://datadryad.org"
+          DOI = "doi:10.5061/dryad.s4d28"
+
+          def get_json(url):
+              request = Request(url, headers={"Accept": "application/json", "User-Agent": "gbm-audit-source-audit/1.0"})
+              with urlopen(request, timeout=60) as response:
+                  return json.load(response)
+
+          dataset = get_json(f"{BASE}/api/v2/datasets/{quote(DOI, safe='')}")
+          version_href = dataset["_links"]["stash:version"]["href"]
+          version = get_json(BASE + version_href)
+          files_href = version.get("_links", {}).get("stash:files", {}).get("href")
+          if not files_href:
+              version_id = version.get("id")
+              if version_id is None:
+                  raise SystemExit("Dryad version response does not expose files link or version id")
+              files_href = f"/api/v2/versions/{version_id}/files"
+          files_payload = get_json(BASE + files_href)
+          files = files_payload.get("_embedded", {}).get("stash:files", [])
+          if not files:
+              raise SystemExit("Dryad file inventory is empty")
+
+          inventory = {
+              "source": DOI,
+              "dataset_title": dataset.get("title"),
+              "version": dataset.get("versionNumber"),
+              "curation_status": dataset.get("curationStatus"),
+              "storage_size": dataset.get("storageSize"),
+              "files": [
+                  {
+                      "path": row.get("path"),
+                      "size": row.get("size"),
+                      "mime_type": row.get("mimeType"),
+                      "digest": row.get("digest"),
+                      "digest_type": row.get("digestType"),
+                      "download_href": row.get("_links", {}).get("stash:download", {}).get("href"),
+                  }
+                  for row in files
+              ],
+              "audit_boundary": "metadata and documentation schema only; no tracking performance outcomes computed",
+          }
+          Path("/tmp/dryad-source-inventory.json").write_text(
+              json.dumps(inventory, indent=2, ensure_ascii=False) + "\n", encoding="utf-8"
+          )
+
+          readme = next((row for row in files if row.get("path") == "README_for_To Generate Figures.docx"), None)
+          if readme is None:
+              raise SystemExit("Expected Dryad README document was not found")
+          href = readme.get("_links", {}).get("stash:download", {}).get("href")
+          if not href:
+              raise SystemExit("Dryad README has no download link")
+          request = Request(BASE + href, headers={"User-Agent": "gbm-audit-source-audit/1.0"})
+          with urlopen(request, timeout=60) as response:
+              Path("/tmp/source-readme.docx").write_bytes(response.read())
+
+          with ZipFile("/tmp/source-readme.docx") as document:
+              xml = document.read("word/document.xml").decode("utf-8", errors="replace")
+          xml = re.sub(r"</w:p>", "\n", xml)
+          xml = re.sub(r"<w:tab[^>]*/>", "\t", xml)
+          text = re.sub(r"<[^>]+>", "", xml)
+          text = html.unescape(text)
+          text = "\n".join(line.strip() for line in text.splitlines() if line.strip())
+          Path("/tmp/dryad-source-readme.txt").write_text(text + "\n", encoding="utf-8")
+
+          print(Path("/tmp/dryad-source-inventory.json").read_text())
+          print("--- Dryad documentation text (schema audit only) ---")
+          print(text[:20000])
+          PY
+      - name: Upload pre-outcome source audit
+        uses: actions/upload-artifact@v4
+        with:
+          name: external-biological-source-audit
+          path: |
+            /tmp/dryad-source-inventory.json
+            /tmp/dryad-source-readme.txt
+          if-no-files-found: error
