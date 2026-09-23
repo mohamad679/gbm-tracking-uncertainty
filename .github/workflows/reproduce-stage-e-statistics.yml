@@ -5,7 +5,7 @@ on:
   pull_request:
     paths:
       - ".github/workflows/reproduce-stage-e-statistics.yml"
-      - "docs/evidence/stage-e/stage-e-**"
+      - "docs/stage-e-**"
       - "src/gbm_audit/stage_e_statistics.py"
       - "tests/test_stage_e_statistics.py"
       - "pyproject.toml"
@@ -29,8 +29,8 @@ jobs:
       - name: Reproduce supplementary Stage E statistics
         run: |
           python -m gbm_audit.stage_e_statistics \
-            docs/evidence/stage-e/stage-e-sequence02-evaluation.json \
-            docs/evidence/stage-e/stage-e-protocol.json \
+            docs/stage-e-sequence02-evaluation.json \
+            docs/stage-e-protocol.json \
             --iterations 10000 \
             --seed 20260923 \
             --output /tmp/stage-e-statistics.json
