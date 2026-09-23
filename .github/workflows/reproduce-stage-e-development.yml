@@ -5,7 +5,7 @@ on:
   pull_request:
     paths:
       - ".github/workflows/reproduce-stage-e-development.yml"
-      - "docs/stage-e-**"
+      - "docs/evidence/stage-e/stage-e-**"
       - "src/gbm_audit/**"
       - "tests/**"
       - "pyproject.toml"
@@ -49,7 +49,7 @@ jobs:
           python - <<'PY'
           import json
           from pathlib import Path
-          expected = json.loads(Path("docs/stage-e-development-fit.json").read_text())
+          expected = json.loads(Path("docs/evidence/stage-e/stage-e-development-fit.json").read_text())
           actual = json.loads(Path("/tmp/stage-e-development-fit.json").read_text())
           if expected != actual:
               raise SystemExit("Stage E development-only fit differs from frozen artifact")
