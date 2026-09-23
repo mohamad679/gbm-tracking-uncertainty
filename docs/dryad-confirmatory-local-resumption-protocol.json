@@ -2,7 +2,7 @@
   "schema_version": 1,
   "protocol_id": "dryad_three_experiment_confirmatory_local_resumption_v1",
   "registered_utc": "2026-09-23",
-  "status": "PRE_OUTCOME_LOCAL_ACQUISITION_AND_SCHEMA_FREEZE",
+  "status": "SCHEMA_LOCKED_PRE_OUTCOME_NORMALIZATION_PENDING",
   "parent_protocol": "postclosure_external_glioma_brainslice_validation_v1",
   "source": {
     "doi": "10.5061/dryad.s4d28",
@@ -21,6 +21,33 @@
     "stage_e_decision_changed": false,
     "fallback_result_used_for_parameter_selection": false
   },
+  "schema_freeze": {
+    "completed_utc": "2026-09-23",
+    "status": "LOCKED_BEFORE_METHOD_OUTCOMES",
+    "lock_file": "docs/dryad-confirmatory-schema-lock.json",
+    "evidence": [
+      "digest-verified source inventory",
+      "legacy XLS schema/sample inspection",
+      "MATLAB StoreData matrix schema inspection",
+      "deposited MATLAB source-code semantics",
+      "deposited README documentation"
+    ],
+    "frozen_source_members": {
+      "experiment_1": "To Generate Figures/Data/AllCombined/GFPOrlando.mat",
+      "experiment_2": "To Generate Figures/Data/AllCombined/6-6-11_Tumor_Tracking_Data.mat",
+      "experiment_3": "To Generate Figures/Data/AllCombined/3-14-11_Tumor_Tracking_Data.mat"
+    },
+    "frozen_storedata_columns": [
+      "elapsed_time_hours",
+      "track_id",
+      "x_um",
+      "y_um"
+    ],
+    "time_conversion_to_minutes": 60.0,
+    "frame_derivation": "sorted global rank of each distinct elapsed-time value within experiment",
+    "frame_derivation_rationale": "Acquisition intervals are irregular in the deposited source; a fixed interval would alter source timing. Exact elapsed time remains authoritative for dt calculations.",
+    "method_performance_seen_before_lock": false
+  },
   "frozen_method": {
     "hypothesis_count": 64,
     "max_speed_um_per_min": 1.5,
@@ -35,26 +62,32 @@
   "local_pipeline_gates": [
     {
       "gate": "A_SOURCE_IDENTITY",
+      "status": "COMPLETE",
       "requirement": "Verify the Dryad deposited MD5 before opening archive members."
     },
     {
       "gate": "B_SCHEMA_ONLY",
+      "status": "COMPLETE",
       "requirement": "Inventory archive members and inspect formats/column names only. Do not calculate tracking-method performance."
     },
     {
       "gate": "C_SCHEMA_LOCK",
+      "status": "COMPLETE",
       "requirement": "Commit the exact source-member mapping, units, cell-type filter, time rule, coordinate conversion and inclusion rules before evaluation."
     },
     {
       "gate": "D_NORMALIZATION",
+      "status": "PENDING",
       "requirement": "Convert all three eligible experiments to the canonical trajectory schema and record SHA-256 identities of normalized files."
     },
     {
       "gate": "E_CONFIRMATORY_EVALUATION",
+      "status": "PENDING",
       "requirement": "Run the frozen method on every eligible experiment without retuning or experiment selection."
     },
     {
       "gate": "F_REPLICATE_AWARE_REPORTING",
+      "status": "PENDING",
       "requirement": "Report biological n=3 separately from track/cell counts and retain all negative results."
     }
   ],
