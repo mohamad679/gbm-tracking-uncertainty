@@ -4,7 +4,7 @@ from pathlib import Path
 import unittest
 
 
-DOCS = Path("docs")
+DOCS = Path("docs/evidence/stage-e")
 
 
 def load_json(name: str) -> dict:
@@ -120,6 +120,7 @@ class TestStageEProtocol(unittest.TestCase):
         self.assertEqual(lock["evaluation_count"], 1)
         self.assertEqual(lock["development_artifact_sha256"], sha256("stage-e-development-fit.json"))
         self.assertEqual(lock["decision"], "REVISE")
+        # Historical frozen metadata records the path used at evaluation time.
         self.assertEqual(lock["evaluation_artifact_path"], "docs/stage-e-sequence02-evaluation.json")
         self.assertEqual(lock["evaluation_artifact_sha256"], sha256("stage-e-sequence02-evaluation.json"))
         self.assertEqual(
