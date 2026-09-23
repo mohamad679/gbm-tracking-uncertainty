@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "amendment_id": "postclosure_external_glioma_brainslice_validation_access_amendment_v1",
+  "registered_utc": "2026-09-23",
+  "parent_protocol": "postclosure_external_glioma_brainslice_validation_v1",
+  "status": "AMENDED_BEFORE_ANY_EXTERNAL_METHOD_PERFORMANCE_EVALUATION",
+  "reason": {
+    "primary_dryad_source": "doi:10.5061/dryad.s4d28",
+    "blocker": "The frozen Dryad metadata remain public, but both tested public file-download routes returned authorization errors in GitHub Actions (HTTP 403 and HTTP 401). No Dryad file content or method-performance outcome was accessed.",
+    "decision": "Preserve the Dryad source as the preferred three-experiment confirmatory target, but use a separately public, immutable glioma-explant tracking example for a bounded external biological-context transfer analysis that can be reproduced without credentials."
+  },
+  "fallback_source": {
+    "repository": "https://github.com/smotsch/analysis_glioma",
+    "commit": "265285a03d87f3bf3275a0e78db1336570126bf4",
+    "related_publication_doi": "10.1038/s41467-022-31340-1",
+    "related_protocol": "Generation of 3D ex vivo mouse- and patient-derived glioma explant slice model for integration of confocal time-lapse imaging and spatial analysis",
+    "dataset": "data_tracking/step1_data_trackMate/NPA_stich_3",
+    "reference_kind": "independent TrackMate trajectory reference; not manual gold-standard tracking",
+    "biological_context": "mouse NPA glioma explant slice time-lapse imaging",
+    "biological_replicates": 1,
+    "inference_boundary": "single external glioma-explant example; descriptive technical transfer only"
+  },
+  "pre_outcome_transfer_rule": {
+    "coordinate_units": "use the physical-position columns exported by TrackMate; do not rescale based on method performance",
+    "time_step_source": "NPA_stich_3_info.json Frame interval (s)",
+    "max_speed_um_per_min": 1.5,
+    "max_speed_rationale": "frozen before external scoring as the larger of the two already-selected real Stage E candidate speed gates (HeLa 1.25, GOWT1 1.5); not selected from external outcomes",
+    "max_link_distance_rule": "max_speed_um_per_min * external frame interval in minutes",
+    "proposal_temperature_rule": "max_link_distance / 2, matching the frozen Stage E real-domain configuration form",
+    "hypothesis_count": 64,
+    "posterior_track_threshold": 0.5,
+    "calibration_temperature": 0.25,
+    "calibration_rationale": "0.25 is the already-frozen Stage E real-domain temperature scaling value; no external calibration fitting is permitted",
+    "random_seed": 20260922,
+    "retuning_forbidden": true
+  },
+  "evaluation_plan": {
+    "reference_link_rule": "after schema-only inspection, reconstruct links only from source trajectory identifiers and consecutive frame indices; freeze parser before any performance calculation",
+    "primary_endpoints": [
+      "association_error_auprc: calibrated uncertainty versus distance confidence",
+      "selective_link_risk_at_80_percent_coverage: calibrated uncertainty versus full coverage",
+      "link_f1: posterior-compatible frozen links versus hard nearest-neighbour links"
+    ],
+    "downstream_motion_endpoints": [
+      "mean-speed absolute error",
+      "total-path-length relative absolute error",
+      "net-displacement relative absolute error",
+      "directionality absolute error"
+    ],
+    "statistics": "track-cluster bootstrap may be reported as within-example sensitivity only; biological n remains 1 and no population-level inference is allowed"
+  },
+  "claim_boundary": {
+    "allowed": "technical transfer/agreement evidence in one independent mouse glioma explant tracking example",
+    "not_allowed": [
+      "completion of the originally planned three-experiment Dryad confirmatory arm",
+      "human GBM-wide validation",
+      "population-level biological inference",
+      "clinical utility",
+      "conversion of the immutable Stage E REVISE decision"
+    ]
+  }
+}
