@@ -21,18 +21,21 @@ jobs:
       - name: Download frozen Dryad documentation and tracking bundle
         run: |
           set -euo pipefail
-          curl -fL --retry 4 --retry-delay 3 -A "gbm-audit-external-validation/1.0" \
-            https://datadryad.org/stash/downloads/file_stream/62584 \
+          UA="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0 Safari/537.36"
+          curl -fL --retry 4 --retry-delay 3 -A "$UA" \
+            -H "Accept: application/octet-stream,*/*" \
+            https://datadryad.org/api/v2/files/62584/download \
             -o /tmp/source-readme.docx
-          curl -fL --retry 4 --retry-delay 3 -A "gbm-audit-external-validation/1.0" \
-            https://datadryad.org/stash/downloads/file_stream/62583 \
+          curl -fL --retry 4 --retry-delay 3 -A "$UA" \
+            -H "Accept: application/octet-stream,*/*" \
+            https://datadryad.org/api/v2/files/62583/download \
             -o /tmp/tracking-bundle.zip
           echo "fcbd2b285b860eb18d7ce600becda06d  /tmp/source-readme.docx" | md5sum -c -
           echo "2b70accfbb4d81d41dfb10fcefa60cbf  /tmp/tracking-bundle.zip" | md5sum -c -
       - name: Produce schema-only inventory
         run: |
           python - <<'PY'
-          import json, re, zipfile
+          import json, zipfile
           from pathlib import Path
           from xml.etree import ElementTree as ET
 
@@ -43,12 +46,13 @@ jobs:
               Path('/tmp/source-readme.txt').write_text(text + '\n', encoding='utf-8')
               out['readme_text'] = text
           with zipfile.ZipFile('/tmp/tracking-bundle.zip') as z:
-              rows=[]
-              for info in z.infolist():
-                  name=info.filename
-                  rows.append({"path":name,"size":info.file_size,"suffix":Path(name).suffix.lower()})
-              out['members']=rows
-          Path('/tmp/external-schema-inventory.json').write_text(json.dumps(out,indent=2,ensure_ascii=False)+'\n',encoding='utf-8')
+              out['members'] = [
+                  {"path": info.filename, "size": info.file_size, "suffix": Path(info.filename).suffix.lower()}
+                  for info in z.infolist()
+              ]
+          Path('/tmp/external-schema-inventory.json').write_text(
+              json.dumps(out, indent=2, ensure_ascii=False) + '\n', encoding='utf-8'
+          )
           print(Path('/tmp/external-schema-inventory.json').read_text())
           PY
       - uses: actions/upload-artifact@v4
