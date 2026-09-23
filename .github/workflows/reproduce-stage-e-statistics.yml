@@ -1,0 +1,43 @@
+name: reproduce-stage-e-statistics
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - ".github/workflows/reproduce-stage-e-statistics.yml"
+      - "docs/stage-e-**"
+      - "src/gbm_audit/stage_e_statistics.py"
+      - "tests/test_stage_e_statistics.py"
+      - "pyproject.toml"
+      - "constraints.txt"
+
+permissions:
+  contents: read
+
+jobs:
+  paired-statistical-sensitivity:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install pinned project environment
+        run: python -m pip install -c constraints.txt -e .
+      - name: Run statistical-analysis unit tests
+        run: python -m unittest tests.test_stage_e_statistics -v
+      - name: Reproduce supplementary Stage E statistics
+        run: |
+          python -m gbm_audit.stage_e_statistics \
+            docs/stage-e-sequence02-evaluation.json \
+            docs/stage-e-protocol.json \
+            --iterations 10000 \
+            --seed 20260923 \
+            --output /tmp/stage-e-statistics.json
+          cat /tmp/stage-e-statistics.json
+      - name: Upload machine-readable statistical sensitivity artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage-e-statistics
+          path: /tmp/stage-e-statistics.json
+          if-no-files-found: error
