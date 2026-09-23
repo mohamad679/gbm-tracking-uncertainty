@@ -10,6 +10,8 @@ from PIL import Image
 
 from gbm_audit.t98g_audit import audit_t98g_archive
 
+# This test remains the structural-only T98G contract used by the documentation-layout CI audit.
+
 
 def _tif(array):
     stream = io.BytesIO()
