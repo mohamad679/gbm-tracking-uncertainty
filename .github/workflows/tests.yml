@@ -21,7 +21,8 @@ jobs:
       - name: Run tests with coverage
         run: |
           coverage run --source=gbm_audit -m unittest discover -s tests -q
-          coverage report --show-missing --fail-under=65
+          coverage report --show-missing --fail-under=68
+          coverage report --include="src/gbm_audit/uncertainty.py,src/gbm_audit/context_posterior.py,src/gbm_audit/corruptions.py,src/gbm_audit/dynamics.py,src/gbm_audit/stage_c_dynamics.py,src/gbm_audit/stage_c_v2_sampler.py,src/gbm_audit/stage_d_operators.py,src/gbm_audit/stage_e_metrics.py" --fail-under=83
 
   package-build:
     runs-on: ubuntu-latest
