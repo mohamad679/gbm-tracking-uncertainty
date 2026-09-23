@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "registered_utc": "2026-09-23",
+  "status": "SOURCE_IDENTITY_FROZEN_BEFORE_QUANTITATIVE_EVALUATION",
+  "source": "doi:10.5061/dryad.s4d28",
+  "dataset_title": "Data from: Comparative dynamics of microglialand glioma cell motility at the infiltrative margin of brain tumours",
+  "dryad_version": 1,
+  "curation_status": "Published",
+  "storage_size_bytes": 1877316687,
+  "files": [
+    {
+      "path": "3-4-14C2.zip",
+      "role": "experiment_3_movie_data",
+      "size_bytes": 606344316,
+      "digest_type": "md5",
+      "digest": "ba8331a58573176147c70ee9855da443",
+      "dryad_file_id": 62580
+    },
+    {
+      "path": "5-16-11.zip",
+      "role": "experiment_1_movie_data",
+      "size_bytes": 182276855,
+      "digest_type": "md5",
+      "digest": "e010f120cedb41da464bd58831e5459b",
+      "dryad_file_id": 62582
+    },
+    {
+      "path": "6-6-11.zip",
+      "role": "experiment_2_movie_data",
+      "size_bytes": 477376549,
+      "digest_type": "md5",
+      "digest": "37e875a4ac3dbc3f3b134d28be4840b6",
+      "dryad_file_id": 62581
+    },
+    {
+      "path": "README_for_To Generate Figures.docx",
+      "role": "source_documentation",
+      "size_bytes": 15266,
+      "digest_type": "md5",
+      "digest": "fcbd2b285b860eb18d7ce600becda06d",
+      "dryad_file_id": 62584
+    },
+    {
+      "path": "To Generate Figures.zip",
+      "role": "tracking_and_piv_data_and_analysis_code",
+      "size_bytes": 611303701,
+      "digest_type": "md5",
+      "digest": "2b70accfbb4d81d41dfb10fcefa60cbf",
+      "dryad_file_id": 62583
+    }
+  ],
+  "provenance": {
+    "inventory_source": "Dryad public API v2 metadata",
+    "inventory_workflow": ".github/workflows/audit-external-biological-source.yml",
+    "outcome_accessed_during_inventory": false,
+    "file_content_downloaded_during_inventory": false,
+    "note": "The Dryad file-download endpoint required authentication in GitHub Actions; the pre-outcome freeze therefore uses public metadata identities only."
+  },
+  "freeze_rule": "Any future quantitative external-validation run must verify the deposited file digest against this manifest before parsing or evaluation.",
+  "claim_boundary": "rat glioma brain-slice biological-context validation only; not human GBM-wide or clinical validation"
+}
