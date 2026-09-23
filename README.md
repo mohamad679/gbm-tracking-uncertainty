@@ -108,7 +108,7 @@ The full pinned benchmark is automated by `.github/workflows/reproduce-benchmark
 8. creates the final audit;
 9. uploads the numeric results as a GitHub Actions artifact.
 
-The latest frozen result summary is in [`docs/reproduced-results-2026-09-19.json`](docs/reproduced-results-2026-09-19.json).
+The latest frozen result summary is in [`docs/evidence/engineering/reproduced-results-2026-09-19.json`](docs/evidence/engineering/reproduced-results-2026-09-19.json).
 
 ## Pipeline modules
 
@@ -152,31 +152,22 @@ python -m gbm_audit.roi data/raw/glio_trace/Set_68/exp_337_roi_63_stack.npz --ex
 
 Raw data and generated `results/` outputs are not source-controlled.
 
-## Evidence and reports
+## Documentation and evidence
 
-- [`docs/final-project-report.md`](docs/final-project-report.md) — overall technical conclusions
-- [`docs/project-closure-report.md`](docs/project-closure-report.md) — v1.0.0 closure plus post-release evidence boundary
-- [`docs/release-notes-v1.0.0.md`](docs/release-notes-v1.0.0.md) — release notes and post-release evidence extension
-- [`docs/reproduction.md`](docs/reproduction.md) — detailed reproduction guide
-- [`docs/roadmap.md`](docs/roadmap.md) — staged progression and post-closure Dryad extension
-- [`docs/dryad-confirmatory-local-resumption-protocol.json`](docs/dryad-confirmatory-local-resumption-protocol.json) — frozen local-resumption protocol
-- [`docs/dryad-confirmatory-schema-lock.json`](docs/dryad-confirmatory-schema-lock.json) — committed pre-outcome three-experiment mapping
-- [`docs/dryad-confirmatory-local-runbook.md`](docs/dryad-confirmatory-local-runbook.md) — local source verification/reproduction runbook
-- [`docs/dryad-confirmatory-final-report.md`](docs/dryad-confirmatory-final-report.md) — final `n=3` Dryad technical-transfer report
-- [`docs/dryad-confirmatory-result.json.gz`](docs/dryad-confirmatory-result.json.gz) — frozen one-time machine-readable Dryad result
-- [`docs/external-biological-context-final-report.md`](docs/external-biological-context-final-report.md) — combined fallback + Dryad external-context chronology
-- [`docs/architecture-performance-report.md`](docs/architecture-performance-report.md) — Stage 3 hardening/refactor evidence
-- [`docs/reproducibility-packaging-report.md`](docs/reproducibility-packaging-report.md) — packaging/reproducibility evidence
-- [`docs/engineering-hardening-report.md`](docs/engineering-hardening-report.md) — correctness/testing evidence
-- [`docs/reproduced-results-2026-09-19.json`](docs/reproduced-results-2026-09-19.json) — frozen machine-readable result snapshot
-- [`docs/stage-a-protocol.md`](docs/stage-a-protocol.md) — frozen adaptive-candidate benchmark contract
-- [`docs/stage-c-v2-step2-t98g-audit.md`](docs/stage-c-v2-step2-t98g-audit.md) — independent T98G data-only audit and lock decision
-- [`docs/stage-d-v3-final-report.md`](docs/stage-d-v3-final-report.md) — final calibrated Huh7 operator decision
-- [`docs/stage-d-closure-report.md`](docs/stage-d-closure-report.md) — formal Stage D closure and claim boundary
-- [`docs/stage-e-protocol.md`](docs/stage-e-protocol.md) — frozen final-stage question, endpoints, gates and claim boundary
-- [`docs/stage-e-sequence02-evaluation.json`](docs/stage-e-sequence02-evaluation.json) — one-time locked Stage E result artifact
-- [`docs/stage-e-final-report.md`](docs/stage-e-final-report.md) — final Stage E `REVISE` decision report
-- [`CHANGELOG.md`](CHANGELOG.md) — release and evidence-extension history
+Start with [`docs/README.md`](docs/README.md). It provides the reader path and the complete evidence/archive layout.
+
+Core reader-facing documents remain at the top level of `docs/`:
+
+- [`docs/final-project-report.md`](docs/final-project-report.md) — consolidated technical conclusions;
+- [`docs/architecture.md`](docs/architecture.md) — architecture and scientific invariants;
+- [`docs/reproduction.md`](docs/reproduction.md) — reproduction guide;
+- [`docs/dryad-confirmatory-final-report.md`](docs/dryad-confirmatory-final-report.md) — final Dryad `n=3` external technical-transfer report;
+- [`docs/project-closure-report.md`](docs/project-closure-report.md) — closure and claim boundary;
+- [`docs/roadmap.md`](docs/roadmap.md) — research chronology;
+- [`docs/portfolio-summary.md`](docs/portfolio-summary.md) — concise portfolio summary;
+- [`docs/release-notes-v1.0.0.md`](docs/release-notes-v1.0.0.md) — tagged release history and later evidence-extension note.
+
+Protocols, locks, machine-readable results, stage reports, and engineering evidence are grouped under [`docs/evidence/`](docs/evidence/). Historical and superseded development notes are retained under [`docs/archive/`](docs/archive/). The complete 100-file cleanup classification is machine-readable in [`docs/documentation-audit.json`](docs/documentation-audit.json).
 
 ## Sources
 
