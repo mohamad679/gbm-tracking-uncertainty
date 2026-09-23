@@ -5,13 +5,13 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "gbm-tracking-uncertainty"
 version = "1.0.0"
-description = "Reproducible feasibility audit for uncertainty-aware glioblastoma cell tracking"
+description = "Reproducible technical audit of uncertainty-aware cell tracking and downstream dynamics"
 readme = "README.md"
 requires-python = ">=3.11,<3.14"
 license = "MIT"
 keywords = ["cell-tracking", "uncertainty", "reproducibility", "glioblastoma", "benchmark"]
 classifiers = [
-  "Development Status :: 3 - Alpha",
+  "Development Status :: 4 - Beta",
   "Programming Language :: Python :: 3",
   "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
@@ -25,9 +25,9 @@ dependencies = [
 ]
 
 [project.urls]
-Repository = "https://github.com/mohamad679/gbm-tracking-uncertainty"
-Documentation = "https://github.com/mohamad679/gbm-tracking-uncertainty/tree/main/docs"
-Issues = "https://github.com/mohamad679/gbm-tracking-uncertainty/issues"
+Repository = "https://github.com/mohamad679/glioblastoma-cell-tracking-uncertainty"
+Documentation = "https://github.com/mohamad679/glioblastoma-cell-tracking-uncertainty/tree/main/docs"
+Issues = "https://github.com/mohamad679/glioblastoma-cell-tracking-uncertainty/issues"
 
 [project.scripts]
 gbm-audit = "gbm_audit.cli:main"
