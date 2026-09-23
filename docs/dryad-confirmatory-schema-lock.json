@@ -1,0 +1,93 @@
+{
+  "schema_version": 1,
+  "lock_id": "dryad_three_experiment_schema_lock_v1",
+  "status": "PENDING_LOCAL_SCHEMA_INSPECTION",
+  "source_bundle": {
+    "filename": "To Generate Figures.zip",
+    "md5": "2b70accfbb4d81d41dfb10fcefa60cbf"
+  },
+  "canonical_schema": [
+    "experiment_id",
+    "cell_type",
+    "track_id",
+    "frame",
+    "time_min",
+    "x_um",
+    "y_um"
+  ],
+  "experiments": {
+    "experiment_1": {
+      "source_members": [],
+      "format": null,
+      "sheet": null,
+      "matlab_variable": null,
+      "delimiter": null,
+      "header_row": 1,
+      "column_map": {
+        "track_id": null,
+        "frame": null,
+        "time_min": null,
+        "x_um": null,
+        "y_um": null,
+        "cell_type": null
+      },
+      "cell_type_filter": {
+        "enabled": true,
+        "accepted_values": []
+      },
+      "coordinate_scale_to_um": 1.0,
+      "time_scale_to_min": 1.0,
+      "frame_interval_min_if_time_absent": null,
+      "inclusion_rule": "all unambiguously identified glioma/tumour-cell trajectories with finite x/y/time data; no method-performance-based exclusions"
+    },
+    "experiment_2": {
+      "source_members": [],
+      "format": null,
+      "sheet": null,
+      "matlab_variable": null,
+      "delimiter": null,
+      "header_row": 1,
+      "column_map": {
+        "track_id": null,
+        "frame": null,
+        "time_min": null,
+        "x_um": null,
+        "y_um": null,
+        "cell_type": null
+      },
+      "cell_type_filter": {
+        "enabled": true,
+        "accepted_values": []
+      },
+      "coordinate_scale_to_um": 1.0,
+      "time_scale_to_min": 1.0,
+      "frame_interval_min_if_time_absent": null,
+      "inclusion_rule": "all unambiguously identified glioma/tumour-cell trajectories with finite x/y/time data; no method-performance-based exclusions"
+    },
+    "experiment_3": {
+      "source_members": [],
+      "format": null,
+      "sheet": null,
+      "matlab_variable": null,
+      "delimiter": null,
+      "header_row": 1,
+      "column_map": {
+        "track_id": null,
+        "frame": null,
+        "time_min": null,
+        "x_um": null,
+        "y_um": null,
+        "cell_type": null
+      },
+      "cell_type_filter": {
+        "enabled": true,
+        "accepted_values": []
+      },
+      "coordinate_scale_to_um": 1.0,
+      "time_scale_to_min": 1.0,
+      "frame_interval_min_if_time_absent": null,
+      "inclusion_rule": "all unambiguously identified glioma/tumour-cell trajectories with finite x/y/time data; no method-performance-based exclusions"
+    }
+  },
+  "freeze_rule": "Change status to LOCKED only after schema-only inventory is reviewed. Commit this file before any confirmatory performance calculation."
+}
