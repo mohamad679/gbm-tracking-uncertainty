@@ -5,10 +5,10 @@ on:
   pull_request:
     paths:
       - ".github/workflows/reproduce-stage-c-v2-t98g.yml"
-      - "docs/stage-c-v2-t98g-locked-manifest.json"
-      - "docs/stage-c-v2-t98g-locked-evaluation.json"
-      - "docs/stage-c-v2-step5-t98g-evaluation.md"
-      - "docs/stage-c-v2-development-fit.json"
+      - "docs/evidence/stage-c/stage-c-v2-t98g-locked-manifest.json"
+      - "docs/evidence/stage-c/stage-c-v2-t98g-locked-evaluation.json"
+      - "docs/archive/stage-c/stage-c-v2-step5-t98g-evaluation.md"
+      - "docs/evidence/stage-c/stage-c-v2-development-fit.json"
       - "src/gbm_audit/**"
       - "tests/**"
       - "pyproject.toml"
@@ -45,7 +45,7 @@ jobs:
           python - <<'PY'
           import json
           from pathlib import Path
-          expected = json.loads(Path("docs/stage-c-v2-t98g-locked-manifest.json").read_text())
+          expected = json.loads(Path("docs/evidence/stage-c/stage-c-v2-t98g-locked-manifest.json").read_text())
           actual = json.loads(Path("/tmp/stage-c-v2-t98g-audit.json").read_text())
           if expected != actual:
               raise SystemExit("T98G audit differs from the locked manifest")
@@ -57,13 +57,13 @@ jobs:
         run: |
           python -m gbm_audit.stage_c_v2_t98g_evaluation \
             data/raw/T98G_electrotaxis.zip \
-            docs/stage-c-v2-development-fit.json \
+            docs/evidence/stage-c/stage-c-v2-development-fit.json \
             --output /tmp/stage-c-v2-t98g-locked-evaluation.json \
             --ensemble-count 256
           python - <<'PY'
           import json
           from pathlib import Path
-          expected = json.loads(Path("docs/stage-c-v2-t98g-locked-evaluation.json").read_text())
+          expected = json.loads(Path("docs/evidence/stage-c/stage-c-v2-t98g-locked-evaluation.json").read_text())
           actual = json.loads(Path("/tmp/stage-c-v2-t98g-locked-evaluation.json").read_text())
           if expected != actual:
               raise SystemExit("T98G locked evaluation differs from the committed artifact")
