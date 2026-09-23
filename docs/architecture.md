@@ -2,71 +2,72 @@
 
 ## Purpose
 
-This repository is a reproducible technical audit of uncertainty-aware cell tracking. Its quantitative reference is the Cell Tracking Challenge PhC-C2DH-U373 dataset. GlioTrace brain-slice data remain exploratory and are not used to claim biological validation.
+This repository is a reproducible technical audit of uncertainty-aware cell tracking. Its primary quantitative reference is the Cell Tracking Challenge PhC-C2DH-U373 dataset. GlioTrace brain-slice data remain exploratory. A post-release external-transfer arm adds three independent rat glioma brain-slice experiments from Dryad under a pre-outcome schema lock. None of these results establish human-GBM-wide biological or clinical validation.
 
 ## Pipeline
 
 ```mermaid
 flowchart TD
-    A[Official U373 ZIP] --> B[benchmark.py\nreference manifest]
-    B --> C[corruptions.py\n17 known-truth scenarios]
-    C --> D[baseline.py\nnearest-neighbour baseline]
-    C --> E[uncertainty.py\nsampled one-to-one hypotheses]
-    E --> F[dynamics.py\nhard HMM sensitivity]
-    E --> G[soft_dynamics.py\nsoft probability-weighted dynamics]
-    F --> G
-    E --> H[gate_sensitivity.py\nproposal-radius sweep]
-    F --> I[final_audit.py]
-    G --> I
-    H --> I
-    J[appearance.py\noptional raw-image descriptors] --> E
-    K[validation.py\nartifact contracts] -. validates .-> C
-    K -. validates .-> E
-    K -. validates .-> F
-    K -. validates .-> G
-    L[config.py\nshared defaults] -. configures .-> C
-    L -. configures .-> E
-    L -. configures .-> F
-    M[calibration.py + numerics.py] -. shared math .-> E
-    M -. shared math .-> F
-    M -. shared math .-> G
-    N[archive.py\nZIP safety limits] -. protects reads .-> B
-    N -. protects reads .-> J
+    A[U373 reference] --> B[Known-truth corruptions]
+    B --> C[Baseline + uncertainty]
+    C --> D[Migration / HMM sensitivity]
+    C --> E[Stage A/B graph-context uncertainty]
+    E --> F[Stage C v2: locked T98G]
+    F --> G[Stage D: Huh7 operator extension]
+    G --> H[Stage D v3 locked GO]
+    H --> I[Stage E multi-domain split lock]
+    I --> J[Sequence 01 development]
+    J --> K[Sequence 02 locked REVISE]
+    K --> L[Dryad source verification + schema-only probe]
+    L --> M[Committed Dryad schema lock]
+    M --> N[Three-experiment normalization]
+    N --> O[One-time Dryad n=3 technical transfer]
 ```
 
-## Architectural boundaries
+## Core layers
 
 ### Reference and corruption layer
 
-`benchmark.py` extracts a frozen manifest from expert U373 tracking masks and lineage tables. `corruptions.py` creates deterministic synthetic error scenarios with known evaluation truth. Truth is retained for evaluation and is not provided to tracking algorithms.
+`benchmark.py` extracts a frozen U373 reference manifest from expert tracking masks and lineage tables. `corruptions.py` creates deterministic synthetic error scenarios with known evaluation truth. Truth is retained for evaluation and is not supplied to tracking algorithms.
 
 ### Tracking and uncertainty layer
 
-`baseline.py` provides the frozen greedy nearest-neighbour comparator. `uncertainty.py` samples globally compatible frame-to-frame hypotheses and calibrates posterior link probabilities on development sequence 01 before evaluating sequence 02 unchanged.
+`baseline.py` provides the frozen greedy nearest-neighbour comparator. `adaptive_candidates.py` and the later graph-context modules construct truth-blind candidate graphs and marginalized association probabilities. `uncertainty.py` samples compatible hypotheses and supports calibrated link probabilities.
 
 ### Dynamics layer
 
-`dynamics.py` converts deterministic representations into migration and two-state Gaussian HMM summaries. `soft_dynamics.py` propagates posterior probabilities directly. Its transition accumulation uses indexed edge adjacency instead of an all-pairs scan.
+`dynamics.py` converts deterministic representations into migration and two-state Gaussian HMM summaries. `soft_dynamics.py` propagates posterior probabilities directly. Its transition accumulation uses indexed adjacency instead of an all-pairs scan.
+
+### Locked independent validation layers
+
+- Stage C v2 uses the independently locked T98G source.
+- Stage D uses Huh7 with sequence `01` for bounded calibration and separately locked sequence `02` for the final v3 evaluation.
+- Stage E uses registered CTC GOWT1/HeLa/SIM+ development/test roles, with sequence `02` protected from fitting/selection.
+- The Dryad extension verifies source hashes, inspects schema without method outcomes, commits the exact three-experiment mapping, normalizes deterministically, and then executes the frozen evaluator once.
 
 ### Contract and safety layer
 
-`validation.py` enforces schema version, provenance hashes, corruption seed, scenario identity, metadata, and sequence identity across stages. `archive.py` limits archive member count, per-member uncompressed size, total uncompressed size, compression ratio, and bounded reads.
+`validation.py` enforces schema version, provenance hashes, corruption seed, scenario identity, metadata and sequence identity across stages. `archive.py` and the hardened Dryad wrapper constrain external archive reads and reject ambiguous/unsafe inputs while allowing explicitly non-tabular binary assets to remain outside schema parsing.
 
 ### Reproducibility layer
 
-`constraints.txt`, GitHub Actions, runtime provenance, and the frozen result snapshot make the validated environment and outputs traceable. Generated `results/` and raw datasets remain outside source control.
+`constraints.txt`, GitHub Actions, runtime provenance, frozen locks and committed machine-readable evidence make the validated environment and outcomes traceable. Raw third-party datasets and generated `results/` remain outside source control.
+
+Current evidence is organized under [`evidence/`](evidence/); superseded and development-only artifacts are retained under [`archive/`](archive/).
 
 ## Key invariants
 
-- Scenario joins are by `scenario_id`, never positional order.
-- Corruption seed and reference-manifest identity must agree across downstream artifacts.
-- Sampled links are one-to-one within each frame transition.
-- HMM transition matrices must be finite and row-stochastic.
-- Appearance descriptors have a fixed length of 28.
-- The technical benchmark must not be presented as biological validation.
+- Scenario joins use stable identifiers, never positional order.
+- Reference identity and frozen seeds/configurations must agree across downstream artifacts.
+- Locked test sources are not used for fitting or selection.
+- Sampled links respect one-to-one frame-transition constraints.
+- HMM transition matrices must remain finite and row-stochastic.
+- External-source schema mapping must be committed before method-performance inspection.
+- Historical `HOLD`/`REVISE` outcomes are immutable.
+- Technical benchmarks and rat-glioma transfer evidence must not be presented as human biological or clinical validation.
 
-## Current decision gate
+## Final decision state
 
-The staged technical pipeline is complete. Stage D v3 reached a qualified `GO`: the zero-shot Huh7 candidate remained `HOLD` because of mean-speed bias, while the bounded blend calibrated on Huh7 sequence `01` passed every pre-registered gate on locked sequence `02`. This supports calibrated within-Huh7 sequence generalization only; it does not establish zero-shot or biological generalization.
+Stage D v3 reached a qualified technical `GO` after bounded Huh7 sequence-01 calibration and a separately locked sequence-02 evaluation. Stage E-Final completed one valid locked multi-domain evaluation and remained `REVISE`; no post-test retuning was performed.
 
-Stage E-Final is also complete. Its valid one-time locked multi-domain CTC evaluation produced `REVISE`, and no post-test retuning was performed. The project is therefore closed at version `1.0.0` as a reproducible technical/research-engineering portfolio artifact, without a validated biological or clinical claim.
+The later Dryad extension does not alter those decisions. It shows external technical transfer of calibrated uncertainty as an association-error ranking/calibration/selective-risk layer across three rat glioma brain-slice experiments, while the frozen `p >= 0.5` uncertainty-compatible hard tracker does not outperform hard nearest-neighbour tracking on link F1 or the main downstream motion errors.
