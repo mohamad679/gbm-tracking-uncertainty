@@ -86,8 +86,6 @@ def load_trackmate_reference(info_path: Path, spots_path: Path, tracks_path: Pat
         for row in reader:
             track_id = int(row["TRACK_ID"])
             if track_id not in track_meta:
-                # TrackMate can export unassigned spots. The preregistered reference
-                # population is the source trajectory set, so unassigned spots are excluded.
                 continue
             frame = int(row["FRAME"])
             key = (track_id, frame)
@@ -386,7 +384,7 @@ def evaluate_external_reference(reference: dict) -> dict:
             "calibration_temperature": CALIBRATION_TEMPERATURE,
             "posterior_track_threshold": POSTERIOR_TRACK_THRESHOLD,
             "seed": RANDOM_SEED,
-            "external_parameter_fitting": false,
+            "external_parameter_fitting": False,
         },
         "candidate_graph": {
             "candidate_edges": len(edges),
@@ -410,10 +408,10 @@ def evaluate_external_reference(reference: dict) -> dict:
         },
         "interpretation_boundary": {
             "supported_scope": "single independent mouse glioma explant technical-transfer example",
-            "biological_population_inference": false,
-            "manual_ground_truth_validation": false,
-            "dryad_three_experiment_confirmatory_arm_completed": false,
-            "stage_e_decision_changed": false,
+            "biological_population_inference": False,
+            "manual_ground_truth_validation": False,
+            "dryad_three_experiment_confirmatory_arm_completed": False,
+            "stage_e_decision_changed": False,
         },
     }
 
